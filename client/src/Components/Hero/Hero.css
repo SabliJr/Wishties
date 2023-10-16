@@ -1,0 +1,57 @@
+.hero {
+  margin: 7rem auto;
+  text-align: center;
+}
+
+.hero h2 {
+  font-size: 3.5rem;
+  width: 85%;
+  margin: auto;
+  font-family: 'Archivo', sans-serif;
+}
+
+.hero h2 span {
+  font-style: italic;
+  font-size: 3rem;
+  font-weight: 600;
+  font-family: 'Source Serif 4', serif;
+}
+
+.hero p {
+  width: 75%;
+  font-size: 1.6rem;
+  margin: 2rem auto;
+  font-family: 'Archivo', sans-serif;
+  line-height: 1.3;
+  color: rgb(103, 107, 107);
+}
+
+.emailDiv {
+  max-width: 65%;
+  margin: 2rem auto;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.emailDiv input {
+  width: 45%;
+  border-radius: .6rem;
+  border: 2px solid #d4145a;
+  padding: .6rem;
+  font-size: 1.1rem;
+}
+
+.emailDiv button {
+  border-radius: .6rem;
+  border: transparent;
+  background-color: #d4145a;
+  font-size: 1.1rem;
+  padding: .8rem .5rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  color: aliceblue;
+  font-style: normal;
+}

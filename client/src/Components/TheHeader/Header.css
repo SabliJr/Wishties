@@ -1,0 +1,55 @@
+.logo {
+  width: 15rem;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.8rem;
+}
+
+.navStuff {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navStuff nav {
+  display: flex;
+  list-style: none;
+  font-size: 1.5rem;
+  font-family: 'Archivo', sans-serif;
+  gap: 2rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.navButtons {
+  border-left: 2px solid #182C61;
+}
+
+.navButtons button {
+  margin: 0 .5rem;
+  border: transparent;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  padding: .3rem .7rem;
+  border-radius: .6rem;
+  background: #182C61;
+  background-color: transparent;
+  font-style: italic;
+}
+
+.navButtons button:last-child {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.6rem;
+  background: #182C61;
+  border: transparent;
+  color: aliceblue;
+  font-style: normal;
+}
