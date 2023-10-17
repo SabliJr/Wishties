@@ -1,5 +1,5 @@
 .logo {
-  width: 15rem;
+  width: 11.5rem;
 }
 
 .Header {
@@ -11,22 +11,18 @@
 
 .navStuff {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .navStuff nav {
   display: flex;
   list-style: none;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-family: 'Archivo', sans-serif;
   gap: 2rem;
   font-weight: 500;
   font-style: italic;
-}
-
-.navButtons {
-  border-left: 2px solid #182C61;
 }
 
 .navButtons button {
@@ -34,7 +30,7 @@
   border: transparent;
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   padding: .3rem .7rem;
   border-radius: .6rem;
   background: #182C61;
@@ -45,7 +41,7 @@
 .navButtons button:last-child {
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   padding: 0.3rem 0.7rem;
   border-radius: 0.6rem;
   background: #182C61;

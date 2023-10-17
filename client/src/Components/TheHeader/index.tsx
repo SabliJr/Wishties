@@ -11,9 +11,9 @@ const Index = () => {
         <nav>
           <li>Links</li>
           <li>Whish List</li>
+          <li>Pricing</li>
         </nav>
         <div className='navButtons'>
-          <button>LogIN</button>
           <button>SignUp</button>
         </div>
       </div>
