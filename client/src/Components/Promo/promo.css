@@ -1,6 +1,5 @@
 .promo {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   text-align: center;
   align-items: center;
@@ -8,13 +7,13 @@
 }
 
 .promImg {
-  width: 85%;
-  /* align-self: center; */
-  margin: 1.6rem auto;
+  width: 90%;
+  margin: 1.6rem auto 0;
   border-radius: 1.2rem;
+  mask-image: linear-gradient(#000, transparent);
 }
 
-.promo div {
+.promo .textDiv {
   display: flex;
   gap: 3.2rem;
 }
@@ -26,4 +25,38 @@
   align-items: center;
   gap: .3rem;
   display: flex;
+}
+
+.cumLogos {
+  display: flex;
+  flex-direction: column;
+  margin: 6rem auto;
+}
+
+.cumLogos div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3.2rem;
+}
+
+.cumLogos img {
+  width: 7.42rem;
+  object-fit: cover;
+}
+
+.cumLogos h5 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  font-family: 'Archivo', sans-serif;
+  color: rgb(90, 92, 92);
+  width: 50%;
+  margin: 1.42rem auto;
+  letter-spacing: .3px;
+}
+
+.cumLogos h5 span {
+  font-style: italic;
+  font-family: 'Source Serif 4', serif;
+  color: #d4145a;
 }
