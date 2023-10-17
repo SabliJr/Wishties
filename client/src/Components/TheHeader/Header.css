@@ -1,5 +1,5 @@
 .logo {
-  width: 15rem;
+  width: 12rem;
 }
 
 .Header {
@@ -45,7 +45,7 @@
 .navButtons button:last-child {
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   padding: 0.3rem 0.7rem;
   border-radius: 0.6rem;
   background: #182C61;

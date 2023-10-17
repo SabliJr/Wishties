@@ -1,11 +1,11 @@
 .hero {
-  margin: 7rem auto;
+  margin: 6rem auto 3rem;
   text-align: center;
 }
 
 .hero h2 {
-  font-size: 3.5rem;
-  width: 85%;
+  font-size: 3.2rem;
+  width: 80%;
   margin: auto;
   font-family: 'Archivo', sans-serif;
 }
@@ -18,8 +18,8 @@
 }
 
 .hero p {
-  width: 75%;
-  font-size: 1.6rem;
+  width: 65%;
+  font-size: 1.3rem;
   margin: 2rem auto;
   font-family: 'Archivo', sans-serif;
   line-height: 1.3;

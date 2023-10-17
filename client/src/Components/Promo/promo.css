@@ -1,0 +1,29 @@
+.promo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin: 5rem auto;
+}
+
+.promImg {
+  width: 85%;
+  /* align-self: center; */
+  margin: 1.6rem auto;
+  border-radius: 1.2rem;
+}
+
+.promo div {
+  display: flex;
+  gap: 3.2rem;
+}
+
+.promo div p {
+  font-size: 1.2rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 400;
+  align-items: center;
+  gap: .3rem;
+  display: flex;
+}

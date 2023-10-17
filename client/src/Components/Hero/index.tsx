@@ -14,7 +14,7 @@ const Index = () => {
       </p>
       <div className='emailDiv'>
         <input type='email' placeholder='Email' />
-        <button>Get early access</button>
+        <button>Join the waitlist</button>
       </div>
     </section>
   );
