@@ -5,6 +5,7 @@ import Header from "./Components/TheHeader/index";
 import Hero from "./Components/Hero/index";
 import Promo from "./Components/Promo/index";
 import Middle from "./Components/Middle/index";
+import YourData from "./Components/YouData/index";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Hero />
       <Promo />
       <Middle />
+      <YourData />
     </div>
   );
 };
