@@ -1,0 +1,47 @@
+.cusImg {
+  width: 4.2rem;
+  border: 3px solid aliceblue;
+  border-radius: 50%;
+  margin-left: -1rem;
+  object-fit: cover;
+  aspect-ratio: 2/2;
+  object-position: center;
+}
+
+.imagesArticle {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.arrowAndText {
+  width: 24%;
+}
+
+.arrowAndText p {
+  color: #182C61;
+  font-family: 'Archivo', sans-serif;
+}
+
+.arrowAndText p span {
+  font-style: italic;
+  color: #d4145a;
+}
+
+.why {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2.8rem;
+}
+
+.whyText {
+  font-size: 1.2rem;
+  text-align: center;
+  width: 80%;
+  margin: 1rem auto 2rem;
+  line-height: 1.5;
+  font-family: 'Archivo', sans-serif;
+  color: #182C61;
+}
