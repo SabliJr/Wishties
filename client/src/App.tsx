@@ -6,6 +6,7 @@ import Hero from "./Components/Hero/index";
 import Promo from "./Components/Promo/index";
 import Middle from "./Components/Middle/index";
 import YourData from "./Components/YouData/index";
+import BeforeTheFooter from "./Components/BeforeTheFooter/index";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <Promo />
       <Middle />
       <YourData />
+      <BeforeTheFooter />
     </div>
   );
 };
