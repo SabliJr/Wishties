@@ -1,0 +1,48 @@
+.dataSection {
+  background-image: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .52)), url('../../Assets/aecc6c136727009.6200343a9b2ac.gif');
+  width: 100%;
+  height: 30rem;
+  background-position: center;
+  background-size: contain;
+  border-radius: 1.2rem;
+  margin: 5rem 0;
+  position: relative;
+}
+
+.dataSection h2 {
+  color: white;
+  font-size: 3.42rem;
+  font-weight: 800;
+  font-family: 'Archivo', sans-serif;
+  padding: 3.42rem 5rem 0;
+}
+
+.dataSection p {
+  color: rgb(212, 214, 215);
+  font-size: 1.5rem;
+  font-family: 'Archivo', sans-serif;
+  margin: 1.42rem 5rem;
+  font-weight: 500;
+  width: 80%;
+}
+
+.dataSection p span {
+  font-style: italic;
+  color: #d4145a;
+  font-weight: 400;
+  font-size: 1.42rem;
+  font-family: 'Source Serif 4', serif;
+}
+
+.dataSection button {
+  font-size: 2rem;
+  color: white;
+  background-color: #182C61;
+  border: transparent;
+  border-radius: .6rem;
+  padding: .6rem .8rem;
+  font-family: 'Archivo', sans-serif;
+  margin: 1.6rem 5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
