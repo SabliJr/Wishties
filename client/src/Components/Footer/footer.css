@@ -46,14 +46,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1rem 0 2rem;
 }
 
 .copy {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #182C61;
-  color: aliceblue;
-  height: 3.3rem;
-  border-radius: .5rem;
+  border-top: 1px solid #182C61;
+  padding-top: .5rem;
+  color: #182C61;
 }
