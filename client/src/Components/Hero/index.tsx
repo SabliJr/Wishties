@@ -9,8 +9,8 @@ const Index = () => {
         all in one place.
       </h2>
       <p>
-        Craft a secure wishlist and link in bio effortlessly in one hub. Keeping
-        your privacy protected while making support a breeze.
+        Craft a secure wishlist and link in bio effortlessly in one hub. Making
+        support a breeze, while keeping your privacy protected.
       </p>
       <div className='emailDiv'>
         <input type='email' placeholder='Email' />

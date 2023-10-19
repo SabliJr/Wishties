@@ -1,0 +1,59 @@
+.Footer {
+  margin: 6.8rem 0 2rem;
+  border-top: 1px solid #182C61;
+}
+
+.footerLogo {
+  width: 10rem;
+}
+
+.logoAndSM {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+.SocialIcons {
+  display: flex;
+  gap: .8rem;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  color: #5c5c5cdb;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 3rem;
+  margin: 1rem 0;
+}
+
+.footerLinks div h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: .5rem 0;
+}
+
+.footerLinks div p {
+  margin-top: .8rem;
+  font-size: 1.05rem;
+  font-weight: 400;
+  cursor: pointer;
+  font-family: 'Archivo', sans-serif;
+}
+
+.footerMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #182C61;
+  color: aliceblue;
+  height: 3.3rem;
+  border-radius: .5rem;
+}

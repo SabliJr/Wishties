@@ -7,6 +7,7 @@ import Promo from "./Components/Promo/index";
 import Middle from "./Components/Middle/index";
 import YourData from "./Components/YouData/index";
 import BeforeTheFooter from "./Components/BeforeTheFooter/index";
+import Footer from "./Components/Footer/index";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Middle />
       <YourData />
       <BeforeTheFooter />
+      <Footer />
     </div>
   );
 };
