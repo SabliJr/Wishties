@@ -1,5 +1,9 @@
+.bFooter {
+  margin: 8rem 0;
+}
+
 .cusImg {
-  width: 4.2rem;
+  width: 3.8rem;
   border: 3px solid aliceblue;
   border-radius: 50%;
   margin-left: -1rem;
