@@ -8,6 +8,8 @@ import { RiTwitterXLine } from "react-icons/ri";
 import { GrLinkedinOption } from "react-icons/gr";
 
 const Index = () => {
+  const laDate = new Date().getFullYear();
+
   return (
     <footer className='Footer'>
       <main className='footerMain'>
@@ -42,7 +44,7 @@ const Index = () => {
           </div>
         </div>
       </main>
-      <div className='copy'>WishLinks &copy;2023</div>
+      <div className='copy'>WishLinks &copy;{laDate}</div>
     </footer>
   );
 };
