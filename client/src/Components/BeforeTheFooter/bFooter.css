@@ -79,6 +79,19 @@
 
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
+    .bFooter {
+      margin: 3rem 0;
+    }
+
+    .emailDivDown {
+      max-width: 80%;
+    }
+
+    .imagesArticle {
+      gap: 1rem;
+      width: 55%;
+      margin: auto;
+    }
 
     @media screen and (max-width: 600px) {
       .bFooter {
@@ -105,9 +118,7 @@
       }
 
       .imagesArticle {
-        gap: 1rem;
         width: 90%;
-        margin: auto;
       }
 
       .emailDivDown {

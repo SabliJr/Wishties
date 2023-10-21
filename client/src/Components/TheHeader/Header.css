@@ -26,32 +26,19 @@
 }
 
 .navButtons button {
-  margin: 0 .5rem;
-  border: transparent;
-  font-family: 'Archivo', sans-serif;
-  font-weight: 500;
-  font-size: 1.3rem;
-  padding: .3rem .7rem;
-  border-radius: .6rem;
-  background: #182C61;
-  background-color: transparent;
-  font-style: italic;
-}
-
-.navButtons button:last-child {
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
   font-size: 1.3rem;
   padding: 0.3rem 0.7rem;
   border-radius: 0.6rem;
-  background: #182C61;
+  background: #1547d2;
   border: transparent;
   color: aliceblue;
   font-style: normal;
 }
 
 .menuIcon {
-  font-size: 2.1rem;
+  font-size: 2.15rem;
   display: none;
 }
 
@@ -63,11 +50,12 @@
 
     @media screen and (max-width: 600px) {
       .logo {
-        width: 7.3rem;
+        width: 8rem;
       }
 
       .Header {
         margin-top: 1.5rem;
+        position: relative;
       }
 
       .navStuff nav {
@@ -76,8 +64,26 @@
       }
 
       .navStuff {
+        display: flex;
+        position: absolute;
         flex-direction: column;
-        display: none;
+        justify-content: flex-start;
+        align-items: center;
+        top: 3.42rem;
+        right: -100%;
+        border-radius: 0.75rem;
+        padding: 2.5rem 0 0 1.25rem;
+        width: 250px;
+        height: 100vh;
+        box-shadow: rgba(142, 171, 180, 0.73) 0px 2px 8px 0px;
+        backdrop-filter: blur(.875rem);
+        transition: .3s all ease-in-out;
+        z-index: 100;
+      }
+
+      .expand {
+        right: 0.2188rem;
+        transition: right 0.3s ease;
       }
 
       .menuIcon {

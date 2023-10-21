@@ -137,6 +137,17 @@
 
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
+    .LogoArt h3 {
+      font-size: 2.2rem;
+    }
+
+    .mainGrid article div h4 {
+      font-size: 1.6rem;
+    }
+
+    .mainGrid {
+      margin: 3.6rem 0;
+    }
 
     @media screen and (max-width: 600px) {
       .mainGrid {
@@ -144,11 +155,6 @@
         flex-direction: column;
         gap: 1.2rem;
         margin: 3rem 0;
-      }
-
-      .LogoArt h3 {
-        font-size: 2.2rem;
-        font-weight: 600;
       }
 
       .mainGrid article div h4 {

@@ -32,7 +32,7 @@ code {
 @media screen and (max-width: 1024px) {
   .App {
     margin: auto 1rem;
-    width: 100%;
+    /* width: 100%; */
   }
 
   @media screen and (max-width: 600px) {
