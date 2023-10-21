@@ -51,7 +51,8 @@
 }
 
 .menuIcon {
-  font-size: 2.2rem;
+  font-size: 2.1rem;
+  display: none;
 }
 
 @media screen and (max-width: 1042px) {
@@ -61,6 +62,14 @@
     }
 
     @media screen and (max-width: 600px) {
+      .logo {
+        width: 7.3rem;
+      }
+
+      .Header {
+        margin-top: 1.5rem;
+      }
+
       .navStuff nav {
         flex-direction: column;
         gap: 1.3rem;
@@ -69,6 +78,10 @@
       .navStuff {
         flex-direction: column;
         display: none;
+      }
+
+      .menuIcon {
+        display: block;
       }
     }
   }

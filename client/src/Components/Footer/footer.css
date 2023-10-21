@@ -1,5 +1,5 @@
 .Footer {
-  margin: 6.8rem 0 2rem;
+  margin: 6.8rem auto 2rem;
   border-top: 1px solid #182C61;
 }
 
@@ -46,7 +46,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0 2rem;
+  margin: 1rem auto 2rem;
 }
 
 .copy {
@@ -61,6 +61,33 @@
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
 
-    @media screen and (max-width: 600px) {}
+    @media screen and (max-width: 600px) {
+      .Footer {
+        margin: 3.8rem 0 2rem;
+        border-top: 1px solid #182C61;
+      }
+
+      .footerMain {
+        flex-direction: column-reverse;
+        margin: 1rem auto;
+      }
+
+      .footerLogo {
+        width: 6.42rem;
+      }
+
+      .SocialIcons {
+        font-size: 1rem;
+      }
+
+      .footerLinks {
+        gap: 1.5rem;
+        margin: 0rem auto 1rem;
+      }
+
+      .footerLinks div p {
+        font-size: .9rem;
+      }
+    }
   }
 }

@@ -22,9 +22,6 @@
   font-size: 1.2rem;
   font-family: 'Archivo', sans-serif;
   font-weight: 400;
-  align-items: center;
-  gap: .3rem;
-  display: flex;
 }
 
 .cumLogos {
@@ -68,7 +65,7 @@
       }
 
       .promo .textDiv {
-        gap: 1rem;
+        gap: .7rem;
 
       }
 

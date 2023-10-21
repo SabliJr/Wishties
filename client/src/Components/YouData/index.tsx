@@ -4,7 +4,6 @@ import "./YourData.css";
 const Index = () => {
   return (
     <section className='dataSection'>
-      <div className='layer'></div>
       <h2>Your data?</h2>
       <p>
         🔒 All the creator and fan information stays <span>private</span> and is

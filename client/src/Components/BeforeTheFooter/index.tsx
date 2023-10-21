@@ -15,7 +15,7 @@ const Index = () => {
         platform where your dreams come to life, your fan’s desires are
         fulfilled, and communities grow stronger through connections.
       </p>
-      <div className='emailDiv'>
+      <div className='emailDivDown'>
         <input type='email' placeholder='Email' />
         <button>Join the waitlist</button>
       </div>

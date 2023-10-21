@@ -34,4 +34,11 @@ code {
     margin: auto 1rem;
     width: 100%;
   }
+
+  @media screen and (max-width: 600px) {
+    .App {
+      margin: auto;
+      width: 95%;
+    }
+  }
 }

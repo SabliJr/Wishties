@@ -8,7 +8,7 @@
 
 .wishListIcon {
   width: 10rem;
-  padding: 0 .6rem;
+  /* padding: 0 .6rem; */
 }
 
 .iWishDiv {
@@ -37,6 +37,7 @@
   align-items: center;
   background-color: #fff;
   border-radius: 1rem;
+  padding: .5rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
 
@@ -126,11 +127,45 @@
 
 .thankImg {
   width: 90%;
+  border: 2px solid rgb(209, 208, 208);
+  border-radius: .5rem;
+}
+
+.cusImgDiv {
+  display: flex;
 }
 
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
 
-    @media screen and (max-width: 600px) {}
+    @media screen and (max-width: 600px) {
+      .mainGrid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin: 3rem 0;
+      }
+
+      .LogoArt h3 {
+        font-size: 2.2rem;
+        font-weight: 600;
+      }
+
+      .mainGrid article div h4 {
+        font-size: 1.6rem;
+      }
+
+      .wishListIcon {
+        width: 5rem;
+      }
+
+      .LogoArt {
+        padding: 1rem 1.2rem;
+      }
+
+      .iWish {
+        font-size: 2.3rem;
+      }
+    }
   }
 }
