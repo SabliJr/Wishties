@@ -57,7 +57,18 @@
 
 
 @media screen and (max-width: 1042px) {
+  .hero h2 {
+    width: 80%;
+  }
+
   @media screen and (max-width: 800px) {
+    .hero h2 {
+      width: 83%;
+    }
+
+    .emailDiv {
+      max-width: 80%;
+    }
 
     @media screen and (max-width: 600px) {
       .hero {
@@ -65,16 +76,17 @@
       }
 
       .hero h2 {
-        font-size: 2.3rem;
+        font-size: 2.2rem;
         width: 98%;
       }
 
       .hero h2 span {
-        font-size: 2.2rem;
+        font-size: 2rem;
       }
 
       .hero p {
         width: 100%;
+        margin: 1.6rem auto;
       }
 
       .emailDiv {

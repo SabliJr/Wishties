@@ -57,8 +57,16 @@
 }
 
 @media screen and (max-width: 1042px) {
-  @media screen and (max-width: 800px) {
+  .cumLogos {
+    margin: 2.5rem auto 0;
+  }
 
+  .cumLogos div {
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 800px) {
     @media screen and (max-width: 600px) {
       .promo {
         margin: 2.42rem auto;
@@ -84,10 +92,7 @@
         margin: 1rem 0;
       }
 
-      .cumLogos div {
-        gap: 1.2rem;
-        flex-wrap: wrap;
-      }
+
 
       .cumLogos img {
         width: 4.42rem;

@@ -26,32 +26,19 @@
 }
 
 .navButtons button {
-  margin: 0 .5rem;
-  border: transparent;
-  font-family: 'Archivo', sans-serif;
-  font-weight: 500;
-  font-size: 1.3rem;
-  padding: .3rem .7rem;
-  border-radius: .6rem;
-  background: #182C61;
-  background-color: transparent;
-  font-style: italic;
-}
-
-.navButtons button:last-child {
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
   font-size: 1.3rem;
   padding: 0.3rem 0.7rem;
   border-radius: 0.6rem;
-  background: #182C61;
+  background: #1547d2;
   border: transparent;
   color: aliceblue;
   font-style: normal;
 }
 
 .menuIcon {
-  font-size: 2.1rem;
+  font-size: 2.15rem;
   display: none;
 }
 
@@ -63,7 +50,7 @@
 
     @media screen and (max-width: 600px) {
       .logo {
-        width: 7.3rem;
+        width: 8rem;
       }
 
       .Header {
