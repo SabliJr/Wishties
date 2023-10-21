@@ -10,18 +10,16 @@
   object-fit: cover;
   aspect-ratio: 2/2;
   object-position: center;
+  margin-left: -1rem;
 }
 
 .imagesArticle {
   display: flex;
-  position: relative;
   align-items: center;
   justify-content: center;
   gap: 1.2rem;
-}
-
-.arrowAndText {
-  width: 24%;
+  width: 40%;
+  margin: auto;
 }
 
 .arrowAndText p {
@@ -50,9 +48,76 @@
   color: #182C61;
 }
 
+.emailDivDown {
+  max-width: 65%;
+  margin: 2rem auto 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.emailDivDown input {
+  width: 45%;
+  border-radius: 0.6rem;
+  border: 2px solid #d4145a;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.emailDivDown button {
+  border-radius: 0.6rem;
+  border: transparent;
+  background-color: #d4145a;
+  font-size: 1.1rem;
+  padding: 0.8rem 0.5rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  color: aliceblue;
+  font-style: normal;
+}
+
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
 
-    @media screen and (max-width: 600px) {}
+    @media screen and (max-width: 600px) {
+      .bFooter {
+        margin: 3rem 0;
+      }
+
+      .whyText {
+        width: 99%;
+        font-size: 1.1rem;
+      }
+
+      .why {
+        font-size: 2.3rem;
+      }
+
+      .arrowAndText {
+        width: 55%;
+      }
+
+      .cusImg {
+        width: 3.2rem;
+        margin-left: -0.8rem;
+
+      }
+
+      .imagesArticle {
+        gap: 1rem;
+        width: 90%;
+        margin: auto;
+      }
+
+      .emailDivDown {
+        max-width: 85%;
+        flex-direction: column;
+      }
+
+      .emailDivDown input {
+        width: 100%;
+      }
+    }
   }
 }

@@ -1,7 +1,6 @@
 .dataSection {
   background-image: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .52)), url('../../Assets/aecc6c136727009.6200343a9b2ac.gif');
   width: 100%;
-  height: 30rem;
   background-position: center;
   background-size: contain;
   border-radius: 1.2rem;
@@ -37,7 +36,7 @@
 .dataSection button {
   font-size: 2rem;
   color: white;
-  background-color: #182C61;
+  background-color: #194eda;
   border: transparent;
   border-radius: .6rem;
   padding: .6rem .8rem;
@@ -50,6 +49,28 @@
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
 
-    @media screen and (max-width: 600px) {}
+    @media screen and (max-width: 600px) {
+      .dataSection {
+        margin: 3rem 0;
+      }
+
+      .dataSection h2 {
+        font-size: 2.42rem;
+        padding: 1.42rem 0 1rem;
+        text-align: center;
+      }
+
+      .dataSection p {
+        font-size: 1.3rem;
+        margin: 1.42rem auto;
+        width: 90%;
+      }
+
+      .dataSection button {
+        font-size: 1.3rem;
+        margin: 1.3rem 4rem;
+        width: 60%;
+      }
+    }
   }
 }
