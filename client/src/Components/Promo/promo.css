@@ -28,8 +28,6 @@
 }
 
 .cumLogos {
-  display: flex;
-  flex-direction: column;
   margin: 6rem auto;
 }
 
@@ -59,4 +57,49 @@
   font-style: italic;
   font-family: 'Source Serif 4', serif;
   color: #d4145a;
+}
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+
+    @media screen and (max-width: 600px) {
+      .promo {
+        margin: 2.42rem auto;
+      }
+
+      .promo .textDiv {
+        gap: 1rem;
+
+      }
+
+      .promo div p {
+        font-size: .8rem;
+      }
+
+      .cumLogos {
+        margin: 1.8rem auto;
+      }
+
+      .cumLogos h5 {
+        font-size: 1.2rem;
+        font-weight: 400;
+        width: 99%;
+        margin: 1rem 0;
+      }
+
+      .cumLogos div {
+        gap: 1.2rem;
+        flex-wrap: wrap;
+      }
+
+      .cumLogos img {
+        width: 4.42rem;
+      }
+
+      .promImg {
+        width: 96%;
+        margin: 1.2rem auto 0;
+      }
+    }
+  }
 }

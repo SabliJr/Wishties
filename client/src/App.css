@@ -28,3 +28,10 @@ code {
   max-width: 1110px;
   margin: auto;
 }
+
+@media screen and (max-width: 1024px) {
+  .App {
+    margin: auto 1rem;
+    width: 100%;
+  }
+}

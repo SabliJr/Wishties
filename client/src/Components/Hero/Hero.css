@@ -29,7 +29,6 @@
 .emailDiv {
   max-width: 65%;
   margin: 2rem auto;
-  height: 3rem;
   display: flex;
   justify-content: center;
   gap: 1.2rem;
@@ -54,4 +53,38 @@
   cursor: pointer;
   color: aliceblue;
   font-style: normal;
+}
+
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+
+    @media screen and (max-width: 600px) {
+      .hero {
+        margin: 3.5rem 0 3rem;
+      }
+
+      .hero h2 {
+        font-size: 2.3rem;
+        width: 98%;
+      }
+
+      .hero h2 span {
+        font-size: 2.2rem;
+      }
+
+      .hero p {
+        width: 100%;
+      }
+
+      .emailDiv {
+        max-width: 85%;
+        flex-direction: column;
+      }
+
+      .emailDiv input {
+        width: 100%;
+      }
+    }
+  }
 }

@@ -49,3 +49,27 @@
   color: aliceblue;
   font-style: normal;
 }
+
+.menuIcon {
+  font-size: 2.2rem;
+}
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+    .logo {
+      width: 8.5rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      .navStuff nav {
+        flex-direction: column;
+        gap: 1.3rem;
+      }
+
+      .navStuff {
+        flex-direction: column;
+        display: none;
+      }
+    }
+  }
+}

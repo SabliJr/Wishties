@@ -46,3 +46,10 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+
+    @media screen and (max-width: 600px) {}
+  }
+}
