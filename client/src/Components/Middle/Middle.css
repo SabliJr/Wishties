@@ -32,3 +32,30 @@
   color: #d4145a;
   font-family: 'Source Serif 4', serif;
 }
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+
+    @media screen and (max-width: 600px) {
+      .middleTextDiv {
+        width: 99%;
+      }
+
+      .middleTextDiv h3 {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .middleTextDiv h3 span {
+        font-weight: 500;
+        font-size: 1.6rem;
+      }
+
+      .middleTextDiv p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin: 1rem 0;
+      }
+    }
+  }
+}

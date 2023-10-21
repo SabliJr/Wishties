@@ -2,6 +2,7 @@ import React from "react";
 import "./Header.css";
 
 import Logo from "../../Assets/zLast2.png";
+import { RiMenu4Line } from "react-icons/ri";
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
           <button>SignUp</button>
         </div>
       </div>
+      <RiMenu4Line className='menuIcon' />
     </header>
   );
 };

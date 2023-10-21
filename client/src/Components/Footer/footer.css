@@ -57,3 +57,10 @@
   padding-top: .5rem;
   color: #182C61;
 }
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+
+    @media screen and (max-width: 600px) {}
+  }
+}
