@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
 
 import Logo from "../../Assets/zLast2.png";
 import { RiMenu4Line } from "react-icons/ri";
 
 const Index = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleTrigger = () => setIsOpen(!isOpen);
+
   return (
     <header className='Header'>
       <img src={Logo} alt='' className='logo' />
-      <div className='navStuff'>
+      <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
         <nav>
           <li>Links</li>
           <li>Whish List</li>
@@ -18,7 +21,7 @@ const Index = () => {
           <button>SignUp</button>
         </div>
       </div>
-      <RiMenu4Line className='menuIcon' />
+      <RiMenu4Line className='menuIcon' onClick={handleTrigger} />
     </header>
   );
 };
