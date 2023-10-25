@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Header.css";
 
-import Logo from "../../Assets/zLast2.png";
+import Logo from "../../Assets/xLogo.png";
 import { RiMenu4Line } from "react-icons/ri";
 
 const Index = () => {

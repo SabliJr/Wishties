@@ -17,7 +17,7 @@ const Index = () => {
         🔒 All of your data are protected with the{" "}
         <span>European data protection low</span> GDPR.
       </p>
-      <button>Get early access</button>
+      <button>Get Early Access</button>
     </section>
   );
 };
