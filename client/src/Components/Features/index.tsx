@@ -1,7 +1,7 @@
 import React from "react";
 import "./Features.css";
 
-import ProfileCus from "../../Assets/64918beebe71c59abe07a456_Profile_Links-p-500.png";
+import ProfileCus from "../../Assets/link-in-bio-page-features.png";
 import ThankImg from "../../Assets/6483444c1b63be0f50222d14_Message-GIF.gif";
 import wishListIcon from "../../Assets/list2.png";
 import { SiBiolink } from "react-icons/si";

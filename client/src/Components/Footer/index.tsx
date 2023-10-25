@@ -1,7 +1,7 @@
 import React from "react";
 import "./footer.css";
 
-import FooterLogo from "../../Assets/zLast2.png";
+import FooterLogo from "../../Assets/xLogo.png";
 
 import { BsInstagram } from "react-icons/bs";
 import { RiTwitterXLine } from "react-icons/ri";
