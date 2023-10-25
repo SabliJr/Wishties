@@ -16,6 +16,7 @@ const Index = () => {
           <li>Links</li>
           <li>Whish List</li>
           <li>Pricing</li>
+          <li>LogIn</li>
         </nav>
         <div className='navButtons'>
           <button>SignUp</button>
