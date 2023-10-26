@@ -26,7 +26,6 @@ const Index = () => {
             <h3>Legal</h3>
             <p>Terms of Service</p>
             <p> Privacy Policy</p>
-            <p>Data Security</p>
             <p>About</p>
           </div>
           <div>
@@ -37,7 +36,6 @@ const Index = () => {
           </div>
           <div>
             <h3>General</h3>
-            <p>pricing</p>
             <p>LogIn</p>
             <p>Links</p>
             <p>WishList</p>

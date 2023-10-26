@@ -1,8 +1,8 @@
 import React from "react";
-import "./Pricing.css";
+import "./Login.css";
 
 const Index = () => {
-  return <div>Pricing</div>;
+  return <section>Login</section>;
 };
 
 export default Index;

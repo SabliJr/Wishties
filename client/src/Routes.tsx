@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Pricing from "./Pages/Pricing";
+import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 
 const RoutesFile = () => {
@@ -10,7 +10,7 @@ const RoutesFile = () => {
       <Routes>
         <Route />
         <Route path='/' element={<Home />} />
-        <Route path='/pricing' element={<Pricing />} />
+        <Route path='/pricing' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,8 +4,8 @@
 }
 
 .hero h2 {
-  font-size: 2.8rem;
-  width: 70%;
+  font-size: 3rem;
+  width: 75%;
   margin: auto;
   font-family: 'Archivo', sans-serif;
 }
@@ -24,6 +24,15 @@
   font-family: 'Archivo', sans-serif;
   line-height: 1.3;
   color: rgb(103, 107, 107);
+}
+
+.hero p span {
+  font-style: italic;
+  color: black;
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.42rem;
+  font-weight: 600;
+  /* font-family: 'Quintessential', serif; */
 }
 
 .emailDiv {
@@ -63,7 +72,7 @@
 
   @media screen and (max-width: 800px) {
     .hero h2 {
-      width: 83%;
+      width: 85%;
     }
 
     .emailDiv {

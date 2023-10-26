@@ -6,10 +6,10 @@ const Index = () => {
     <section>
       <div className='middleTextDiv'>
         <h3>
-          Simple.Fast.<span>Worry free!</span>
+          Simple, Fast, Worry <span>free </span>& price<span> free</span>.
         </h3>
         <p>
-          Setting up your Links and Wishlist with <span>WishLinks</span> is a
+          Setting up your Links and Wishlist with <span>Wishties</span> is a
           breeze – it's quick, straightforward, and incredibly fast! All in one
           hub, ensuring a smooth experience for you and your fans.
         </p>

@@ -22,6 +22,8 @@
   font-size: 1.2rem;
   font-family: 'Archivo', sans-serif;
   font-weight: 400;
+  display: flex;
+  align-items: center;
 }
 
 .cumLogos {
@@ -54,6 +56,11 @@
   font-style: italic;
   font-family: 'Source Serif 4', serif;
   color: #d4145a;
+}
+
+.checkIcon {
+  color: #1547d2;
+  font-size: 1.3rem;
 }
 
 @media screen and (max-width: 1042px) {

@@ -23,9 +23,6 @@ const Index = () => {
             <Link to='wishlist'>Whish List</Link>
           </li>
           <li>
-            <Link to='pricing'>Pricing</Link>
-          </li>
-          <li>
             <Link to='login'>LogIn</Link>
           </li>
         </nav>

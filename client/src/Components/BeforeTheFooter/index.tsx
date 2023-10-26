@@ -9,7 +9,7 @@ import Img3 from "../../Assets/aiony-haust-3TLl_97HNJo-unsplash.jpg";
 const Index = () => {
   return (
     <section className='bFooter'>
-      <h3 className='why'>At WishLinks</h3>
+      <h3 className='why'>At Wishties</h3>
       <p className='whyText'>
         We believe in the magic of connection and the power of wishes. We're the
         platform where your dreams come to life, your fan’s desires are
