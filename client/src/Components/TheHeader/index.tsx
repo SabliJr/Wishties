@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 import Logo from "../../Assets/xLogo.png";
@@ -10,13 +11,23 @@ const Index = () => {
 
   return (
     <header className='Header'>
-      <img src={Logo} alt='' className='logo' />
+      <Link to='/'>
+        <img src={Logo} alt='' className='logo' />
+      </Link>
       <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
         <nav>
-          <li>Links</li>
-          <li>Whish List</li>
-          <li>Pricing</li>
-          <li>LogIn</li>
+          <li>
+            <Link to='links'>Links</Link>
+          </li>
+          <li>
+            <Link to='wishlist'>Whish List</Link>
+          </li>
+          <li>
+            <Link to='pricing'>Pricing</Link>
+          </li>
+          <li>
+            <Link to='login'>LogIn</Link>
+          </li>
         </nav>
         <div className='navButtons'>
           <button>SignUp</button>
