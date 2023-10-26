@@ -1,19 +1,23 @@
 import React from "react";
-import "./Login.css";
+import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
 import { FaSquareXTwitter, FaApple } from "react-icons/fa6";
-import LogInImg from "../../Assets/LogInImg.png";
+import UserImg from "../../Assets/LogInImg.png";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <section className='login'>
-      <img src={LogInImg} alt='' className='loginImg' />
-      <div>
+      <img src={UserImg} alt='' className='loginImg' />
+      <div className='FormsDiv'>
         <div className='loginTitle'>
           <h3>Welcome back!</h3>
           <p>
-            Don't have an account? <span>Sign up</span>
+            Don't have an account?{" "}
+            <span onClick={() => navigate("/signup")}>Sign up</span>
           </p>
         </div>
         <div>

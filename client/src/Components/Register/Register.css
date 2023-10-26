@@ -1,10 +1,21 @@
 .login {
-  width: 85%;
+  margin: 8rem auto;
+}
+
+.signup {
+  margin: 6.42rem auto 4rem;
+}
+
+.login,
+.signup {
+  width: 80%;
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   gap: 5rem;
-  margin: 8rem auto;
+}
+
+.FormsDiv {
+  width: 100%;
 }
 
 .loginTitle h3 {
@@ -14,7 +25,7 @@
 
 .loginTitle p {
   color: rgb(97, 97, 97);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-family: 'Archivo', sans-serif;
   margin: .42rem 0;
 }
@@ -22,10 +33,11 @@
 .loginTitle p span {
   color: #1547d2;
   cursor: pointer;
+  font-style: italic;
 }
 
 .loginImg {
-  width: 50%;
+  width: 55%;
 }
 
 .forms {
@@ -96,4 +108,18 @@
 .copyDiv p {
   font-family: 'Archivo', sans-serif;
   margin: 1.5rem 0;
+}
+
+.logText {
+  font-family: 'Archivo', sans-serif;
+  text-align: center;
+  margin: 1.3rem 0;
+  font-size: 1.2rem;
+  color: rgb(97, 97, 97);
+}
+
+.logText span {
+  color: #1547d2;
+  font-style: italic;
+  cursor: pointer;
 }

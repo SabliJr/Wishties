@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
 import Logo from "../../Assets/xLogo.png";
@@ -8,6 +8,7 @@ import { RiMenu4Line } from "react-icons/ri";
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleTrigger = () => setIsOpen(!isOpen);
+  const navigate = useNavigate();
 
   return (
     <header className='Header'>
@@ -27,7 +28,7 @@ const Index = () => {
           </li>
         </nav>
         <div className='navButtons'>
-          <button>SignUp</button>
+          <button onClick={() => navigate("/signup")}>SignUp</button>
         </div>
       </div>
       <RiMenu4Line className='menuIcon' onClick={handleTrigger} />

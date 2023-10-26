@@ -2,7 +2,7 @@ import React from "react";
 import "../Components/Register/Register.css";
 
 import Header from "../Components/TheHeader/index";
-import Login from "../Components/Register/Login";
+import SignUp from "../Components/Register/SignUp";
 
 const Pricing = () => {
   const date = new Date().getFullYear();
@@ -10,7 +10,7 @@ const Pricing = () => {
   return (
     <div>
       <Header />
-      <Login />
+      <SignUp />
 
       <div className='copyDiv'>
         <p>Wisties &copy;{date}</p>
