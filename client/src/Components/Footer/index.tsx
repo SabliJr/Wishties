@@ -42,7 +42,7 @@ const Index = () => {
           </div>
         </div>
       </main>
-      <div className='copy'>WishLinks &copy;{laDate}</div>
+      <div className='copy'>Wishties &copy;{laDate}</div>
     </footer>
   );
 };

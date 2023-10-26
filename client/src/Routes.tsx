@@ -10,7 +10,7 @@ const RoutesFile = () => {
       <Routes>
         <Route />
         <Route path='/' element={<Home />} />
-        <Route path='/pricing' element={<Login />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
