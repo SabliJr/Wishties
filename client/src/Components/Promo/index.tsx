@@ -10,13 +10,24 @@ import Tiktok from "../../Assets/tiktok.png";
 import OF from "../../Assets/OnlyFans_Logo_Full_Blue.svg.png";
 import Fansly from "../../Assets/Fansly_logo.svg.png";
 
+import { HiBadgeCheck } from "react-icons/hi";
+
 const Index = () => {
   return (
     <main className='promo'>
       <div className='textDiv'>
-        <p>✅&nbsp; Get early access</p>
-        <p>✅&nbsp; Your in safe hands</p>
-        <p>✅&nbsp; No hidden fees</p>
+        <p>
+          <HiBadgeCheck className='checkIcon' />
+          &nbsp; For All Creators
+        </p>
+        <p>
+          <HiBadgeCheck className='checkIcon' />
+          &nbsp; Privacy First
+        </p>
+        <p>
+          <HiBadgeCheck className='checkIcon' />
+          &nbsp; It's free
+        </p>
       </div>
       <img src={PromoImg} alt='promImg' className='promImg' />
       <div className='cumLogos'>
