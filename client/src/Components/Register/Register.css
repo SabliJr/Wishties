@@ -1,0 +1,125 @@
+.login {
+  margin: 8rem auto;
+}
+
+.signup {
+  margin: 6.42rem auto 4rem;
+}
+
+.login,
+.signup {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.FormsDiv {
+  width: 100%;
+}
+
+.loginTitle h3 {
+  font-size: 2.6rem;
+  font-family: 'Archivo', sans-serif;
+}
+
+.loginTitle p {
+  color: rgb(97, 97, 97);
+  font-size: 1.2rem;
+  font-family: 'Archivo', sans-serif;
+  margin: .42rem 0;
+}
+
+.loginTitle p span {
+  color: #1547d2;
+  cursor: pointer;
+  font-style: italic;
+}
+
+.loginImg {
+  width: 55%;
+}
+
+.forms {
+  margin: 3rem 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.forms input {
+  height: 2.6rem;
+  width: 100%;
+  border-radius: .42rem;
+  padding: .5rem;
+  font-size: 1rem;
+  border: 1.3px solid #1547d2;
+}
+
+.forms button {
+  font-size: 1.6rem;
+  font-family: 'Archivo', sans-serif;
+  text-align: center;
+  background-color: #1547d2;
+  border: transparent;
+  border-radius: .42rem;
+  color: white;
+  padding: .5rem .8rem;
+  cursor: pointer;
+}
+
+.forms p {
+  color: #d4145ad3;
+  cursor: pointer;
+  margin: .42rem 0;
+}
+
+.iconsDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.42rem;
+}
+
+.loginIcons {
+  background-color: white;
+  font-size: 2.5rem;
+  padding: .3rem;
+  cursor: pointer;
+  border-radius: .3rem;
+}
+
+.or {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 1.3rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 600;
+}
+
+.copyDiv {
+  margin: 10rem auto 2rem;
+  text-align: center;
+  border-top: 1.3px solid darkgray;
+}
+
+.copyDiv p {
+  font-family: 'Archivo', sans-serif;
+  margin: 1.5rem 0;
+}
+
+.logText {
+  font-family: 'Archivo', sans-serif;
+  text-align: center;
+  margin: 1.3rem 0;
+  font-size: 1.2rem;
+  color: rgb(97, 97, 97);
+}
+
+.logText span {
+  color: #1547d2;
+  font-style: italic;
+  cursor: pointer;
+}

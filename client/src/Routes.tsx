@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
+import SignUp from "./Pages/Signup";
 
 const RoutesFile = () => {
   return (
@@ -10,7 +11,9 @@ const RoutesFile = () => {
       <Routes>
         <Route />
         <Route path='/' element={<Home />} />
-        <Route path='/pricing' element={<Login />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
+        {/* <Route path='*' element={<Error />} /> */}
       </Routes>
     </BrowserRouter>
   );

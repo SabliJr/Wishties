@@ -1,6 +1,8 @@
 import React from "react";
 import "./footer.css";
 
+import { Link } from "react-router-dom";
+
 import FooterLogo from "../../Assets/xLogo.png";
 
 import { BsInstagram } from "react-icons/bs";
@@ -36,13 +38,15 @@ const Index = () => {
           </div>
           <div>
             <h3>General</h3>
-            <p>LogIn</p>
+            <p>
+              <Link to='/login'>LogIn</Link>
+            </p>
             <p>Links</p>
             <p>WishList</p>
           </div>
         </div>
       </main>
-      <div className='copy'>WishLinks &copy;{laDate}</div>
+      <div className='copy'>Wishties &copy;{laDate}</div>
     </footer>
   );
 };

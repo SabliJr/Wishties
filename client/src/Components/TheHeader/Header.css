@@ -26,11 +26,6 @@
   cursor: pointer;
 }
 
-.navStuff nav a {
-  color: black;
-  text-decoration: none;
-}
-
 .navButtons button {
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
@@ -41,6 +36,7 @@
   border: transparent;
   color: aliceblue;
   font-style: normal;
+  cursor: pointer;
 }
 
 .menuIcon {
