@@ -13,6 +13,7 @@ const RoutesFile = () => {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
+        {/* <Route path='*' element={<Error />} /> */}
       </Routes>
     </BrowserRouter>
   );
