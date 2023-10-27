@@ -99,17 +99,6 @@
   font-weight: 600;
 }
 
-.copyDiv {
-  margin: 10rem auto 2rem;
-  text-align: center;
-  border-top: 1.3px solid darkgray;
-}
-
-.copyDiv p {
-  font-family: 'Archivo', sans-serif;
-  margin: 1.5rem 0;
-}
-
 .logText {
   font-family: 'Archivo', sans-serif;
   text-align: center;
@@ -122,4 +111,49 @@
   color: #1547d2;
   font-style: italic;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1042px) {
+  .loginImg {
+    display: none;
+  }
+
+  .login,
+  .signup {
+    width: 50%;
+  }
+
+  @media screen and (max-width: 800px) {
+
+    .login,
+    .signup {
+      width: 60%;
+    }
+
+    @media screen and (max-width: 600px) {
+
+      .login,
+      .signup {
+        width: 90%;
+        margin: 5rem auto 1rem;
+      }
+
+      .loginTitle h3 {
+        font-size: 1.8rem;
+      }
+
+      .loginTitle p {
+        font-size: 1rem;
+      }
+
+      .or {
+        font-weight: 500;
+      }
+
+      .forms input {
+        height: 2.42rem;
+      }
+
+    }
+  }
 }
