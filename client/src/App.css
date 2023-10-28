@@ -16,7 +16,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fbfffe;
+  /* background-color: #fbfffe; */
+  background-color: #eff7f5;
 }
 
 code {
@@ -27,13 +28,13 @@ code {
 .App {
   max-width: 1110px;
   margin: auto;
-  overflow: hidden;
+  overflow-x: hidden;
+  height: 100vh;
 }
 
 @media screen and (max-width: 1024px) {
   .App {
     margin: auto 1rem;
-    /* width: 100%; */
   }
 
   @media screen and (max-width: 600px) {

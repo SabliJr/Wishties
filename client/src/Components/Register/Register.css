@@ -37,7 +37,7 @@
 }
 
 .loginImg {
-  width: 55%;
+  width: 100%;
 }
 
 .forms {
@@ -114,20 +114,15 @@
 }
 
 @media screen and (max-width: 1042px) {
-  .loginImg {
-    display: none;
-  }
-
-  .login,
-  .signup {
-    width: 50%;
-  }
-
   @media screen and (max-width: 800px) {
 
     .login,
     .signup {
       width: 60%;
+    }
+
+    .loginImg {
+      display: none;
     }
 
     @media screen and (max-width: 600px) {
