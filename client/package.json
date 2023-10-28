@@ -21,8 +21,8 @@
   "scripts": {
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-  "build": "react-scripts build && echo '/* /index.html  200' | cat >build/_redirects "
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
