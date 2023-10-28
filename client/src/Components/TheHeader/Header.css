@@ -70,7 +70,7 @@
         position: absolute;
         flex-direction: column;
         justify-content: flex-start;
-        align-items: center;
+        align-items: flex-start;
         top: 3.42rem;
         right: -100%;
         border-radius: 0.75rem;
@@ -90,6 +90,10 @@
 
       .menuIcon {
         display: block;
+      }
+
+      .navButtons {
+        align-self: self-start;
       }
     }
   }
