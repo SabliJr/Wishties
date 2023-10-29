@@ -18,13 +18,13 @@ const Index = () => {
       <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
         <nav>
           <li>
-            <Link to='links'>Link in bio</Link>
+            <Link to='/links'>Link in bio</Link>
           </li>
           <li>
-            <Link to='wishlist'>Create Wishlist</Link>
+            <Link to='/wishlist'>Create Wishlist</Link>
           </li>
           <li>
-            <Link to='login'>LogIn</Link>
+            <Link to='/login'>LogIn</Link>
           </li>
         </nav>
         <div className='navButtons'>
