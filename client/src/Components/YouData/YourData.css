@@ -34,7 +34,7 @@
 }
 
 .dataSection button {
-  font-size: 1.8rem;
+  font-size: 1.42rem;
   color: white;
   background-color: #1547d2;
   border: transparent;
@@ -67,7 +67,7 @@
       }
 
       .dataSection button {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         margin: 1.3rem 4rem;
         width: 60%;
       }

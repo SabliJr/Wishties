@@ -28,8 +28,7 @@ code {
 .App {
   max-width: 1110px;
   margin: auto;
-  overflow-x: hidden;
-  height: 100vh;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) {
