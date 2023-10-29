@@ -3,15 +3,41 @@
 }
 
 .signup {
-  margin: 6.42rem auto 4rem;
+  margin: 6.4rem auto;
 }
 
 .login,
 .signup {
-  width: 80%;
+  width: 90%;
   display: flex;
-  align-items: center;
+  align-items: self-start;
+  justify-content: flex-start;
   gap: 5rem;
+}
+
+.signSection {
+  text-align: center;
+  margin: 5rem auto 2rem;
+}
+
+.signUpTitle {
+  font-size: 3rem;
+  font-family: 'Archivo', sans-serif;
+}
+
+.signUpCopy {
+  font-size: 1.2rem;
+  width: 75%;
+  margin: 1rem auto;
+  font-family: 'Archivo', sans-serif;
+  line-height: 1.5;
+  color: rgb(97, 97, 97);
+}
+
+.signUpCopy span {
+  font-style: italic;
+  color: #182C61;
+  font-family: 'Source Serif 4', serif;
 }
 
 .FormsDiv {
@@ -27,7 +53,8 @@
   color: rgb(97, 97, 97);
   font-size: 1.2rem;
   font-family: 'Archivo', sans-serif;
-  margin: .42rem 0;
+  text-align: left;
+  color: #d4145ad3;
 }
 
 .loginTitle p span {
@@ -40,8 +67,12 @@
   width: 100%;
 }
 
+#Layer_7 {
+  width: 150%;
+}
+
 .forms {
-  margin: 3rem 0;
+  margin: 1.5rem 0 3rem;
   display: flex;
   align-content: center;
   justify-content: center;
@@ -105,12 +136,13 @@
   margin: 1.3rem 0;
   font-size: 1.2rem;
   color: rgb(97, 97, 97);
+  line-height: 1.3;
 }
 
 .logText span {
-  color: #1547d2;
+  /* color: #1547d2; */
   font-style: italic;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 @media screen and (max-width: 1042px) {
@@ -130,7 +162,7 @@
       .login,
       .signup {
         width: 90%;
-        margin: 5rem auto 1rem;
+        margin: 3rem auto 1rem;
       }
 
       .loginTitle h3 {
@@ -149,6 +181,27 @@
         height: 2.42rem;
       }
 
+      .forms {
+        margin: 1rem auto 2.2rem;
+      }
+
+      .forms button {
+        font-size: 1.42rem;
+      }
+
+      .signUpCopy {
+        font-size: 1.1rem;
+        width: 95%;
+        line-height: 1.5;
+      }
+
+      .signUpTitle {
+        font-size: 2rem;
+      }
+
+      .logText {
+        font-size: 1rem;
+      }
     }
   }
 }
