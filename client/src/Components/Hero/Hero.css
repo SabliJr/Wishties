@@ -32,7 +32,6 @@
   font-family: 'Source Serif 4', serif;
   font-size: 1.42rem;
   font-weight: 600;
-  /* font-family: 'Quintessential', serif; */
 }
 
 .emailDiv {
@@ -85,7 +84,7 @@
       }
 
       .hero h2 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         width: 98%;
       }
 
@@ -94,8 +93,9 @@
       }
 
       .hero p {
-        width: 100%;
+        width: 95%;
         margin: 1.6rem auto;
+        font-size: 1rem;
       }
 
       .emailDiv {
@@ -105,6 +105,10 @@
 
       .emailDiv input {
         width: 100%;
+      }
+
+      .hero p span {
+        font-size: 1rem;
       }
     }
   }

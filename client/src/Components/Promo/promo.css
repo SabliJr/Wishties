@@ -10,8 +10,8 @@
   width: 95%;
   margin: 1.6rem auto 0;
   border-radius: 1.2rem;
-  mask-image: linear-gradient(#000000, transparent);
   border: .5px solid rgb(226, 226, 224);
+  mask-image: linear-gradient(#000000, transparent);
 }
 
 .promo .textDiv {
@@ -77,12 +77,11 @@
   @media screen and (max-width: 800px) {
     @media screen and (max-width: 600px) {
       .promo {
-        margin: 2.42rem auto;
+        margin: 3rem auto;
       }
 
       .promo .textDiv {
         gap: .7rem;
-
       }
 
       .promo div p {
@@ -90,7 +89,7 @@
       }
 
       .cumLogos {
-        margin: 1.8rem auto;
+        margin: 4.42rem auto;
       }
 
       .cumLogos h5 {
@@ -108,7 +107,8 @@
 
       .promImg {
         width: 96%;
-        margin: 1.2rem auto 0;
+        margin: 1rem auto 0;
+        border-radius: .42rem;
       }
     }
   }

@@ -18,9 +18,24 @@ const Index = () => {
         <div className='logoAndSM'>
           <img src={FooterLogo} alt='' className='footerLogo' />
           <div className='SocialIcons'>
-            <BsInstagram />
-            <RiTwitterXLine />
-            <GrLinkedinOption />
+            <a
+              href='https://www.instagram.com/wishties_/'
+              target='_blank'
+              rel='noopener noreferrer'>
+              <BsInstagram />
+            </a>
+            <a
+              href='https://twitter.com/wishties_'
+              target='_blank'
+              rel='noopener noreferrer'>
+              <RiTwitterXLine />
+            </a>
+            <a
+              href='https://www.linkedin.com/in/wishties/'
+              target='_blank'
+              rel='noopener noreferrer'>
+              <GrLinkedinOption />
+            </a>
           </div>
         </div>
         <div className='footerLinks'>
