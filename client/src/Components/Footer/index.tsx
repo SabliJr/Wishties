@@ -1,8 +1,6 @@
 import React from "react";
 import "./footer.css";
 
-import { Link } from "react-router-dom";
-
 import FooterLogo from "../../Assets/xLogo.png";
 
 import { BsInstagram } from "react-icons/bs";
@@ -43,21 +41,16 @@ const Index = () => {
             <h3>Legal</h3>
             <p>Terms of Service</p>
             <p> Privacy Policy</p>
-            <p>About</p>
           </div>
           <div>
             <h3>Help</h3>
             <p>FAQ & Help</p>
             <p>How it Works</p>
-            <p>Contact</p>
           </div>
           <div>
             <h3>General</h3>
-            <p>
-              <Link to='/login'>LogIn</Link>
-            </p>
-            <p>Links</p>
-            <p>WishList</p>
+            <p>Contact</p>
+            <p>About</p>
           </div>
         </div>
       </main>

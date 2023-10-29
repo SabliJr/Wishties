@@ -23,9 +23,9 @@ const Index = () => {
           <li>
             <Link to='/wishlist'>Create Wishlist</Link>
           </li>
-          <li>
-            <Link to='/login'>LogIn</Link>
-          </li>
+          {/* <li> */}
+          {/* <Link to='/login'>LogIn</Link> */}
+          {/* </li> */}
         </nav>
         <div className='navButtons'>
           <button onClick={() => navigate("/signup")}>SignUp</button>

@@ -3,7 +3,7 @@ import "./Register.css";
 
 const SVGComponent = () => (
   <svg
-    id='Layer_2'
+    id='Layer_7'
     className='loginImg'
     data-name='Layer 2'
     xmlns='http://www.w3.org/2000/svg'

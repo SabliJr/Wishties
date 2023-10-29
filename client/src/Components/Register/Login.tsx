@@ -3,8 +3,7 @@ import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
 import { FaSquareXTwitter, FaApple } from "react-icons/fa6";
-// import UserImg from "../../Assets/LogInImg.png";
-import UserImg from './UserImg'
+import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -12,7 +11,6 @@ const Index = () => {
 
   return (
     <section className='login'>
-      {/* <img src={UserImg} alt='' className='loginImg' /> */}
       <UserImg />
       <div className='FormsDiv'>
         <div className='loginTitle'>
