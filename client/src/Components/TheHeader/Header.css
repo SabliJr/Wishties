@@ -26,10 +26,22 @@
   cursor: pointer;
 }
 
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+}
+
+.navButtons p {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
 .navButtons button {
   font-family: 'Archivo', sans-serif;
-  font-weight: 500;
-  font-size: 1.3rem;
+  font-weight: 600;
+  font-size: 1.5rem;
   padding: 0.3rem 0.7rem;
   border-radius: 0.6rem;
   background: #1547d2;
@@ -53,6 +65,16 @@
     @media screen and (max-width: 600px) {
       .logo {
         width: 6rem;
+      }
+
+      .navButtons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .navButtons p {
+        font-size: 1.2rem;
       }
 
       .Header {
@@ -81,6 +103,7 @@
         backdrop-filter: blur(.875rem);
         transition: .3s all ease-in-out;
         z-index: 100;
+        gap: 2rem;
       }
 
       .expand {
@@ -94,6 +117,10 @@
 
       .navButtons {
         align-self: self-start;
+      }
+
+      .navButtons button {
+        font-size: 1.2rem;
       }
     }
   }

@@ -8,7 +8,7 @@
 
 .login,
 .signup {
-  width: 90%;
+  width: 65%;
   display: flex;
   align-items: self-start;
   justify-content: flex-start;
@@ -16,8 +16,10 @@
 }
 
 .signSection {
-  text-align: center;
-  margin: 5rem auto 2rem;
+  display: flex;
+  margin: 2.42rem auto 2rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .signUpTitle {
@@ -41,7 +43,8 @@
 }
 
 .FormsDiv {
-  width: 100%;
+  width: 75%;
+  margin: auto;
 }
 
 .loginTitle h3 {
@@ -54,7 +57,7 @@
   font-size: 1.2rem;
   font-family: 'Archivo', sans-serif;
   text-align: left;
-  color: #d4145ad3;
+  margin: .8rem 0;
 }
 
 .loginTitle p span {
@@ -64,20 +67,16 @@
 }
 
 .loginImg {
-  width: 100%;
-}
-
-#Layer_7 {
-  width: 150%;
+  width: 70%;
 }
 
 .forms {
-  margin: 1.5rem 0 3rem;
+  margin: 3rem 0;
   display: flex;
   align-content: center;
   justify-content: center;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.42rem;
 }
 
 .forms input {
@@ -140,9 +139,26 @@
 }
 
 .logText span {
-  /* color: #1547d2; */
+  color: #1547d2;
   font-style: italic;
-  /* cursor: pointer; */
+  cursor: pointer;
+}
+
+.agree {
+  display: flex;
+  margin: .5rem 0;
+  align-items: center;
+  gap: .42rem;
+}
+
+#agreeCheck {
+  width: 1.2rem;
+}
+
+.agreeText span {
+  font-weight: 600;
+  font-family: 'Source Serif 4', serif;
+  font-style: italic;
 }
 
 @media screen and (max-width: 1042px) {
@@ -158,6 +174,14 @@
     }
 
     @media screen and (max-width: 600px) {
+      .signSection {
+        display: flex;
+        margin: 2rem auto;
+      }
+
+      .signUpTitle {
+        font-size: 1.8rem;
+      }
 
       .login,
       .signup {
@@ -199,8 +223,20 @@
         font-size: 2rem;
       }
 
+      .FormsDiv {
+        width: 95%;
+      }
+
       .logText {
         font-size: 1rem;
+      }
+
+      .agree {
+        align-items: flex-start;
+      }
+
+      .agreeText span {
+        font-weight: 500;
       }
     }
   }

@@ -4,23 +4,17 @@ import "./Register.css";
 import { FcGoogle } from "react-icons/fc";
 import { FaSquareXTwitter, FaApple } from "react-icons/fa6";
 import UserImg from "./UserImg";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <section className='signSection'>
-      <h3 className='signUpTitle'>Hello!</h3>
-      <p className='signUpCopy'>
-        Thanks for dropping by! Our app is in development, but the excitement is
-        building. Sign up now to be among the first to get{" "}
-        <span>early access</span> or join the <span>waiting list</span>, and
-        we'll keep you in the loop.
-      </p>
+      <UserImg />
       <div className='signup'>
-        <UserImg />
         <div className='FormsDiv'>
+          <h3 className='signUpTitle'>Hello!</h3>
           <div className='loginTitle'>
             <p>Sign up today and get you wishes fulfilled.</p>
           </div>
@@ -28,7 +22,16 @@ const SignUp = () => {
             <form className='forms'>
               <input type='email' placeholder='Email' />
               <input type='password' placeholder='Password' />
-              <input type='password' placeholder='Confirm Password' />
+              <div>
+                <input type='password' placeholder='Confirm Password' />
+                <div className='agree'>
+                  <input type='checkbox' id='agreeCheck' />
+                  <p className='agreeText'>
+                    I agree to the <span>Terms of Service</span> and{" "}
+                    <span>Privacy Policy.</span>
+                  </p>
+                </div>
+              </div>
               <button type='submit'>Sign Up</button>
             </form>
             <h3 className='or'>Or SignUp with</h3>
@@ -45,9 +48,8 @@ const SignUp = () => {
             </div>
           </div>
           <p className='logText'>
-            If you already have an account, keep an eye on your inbox.{" "}
-            <span>We'll be emailing you soon.</span>
-            {/* <span onClick={() => navigate("/login")}>Login</span> */}
+            Already have an account?{" "}
+            <span onClick={() => navigate("/login")}>Login</span>
           </p>
         </div>
       </div>
