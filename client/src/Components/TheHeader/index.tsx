@@ -23,11 +23,11 @@ const Index = () => {
           <li>
             <Link to='/wishlist'>Create Wishlist</Link>
           </li>
-          {/* <li> */}
-          {/* <Link to='/login'>LogIn</Link> */}
-          {/* </li> */}
         </nav>
         <div className='navButtons'>
+          <p>
+            <Link to='/login'>Login</Link>
+          </p>
           <button onClick={() => navigate("/signup")}>SignUp</button>
         </div>
       </div>

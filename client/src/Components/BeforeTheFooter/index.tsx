@@ -16,8 +16,7 @@ const Index = () => {
         fulfilled, and communities grow stronger through connections.
       </p>
       <div className='emailDivDown'>
-        <input type='email' placeholder='Email' />
-        <button>Join the waitlist</button>
+        <button>Get Started For Free</button>
       </div>
       <article className='imagesArticle'>
         <div className='cusImgDiv'>
@@ -27,7 +26,7 @@ const Index = () => {
         </div>
         <div className='arrowAndText'>
           <p>
-            Join over <span>+1K</span> creators who are on the waiting list.
+            Join over <span>+1K</span> creators who are Wishties daily.
           </p>
         </div>
       </article>

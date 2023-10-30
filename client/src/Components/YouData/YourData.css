@@ -4,7 +4,7 @@
   background-position: center;
   background-size: contain;
   border-radius: 1.2rem;
-  margin: 5rem 0;
+  margin: 7.42rem 0;
   position: relative;
 }
 
@@ -51,7 +51,7 @@
 
     @media screen and (max-width: 600px) {
       .dataSection {
-        margin: 3rem 0;
+        margin: 5rem 0;
       }
 
       .dataSection h2 {

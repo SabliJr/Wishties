@@ -10,7 +10,7 @@ const Index = () => {
         not shared between parties.
       </p>
       <p>
-        🔒 All of your data on WishLinks is secured by <span>TLS (SSL)</span>{" "}
+        🔒 All of your data on Wishties is secured by <span>TLS (SSL)</span>{" "}
         256-bit encryption.
       </p>
       <p>

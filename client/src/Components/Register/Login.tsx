@@ -10,35 +10,37 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <section className='login'>
+    <section className='signSection'>
       <UserImg />
-      <div className='FormsDiv'>
-        <div className='loginTitle'>
-          <h3>Welcome back!</h3>
-          <p>
-            Don't have an account?{" "}
-            <span onClick={() => navigate("/signup")}>Sign up</span>
-          </p>
-        </div>
-        <div>
-          <form className='forms'>
-            <input type='email' placeholder='Email' />
-            <span>
-              <input type='password' placeholder='Password' />
-              <p>Forget password?</p>
-            </span>
-            <button type='submit'>Login</button>
-          </form>
-          <h3 className='or'>Or login with</h3>
-          <div className='iconsDiv'>
-            <div>
-              <FcGoogle className='loginIcons' />
-            </div>
-            <div>
-              <FaSquareXTwitter className='loginIcons' />
-            </div>
-            <div>
-              <FaApple className='loginIcons' />
+      <div className='login'>
+        <div className='FormsDiv'>
+          <div className='loginTitle'>
+            <h3>Welcome back!</h3>
+            <p>
+              Don't have an account?{" "}
+              <span onClick={() => navigate("/signup")}>Sign up</span>
+            </p>
+          </div>
+          <div>
+            <form className='forms'>
+              <input type='email' placeholder='Email' />
+              <span>
+                <input type='password' placeholder='Password' />
+                <p>Forget password?</p>
+              </span>
+              <button type='submit'>Login</button>
+            </form>
+            <h3 className='or'>Or login with</h3>
+            <div className='iconsDiv'>
+              <div>
+                <FcGoogle className='loginIcons' />
+              </div>
+              <div>
+                <FaSquareXTwitter className='loginIcons' />
+              </div>
+              <div>
+                <FaApple className='loginIcons' />
+              </div>
             </div>
           </div>
         </div>

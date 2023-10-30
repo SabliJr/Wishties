@@ -11,7 +11,7 @@ const Index = () => {
     <main className='mainGrid'>
       <article className='LogoArt'>
         <h3>
-          Why to <span>join</span> WishLinks
+          Why to <span>join</span> Wishties
         </h3>
       </article>
       <article className='wishListArt'>

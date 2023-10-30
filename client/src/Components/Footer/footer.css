@@ -1,5 +1,5 @@
 .Footer {
-  margin: 6.8rem auto 2rem;
+  margin: 1.8rem auto 2rem;
   border-top: 1px solid #182C61;
 }
 
@@ -18,7 +18,7 @@
   display: flex;
   gap: .8rem;
   font-size: 1.3rem;
-  margin-left: 1rem;
+  margin-left: .6rem;
   color: #5c5c5cdb;
   cursor: pointer;
 }
