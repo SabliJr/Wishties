@@ -6,11 +6,11 @@ import TheFooter from "../Components/Footer/index";
 
 const Pricing = () => {
   return (
-    <div>
+    <>
       <Header />
       <SignUp />
       <TheFooter />
-    </div>
+    </>
   );
 };
 

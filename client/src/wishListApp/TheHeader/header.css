@@ -1,0 +1,40 @@
+.wishNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.42rem auto .5rem;
+  max-width: 1280px
+}
+
+.wishlistLogo {
+  width: 6.42rem;
+  cursor: pointer;
+}
+
+.iconsDiv {
+  display: flex;
+  gap: 1.3rem;
+}
+
+.wishIcon {
+  font-size: 1.6rem;
+  color: rgb(97, 97, 97);
+  cursor: pointer;
+  gap: 2rem;
+}
+
+.userDiv {
+  position: relative;
+}
+
+.wishItems {
+  position: absolute;
+  top: -1rem;
+  background-color: #fff;
+  border: 1px solid rgb(97, 97, 97);
+  padding: .05rem .2rem;
+  border-radius: .3rem;
+  right: -.6rem;
+  z-index: -333;
+  font-size: 1rem;
+}

@@ -1,7 +1,11 @@
 import React from "react";
 import "./Hero.css";
 
+import { useNavigate } from "react-router-dom";
+
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <section className='hero'>
       <h2>
@@ -14,7 +18,9 @@ const Index = () => {
         <span>All for free.</span>
       </p>
       <div className='emailDiv'>
-        <button>Get Started For Free</button>
+        <button onClick={() => navigate("/wishlist")}>
+          Get Started For Free
+        </button>
       </div>
     </section>
   );

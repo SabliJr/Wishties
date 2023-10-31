@@ -6,11 +6,11 @@ import Footer from "../Components/Footer/index";
 
 const Pricing = () => {
   return (
-    <div>
+    <>
       <Header />
       <Login />
       <Footer />
-    </div>
+    </>
   );
 };
 

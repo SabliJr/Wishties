@@ -1,0 +1,89 @@
+.userCover {
+  width: 100vw;
+  height: 35vh;
+  object-fit: cover;
+}
+
+/* .userWrapper {
+  margin: 1.42rem auto;
+  max-width: 1280px;
+  position: relative;
+} */
+
+.userImg {
+  width: 8rem;
+  border-radius: 50%;
+  aspect-ratio: 2/2;
+  object-fit: cover;
+
+}
+
+.userImgDiv {
+  position: absolute;
+  left: 30%;
+  top: -4rem;
+}
+
+.userBio {
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Archivo', sans-serif;
+  margin: 9rem auto 1rem;
+  width: 80%;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.userNameDiv {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.userNameDiv p {
+  font-size: .8rem;
+  font-family: 'Archivo', sans-serif;
+  margin: .3rem auto;
+}
+
+.userSection {
+  position: absolute;
+  width: 350px;
+  height: 70vh;
+  background-color: #f5f8f8;
+  border: .2px solid darkgrey;
+  top: 33%;
+  left: 8rem;
+  /* border-radius: 1.8rem; */
+  border-top-right-radius: 1.8rem;
+  border-top-left-radius: 1.8rem;
+}
+
+.UserSocialIcons {
+  width: 1.6rem;
+}
+
+.userSocialDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 1rem;
+}
+
+.userSocialDiv div {
+  background-color: #cfcfcf;
+  padding: .3rem .5rem;
+  border-radius: .5rem;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.userSocialDiv div p {
+  font-family: 'Archivo', sans-serif;
+}
+
+.userImg .profileDiv {}
