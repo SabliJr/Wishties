@@ -17,7 +17,7 @@ import ManyVids from "../../Assets/UserIcons/ManyVids.png";
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { BsBorderStyle } from "react-icons/bs";
+import { TbAdjustmentsHorizontal } from "react-icons/tb";
 
 const Index = () => {
   const [upload, setUpload] = useState(false);
@@ -64,7 +64,7 @@ const Index = () => {
               Categories
               <IoMdArrowDropdown />
             </button>
-            <BsBorderStyle className='orderbyIcon' />
+            <TbAdjustmentsHorizontal className='orderbyIcon' />
           </div>
           <div>
             <button
