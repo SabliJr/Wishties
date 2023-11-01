@@ -20,6 +20,7 @@
   margin: 2.42rem auto 2rem;
   justify-content: center;
   align-items: center;
+  width: 90%;
 }
 
 .signUpTitle {
@@ -166,7 +167,7 @@
 
     .login,
     .signup {
-      width: 60%;
+      width: 80%;
     }
 
     .loginImg {
@@ -176,7 +177,7 @@
     @media screen and (max-width: 600px) {
       .signSection {
         display: flex;
-        margin: 2rem auto;
+        margin: 1rem auto;
       }
 
       .signUpTitle {
@@ -185,7 +186,7 @@
 
       .login,
       .signup {
-        width: 90%;
+        width: 100%;
         margin: 3rem auto 1rem;
       }
 

@@ -1,0 +1,93 @@
+.wishUploaderSection {
+  display: flex;
+  background-color: #fbfdfd;
+  flex-direction: column;
+  width: 400px;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  backdrop-filter: blur(5rem);
+  transform: translate(-50%, -50%);
+  padding: 2rem 3rem;
+  border-radius: 1.42rem;
+  border: 1px solid #cfcfcf;
+  overflow-y: scroll;
+}
+
+.wishInfoInputsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 1.42rem;
+}
+
+.wishUploadImg {
+  max-width: 250px;
+  min-height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.imgUploaderDiv {
+  width: 98%;
+  margin: 2rem auto 0;
+  text-align: center;
+}
+
+.wishInfoInputsDiv input {
+  height: 2.42rem;
+  font-size: 1rem;
+  padding: .3rem .6rem;
+  border-radius: .5rem;
+  border: .8px solid #1547d2;
+  background-color: #eff7f5;
+}
+
+.addWishBtn {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: .8rem 0;
+  color: #fbfdfd;
+  background-color: #1547d2;
+  border: transparent;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.UploadAnImage {
+  margin-top: 1rem;
+}
+
+.categoriesDiv {
+  display: flex;
+  flex-direction: column;
+  margin: 3rem auto;
+  gap: .6rem;
+}
+
+.categoriesDiv div {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+
+.categoriesDiv input {
+  height: 2rem;
+  font-size: 1rem;
+  padding: .3rem .6rem;
+  border-radius: .5rem;
+  border: .8px solid #1547d2;
+  background-color: #eff7f5;
+  width: 100%;
+}
+
+.categoryBtn {
+  width: 20%;
+  border: 1.5px solid #1547d2;
+  background-color: #eff7f5;
+  border-radius: .3rem;
+  font-size: 1.2rem;
+  color: #1547d2;
+}

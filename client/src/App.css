@@ -26,9 +26,12 @@ code {
 }
 
 .App {
-  max-width: 1110px;
-  margin: auto;
   overflow: hidden;
+}
+
+.Home {
+  max-width: 1180px;
+  margin: auto;
 }
 
 @media screen and (max-width: 1024px) {
