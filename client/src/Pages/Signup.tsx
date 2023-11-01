@@ -6,11 +6,15 @@ import TheFooter from "../Components/Footer/index";
 
 const Pricing = () => {
   return (
-    <>
+    <div
+      style={{
+        maxWidth: "1180px",
+        margin: "auto",
+      }}>
       <Header />
       <SignUp />
       <TheFooter />
-    </>
+    </div>
   );
 };
 

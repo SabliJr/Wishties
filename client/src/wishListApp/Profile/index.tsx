@@ -1,26 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Profile.css";
 
+import UploadWish from "../UpLoadWish/index";
+
+//User Images
 import UserCover from "../../Assets/pexels-inga-seliverstova-3394779.jpg";
 import User from "../../Assets/pexels-michelle-leman-6774998.jpg";
 
+//User Links social media icons
 import Insta from "../../Assets/UserIcons/instagram.png";
 import Xtwitter from "../../Assets/UserIcons/xTwitter.png";
 import OnlyFans from "../../Assets/UserIcons/OnlyFans.png";
 import Tiktok from "../../Assets/UserIcons/Tiktok.png";
 import ManyVids from "../../Assets/UserIcons/ManyVids.png";
 
+//Icons
+import { FiPlusSquare } from "react-icons/fi";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { MdKeyboardArrowDown } from "react-icons/md";
+
 const Index = () => {
+  const [upload, setUpload] = useState(false);
+
   return (
-    <div className='profileDiv'>
-      <img src={UserCover} alt='' className='userCover' />
-      <section className='userSection'>
-        <div className='userImgDiv'>
-          <img src={User} alt='' className='userImg' />
-          <div className='userNameDiv'>
-            <h3>Angela Smith</h3>
-            <p>@angela_smith</p>
-          </div>
+    <section className='profileSection'>
+      <div className='coverImgDiv'>
+        <img src={UserCover} alt='' className='userCover' />
+      </div>
+      <div className='userInfoDiv'>
+        <img src={User} alt='' className='userImg' />
+        <div className='userNameDiv'>
+          <h3>Angela Smith</h3>
+          <p>@angela_smith</p>
         </div>
         <p className='userBio'>Content Creator | Beauty, Fashion, Lifestyle.</p>
         <div className='userSocialDiv'>
@@ -45,8 +56,32 @@ const Index = () => {
             <p>ManyVids</p>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+      <div className='wishItemsDiv'>
+        <div className='wishBtns'>
+          <div>
+            <button className='wishItemBtn'>
+              Categories
+              <IoMdArrowDropdown />
+            </button>
+            <button className='wishItemBtn'>
+              Creator Order
+              <MdKeyboardArrowDown />
+            </button>
+          </div>
+          <div>
+            <button
+              className='wishItemBtn'
+              id='addWish'
+              onClick={() => setUpload(!upload)}>
+              Add wish
+              <FiPlusSquare />
+            </button>
+          </div>
+        </div>
+        <div>{upload ? <UploadWish /> : null}</div>
+      </div>
+    </section>
   );
 };
 

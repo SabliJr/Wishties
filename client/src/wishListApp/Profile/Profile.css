@@ -1,42 +1,63 @@
-.userCover {
-  width: 100vw;
-  height: 35vh;
-  object-fit: cover;
-}
-
-/* .userWrapper {
-  margin: 1.42rem auto;
+.profileSection {
+  display: grid;
+  margin: auto;
   max-width: 1280px;
   position: relative;
-} */
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.coverImgDiv {
+  grid-column: 1/5;
+  align-self: center;
+}
+
+.userInfoDiv {
+  grid-column: 1;
+  position: relative;
+}
+
+.wishItemsDiv {
+  grid-column: 2/5;
+  margin: 1rem auto;
+  width: 98%;
+}
+
+.wishBtns {
+  justify-content: space-between;
+  display: flex;
+}
+
+.userCover {
+  width: 100%;
+  height: 30vh;
+  object-fit: cover;
+  border-bottom-right-radius: 1.6rem;
+  border-bottom-left-radius: 1.6rem;
+}
 
 .userImg {
   width: 8rem;
   border-radius: 50%;
   aspect-ratio: 2/2;
   object-fit: cover;
-
-}
-
-.userImgDiv {
   position: absolute;
-  left: 30%;
-  top: -4rem;
+  top: -5rem;
+  left: 3rem;
+  border: 5px solid #f5f8f8;
 }
 
 .userBio {
   font-size: 1rem;
   font-weight: 500;
   font-family: 'Archivo', sans-serif;
-  margin: 9rem auto 1rem;
-  width: 80%;
-  text-align: center;
+  margin: 1rem auto;
+  width: 70%;
   line-height: 1.3;
 }
 
 .userNameDiv {
-  text-align: center;
-  margin: 1rem 0;
+  margin: 4rem auto 1rem;
+  width: 70%;
 }
 
 .userNameDiv p {
@@ -45,30 +66,16 @@
   margin: .3rem auto;
 }
 
-.userSection {
-  position: absolute;
-  width: 350px;
-  height: 70vh;
-  background-color: #f5f8f8;
-  border: .2px solid darkgrey;
-  top: 33%;
-  left: 8rem;
-  /* border-radius: 1.8rem; */
-  border-top-right-radius: 1.8rem;
-  border-top-left-radius: 1.8rem;
-}
-
 .UserSocialIcons {
   width: 1.6rem;
 }
 
 .userSocialDiv {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  width: 70%;
   gap: 1rem;
-  margin: 2rem 1rem;
+  margin: 2rem auto;
 }
 
 .userSocialDiv div {
@@ -76,14 +83,35 @@
   padding: .3rem .5rem;
   border-radius: .5rem;
   display: flex;
-  text-align: center;
   align-items: center;
-  justify-content: center;
-  gap: .5rem;
+  justify-content: flex-start;
+  gap: 3rem;
 }
 
 .userSocialDiv div p {
   font-family: 'Archivo', sans-serif;
 }
 
-.userImg .profileDiv {}
+.wishItemBtn {
+  font-size: 1rem;
+  font-family: 'Archivo', sans-serif;
+  margin-right: 1rem;
+  padding: .3rem .5rem;
+  border-radius: .642rem;
+  border: 2px solid #d4145a;
+  color: #d4145a;
+  background-color: transparent;
+  align-self: center;
+  cursor: pointer;
+}
+
+#addWish {
+  background-color: #1547d2;
+  color: #f5f8f8;
+  border: transparent;
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
