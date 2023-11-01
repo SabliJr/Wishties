@@ -105,6 +105,16 @@
   cursor: pointer;
 }
 
+.orderbyIcon {
+  font-size: 1.5rem;
+  color: #d4145a;
+}
+
+.leftBtns {
+  display: flex;
+  align-items: center;
+}
+
 #addWish {
   background-color: #1547d2;
   color: #f5f8f8;

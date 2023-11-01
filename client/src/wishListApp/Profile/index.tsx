@@ -17,7 +17,7 @@ import ManyVids from "../../Assets/UserIcons/ManyVids.png";
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { BsBorderStyle } from "react-icons/bs";
 
 const Index = () => {
   const [upload, setUpload] = useState(false);
@@ -59,15 +59,12 @@ const Index = () => {
       </div>
       <div className='wishItemsDiv'>
         <div className='wishBtns'>
-          <div>
+          <div className='leftBtns'>
             <button className='wishItemBtn'>
               Categories
               <IoMdArrowDropdown />
             </button>
-            <button className='wishItemBtn'>
-              Creator Order
-              <MdKeyboardArrowDown />
-            </button>
+            <BsBorderStyle className='orderbyIcon' />
           </div>
           <div>
             <button
