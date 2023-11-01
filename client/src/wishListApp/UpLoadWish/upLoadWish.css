@@ -16,9 +16,15 @@
   overflow-y: scroll;
 }
 
-.wishInfoInputsDiv {
+.wishInfoInputsDiv,
+.wishInfoInputsDiv label {
   display: flex;
   flex-direction: column;
+  font-size: 1rem;
+  gap: .2rem;
+}
+
+.wishInfoInputsDiv {
   gap: 1.42rem;
 }
 
@@ -35,7 +41,7 @@
   text-align: center;
 }
 
-.wishInfoInputsDiv input {
+.wishInfoInputsDiv label input {
   height: 2.42rem;
   font-size: 1rem;
   padding: .3rem .6rem;
@@ -90,4 +96,11 @@
   border-radius: .3rem;
   font-size: 1.2rem;
   color: #1547d2;
+}
+
+.wishInfoTitle {
+  font-size: 1.3rem;
+  font-family: 'Archivo', sans-serif;
+  margin: 1rem 0;
+  color: #d4145a;
 }

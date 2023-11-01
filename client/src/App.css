@@ -18,6 +18,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* background-color: #fbfffe; */
   background-color: #eff7f5;
+  font-family: 'Archivo', sans-serif;
 }
 
 code {
