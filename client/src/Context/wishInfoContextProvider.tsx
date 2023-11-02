@@ -2,7 +2,7 @@ import React, { createContext, useContext, ReactNode } from "react";
 import { iWishInfo } from "../Types/wishListTypes";
 
 interface WishInfoContextType {
-  theWishes?: iWishInfo[] | undefined;
+  Wishes?: iWishInfo[] | undefined;
 }
 
 const wishInfoContext = createContext<WishInfoContextType | undefined>(
@@ -12,11 +12,11 @@ const wishInfoContext = createContext<WishInfoContextType | undefined>(
 const WishInfoContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const theWishes: iWishInfo[] = [];
-  console.log(theWishes);
+  const Wishes: iWishInfo[] = [];
+  // console.log(Wishes);
 
   return (
-    <wishInfoContext.Provider value={{ theWishes }}>
+    <wishInfoContext.Provider value={{ Wishes }}>
       {children}
     </wishInfoContext.Provider>
   );
@@ -31,8 +31,8 @@ function useWishInfoContext(): WishInfoContextType {
     );
   }
 
-  const { theWishes } = context;
-  return { theWishes };
+  const { Wishes } = context;
+  return { Wishes };
 }
 
 export { useWishInfoContext, WishInfoContextProvider, wishInfoContext };

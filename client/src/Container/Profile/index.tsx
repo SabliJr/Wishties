@@ -89,7 +89,7 @@ const Index = () => {
             />
           ) : null}
         </div>
-        <main>
+        <main className='theWishesSection'>
           <TheWish />
         </main>
       </div>

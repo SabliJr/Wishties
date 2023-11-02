@@ -120,8 +120,16 @@
   color: #f5f8f8;
   border: transparent;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   gap: .3rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.theWishesSection {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 5rem;
 }
