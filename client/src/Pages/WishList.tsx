@@ -1,13 +1,15 @@
 import React from "react";
-import WishListHeader from "../wishListApp/TheHeader/index";
-import UserProfile from "../wishListApp/Profile/index";
+import WishListHeader from "../Container/TheHeader/index";
+import UserProfile from "../Container/Profile/index";
+
+import { WishInfoContextProvider } from "../Context/wishInfoContextProvider";
 
 const WishList = () => {
   return (
-    <div>
+    <WishInfoContextProvider>
       <WishListHeader />
       <UserProfile />
-    </div>
+    </WishInfoContextProvider>
   );
 };
 

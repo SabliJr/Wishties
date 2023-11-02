@@ -2,22 +2,24 @@ import React, { useState, useRef, ChangeEvent } from "react";
 import "./upLoadWish.css";
 
 import WishUploadImg from "../../Assets/WishImg.png";
-interface iWishInfo {
-  name: string;
-  price: string;
-  image: File | undefined;
-  category: string;
+import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
+import { iWishInfo } from "../../Types/wishListTypes";
+
+interface iProps {
+  uploadModule: boolean;
+  closeUploadModule: () => void;
 }
 
-const Index = () => {
+const Index = ({ uploadModule, closeUploadModule }: iProps) => {
   const [wishImg, setWishImg] = useState<File | undefined>();
-  const ImgInputRef = useRef<HTMLInputElement>(null);
-  const [wishInfo, setWishInfo] = useState<iWishInfo>({
+  const [wishInputs, setWishInputs] = useState<iWishInfo>({
     name: "",
     price: "",
-    image: undefined, // Initialize image as undefined
+    image: undefined,
     category: "",
   });
+  const ImgInputRef = useRef<HTMLInputElement>(null);
+  const { theWishes } = useWishInfoContext();
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -26,14 +28,36 @@ const Index = () => {
   const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imgFile: File | undefined = e.target?.files?.[0];
     setWishImg(imgFile);
+
+    setWishInputs({ ...wishInputs, image: imgFile });
   };
+
   //This function is to grape the user inputs from the fields
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
     const value = e.target.value;
-    setWishInfo({ ...wishInfo, [field]: value });
+    setWishInputs({ ...wishInputs, [field]: value });
+  };
+
+  const addTheWish = () => {
+    // Assuming you want to add the wish to an array of wishes in your context
+    // You can update wishInfo and add it to your context as needed
+    const updatedWishInfo = { ...wishInputs };
+    theWishes?.push(updatedWishInfo);
+
+    // Here, you can add the updatedWishInfo to your context or perform any other actions
+
+    // For example, you can update the context with the new wish
+    //  setWishInfo(wishInputs);
+
+    // Reset the form or take other actions as needed
+    //  resetForm();
+
+    if (uploadModule === true) {
+      closeUploadModule();
+    }
   };
 
   return (
@@ -47,6 +71,7 @@ const Index = () => {
             placeholder='Your wish name'
             id='wishName'
             onChange={(e) => handleInputChange(e, "name")}
+            required
           />
         </label>
         <label htmlFor='thePrice'>
@@ -56,13 +81,14 @@ const Index = () => {
             placeholder='$'
             id='thePrice'
             onChange={(e) => handleInputChange(e, "price")}
+            required
           />
         </label>
       </div>
       <div className='imgUploaderDiv' onClick={handleImgUpload}>
         {wishImg ? (
           <img
-            src={URL.createObjectURL(wishImg as File)}
+            src={URL.createObjectURL(wishImg)}
             alt='wishUploadImg'
             className='wishUploadImg'
           />
@@ -82,6 +108,7 @@ const Index = () => {
           accept='.jpg, .jpeg, .png, .webp'
           ref={ImgInputRef}
           style={{ display: "none" }}
+          required
           onChange={handleImgChange}
         />
       </div>
@@ -99,7 +126,9 @@ const Index = () => {
           <button className='categoryBtn'>Add</button>
         </div>
       </div>
-      <button className='addWishBtn'>Add The Wish</button>
+      <button className='addWishBtn' onClick={addTheWish}>
+        Add The Wish
+      </button>
     </main>
   );
 };
