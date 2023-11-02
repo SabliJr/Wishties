@@ -18,9 +18,14 @@ import ManyVids from "../../Assets/UserIcons/ManyVids.png";
 import { FiPlusSquare } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import TheWish from "../UpLoadWish/TheWish";
 
 const Index = () => {
-  const [upload, setUpload] = useState(false);
+  const [uploadModule, setUploadModule] = useState(false);
+
+  const handleCloseModule = () => {
+    setUploadModule(!uploadModule);
+  };
 
   return (
     <section className='profileSection'>
@@ -70,13 +75,23 @@ const Index = () => {
             <button
               className='wishItemBtn'
               id='addWish'
-              onClick={() => setUpload(!upload)}>
+              onClick={handleCloseModule}>
               Add wish
               <FiPlusSquare />
             </button>
           </div>
         </div>
-        <div>{upload ? <UploadWish /> : null}</div>
+        <div>
+          {uploadModule ? (
+            <UploadWish
+              closeUploadModule={handleCloseModule}
+              uploadModule={uploadModule}
+            />
+          ) : null}
+        </div>
+        <main>
+          <TheWish />
+        </main>
       </div>
     </section>
   );
