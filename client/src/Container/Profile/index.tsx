@@ -13,6 +13,9 @@ import Xtwitter from "../../Assets/UserIcons/xTwitter.png";
 import OnlyFans from "../../Assets/UserIcons/OnlyFans.png";
 import Tiktok from "../../Assets/UserIcons/Tiktok.png";
 import ManyVids from "../../Assets/UserIcons/ManyVids.png";
+import Twitch from "../../Assets/UserIcons/Twitch.png";
+import LoyalFans from "../../Assets/UserIcons/Loyal.png";
+import Fansly from "../../Assets/UserIcons/Fansly-Logo.png";
 
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
@@ -32,33 +35,49 @@ const Index = () => {
       <div className='coverImgDiv'>
         <img src={UserCover} alt='' className='userCover' />
       </div>
-      <div className='userInfoDiv'>
-        <img src={User} alt='' className='userImg' />
-        <div className='userNameDiv'>
-          <h3>Angela Smith</h3>
-          <p>@angela_smith</p>
-        </div>
-        <p className='userBio'>Content Creator | Beauty, Fashion, Lifestyle.</p>
-        <div className='userSocialDiv'>
-          <div>
-            <img src={Insta} alt='' className='UserSocialIcons' />
-            <p>Instagram</p>
+      <div className='userInfoContainer'>
+        <div className='userInfoDiv'>
+          <img src={User} alt='' className='userImg' />
+          <div className='userNameDiv'>
+            <h3>Angela Smith</h3>
+            <p>@angela_smith</p>
           </div>
-          <div>
-            <img src={OnlyFans} alt='' className='UserSocialIcons' />
-            <p>OnlyFans</p>
-          </div>
-          <div>
-            <img src={Xtwitter} alt='' className='UserSocialIcons' />
-            <p>Twitter</p>
-          </div>
-          <div>
-            <img src={Tiktok} alt='' className='UserSocialIcons' />
-            <p>Tiktok</p>
-          </div>
-          <div>
-            <img src={ManyVids} alt='' className='UserSocialIcons' />
-            <p>ManyVids</p>
+          <p className='userBio'>
+            Content Creator | Beauty, Fashion, Lifestyle.
+          </p>
+          <div className='userSocialDiv'>
+            <div>
+              <img src={Insta} alt='' className='UserSocialIcons' />
+              <p>Instagram</p>
+            </div>
+            <div>
+              <img src={OnlyFans} alt='' className='UserSocialIcons' />
+              <p>OnlyFans</p>
+            </div>
+            <div>
+              <img src={Xtwitter} alt='' className='UserSocialIcons' />
+              <p>Twitter</p>
+            </div>
+            <div>
+              <img src={Twitch} alt='' className='UserSocialIcons' />
+              <p>Twitch</p>
+            </div>
+            <div>
+              <img src={Tiktok} alt='' className='UserSocialIcons' />
+              <p>Tiktok</p>
+            </div>
+            <div>
+              <img src={ManyVids} alt='' className='UserSocialIcons' />
+              <p>ManyVids</p>
+            </div>
+            <div>
+              <img src={Fansly} alt='' className='UserSocialIcons' />
+              <p>Fansluy</p>
+            </div>
+            <div>
+              <img src={LoyalFans} alt='' className='UserSocialIcons' />
+              <p>LoyalFans</p>
+            </div>
           </div>
         </div>
       </div>
@@ -89,7 +108,7 @@ const Index = () => {
             />
           ) : null}
         </div>
-        <main>
+        <main className='theWishesSection'>
           <TheWish />
         </main>
       </div>

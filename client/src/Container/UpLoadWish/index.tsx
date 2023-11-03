@@ -19,7 +19,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
     category: "",
   });
   const ImgInputRef = useRef<HTMLInputElement>(null);
-  const { theWishes } = useWishInfoContext();
+  const { Wishes } = useWishInfoContext();
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -45,7 +45,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
     // Assuming you want to add the wish to an array of wishes in your context
     // You can update wishInfo and add it to your context as needed
     const updatedWishInfo = { ...wishInputs };
-    theWishes?.push(updatedWishInfo);
+    Wishes?.push(updatedWishInfo);
 
     // Here, you can add the updatedWishInfo to your context or perform any other actions
 

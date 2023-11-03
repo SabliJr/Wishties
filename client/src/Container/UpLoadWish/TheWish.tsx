@@ -3,13 +3,13 @@ import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
 
 const TheWish = () => {
-  const { theWishes } = useWishInfoContext();
+  const { Wishes } = useWishInfoContext();
   const [imageURLs, setImageURLs] = useState<string[]>([]);
 
   useEffect(() => {
     const getImageURLs = async () => {
       const urls = await Promise.all(
-        (theWishes as iWishInfo[])?.map(async (wish) => {
+        (Wishes as iWishInfo[])?.map(async (wish) => {
           if (wish.image) {
             return new Promise<string>((resolve) => {
               const reader = new FileReader();
@@ -27,21 +27,24 @@ const TheWish = () => {
       );
 
       setImageURLs(urls);
+      console.log(urls);
     };
 
     getImageURLs();
-  }, [theWishes]);
-
-  console.log(theWishes);
+  }, [Wishes]);
+  console.log(imageURLs);
+  // console.log(Wishes);
 
   return (
     <>
-      {theWishes?.length ? (
-        theWishes?.map((wish, index) => (
-          <div key={index}>
-            {imageURLs[index] ? <img src={imageURLs[index]} alt='' /> : null}
-            <h4>{wish.name}</h4>
-            <p>{wish.price}</p>
+      {Wishes?.length ? (
+        Wishes?.map((wish, i) => (
+          <div key={i} className='theWishDiv'>
+            {imageURLs[i] ? (
+              <img src={imageURLs[i]} alt='wishImag' className='wishImag' />
+            ) : null}
+            <h4 className='wishTitle'>{wish.name}</h4>
+            <p className='wishPrice'>$ {wish.price}</p>
           </div>
         ))
       ) : (

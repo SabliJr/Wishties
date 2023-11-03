@@ -3,10 +3,10 @@
   background-color: #fbfdfd;
   flex-direction: column;
   width: 400px;
-  margin: auto;
-  height: 100%;
-  position: absolute;
-  top: 50%;
+  margin: 5rem auto;
+  height: 50rem;
+  position: fixed;
+  /* top: 50%; */
   left: 50%;
   backdrop-filter: blur(5rem);
   transform: translate(-50%, -50%);
@@ -103,4 +103,30 @@
   font-family: 'Archivo', sans-serif;
   margin: 1rem 0;
   color: #d4145a;
+}
+
+.wishImag {
+  width: 200px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: .6rem;
+}
+
+.wishTitle {
+  font-size: 1rem;
+  margin: 1.2rem 0 1rem;
+}
+
+.wishPrice {
+  font-size: 1rem;
+  color: #464545;
+  letter-spacing: .5px;
+  margin-bottom: .6rem;
+}
+
+.theWishDiv {
+  background-color: #f0f9f9;
+  padding: .5rem;
+  border-radius: .8rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }

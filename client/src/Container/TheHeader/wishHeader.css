@@ -3,7 +3,15 @@
   justify-content: space-between;
   align-items: center;
   margin: 1.42rem auto .5rem;
-  max-width: 1280px
+  max-width: 1280px;
+}
+
+.appSection {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  background-color: #f0f9f9;
 }
 
 .wishlistLogo {
@@ -29,12 +37,13 @@
 
 .wishItems {
   position: absolute;
-  top: -1rem;
-  background-color: #fff;
-  border: 1px solid rgb(97, 97, 97);
+  top: -.5rem;
+  background-color: #1547d2;
+  color: #f0f9f9;
+  /* border: 1px solid rgb(97, 97, 97); */
   padding: .05rem .2rem;
   border-radius: .3rem;
-  right: -.6rem;
-  z-index: -333;
+  right: -.3rem;
+  z-index: 333;
   font-size: 1rem;
 }
