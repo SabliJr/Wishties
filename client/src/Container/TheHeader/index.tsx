@@ -1,11 +1,11 @@
 import React from "react";
-import "./header.css";
+import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
 
 //Icons
-import { HiShoppingCart } from "react-icons/hi";
-import { FaClipboardList } from "react-icons/fa";
+import { FiShoppingCart } from "react-icons/fi";
+import { TbClipboardList } from "react-icons/tb";
 import { FaUserGear } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <section className='appSection'>
       <div className='wishNav'>
         <img
           src={Logo}
@@ -24,13 +24,16 @@ const Index = () => {
         <div className='iconsDiv'>
           <div className='userDiv'>
             <p className='wishItems'>0</p>
-            <HiShoppingCart className='wishIcon' />
+            <FiShoppingCart
+              className='wishIcon'
+              style={{ fontSize: "1.8rem" }}
+            />
           </div>
-          <FaClipboardList className='wishIcon' />
+          <TbClipboardList className='wishIcon' />
           <FaUserGear className='wishIcon' />
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

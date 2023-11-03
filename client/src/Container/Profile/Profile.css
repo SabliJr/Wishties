@@ -2,7 +2,7 @@
   display: grid;
   margin: auto;
   max-width: 1280px;
-  position: relative;
+  align-items: start;
   grid-template-columns: repeat(4, 1fr);
 }
 
@@ -11,9 +11,28 @@
   align-self: center;
 }
 
+/* Parent container for .userInfoDiv */
+.profileSection .userInfoContainer {
+  position: sticky;
+  top: 10rem;
+  display: inline-block;
+  /* To establish a boundary context for position: sticky */
+}
+
+.userInfoDiv {
+  /* box-shadow: rgba(0, 0, 0, 0.03) 2.4px 2.4px 3.2px; */
+  /* border-radius: 1.2rem; */
+  /* height: auto; */
+}
+
 .userInfoDiv {
   grid-column: 1;
-  position: relative;
+  /* box-shadow: rgba(0, 0, 0, 0.03) 2.4px 2.4px 3.2px; */
+  border-radius: 1.2rem;
+  height: auto;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20rem;
 }
 
 .wishItemsDiv {
@@ -41,7 +60,7 @@
   aspect-ratio: 2/2;
   object-fit: cover;
   position: absolute;
-  top: -5rem;
+  top: -8.42rem;
   left: 3rem;
   border: 5px solid #f5f8f8;
 }
@@ -129,7 +148,9 @@
 
 .theWishesSection {
   display: flex;
-  gap: 2rem;
+  /* gap: 2rem; */
+  row-gap: 2rem;
+  column-gap: 1.6rem;
   flex-wrap: wrap;
   margin-top: 5rem;
 }

@@ -27,12 +27,13 @@ code {
 }
 
 .App {
-  overflow: hidden;
+  /* overflow-x: hidden; */
 }
 
 .Home {
   max-width: 1180px;
   margin: auto;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) {

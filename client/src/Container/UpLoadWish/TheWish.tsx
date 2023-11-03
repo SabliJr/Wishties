@@ -33,7 +33,7 @@ const TheWish = () => {
     getImageURLs();
   }, [Wishes]);
   console.log(imageURLs);
-  console.log(Wishes);
+  // console.log(Wishes);
 
   return (
     <>

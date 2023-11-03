@@ -106,8 +106,8 @@
 }
 
 .wishImag {
-  width: 193px;
-  height: 200px;
+  width: 200px;
+  height: 220px;
   object-fit: cover;
   border-radius: .6rem;
 }
@@ -125,8 +125,8 @@
 }
 
 .theWishDiv {
-  background-color: #fbfdfd;
+  background-color: #f0f9f9;
   padding: .5rem;
   border-radius: .8rem;
-  border: .3px solid #464545;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
