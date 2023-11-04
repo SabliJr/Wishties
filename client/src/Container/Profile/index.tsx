@@ -14,13 +14,15 @@ import OnlyFans from "../../Assets/UserIcons/OnlyFans.png";
 import Tiktok from "../../Assets/UserIcons/Tiktok.png";
 import ManyVids from "../../Assets/UserIcons/ManyVids.png";
 import Twitch from "../../Assets/UserIcons/Twitch.png";
-import LoyalFans from "../../Assets/UserIcons/Loyal.png";
-import Fansly from "../../Assets/UserIcons/Fansly-Logo.png";
+import LoyalFans from "../../Assets/UserIcons/LoyalFans.png";
+import Fansly from "../../Assets/UserIcons/Fansly.png";
 
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import { LiaUserEditSolid } from "react-icons/lia";
+
 import TheWish from "../UpLoadWish/TheWish";
 
 const Index = () => {
@@ -45,6 +47,7 @@ const Index = () => {
           <p className='userBio'>
             Content Creator | Beauty, Fashion, Lifestyle.
           </p>
+
           <div className='userSocialDiv'>
             <div>
               <img src={Insta} alt='' className='UserSocialIcons' />
@@ -90,7 +93,11 @@ const Index = () => {
             </button>
             <TbAdjustmentsHorizontal className='orderbyIcon' />
           </div>
-          <div>
+          <div className='rightBtns'>
+            <button className='profileEdit'>
+              Edit your profile{" "}
+              <LiaUserEditSolid style={{ fontSize: "1.5rem" }} />
+            </button>
             <button
               className='wishItemBtn'
               id='addWish'

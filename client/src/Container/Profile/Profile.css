@@ -11,23 +11,14 @@
   align-self: center;
 }
 
-/* Parent container for .userInfoDiv */
 .profileSection .userInfoContainer {
   position: sticky;
   top: 10rem;
   display: inline-block;
-  /* To establish a boundary context for position: sticky */
-}
-
-.userInfoDiv {
-  /* box-shadow: rgba(0, 0, 0, 0.03) 2.4px 2.4px 3.2px; */
-  /* border-radius: 1.2rem; */
-  /* height: auto; */
 }
 
 .userInfoDiv {
   grid-column: 1;
-  /* box-shadow: rgba(0, 0, 0, 0.03) 2.4px 2.4px 3.2px; */
   border-radius: 1.2rem;
   height: auto;
   position: -webkit-sticky;
@@ -129,9 +120,28 @@
   color: #d4145a;
 }
 
-.leftBtns {
+.leftBtns,
+.rightBtns {
   display: flex;
   align-items: center;
+}
+
+.rightBtns {
+  gap: 1.2rem;
+}
+
+.profileEdit {
+  font-size: 1.1rem;
+  color: #1547d2;
+  padding: .3rem .6rem;
+  border: 2px solid #1547d2;
+  border-radius: .8rem;
+  font-weight: 500;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  cursor: pointer;
 }
 
 #addWish {
@@ -143,12 +153,11 @@
   display: flex;
   align-items: center;
   gap: .3rem;
-  padding: 0.5rem 0.8rem;
+  padding: .5rem .8rem;
 }
 
 .theWishesSection {
   display: flex;
-  /* gap: 2rem; */
   row-gap: 2rem;
   column-gap: 1.6rem;
   flex-wrap: wrap;

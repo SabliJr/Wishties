@@ -1,6 +1,7 @@
 .Footer {
   margin: 1.8rem auto 2rem;
   border-top: 1px solid #182C61;
+  max-width: 1280px;
 }
 
 .footerLogo {
@@ -52,11 +53,20 @@
 
 .copy {
   display: flex;
+  flex-direction: column;
+  gap: .3rem;
   align-items: center;
   justify-content: center;
   border-top: 1px solid #182C61;
   padding-top: .5rem;
   color: #182C61;
+}
+
+.DevName {
+  display: flex;
+  gap: .3rem;
+  align-items: center;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1042px) {
