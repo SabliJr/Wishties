@@ -20,16 +20,23 @@ import Fansly from "../../Assets/UserIcons/Fansly.png";
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import { TbAdjustmentsHorizontal, TbEdit } from "react-icons/tb";
 import { LiaUserEditSolid } from "react-icons/lia";
 
+//Components
 import TheWish from "../UpLoadWish/TheWish";
+import UserInfoEdit from "./UserInfoEdit";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
+  const [editInfo, setEditInfo] = useState(false);
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
+  };
+
+  const handleInfoEdit = () => {
+    setEditInfo(!editInfo);
   };
 
   return (
@@ -47,7 +54,23 @@ const Index = () => {
           <p className='userBio'>
             Content Creator | Beauty, Fashion, Lifestyle.
           </p>
-
+          {editInfo ? (
+            <UserInfoEdit
+              userImg={User}
+              coverImg={UserCover}
+              editInfo={editInfo}
+              handleInfoEdit={handleInfoEdit}
+            />
+          ) : null}
+          <div className='EditIconsDiv'>
+            <button className='profileEdit' onClick={handleInfoEdit}>
+              Edit your profile{" "}
+              <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
+            </button>
+            <button className='editIconsBtn'>
+              Add social links <TbEdit />
+            </button>
+          </div>
           <div className='userSocialDiv'>
             <div>
               <img src={Insta} alt='' className='UserSocialIcons' />
@@ -94,10 +117,6 @@ const Index = () => {
             <TbAdjustmentsHorizontal className='orderbyIcon' />
           </div>
           <div className='rightBtns'>
-            <button className='profileEdit'>
-              Edit your profile{" "}
-              <LiaUserEditSolid style={{ fontSize: "1.5rem" }} />
-            </button>
             <button
               className='wishItemBtn'
               id='addWish'
