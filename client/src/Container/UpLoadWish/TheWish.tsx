@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
 
-const TheWish = () => {
+const TheWish = (): JSX.Element => {
   const { Wishes } = useWishInfoContext();
   const [imageURLs, setImageURLs] = useState<string[]>([]);
 
@@ -27,7 +27,7 @@ const TheWish = () => {
       );
 
       setImageURLs(urls);
-      console.log(urls);
+      // console.log(urls);
     };
 
     getImageURLs();
