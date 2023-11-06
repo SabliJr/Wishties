@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./Profile.css";
 
-import UploadWish from "../UpLoadWish/index";
-
 //User Images
 import UserCover from "../../Assets/pexels-inga-seliverstova-3394779.jpg";
 import User from "../../Assets/pexels-michelle-leman-6774998.jpg";
+import UserAvatar from "../../Assets/userAvatar.jpg";
 
 //User Links social media icons
 import Insta from "../../Assets/UserIcons/instagram.png";
@@ -26,10 +25,13 @@ import { LiaUserEditSolid } from "react-icons/lia";
 //Components
 import TheWish from "../UpLoadWish/TheWish";
 import UserInfoEdit from "./UserInfoEdit";
+import UploadWish from "../UpLoadWish/index";
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [editInfo, setEditInfo] = useState(false);
+  const { userInfo, setUserInfo } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
@@ -46,7 +48,11 @@ const Index = () => {
       </div>
       <div className='userInfoContainer'>
         <div className='userInfoDiv'>
-          <img src={User} alt='' className='userImg' />
+          {userInfo?.profileName ? (
+            <img src={userInfo.profilePhoto} alt='' className='userImg' />
+          ) : (
+            <img src={UserAvatar} alt='' className='userImg' />
+          )}
           <div className='userNameDiv'>
             <h3>Angela Smith</h3>
             <p>@angela_smith</p>
