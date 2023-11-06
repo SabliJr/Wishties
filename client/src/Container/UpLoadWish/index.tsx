@@ -4,6 +4,7 @@ import "./upLoadWish.css";
 import WishUploadImg from "../../Assets/WishImg.png";
 import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
+import { MdClose } from "react-icons/md";
 
 interface iProps {
   uploadModule: boolean;
@@ -62,6 +63,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
 
   return (
     <main className='wishUploaderSection'>
+      <MdClose className='editProfileClose' onClick={closeUploadModule} />
       <h3 className='wishInfoTitle'>Wish Information.</h3>
       <div className='wishInfoInputsDiv'>
         <label htmlFor='wishName'>

@@ -27,13 +27,10 @@ const TheWish = (): JSX.Element => {
       );
 
       setImageURLs(urls);
-      // console.log(urls);
     };
 
     getImageURLs();
   }, [Wishes]);
-  console.log(imageURLs);
-  // console.log(Wishes);
 
   return (
     <>

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./Profile.css";
 
-import UploadWish from "../UpLoadWish/index";
-
 //User Images
 import UserCover from "../../Assets/pexels-inga-seliverstova-3394779.jpg";
 import User from "../../Assets/pexels-michelle-leman-6774998.jpg";
+import UserAvatar from "../../Assets/userAvatar.jpg";
 
 //User Links social media icons
 import Insta from "../../Assets/UserIcons/instagram.png";
@@ -20,16 +19,26 @@ import Fansly from "../../Assets/UserIcons/Fansly.png";
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import { TbAdjustmentsHorizontal, TbEdit } from "react-icons/tb";
 import { LiaUserEditSolid } from "react-icons/lia";
 
+//Components
 import TheWish from "../UpLoadWish/TheWish";
+import UserInfoEdit from "./UserInfoEdit";
+import UploadWish from "../UpLoadWish/index";
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
+  const [editInfo, setEditInfo] = useState(false);
+  const { userInfo, setUserInfo } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
+  };
+
+  const handleInfoEdit = () => {
+    setEditInfo(!editInfo);
   };
 
   return (
@@ -39,7 +48,11 @@ const Index = () => {
       </div>
       <div className='userInfoContainer'>
         <div className='userInfoDiv'>
-          <img src={User} alt='' className='userImg' />
+          {userInfo?.profileName ? (
+            <img src={userInfo.profilePhoto} alt='' className='userImg' />
+          ) : (
+            <img src={UserAvatar} alt='' className='userImg' />
+          )}
           <div className='userNameDiv'>
             <h3>Angela Smith</h3>
             <p>@angela_smith</p>
@@ -47,7 +60,23 @@ const Index = () => {
           <p className='userBio'>
             Content Creator | Beauty, Fashion, Lifestyle.
           </p>
-
+          {editInfo ? (
+            <UserInfoEdit
+              userImg={User}
+              coverImg={UserCover}
+              editInfo={editInfo}
+              handleInfoEdit={handleInfoEdit}
+            />
+          ) : null}
+          <div className='EditIconsDiv'>
+            <button className='profileEdit' onClick={handleInfoEdit}>
+              Edit your profile{" "}
+              <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
+            </button>
+            <button className='editIconsBtn'>
+              Add social links <TbEdit />
+            </button>
+          </div>
           <div className='userSocialDiv'>
             <div>
               <img src={Insta} alt='' className='UserSocialIcons' />
@@ -94,10 +123,6 @@ const Index = () => {
             <TbAdjustmentsHorizontal className='orderbyIcon' />
           </div>
           <div className='rightBtns'>
-            <button className='profileEdit'>
-              Edit your profile{" "}
-              <LiaUserEditSolid style={{ fontSize: "1.5rem" }} />
-            </button>
             <button
               className='wishItemBtn'
               id='addWish'

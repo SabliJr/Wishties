@@ -13,7 +13,6 @@ const WishInfoContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const Wishes: iWishInfo[] = [];
-  // console.log(Wishes);
 
   return (
     <wishInfoContext.Provider value={{ Wishes }}>
