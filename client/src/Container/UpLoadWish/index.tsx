@@ -32,7 +32,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
 
     setWishInputs({ ...wishInputs, image: imgFile });
   };
-
+  console.log(wishInputs);
   //This function is to grape the user inputs from the fields
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
