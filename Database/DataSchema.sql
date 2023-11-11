@@ -7,9 +7,10 @@ CREATE TABLE creator (
     creator_name VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
     creator_bio VARCHAR(160),
-    email VARCHAR(256) NOT NULL,
+    email VARCHAR(256) UNIQUE NOT NULL,
     profile_image TEXT,
     cover_image TEXT
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Create the Wishlist table
@@ -21,12 +22,14 @@ CREATE TABLE wishlists (
 );
 
 -- Create the Wish table
-CREATE TABLE wishes (
+CREATE TABLE wish (
     wish_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     wishlist_id INT REFERENCES wishlists(wishlist_id),
-    wish_name VARCHAR(256),
-    price DECIMAL,
-    wish_image TEXT
+    wish_name VARCHAR(256) NOT NULL,
+    price DECIMAL NOT NULL,
+    wish_image TEXT,
+    wish_link TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Create the Creator's Social Media Links table
@@ -39,10 +42,10 @@ CREATE TABLE social_media_links (
 );
 
 -- Create the Fan/Gift Sender table
-CREATE TABLE fans (
+CREATE TABLE fan (
     fan_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     fan_name VARCHAR(50) NOT NULL,
-    fan_email VARCHAR(256),
+    fan_email VARCHAR(256) UNIQUE NOT NULL,
     message_to_creator VARCHAR(256),
     supported_creator_id INT REFERENCES creator(creator_id)
 );

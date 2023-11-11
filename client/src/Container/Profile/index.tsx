@@ -94,22 +94,22 @@ const Index = () => {
               <img src={Twitch} alt='' className='UserSocialIcons' />
               <p>Twitch</p>
             </div>
-            <div>
+            {/* <div>
               <img src={Tiktok} alt='' className='UserSocialIcons' />
               <p>Tiktok</p>
             </div>
             <div>
               <img src={ManyVids} alt='' className='UserSocialIcons' />
               <p>ManyVids</p>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <img src={Fansly} alt='' className='UserSocialIcons' />
               <p>Fansluy</p>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <img src={LoyalFans} alt='' className='UserSocialIcons' />
               <p>LoyalFans</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
