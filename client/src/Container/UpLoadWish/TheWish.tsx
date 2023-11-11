@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
 
 const TheWish = (): JSX.Element => {
   const { Wishes } = useWishInfoContext();
   const [imageURLs, setImageURLs] = useState<string[]>([]);
-  const imageRaf = useRef(undefined);
 
   useEffect(() => {
     const getImageURLs = async () => {
@@ -28,15 +27,10 @@ const TheWish = (): JSX.Element => {
       );
 
       setImageURLs(urls);
-      console.log(urls);
-      // imageRaf?.current?.src = urls;
     };
 
     getImageURLs();
   }, [Wishes]);
-  // console.log(Wishes)
-  console.log(imageURLs);
-
 
   return (
     <>
@@ -46,7 +40,6 @@ const TheWish = (): JSX.Element => {
             {imageURLs[i] ? (
               <img src={imageURLs[i]} alt='wishImag' className='wishImag'/>
             ) : null}
-            {/* <img src={imageURLs[i]} alt='wishImag' className='wishImag' /> */}
             <h4 className='wishTitle'>{wish.name}</h4>
             <p className='wishPrice'>$ {wish.price}</p>
           </div>
