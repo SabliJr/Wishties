@@ -4,17 +4,7 @@ import "./Profile.css";
 //User Images
 import UserCover from "../../Assets/pexels-inga-seliverstova-3394779.jpg";
 import User from "../../Assets/pexels-michelle-leman-6774998.jpg";
-import UserAvatar from "../../Assets/userAvatar.jpg";
-
-//User Links social media icons
-import Insta from "../../Assets/UserIcons/instagram.png";
-import Xtwitter from "../../Assets/UserIcons/xTwitter.png";
-import OnlyFans from "../../Assets/UserIcons/OnlyFans.png";
-import Tiktok from "../../Assets/UserIcons/Tiktok.png";
-import ManyVids from "../../Assets/UserIcons/ManyVids.png";
-import Twitch from "../../Assets/UserIcons/Twitch.png";
-import LoyalFans from "../../Assets/UserIcons/LoyalFans.png";
-import Fansly from "../../Assets/UserIcons/Fansly.png";
+import UserAvatar from "../../Assets/UserAvatar.png";
 
 //Icons
 import { FiPlusSquare } from "react-icons/fi";
@@ -27,11 +17,12 @@ import TheWish from "../UpLoadWish/TheWish";
 import UserInfoEdit from "./UserInfoEdit";
 import UploadWish from "../UpLoadWish/index";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+import SocialMediaLinkForm from "../UserSocialLinks/index";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [editInfo, setEditInfo] = useState(false);
-  const { userInfo, setUserInfo } = useUserInfoCOntext();
+  const { userInfo } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
@@ -78,38 +69,7 @@ const Index = () => {
             </button>
           </div>
           <div className='userSocialDiv'>
-            <div>
-              <img src={Insta} alt='' className='UserSocialIcons' />
-              <p>Instagram</p>
-            </div>
-            <div>
-              <img src={OnlyFans} alt='' className='UserSocialIcons' />
-              <p>OnlyFans</p>
-            </div>
-            <div>
-              <img src={Xtwitter} alt='' className='UserSocialIcons' />
-              <p>Twitter</p>
-            </div>
-            <div>
-              <img src={Twitch} alt='' className='UserSocialIcons' />
-              <p>Twitch</p>
-            </div>
-            {/* <div>
-              <img src={Tiktok} alt='' className='UserSocialIcons' />
-              <p>Tiktok</p>
-            </div>
-            <div>
-              <img src={ManyVids} alt='' className='UserSocialIcons' />
-              <p>ManyVids</p>
-            </div> */}
-            {/* <div>
-              <img src={Fansly} alt='' className='UserSocialIcons' />
-              <p>Fansluy</p>
-            </div> */}
-            {/* <div>
-              <img src={LoyalFans} alt='' className='UserSocialIcons' />
-              <p>LoyalFans</p>
-            </div> */}
+            <SocialMediaLinkForm />
           </div>
         </div>
       </div>
