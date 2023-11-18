@@ -18,7 +18,7 @@ const Home = () => {
       <Promo />
       <Middle />
       <Features />
-      <YourData />
+      {/* <YourData /> */}
       <BeforeTheFooter />
       <Footer />
     </div>

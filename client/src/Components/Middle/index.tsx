@@ -6,7 +6,7 @@ const Index = () => {
     <section>
       <div className='middleTextDiv'>
         <h3>
-          Simple, Fast, Worry <span>free </span>& price<span> free</span>.
+          Simple, Fast, Worry <span>free </span>and price<span> free</span>.
         </h3>
         <p>
           Setting up your Links and Wishlist with <span>Wishties</span> is a

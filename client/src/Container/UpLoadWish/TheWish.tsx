@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
 
 const TheWish = (): JSX.Element => {
   const { Wishes } = useWishInfoContext();
   const [imageURLs, setImageURLs] = useState<string[]>([]);
-
+  const imageRef = useRef<HTMLImageElement>(null);
+  
   useEffect(() => {
     const getImageURLs = async () => {
       const urls = await Promise.all(
@@ -30,16 +31,23 @@ const TheWish = (): JSX.Element => {
     };
 
     getImageURLs();
-  }, [Wishes]);
+
+    //To Update the image when the image is uploaded
+    Wishes?.map((w: iWishInfo, i: number) => {
+      if (imageURLs[i]) {
+        imageRef.current?.setAttribute("src", imageURLs[i]);
+      } else {
+        imageRef.current?.setAttribute("src", "");
+      }
+    });
+  }, [Wishes, imageURLs]);
 
   return (
     <>
       {Wishes?.length ? (
         Wishes?.map((wish, i) => (
           <div key={i} className='theWishDiv'>
-            {imageURLs[i] ? (
-              <img src={imageURLs[i]} alt='wishImag' className='wishImag'/>
-            ) : null}
+            <img ref={imageRef} alt='wishImag' className='wishImag' />
             <h4 className='wishTitle'>{wish.name}</h4>
             <p className='wishPrice'>$ {wish.price}</p>
           </div>

@@ -18,15 +18,16 @@ const Index = () => {
       <div className='textDiv'>
         <p>
           <HiBadgeCheck className='checkIcon' />
-          &nbsp; For All Creators
+          &nbsp; It's free
         </p>
         <p>
           <HiBadgeCheck className='checkIcon' />
           &nbsp; Privacy First
         </p>
+
         <p>
           <HiBadgeCheck className='checkIcon' />
-          &nbsp; It's free
+          &nbsp; For All Creators
         </p>
       </div>
       <img src={PromoImg} alt='promImg' className='promImg' />

@@ -1,5 +1,11 @@
 .bFooter {
   margin: 8rem 0;
+  background-image: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .52)), url('../../Assets/aecc6c136727009.6200343a9b2ac.gif');
+  width: 100%;
+  background-position: center;
+  background-size: contain;
+  border-radius: 1.2rem;
+  padding: 5rem 0;
 }
 
 .cusImg {
@@ -23,7 +29,7 @@
 }
 
 .arrowAndText p {
-  color: #182C61;
+  color: #f5f7fb;
   font-family: 'Archivo', sans-serif;
 }
 
@@ -36,6 +42,7 @@
   text-align: center;
   font-weight: 700;
   font-size: 2.8rem;
+  color: #d4145a;
 }
 
 .whyText {
@@ -45,7 +52,7 @@
   margin: 1rem auto 2rem;
   line-height: 1.5;
   font-family: 'Archivo', sans-serif;
-  color: #182C61;
+  color: #f5f7fb;
 }
 
 .emailDivDown {

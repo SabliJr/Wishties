@@ -25,8 +25,7 @@ const Index = () => {
             <br /> Wishlist & Bio Link
           </h4>
           <p>
-            Create custom cash funds for college, travel, and all your links in
-            one place.
+            stop confusing your fans, make it easier for them to support you!
           </p>
         </div>
       </article>
