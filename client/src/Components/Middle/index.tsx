@@ -10,8 +10,7 @@ const Index = () => {
         </h3>
         <p>
           Setting up your Links and Wishlist with <span>Wishties</span> is a
-          breeze – it's quick, straightforward, and incredibly fast! All in one
-          hub, ensuring a smooth experience for you and your fans.
+          breeze – it's quick, straightforward, and incredibly fast.
         </p>
       </div>
     </section>
