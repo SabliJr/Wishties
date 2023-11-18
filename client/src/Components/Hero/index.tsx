@@ -13,9 +13,9 @@ const Index = () => {
         all in one place.
       </h2>
       <p>
-        Craft a secure wishlist and link in bio effortlessly in one hub. Making
-        support a breeze, while keeping your privacy protected.{" "}
-        <span>All for free.</span>
+        Stop confusing your fans, make it easier for them to support you! Create
+        a wishlist and link in bio in one hub {"  "}
+        <span> All for free.</span>
       </p>
       <div className='emailDiv'>
         <button onClick={() => navigate("/wishlist")}>
