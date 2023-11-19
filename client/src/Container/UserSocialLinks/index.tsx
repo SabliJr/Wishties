@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./UserSocials.css";
 
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 
 
 import Insta from "../../Assets/UserIcons/instagram.png";
@@ -34,19 +35,20 @@ const SocialMediaLinkForm = ({
   socialLinksModule,
   handleSocialLinksModule,
 }: SocialMediaLinkFormProps) => {
+  const { creatorSocialLinks } = useUserInfoCOntext();
+
   // const [selectedPlatform, setSelectedPlatform] = useState("");
   // const [platform, setPlatform] = useState("");
   // const [link, setLink] = useState("");
-  const [socialLinks, setSocialLinks] = useState<
-    socialLinksType | React.SetStateAction<socialLinksType>
-  >([
-    {
-      platform: "",
-      platformLink: "",
-    },
-  ]); // This will be an array of objects [{platform: "Instagram", link: "https://www.instagram.com/angela_smith"}, {platform: "Twitter", link: "https://www.twitter.com/angela_smith"}]
+  // const [fillingSocialInfo, setfillingSocialInfo] = useState<
+  //   socialLinksType | React.SetStateAction<socialLinksType>
+  // >([
+  //   {
+  //     platform: "",
+  //     platformLink: "",
+  //   },
+  // ]); 
 
-  const { creatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
     { icon: Insta, platform: "Instagram" },
@@ -113,9 +115,9 @@ const SocialMediaLinkForm = ({
             </label>
           </div>
         </label>
-      
+
         {creatorSocialLinks ? (
-          creatorSocialLinks?.map((link) => {
+          creatorSocialLinks?.map((link: iCreatorSocialLinks) => {
             return (
               <div key={link.platformName}>
                 <div>
