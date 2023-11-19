@@ -17,12 +17,13 @@ import TheWish from "../UpLoadWish/TheWish";
 import UserInfoEdit from "./UserInfoEdit";
 import UploadWish from "../UpLoadWish/index";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
-import SocialMediaLinkForm from "../UserSocialLinks/index";
+import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [editInfo, setEditInfo] = useState(false);
-  const { userInfo } = useUserInfoCOntext();
+  const [socialLinksModule, setSocialLinksModule] = useState(false);
+  const { userInfo, creatorSocialLinks } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
@@ -30,6 +31,10 @@ const Index = () => {
 
   const handleInfoEdit = () => {
     setEditInfo(!editInfo);
+  };
+
+  const handleSocialLinksModule = () => {
+    setSocialLinksModule(!socialLinksModule);
   };
 
   return (
@@ -64,12 +69,32 @@ const Index = () => {
               Edit your profile{" "}
               <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
             </button>
-            <button className='editIconsBtn'>
+            <button className='editIconsBtn' onClick={handleSocialLinksModule}>
               Add social links <TbEdit />
             </button>
           </div>
           <div className='userSocialDiv'>
-            <SocialMediaLinkForm />
+            {socialLinksModule ? (
+              <SocialMediaLinkForm
+                socialLinksModule={socialLinksModule}
+                handleSocialLinksModule={handleSocialLinksModule}
+              />
+            ) : null}
+            {creatorSocialLinks?.map((link) => {
+              return (
+                <div key={link.platformName}>
+                  <img
+                    src={link.icon}
+                    alt={`${link.icon} Icon`}
+                    style={{ width: "30px", height: "30px" }}
+                  />
+                  <p>{link.platformName}</p>
+                  <a href={link.link} target='_blank' rel='noreferrer'>
+                    {link.link}
+                  </a>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
