@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./bFooter.css";
 import "../Hero/Hero.css";
 
@@ -7,6 +9,8 @@ import Img2 from "../../Assets/pexels-michelle-leman-6774998.jpg";
 import Img3 from "../../Assets/aiony-haust-3TLl_97HNJo-unsplash.jpg";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <section className='bFooter'>
       <h3 className='why'>At Wishties</h3>
@@ -16,7 +20,9 @@ const Index = () => {
         fulfilled, and communities grow stronger through connections.
       </p>
       <div className='emailDivDown'>
-        <button>Get Started For Free</button>
+        <button onClick={() => navigate("/wishlist")}>
+          Get Started For Free
+        </button>
       </div>
       <article className='imagesArticle'>
         <div className='cusImgDiv'>

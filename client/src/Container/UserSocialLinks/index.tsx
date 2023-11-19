@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./UserSocials.css";
 
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+
+
 import Insta from "../../Assets/UserIcons/instagram.png";
 import Xtwitter from "../../Assets/UserIcons/xTwitter.png";
 import OnlyFans from "../../Assets/UserIcons/OnlyFans.png";
@@ -12,88 +15,135 @@ import Fansly from "../../Assets/UserIcons/Fansly.png";
 import Reddit from "../../Assets/UserIcons/Reddit.png";
 import Discord from "../../Assets/UserIcons/Discord.png";
 
-const SocialMediaLinkForm = () => {
-  const [selectedPlatform, setSelectedPlatform] = useState("");
-  const [link, setLink] = useState("");
+import { CgClose } from "react-icons/cg";
+import { FiEdit } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
+
+type SocialMediaLinkFormProps = {
+  socialLinksModule: Boolean;
+  handleSocialLinksModule: () => void;
+};
+
+type socialLinksType = {
+  platform: string;
+  platformLink: string;
+}[];
+
+
+const SocialMediaLinkForm = ({
+  socialLinksModule,
+  handleSocialLinksModule,
+}: SocialMediaLinkFormProps) => {
+  // const [selectedPlatform, setSelectedPlatform] = useState("");
+  // const [platform, setPlatform] = useState("");
+  // const [link, setLink] = useState("");
+  const [socialLinks, setSocialLinks] = useState<
+    socialLinksType | React.SetStateAction<socialLinksType>
+  >([
+    {
+      platform: "",
+      platformLink: "",
+    },
+  ]); // This will be an array of objects [{platform: "Instagram", link: "https://www.instagram.com/angela_smith"}, {platform: "Twitter", link: "https://www.twitter.com/angela_smith"}]
+
+  const { creatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
-    { platform: "Instagram", icon: Insta },
-    { platform: "Twitter", icon: Xtwitter },
-    { platform: "Tiktok", icon: Tiktok },
-    { platform: "OnlyFans", icon: OnlyFans },
-    { platform: "ManyVids", icon: ManyVids },
-    { platform: "Twitch", icon: Twitch },
-    { platform: "LoyalFans", icon: LoyalFans },
-    { platform: "Fansly", icon: Fansly },
-    { platform: "Reddit", icon: Reddit },
-    { platform: "Discord", icon: Discord },
+    { icon: Insta, platform: "Instagram" },
+    { icon: Xtwitter, platform: "Twitter" },
+    { icon: Tiktok, platform: "Tiktok" },
+    { icon: OnlyFans, platform: "OnlyFans" },
+    { icon: ManyVids, platform: "ManyVids" },
+    { icon: Twitch, platform: "Twitch" },
+    { icon: LoyalFans, platform: "LoyalFans" },
+    { icon: Fansly, platform: "Fansly" },
+    { icon: Reddit, platform: "Reddit" },
+    { icon: Discord, platform: "Discord" },
   ];
 
-  const handlePlatformChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedPlatform(event?.target.value);
-  };
+  // const handlePlatformChange = (
+  //   event: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setSelectedPlatform(event?.target.value);
+  // };
 
-  const handleLinkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLink(event?.target.value);
+  const handleLinkChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+    field: string
+  ) => {
+    const value = event?.target?.value;
+    // setSocialLinks({ ...socialLinks, [field]: value });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Handle the submission of social media link (e.g., send to server)
-    console.log(`Selected Platform: ${selectedPlatform}, Link: ${link}`);
+    // console.log(`Selected Platform: ${selectedPlatform}, Link: ${link}`);
   };
 
+
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Select Social Media Platform:
-        <select value={selectedPlatform} onChange={handlePlatformChange}>
-          <option value=''>Select Platform</option>
-          {socialMediaOptions.map((option) => (
-            <option key={option.platform} value={option.platform}>
-              {option.platform}
-            </option>
-          ))}
-          <option value='custom'>Custom</option>
-        </select>
-      </label>
-
-      {selectedPlatform && (
-        <div>
-          <label>
-            Enter Link:
-            <input type='text' value={link} onChange={handleLinkChange} />
-          </label>
-
-          <button type='submit'>Save Link</button>
-        </div>
-      )}
-
-      {selectedPlatform === "custom" && (
-        <div>
-          {/* Additional fields for custom social media option if needed */}
-        </div>
-      )}
-
-      {selectedPlatform && (
-        <div>
-          <p>Selected Platform: {selectedPlatform}</p>
-          <img
-            src={
-              selectedPlatform === "custom"
-                ? "custom-icon.png" // Replace with the custom icon for the custom option
-                : socialMediaOptions.find(
-                    (option) => option.platform === selectedPlatform
-                  )?.icon
-            }
-            alt={`${selectedPlatform} Icon`}
-            style={{ width: "30px", height: "30px" }}
-          />
-        </div>
-      )}
-    </form>
+    <section className='AddingLinksModule'>
+      <CgClose className='closeLinksModule' onClick={handleSocialLinksModule} />
+      <h3>Add/Update Your Social Links</h3>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <select onChange={(e) => handleLinkChange(e, "platform")}>
+            <option value=''>Select Platform</option>
+            {socialMediaOptions.map((option) => (
+              <option key={option.platform} value={option.platform}>
+                {" "}
+                {/* value={selectedPlatform} */}
+                <img src={option.icon} alt='' />
+                {option.platform}
+              </option>
+            ))}
+            <option value='custom'>Custom</option>
+          </select>
+          <div>
+            <label>
+              Enter Link:
+              <input
+                type='text'
+                // value={socialLinks}
+                onChange={(e) => handleLinkChange(e, "platformLinks")}
+              />
+            </label>
+          </div>
+        </label>
+      
+        {creatorSocialLinks ? (
+          creatorSocialLinks?.map((link) => {
+            return (
+              <div key={link.platformName}>
+                <div>
+                  <img
+                    src={link.icon}
+                    alt={`${link.icon} Icon`}
+                    style={{ width: "30px", height: "30px" }}
+                  />
+                  <p>{link.platformName}</p>
+                </div>
+                <div>
+                  <FiEdit />
+                  <MdDelete />
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <p>You have not added any social media links yet.</p>
+            <button>Add Links</button>
+          </div>
+        )}
+        <button type='submit' className='saveLinks'>
+          Save Links
+        </button>
+      </form>
+    </section>
   );
 };
 

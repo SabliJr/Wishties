@@ -1,0 +1,41 @@
+.AddingLinksModule {
+  display: flex;
+  background-color: #fbfdfd;
+  flex-direction: column;
+  width: 450px;
+  margin: 1rem auto;
+  height: 38rem;
+  position: fixed;
+  top: 42%;
+  left: 50%;
+  backdrop-filter: blur(5rem);
+  transform: translate(-50%, -50%);
+  padding: 2rem 3rem;
+  border-radius: 1.42rem;
+  border: 1px solid #cfcfcf;
+  overflow-y: scroll;
+  /* position: relative; */
+}
+
+.closeLinksModule {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1547d2;
+  cursor: pointer;
+}
+
+.saveLinks {
+  margin-top: 2rem;
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #1547d2;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+}
