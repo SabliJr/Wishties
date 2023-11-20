@@ -67,13 +67,13 @@ const SocialMediaLinkForm = ({
         (option) => option.platform === value
       );
 
-      if (selectedPlatform) {
-        setFillingSocialInfo({
-          ...fillingSocialInfo,
-          [field]: value,
-          icon: selectedPlatform.icon,
-        });
-      }
+      // if (selectedPlatform) {
+      //   setFillingSocialInfo({
+      //     ...fillingSocialInfo,
+      //     [field]: value,
+      //     icon: selectedPlatform.icon,
+      //   });
+      // }
     } else {
       setFillingSocialInfo({ ...fillingSocialInfo, [field]: value });
     }
