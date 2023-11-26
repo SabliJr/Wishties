@@ -88,7 +88,7 @@
   margin: 2rem auto;
 }
 
-.userSocialDiv div {
+/* .userSocialDiv div {
   background-color: #cfcfcf;
   padding: .3rem .5rem;
   border-radius: .5rem;
@@ -96,7 +96,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 3rem;
-}
+} */
 
 .userSocialDiv div p {
   font-family: 'Archivo', sans-serif;

@@ -2,9 +2,12 @@
   display: flex;
   background-color: #fbfdfd;
   flex-direction: column;
+  justify-content: space-between;
+  /* text-align: center; */
   width: 450px;
   margin: 1rem auto;
-  height: 38rem;
+  min-height: 20rem;
+  height: auto;
   position: fixed;
   top: 42%;
   left: 50%;
@@ -14,7 +17,6 @@
   border-radius: 1.42rem;
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
-  /* position: relative; */
 }
 
 .closeLinksModule {
@@ -38,4 +40,61 @@
   font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.addLinksBtn {
+  margin: 1rem auto 0;
+  height: 2rem;
+  width: 42%;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #1547d2;
+  background-color: transparent;
+  color: #1547d2;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+
+.linksPlusIcon {
+  align-self: center;
+  font-size: .8rem;
+}
+
+.linksLabel {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  border-radius: 1rem;
+  gap: 1rem;
+  height: auto;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  padding: 2rem 1rem;
+  transform: translate(-50%, -50%);
+  background-color: #eff7f5;
+}
+
+#addModuleId {
+  font-size: 1.2rem;
+  background-color: #d4145a;
+  color: #fbfdfd;
+  border: transparent;
+  padding: .2rem 1rem;
+  border-radius: .6rem;
+  width: 30%;
+  cursor: pointer;
+}
+
+.linkInput,
+.platformsSelection {
+  width: 100%;
+  height: 2rem;
+  border-radius: .42rem;
+  border: 1px solid #1547d2;
+  margin: .5rem auto;
+  padding: .5rem;
 }
