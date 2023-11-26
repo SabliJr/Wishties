@@ -16,13 +16,15 @@ const UserProfileContextProvider = ({
   children: React.ReactNode;
   }): JSX.Element => {
   const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
+  console.log(creatorSocialLinks);
+  //Creator profile info edit
   const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
     coverPhoto: "",
     profilePhoto: "",
     profileName: "",
     userName: "",
     userBio: "",
-  }); //Create a state for user info
+  });
 
   return (
     <userInfoContext.Provider
