@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
 
+import { FaCartPlus } from "react-icons/fa";
+
 const TheWish = (): JSX.Element => {
   const { Wishes } = useWishInfoContext();
   const [imageURLs, setImageURLs] = useState<string[]>([]);
@@ -50,6 +52,10 @@ const TheWish = (): JSX.Element => {
             <img ref={imageRef} alt='wishImag' className='wishImag' />
             <h4 className='wishTitle'>{wish.name}</h4>
             <p className='wishPrice'>$ {wish.price}</p>
+            <button className='addToCartBtn'>
+              <FaCartPlus className='addToCartBtnIcon' />
+              Add To Cart
+            </button>
           </div>
         ))
       ) : (

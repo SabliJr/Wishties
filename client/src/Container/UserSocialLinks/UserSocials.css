@@ -98,3 +98,17 @@
   margin: .5rem auto;
   padding: .5rem;
 }
+
+.platformNameDisplaying {
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: space-between; */
+  /* width: 100%; */
+  /* height: 2rem; */
+  /* border-radius: .42rem; */
+  /* border: 1px solid #1547d2; */
+  /* margin: .5rem auto; */
+  padding: .5rem;
+  font-size: 1.6rem;
+  color: #9e1313;
+}
