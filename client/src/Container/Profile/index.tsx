@@ -23,7 +23,7 @@ const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
-  const { userInfo, creatorSocialLinks } = useUserInfoCOntext();
+  const { userInfo } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
@@ -80,7 +80,9 @@ const Index = () => {
                 handleSocialLinksModule={handleSocialLinksModule}
               />
             ) : null}
-            {creatorSocialLinks?.map((link) => {
+
+            {/* Displaying the icons in the creator profile from the server */}
+            {/* {creatorSocialLinks?.map((link) => {
               return (
                 <div key={link.platformName}>
                   <img
@@ -94,7 +96,8 @@ const Index = () => {
                   </a>
                 </div>
               );
-            })}
+            })} */}
+
           </div>
         </div>
       </div>

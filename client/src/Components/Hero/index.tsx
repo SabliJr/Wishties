@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const navigate = useNavigate();
- 
 
   return (
     <section className='hero'>
@@ -19,9 +18,9 @@ const Index = () => {
         <span> All for free.</span>
       </p>
       <div className='emailDiv'>
-        <button onClick={() => navigate("/wishlist")}>
-          Get Started For Free
-        </button>
+          <button onClick={() => navigate('/wishlist')}>
+            Get Started For Free
+          </button>
       </div>
     </section>
   );

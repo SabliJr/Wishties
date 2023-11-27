@@ -37,7 +37,7 @@ const SocialMediaLinkForm = ({
           className='closeLinksModule'
           onClick={handleSocialLinksModule}
         />
-        <h3>Add/Update Your Social Links</h3>
+        <h3 className="UpdateLinks">Add/Update Your Social Links</h3>
 
         {/* Display the icons if there are any links */}
         {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
@@ -68,7 +68,7 @@ const SocialMediaLinkForm = ({
         <button
           className='addLinksBtn'
           onClick={() => setLinksModule(!linksModule)}>
-          Add Links <FaPlus className='linksPlusIcon' />
+          Add Link <FaPlus className='linksPlusIcon' />
         </button>
         <button type='submit' className='saveLinks'>
           Save Links

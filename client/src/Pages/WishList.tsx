@@ -2,16 +2,19 @@ import React from "react";
 import WishListHeader from "../Container/TheHeader/index";
 import UserProfile from "../Container/Profile/index";
 
-import { WishInfoContextProvider } from "../Context/wishInfoContextProvider";
 import TheFooter from "../Components/Footer/index";
+import { UserProfileContextProvider } from "../Context/UserProfileContextProvider";
+import { WishInfoContextProvider } from "../Context/wishInfoContextProvider";
 
 const WishList = () => {
   return (
-    <WishInfoContextProvider>
-      <WishListHeader />
-      <UserProfile />
-      <TheFooter />
-    </WishInfoContextProvider>
+      <WishInfoContextProvider>
+        <UserProfileContextProvider>
+          <WishListHeader />
+          <UserProfile />
+          <TheFooter />
+        </UserProfileContextProvider>
+      </WishInfoContextProvider>
   );
 };
 

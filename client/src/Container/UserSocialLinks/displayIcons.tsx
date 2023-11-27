@@ -15,18 +15,18 @@ const DisplayIcons = () => {
     <>
       {creatorSocialLinks?.map((link: iCreatorSocialLinks) => {
         return (
-          <div key={link.platformName}>
+          <div key={link.platform} className='socialMediaLinkDiv'>
             <div>
               <img
                 src={link.icon}
                 alt={`${link.icon} Icon`}
-                style={{ width: "30px", height: "30px" }}
+                style={{ width: "28px", height: "28px" }}
               />
-              <p className='platformNameDisplaying'>{link.platformName}</p>
+              <p className='platformNameDisplaying'>{link.platform}</p>
             </div>
             <div>
-              <FiEdit />
-              <MdDelete />
+              <FiEdit className='editLinksIcons' />
+              <MdDelete className='editLinksIcons' />
             </div>
           </div>
         );

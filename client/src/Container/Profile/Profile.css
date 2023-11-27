@@ -133,7 +133,6 @@
 
 .EditIconsDiv {
   width: 80%;
-  /* margin: auto; */
   flex-direction: column;
   gap: .6rem;
 }
@@ -155,7 +154,7 @@
 }
 
 #addWish {
-  background-color: #1547d2;
+  background-color: #d4145a;
   color: #f5f8f8;
   border: transparent;
   font-weight: 600;
@@ -199,7 +198,6 @@
   border: 1px solid #1547d2;
   height: 8rem;
   border-radius: 1rem;
-  /* margin: 2rem 0; */
 }
 
 .editCoverImg {

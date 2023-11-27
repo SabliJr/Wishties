@@ -26,11 +26,10 @@ const SelectPlatform = ({
 }: SelectPlatformProps) => {
   const [fillingSocialInfo, setFillingSocialInfo] =
     useState<iCreatorSocialLinks>({
-      link: "",
       icon: "",
-      platformName: "",
+      platform: "",
+      platformLink: "",
     });
-  
   const { creatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
