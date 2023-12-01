@@ -13,24 +13,24 @@ const DisplayIcons = () => {
 
   return (
     <>
-      {creatorSocialLinks?.map((link: iCreatorSocialLinks) => {
-        return (
-          <div key={link.platform} className='socialMediaLinkDiv'>
-            <div>
-              <img
-                src={link.icon}
-                alt={`${link.icon} Icon`}
-                style={{ width: "28px", height: "28px" }}
-              />
-              <p className='platformNameDisplaying'>{link.platform}</p>
+      {creatorSocialLinks?.map((x: iCreatorSocialLinks) => {
+          return (
+            <div key={x.platform} className='socialMediaLinkDiv'>
+              <div>
+                <img
+                  src={x.icon}
+                  alt={`${x.icon} Icon`}
+                  style={{ width: "28px", height: "28px" }}
+                />
+                <p className='platformNameDisplaying'>{x.platform}</p>
+              </div>
+              <div>
+                <FiEdit className='editLinksIcons' />
+                <MdDelete className='editLinksIcons' />
+              </div>
             </div>
-            <div>
-              <FiEdit className='editLinksIcons' />
-              <MdDelete className='editLinksIcons' />
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 }

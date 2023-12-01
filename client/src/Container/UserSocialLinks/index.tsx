@@ -25,19 +25,28 @@ const SocialMediaLinkForm = ({
   const [linksModule, setLinksModule] = useState(false);
   const { creatorSocialLinks } = useUserInfoCOntext();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     // You can handle submission logic here if needed
+
+    setTimeout(() => {
+      handleSocialLinksModule();
+      // Send the data to the backend/database by calling an API
+      // Send the images to the cloud storage S3 bucket
+      // Then update the state of the user profile context
+      // Add loading spinner while the data is being sent to the backend/database
+    }, 1000);
+
+    // After the data is sent to the backend/database, you can reset the form
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <section className='AddingLinksModule'>
         <CgClose
           className='closeLinksModule'
           onClick={handleSocialLinksModule}
         />
-        <h3 className="UpdateLinks">Add/Update Your Social Links</h3>
+        <h3 className='UpdateLinks'>Add/Update Your Social Links</h3>
 
         {/* Display the icons if there are any links */}
         {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
@@ -70,11 +79,11 @@ const SocialMediaLinkForm = ({
           onClick={() => setLinksModule(!linksModule)}>
           Add Link <FaPlus className='linksPlusIcon' />
         </button>
-        <button type='submit' className='saveLinks'>
+        <button type='submit' className='saveLinks' onClick={handleSubmit}>
           Save Links
         </button>
       </section>
-    </form>
+    </>
   );
 };
 

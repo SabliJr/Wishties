@@ -23,7 +23,7 @@ const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
-  const { userInfo } = useUserInfoCOntext();
+  const { userInfo, creatorSocialLinks } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
@@ -82,21 +82,22 @@ const Index = () => {
             ) : null}
 
             {/* Displaying the icons in the creator profile from the server */}
-            {/* {creatorSocialLinks?.map((link) => {
+            {creatorSocialLinks?.map((x) => {
               return (
-                <div key={link.platformName}>
+                <div key={x.platform} className="profileLinks" onClick={() => {
+                  window.open(`${x.platformLinks}`, "_blank");
+                  console.log(x.platformLinks);
+                }
+                }>
                   <img
-                    src={link.icon}
-                    alt={`${link.icon} Icon`}
+                    src={x.icon}
+                    alt={`${x.icon} Icon`}
                     style={{ width: "30px", height: "30px" }}
                   />
-                  <p>{link.platformName}</p>
-                  <a href={link.link} target='_blank' rel='noreferrer'>
-                    {link.link}
-                  </a>
+                  <p>{x.platform}</p>
                 </div>
               );
-            })} */}
+            })}
 
           </div>
         </div>
