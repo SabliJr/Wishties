@@ -6,7 +6,7 @@ import { userAuth } from '../middlewares/validationMiddleware';
 
 const router = Router();
 
-router.get('/creators', getRoutes);
+router.get('/creator', getRoutes);
 router.post('/register', registerValidation, validate, userRegistration); // creator registration
 router.post('/login', loginValidation, validate, userLogin); // creator login
 router.get('/logout', userAuth, userLogout) // logout creator

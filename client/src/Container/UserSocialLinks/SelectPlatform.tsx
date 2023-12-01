@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState} from 'react'
 
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
@@ -26,11 +26,10 @@ const SelectPlatform = ({
 }: SelectPlatformProps) => {
   const [fillingSocialInfo, setFillingSocialInfo] =
     useState<iCreatorSocialLinks>({
-      link: "",
       icon: "",
-      platformName: "",
+      platform: "",
+      platformLinks: "",
     });
-  
   const { creatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
@@ -78,11 +77,12 @@ const SelectPlatform = ({
     setLinksModule(!linksModule); // Close the module first
 
     // Wait for the state to update before pushing the new link
-    setTimeout(() => {
-      creatorSocialLinks?.push(fillingSocialInfo);
-    }, 0);
-  };
+    // setTimeout(() => {
+    //   creatorSocialLinks?.push(fillingSocialInfo);
+    // }, 0);
 
+    creatorSocialLinks?.push(fillingSocialInfo as iCreatorSocialLinks);
+  };
 
   return (
     <>

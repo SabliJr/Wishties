@@ -15,24 +15,29 @@ const UserProfileContextProvider = ({
 }: {
   children: React.ReactNode;
   }): JSX.Element => {
+    //Creator profile info edit
+    const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
+      coverPhoto: "",
+      profilePhoto: "",
+      profileName: "",
+      userName: "",
+      userBio: "",
+    });
+
   const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
   console.log(creatorSocialLinks);
-  //Creator profile info edit
-  const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
-    coverPhoto: "",
-    profilePhoto: "",
-    profileName: "",
-    userName: "",
-    userBio: "",
-  });
 
-  return (
-    <userInfoContext.Provider
-      value={{ userInfo, setUserInfo, creatorSocialLinks }}>
-      {children}
-    </userInfoContext.Provider>
-  );
-};
+    return (
+      <userInfoContext.Provider
+        value={{
+          userInfo,
+          setUserInfo,
+          creatorSocialLinks,
+        }}>
+        {children}
+      </userInfoContext.Provider>
+    );
+  };
 
 function useUserInfoCOntext(): userInfoType {
   const userContext = useContext(userInfoContext);
@@ -43,8 +48,16 @@ function useUserInfoCOntext(): userInfoType {
     );
   }
 
-  const { userInfo, setUserInfo, creatorSocialLinks } = userContext;
-  return { userInfo, setUserInfo, creatorSocialLinks };
+  const {
+    userInfo,
+    setUserInfo,
+    creatorSocialLinks,
+  } = userContext;
+  return {
+    userInfo,
+    setUserInfo,
+    creatorSocialLinks,
+  };
 }
 
 export { UserProfileContextProvider, useUserInfoCOntext };
