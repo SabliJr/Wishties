@@ -7,7 +7,7 @@ creator_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY, -- Creator's ID
  creator_name VARCHAR(50) NOT NULL, -- Creator's name
  username VARCHAR(50) UNIQUE NOT NULL, -- Creator's username
  creator_bio VARCHAR(160), -- Creator's bio
- creator_password VARCHAR(256) NOT NULL, -- Creator's password
+pwd VARCHAR(256) NOT NULL, -- Creator's password
  email VARCHAR(256) UNIQUE NOT NULL, --  Creator's email
  profile_image TEXT, -- Creator's profile image
  cover_image TEXT, -- Creator's cover image

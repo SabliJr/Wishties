@@ -12,7 +12,6 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,15}$/;
 
 const SignUp = () => {
-  // const [creatorName, setCreatorName] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
@@ -92,9 +91,6 @@ const SignUp = () => {
       console.error(err.res);
     }
   };
-
-  console.log("registerValues", registerValues);
-  console.log(errMsg);
 
   return (
     <section className='signSection'>
