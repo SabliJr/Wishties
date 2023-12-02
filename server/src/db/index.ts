@@ -1,7 +1,7 @@
 import { Pool, QueryResult } from 'pg';
 
 const pool = new Pool({
-  user: 'postgres',
+  user: 'macbookpro',
   host: 'localhost',
   port: 5432,
   password: 'postgres',

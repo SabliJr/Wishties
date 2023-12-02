@@ -53,3 +53,25 @@ a {
   color: black;
   text-decoration: none;
 }
+
+/* button:disabled,
+button[disabled] {
+  background-color: #4b74bb;
+}
+
+button[disabled]:active,
+button[disabled],
+input[type="button"][disabled]:active,
+input[type="button"][disabled],
+input[type="submit"][disabled]:active,
+input[type="submit"][disabled],
+button[disabled]:hover,
+input[type="button"][disabled]:hover,
+input[type="submit"][disabled]:hover {
+  border: 2px outset ButtonFace;
+  color: GrayText;
+  background-color: #718fc4;
+  cursor: inherit;
+  background-color: #ddd;
+  background: #ddd;
+} */

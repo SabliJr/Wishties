@@ -2,10 +2,15 @@ import React, { useState, useContext, createContext } from "react";
 import { iUserInfo } from "../Types/wishListTypes";
 import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
 
+  const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
 interface userInfoType {
   userInfo: iUserInfo | undefined;
   setUserInfo: React.Dispatch<React.SetStateAction<iUserInfo | undefined>>;
   creatorSocialLinks?: iCreatorSocialLinks[] | undefined;
+  displayedSocialLinks: iCreatorSocialLinks[] | undefined;
+  setDisplayedSocialLinks: React.Dispatch<
+    React.SetStateAction<iCreatorSocialLinks[]>
+  >;
 }
 
 const userInfoContext = createContext<userInfoType | undefined>(undefined);
@@ -24,8 +29,7 @@ const UserProfileContextProvider = ({
       userBio: "",
     });
 
-  const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
-  console.log(creatorSocialLinks);
+  const [displayedSocialLinks, setDisplayedSocialLinks] = useState(creatorSocialLinks);
 
     return (
       <userInfoContext.Provider
@@ -33,6 +37,8 @@ const UserProfileContextProvider = ({
           userInfo,
           setUserInfo,
           creatorSocialLinks,
+          displayedSocialLinks,
+          setDisplayedSocialLinks,
         }}>
         {children}
       </userInfoContext.Provider>
@@ -52,11 +58,15 @@ function useUserInfoCOntext(): userInfoType {
     userInfo,
     setUserInfo,
     creatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
   } = userContext;
   return {
     userInfo,
     setUserInfo,
     creatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
   };
 }
 
