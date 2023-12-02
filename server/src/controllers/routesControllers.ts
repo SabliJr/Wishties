@@ -15,8 +15,10 @@ const getRoutes = async (req: Request, res: Response) => {
   }
 };
 
+// Register creator
 const userRegistration = async (req: Request, res: Response) => {
   const {creator_name, email, password } = req.body;
+  console.log(req.body);
   
   try {
     const hashedPassword = await hash(password, 12);
@@ -35,6 +37,7 @@ const userRegistration = async (req: Request, res: Response) => {
   }
 };
 
+// Login creator
 const userLogin = async (req: Request, res: Response) => { 
   try {
     const { creator } = req.body;
@@ -52,11 +55,12 @@ const userLogin = async (req: Request, res: Response) => {
   }
 };
 
+// Logout creator
 const userLogout = async (req: Request, res: Response) => { 
   try {
     res.status(200).clearCookie('token').json({
       success: true,
-      message: 'The logout was successful!',
+      message: 'logged out successfully!',
     });
   } catch (error) {
     console.error(error);

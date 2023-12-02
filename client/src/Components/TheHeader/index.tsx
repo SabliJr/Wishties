@@ -18,9 +18,6 @@ const Index = () => {
       <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
         <nav>
           <li>
-            <Link to='/links'>Link in bio</Link>
-          </li>
-          <li>
             <Link to='/wishlist'>Create Wishlist</Link>
           </li>
         </nav>

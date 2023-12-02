@@ -3,15 +3,15 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Create the User/Creator table
 CREATE TABLE creator (
-    creator_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
-    creator_name VARCHAR(50) NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    creator_bio VARCHAR(160),
-    creator_password VARCHAR(256) NOT NULL,
-    email VARCHAR(256) UNIQUE NOT NULL,
-    profile_image TEXT,
-    cover_image TEXT,
-    created_at TIMESTAMP DEFAULT NOW()
+creator_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY, -- Creator's ID
+ creator_name VARCHAR(50) NOT NULL, -- Creator's name
+ username VARCHAR(50) UNIQUE NOT NULL, -- Creator's username
+ creator_bio VARCHAR(160), -- Creator's bio
+ creator_password VARCHAR(256) NOT NULL, -- Creator's password
+ email VARCHAR(256) UNIQUE NOT NULL, --  Creator's email
+ profile_image TEXT, -- Creator's profile image
+ cover_image TEXT, -- Creator's cover image
+ created_at TIMESTAMP DEFAULT NOW() -- Creator's account creation date
 );
 
 -- Create the Wishlist table

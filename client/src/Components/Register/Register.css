@@ -160,6 +160,7 @@
   font-weight: 600;
   font-family: 'Source Serif 4', serif;
   font-style: italic;
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 1042px) {

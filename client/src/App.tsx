@@ -2,12 +2,12 @@ import React from "react";
 import "./App.css";
 
 //RoutersFile
-import Routes from "./Routes";
+import LaRoutes from "./Routes";
 
 const App = () => {
   return (
     <div className='App'>
-      <Routes />
+      <LaRoutes />
     </div>
   );
 };
