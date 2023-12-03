@@ -6,11 +6,7 @@ import Footer from "../Components/Footer/index";
 
 const Pricing = () => {
   return (
-    <div
-      style={{
-        maxWidth: "1180px",
-        margin: "auto",
-      }}>
+    <div className='loginPage'>
       <Header />
       <Login />
       <Footer />
