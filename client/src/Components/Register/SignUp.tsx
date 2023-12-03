@@ -157,9 +157,6 @@ const SignUp = () => {
               <div>
                 <FaSquareXTwitter className='loginIcons' />
               </div>
-              <div>
-                <FaApple className='loginIcons' />
-              </div>
             </div>
           </div>
           <p className='logText'>

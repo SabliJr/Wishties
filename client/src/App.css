@@ -75,3 +75,10 @@ input[type="submit"][disabled]:hover {
   background-color: #ddd;
   background: #ddd;
 } */
+
+.signUpPage,
+.loginPage {
+  max-width: 1180px;
+  margin: auto;
+  overflow: hidden;
+}
