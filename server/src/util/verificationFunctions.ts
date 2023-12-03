@@ -1,9 +1,9 @@
-import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import { SECRET_KEY } from '../constants';
 
-// This function will generate a random string of characters to be used as the verification token
-const generateVerificationToken = () => {
-  return crypto.randomBytes(32).toString('hex');
+const generateVerificationToken = (username: string) => {
+  const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' }); // Set to 1 hour
+  return token;
 };
-
 
 export { generateVerificationToken };

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { userRegistration, userLogin, userLogout, emailVerification } from '../controllers/loginRegistrationRoutes';
+import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
 import { registerValidation, loginValidation } from '../validators/authValidation';
 import { getCreators } from '../controllers/getUserController';
 import { validate } from '../middlewares/authMiddleware';
@@ -12,6 +12,7 @@ router.post('/register', registerValidation, validate, userRegistration); // cre
 router.post('/login', loginValidation, validate, userLogin); // creator login
 router.get('/logout', userLogout) // logout creator
 router.get('/verify-email/:token', emailVerification) // verify creator email
+router.get('/request-verification-again', reverifyEmail)
 // router.post('/add-wish', userAuth, ) // add wish to the wish list
 //router.post('/update-wish',) // update the wish by the creator
 //router.post('/delete-wish',) // delete the wish by the creator

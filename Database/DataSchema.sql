@@ -11,7 +11,7 @@ pwd VARCHAR(256) NOT NULL, -- Creator's password
  email VARCHAR(256) UNIQUE NOT NULL, --  Creator's email
  profile_image TEXT, -- Creator's profile image
  cover_image TEXT, -- Creator's cover image
- created_at TIMESTAMP DEFAULT NOW() -- Creator's account creation date
+created_at TIMESTAMP DEFAULT NOW(), -- Creator's account creation date
 verification_code VARCHAR(256), -- Creator's verification code
  is_verified BOOLEAN DEFAULT FALSE -- Creator's verification status
 );

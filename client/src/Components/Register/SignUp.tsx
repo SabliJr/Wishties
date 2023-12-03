@@ -19,9 +19,9 @@ const SignUp = () => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const [registerValues, setRegisterValues] = useState<registrationInfo>({
-    creatorName: "",
+    creator_name: "",
     email: "",
-    pwd: "",
+    password: "",
   });
   const navigate = useNavigate();
 
@@ -43,46 +43,41 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    setValidPwd(PWD_REGEX.test(registerValues.pwd));
-    setValidMatch(registerValues.pwd === matchPwd);
-  }, [registerValues.pwd, matchPwd]);
+    setValidPwd(PWD_REGEX.test(registerValues.password));
+    setValidMatch(registerValues.password === matchPwd);
+  }, [registerValues.password, matchPwd]);
+
+  console.log("registerValues", registerValues);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log("Handling submit........");
 
-    const v1 = EMAIL_REGEX.test(registerValues.email);
-    const v2 = PWD_REGEX.test(registerValues.pwd);
-    if (!v1 || !v2) {
-      setErrMsg("Please fill in all fields.");
-      return;
-    }
+    // const v1 = EMAIL_REGEX.test(registerValues.email);
+    // const v2 = PWD_REGEX.test(registerValues.password);
+    // if (!v1 || !v2) {
+    //   setErrMsg("Please fill in all fields.");
+    //   return;
+    // }
 
-    if (!agreeTerms) {
-      setErrMsg("Please agree to the terms.");
-      return;
-    }
+    // if (!agreeTerms) {
+    //   setErrMsg("Please agree to the terms.");
+    //   return;
+    // }
 
-    if (!validateEmail(registerValues.email)) {
-      setErrMsg("Please enter a valid email address.");
-      return;
-    }
+    // if (!validateEmail(registerValues.email)) {
+    //   setErrMsg("Please enter a valid email address.");
+    //   return;
+    // }
 
-    if (!validPwd) {
-      setErrMsg(
-        "Password must be 8-15 characters long and contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character."
-      );
-      return;
-    }
+    // if (!validMatch) {
+    //   setErrMsg("Passwords do not match.");
+    //   return;
+    // }
 
-    if (!validMatch) {
-      setErrMsg("Passwords do not match.");
-      return;
-    }
-
-    if (validMatch && validPwd && agreeTerms) {
-      setErrMsg("");
-    }
+    // if (validMatch && validPwd && agreeTerms) {
+    //   setErrMsg("");
+    // }
 
     try {
       const res = await onRegistration(registerValues);
@@ -102,12 +97,12 @@ const SignUp = () => {
             <p>Sign up today and get you wishes fulfilled.</p>
           </div>
           <div>
-            <form className='forms' onSubmit={(e) => handleSubmit(e)}>
+            <form className='forms' onSubmit={handleSubmit}>
               <input
                 type='text'
                 placeholder='name'
-                value={registerValues.creatorName}
-                onChange={(e) => onValueChange(e, "creatorName")}
+                value={registerValues.creator_name}
+                onChange={(e) => onValueChange(e, "creator_name")}
                 autoComplete='off'
                 required
               />
@@ -122,8 +117,8 @@ const SignUp = () => {
               <input
                 type='password'
                 placeholder='Password'
-                onChange={(e) => onValueChange(e, "pwd")}
-                value={registerValues.pwd}
+                onChange={(e) => onValueChange(e, "password")}
+                value={registerValues.password}
                 autoComplete='off'
                 required
               />
@@ -146,9 +141,7 @@ const SignUp = () => {
                   />
                   <p className='agreeText'>
                     I agree to the{" "}
-                    <span onClick={() => navigate("/wishlist")}>
-                      Terms of Service
-                    </span>{" "}
+                    <span onClick={() => navigate("")}>Terms of Service</span>{" "}
                     and{" "}
                     <span onClick={() => navigate("")}>Privacy Policy.</span>
                   </p>

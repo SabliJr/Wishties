@@ -15,7 +15,6 @@ while (await isUsernameTaken(username)) {
   username = username + getRandomInt(1000, 9999) + additionalCharacters[Math.floor(Math.random() * additionalCharacters.length)];
 }
 
-
   return username;
 };
 

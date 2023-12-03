@@ -10,23 +10,23 @@ import transporter from '../util/NodemailerConfig';
 
 // User Registration
 const userRegistration = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { creator_name, email, password } = req.body;
+  console.log('req.body:', req.body);
 
   try {
     const pwd = await hash(password, 12);
-    const username = await generateUniqueUsername(name);
+    const username = await generateUniqueUsername(creator_name);
+    const verificationToken = generateVerificationToken(username);
 
-    await query('INSERT INTO creator (creator_name, email, pwd, username) VALUES ($1, $2, $3, $4)', [
-      name, email, pwd, username
-    ]);
-
-    const verificationToken = generateVerificationToken();
+    await query(
+      'INSERT INTO creator (creator_name, email, pwd, username, verification_code) VALUES($1, $2, $3, $4, $5)',
+      [ creator_name, email, pwd, username, verificationToken ]);
 
     const mailOptions = {
       from: process.env.EMAIL_HOST,
       to: email, // Replace with the user's email from the registration data
       subject: 'Email Verification',
-      html: `<p>Click the following link to verify your email: <a href="http://wishties.com/verify/${verificationToken}">Verify Email</a></p>`,
+      html: `<p>Click the following link to verify your email: <a href="http://localhost:3000/verify/${verificationToken}">Verify Email</a></p>`,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -57,13 +57,61 @@ const emailVerification = async (req: Request, res: Response) => {
 
     // Redirect to the creator's wishlist page
     const username = await query('SELECT username FROM creator WHERE creator_id = $1', [creator_id]);
-    res.redirect(`http://wishties.com/wishlist/${username}`);
+    res.redirect(`http://localhost:3000/wishlist/${username}`);
   } catch (error: any) {
     console.error('Error during email verification:', error);
     res.status(500).json({
       success: false,
       message: 'Internal Server Error',
       error: error.message, // or any relevant information from the error
+    });
+  }
+};
+
+// this is for requesting verification again
+const reverifyEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    // Check if the email exists in the database
+    const userResult = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    if (!userResult.rows || userResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found.',
+      });
+    }
+
+    const username = userResult.rows[0].username; // Extract username from the result
+    const newVerificationToken = generateVerificationToken(username);  // Generate a new verification token
+
+    // Update the existing token in the database (if you store it there)
+    await query('UPDATE creator SET verification_token = $1 WHERE email = $2', [
+      newVerificationToken,
+      email,
+    ]);
+
+    // Send a new verification email
+    const mailOptions = {
+      from: process.env.EMAIL_HOST,
+      to: email,
+      subject: 'Email Verification',
+      html: `<p>Click the following link to verify your email: <a href="http://wishties.com/verify/${newVerificationToken}">Verify Email</a></p>`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('New verification email sent:', info.response);
+
+    res.status(200).json({
+      success: true,
+      message: 'A new verification email has been sent. Please check your email for verification.',
+    });
+  } catch (error: any) {
+    console.error('Error during requesting verification again:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
     });
   }
 };
@@ -99,4 +147,4 @@ const userLogout = async (req: Request, res: Response) => {
   }
 };
 
-  export { userRegistration, userLogin, userLogout, emailVerification };
+  export { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail };
