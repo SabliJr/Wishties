@@ -10,23 +10,23 @@ import transporter from '../util/NodemailerConfig';
 
 // User Registration
 const userRegistration = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { creator_name, email, password } = req.body;
+  console.log('req.body:', req.body);
 
   try {
     const pwd = await hash(password, 12);
-    const username = await generateUniqueUsername(name);
-
-    await query('INSERT INTO creator (creator_name, email, pwd, username) VALUES ($1, $2, $3, $4)', [
-      name, email, pwd, username
-    ]);
-
+    const username = await generateUniqueUsername(creator_name);
     const verificationToken = generateVerificationToken(username);
+
+    await query(
+      'INSERT INTO creator (creator_name, email, pwd, username, verification_code) VALUES($1, $2, $3, $4, $5)',
+      [ creator_name, email, pwd, username, verificationToken ]);
 
     const mailOptions = {
       from: process.env.EMAIL_HOST,
       to: email, // Replace with the user's email from the registration data
       subject: 'Email Verification',
-      html: `<p>Click the following link to verify your email: <a href="http://wishties.com/verify/${verificationToken}">Verify Email</a></p>`,
+      html: `<p>Click the following link to verify your email: <a href="http://localhost:3000/verify/${verificationToken}">Verify Email</a></p>`,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -57,7 +57,7 @@ const emailVerification = async (req: Request, res: Response) => {
 
     // Redirect to the creator's wishlist page
     const username = await query('SELECT username FROM creator WHERE creator_id = $1', [creator_id]);
-    res.redirect(`http://wishties.com/wishlist/${username}`);
+    res.redirect(`http://localhost:3000/wishlist/${username}`);
   } catch (error: any) {
     console.error('Error during email verification:', error);
     res.status(500).json({

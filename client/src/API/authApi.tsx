@@ -6,7 +6,7 @@ import { registrationInfo, loginInfo } from "../Types/creatorSocialLinksTypes";
 const REGISTER_URL = "http://localhost:8000/api/register";
 const LOGIN_URL = "http://localhost:8000/api/login";
 const LOGOUT_URL = "http://localhost:8000/api/logout";
-const USER_URL = "http://localhost:8000/api/user";
+const USER_URL = "http://localhost:8000/api/creators";
 const WISHLIST_URL = "http://localhost:8000/api/wishlist";
 
 const onRegistration = async (registrationData: registrationInfo) => {

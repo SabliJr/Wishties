@@ -5,9 +5,9 @@ export interface iCreatorSocialLinks {
 }
 
 export interface registrationInfo { 
-  creatorName: string;
+  creator_name: string;
   email: string;
-  pwd: string;
+  password: string;
 }
 
 export interface loginInfo { 
