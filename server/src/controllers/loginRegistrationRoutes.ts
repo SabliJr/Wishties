@@ -20,7 +20,7 @@ const userRegistration = async (req: Request, res: Response) => {
       name, email, pwd, username
     ]);
 
-    const verificationToken = generateVerificationToken();
+    const verificationToken = generateVerificationToken(username);
 
     const mailOptions = {
       from: process.env.EMAIL_HOST,
@@ -68,6 +68,54 @@ const emailVerification = async (req: Request, res: Response) => {
   }
 };
 
+// this is for requesting verification again
+const reverifyEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    // Check if the email exists in the database
+    const userResult = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    if (!userResult.rows || userResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found.',
+      });
+    }
+
+    const username = userResult.rows[0].username; // Extract username from the result
+    const newVerificationToken = generateVerificationToken(username);  // Generate a new verification token
+
+    // Update the existing token in the database (if you store it there)
+    await query('UPDATE creator SET verification_token = $1 WHERE email = $2', [
+      newVerificationToken,
+      email,
+    ]);
+
+    // Send a new verification email
+    const mailOptions = {
+      from: process.env.EMAIL_HOST,
+      to: email,
+      subject: 'Email Verification',
+      html: `<p>Click the following link to verify your email: <a href="http://wishties.com/verify/${newVerificationToken}">Verify Email</a></p>`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('New verification email sent:', info.response);
+
+    res.status(200).json({
+      success: true,
+      message: 'A new verification email has been sent. Please check your email for verification.',
+    });
+  } catch (error: any) {
+    console.error('Error during requesting verification again:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+};
+
 
 // Login creator
 const userLogin = async (req: Request, res: Response) => { 
@@ -99,4 +147,4 @@ const userLogout = async (req: Request, res: Response) => {
   }
 };
 
-  export { userRegistration, userLogin, userLogout, emailVerification };
+  export { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail };
