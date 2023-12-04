@@ -5,7 +5,7 @@ import { SECRET_KEY } from '../constants';
 import jwt from 'jsonwebtoken';
 
 import { generateUniqueUsername } from '../util/genUniqueUsername';
-import { generateVerificationToken } from '../util/verificationfunctions';
+import { generateVerificationToken } from '../util/verificationFunctions';
 import transporter from '../util/NodemailerConfig';
 
 // User Registration
@@ -23,7 +23,7 @@ const userRegistration = async (req: Request, res: Response) => {
       [ creator_name, email, pwd, username, verificationToken ]);
 
     const mailOptions = {
-      from: process.env.EMAIL_HOST,
+      from: `Wishties 🎁` + process.env.EMAIL_HOST,
       to: email, // Replace with the user's email from the registration data
       subject: 'Email Verification',
       html: `<p>Click the following link to verify your email: <a href="http://localhost:3000/verify/${verificationToken}">Verify Email</a></p>`,

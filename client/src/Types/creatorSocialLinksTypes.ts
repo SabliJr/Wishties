@@ -14,3 +14,11 @@ export interface loginInfo {
   email: string;
   pwd: string;
 }
+
+export interface iErrorMsgs { 
+  fieldsEmpty: string;
+  termsNotChecked: string;
+  validPwdErr: string;
+  validEmailErr: string;
+  validMatchErr: string;
+}

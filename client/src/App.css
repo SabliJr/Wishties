@@ -77,7 +77,8 @@ input[type="submit"][disabled]:hover {
 } */
 
 .signUpPage,
-.loginPage {
+.loginPage,
+.verificationPage {
   max-width: 1180px;
   margin: auto;
   overflow: hidden;
