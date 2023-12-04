@@ -6,6 +6,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onRegistration } from "../../API/authApi";
+import Loader from "../../Loader";
 import {
   registrationInfo,
   iErrorMsgs,
@@ -55,7 +56,6 @@ const SignUp = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Handling submit........");
 
     if (
       !registerValues.email ||
@@ -114,148 +114,153 @@ const SignUp = () => {
     }
 
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const res = await onRegistration(registerValues);
-      setIsLoading(false);
+      // setIsLoading(false);
       console.log("res", res);
     } catch (err: any) {
       console.error(err.res);
     }
   };
 
-  console.log(errMsg);
-  console.log(agreeTerms);
-
   return (
-    <section className='signSection'>
-      <UserImg />
-      <div className='signup'>
-        <div className='FormsDiv'>
-          <h3 className='signUpTitle'>Hello!</h3>
-          <div className='loginTitle'>
-            <p>Sign up today and get you wishes fulfilled.</p>
-          </div>
-          <div>
-            <form className='forms' onSubmit={handleSubmit}>
-              <input
-                type='text'
-                placeholder='name'
-                value={registerValues.creator_name}
-                onChange={(e) => {
-                  onValueChange(e, "creator_name");
-                  setErrMsg((prevValue) => ({
-                    ...prevValue,
-                    fieldsEmpty: "",
-                  }));
-                }}
-                autoComplete='off'
-              />
-              <input
-                type='email'
-                placeholder='Email'
-                autoComplete='off'
-                value={registerValues.email}
-                onChange={(e) => {
-                  onValueChange(e, "email");
-                  setErrMsg((prevValue) => ({
-                    ...prevValue,
-                    validEmailErr: "",
-                  }));
-                }}
-              />
-
-              {/* To check if the email is valid */}
-              {errMsg.validEmailErr ? (
-                <p className='emailErrMsg'>{errMsg.validEmailErr}</p>
-              ) : null}
-
-              <input
-                type='password'
-                placeholder='Password'
-                onChange={(e) => {
-                  onValueChange(e, "password");
-                  setErrMsg((prevValue) => ({
-                    ...prevValue,
-                    validPwdErr: "",
-                  }));
-                }}
-                value={registerValues.password}
-                autoComplete='off'
-              />
-              {errMsg.validPwdErr ? (
-                <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
-              ) : null}
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <section className='signSection'>
+          <UserImg />
+          <div className='signup'>
+            <div className='FormsDiv'>
+              <h3 className='signUpTitle'>Hello!</h3>
+              <div className='loginTitle'>
+                <p>Sign up today and get you wishes fulfilled.</p>
+              </div>
               <div>
-                <input
-                  type='password'
-                  placeholder='Confirm Password'
-                  value={matchPwd}
-                  onChange={(e) => {
-                    setMatchPwd(e.target.value);
-                    setErrMsg((prevValue) => ({
-                      ...prevValue,
-                      validMatchErr: "",
-                    }));
-                  }}
-                  autoComplete='off'
-                />
-                {errMsg.validMatchErr ? (
-                  <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
-                ) : null}
-                <div className='agree'>
+                <form className='forms' onSubmit={handleSubmit}>
                   <input
-                    type='checkbox'
-                    id='agreeCheck'
-                    checked={agreeTerms}
-                    onChange={() => {
-                      setAgreeTerms(!agreeTerms);
+                    type='text'
+                    placeholder='name'
+                    value={registerValues.creator_name}
+                    onChange={(e) => {
+                      onValueChange(e, "creator_name");
                       setErrMsg((prevValue) => ({
                         ...prevValue,
-                        termsNotChecked: "",
+                        fieldsEmpty: "",
+                      }));
+                    }}
+                    autoComplete='off'
+                  />
+                  <input
+                    type='email'
+                    placeholder='Email'
+                    autoComplete='off'
+                    value={registerValues.email}
+                    onChange={(e) => {
+                      onValueChange(e, "email");
+                      setErrMsg((prevValue) => ({
+                        ...prevValue,
+                        validEmailErr: "",
                       }));
                     }}
                   />
 
-                  <label htmlFor='agreeCheck' className='agreeText'>
-                    I agree to the{" "}
-                    <span onClick={() => navigate("")}>Terms of Service</span>{" "}
-                    and <span onClick={() => navigate("")}>Privacy Policy</span>
-                    .
-                  </label>
+                  {/* To check if the email is valid */}
+                  {errMsg.validEmailErr ? (
+                    <p className='emailErrMsg'>{errMsg.validEmailErr}</p>
+                  ) : null}
+
+                  <input
+                    type='password'
+                    placeholder='Password'
+                    onChange={(e) => {
+                      onValueChange(e, "password");
+                      setErrMsg((prevValue) => ({
+                        ...prevValue,
+                        validPwdErr: "",
+                      }));
+                    }}
+                    value={registerValues.password}
+                    autoComplete='off'
+                  />
+                  {errMsg.validPwdErr ? (
+                    <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
+                  ) : null}
+                  <div>
+                    <input
+                      type='password'
+                      placeholder='Confirm Password'
+                      value={matchPwd}
+                      onChange={(e) => {
+                        setMatchPwd(e.target.value);
+                        setErrMsg((prevValue) => ({
+                          ...prevValue,
+                          validMatchErr: "",
+                        }));
+                      }}
+                      autoComplete='off'
+                    />
+                    {errMsg.validMatchErr ? (
+                      <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
+                    ) : null}
+                    <div className='agree'>
+                      <input
+                        type='checkbox'
+                        id='agreeCheck'
+                        checked={agreeTerms}
+                        onChange={() => {
+                          setAgreeTerms(!agreeTerms);
+                          setErrMsg((prevValue) => ({
+                            ...prevValue,
+                            termsNotChecked: "",
+                          }));
+                        }}
+                      />
+
+                      <label htmlFor='agreeCheck' className='agreeText'>
+                        I agree to the{" "}
+                        <span onClick={() => navigate("")}>
+                          Terms of Service
+                        </span>{" "}
+                        and{" "}
+                        <span onClick={() => navigate("")}>Privacy Policy</span>
+                        .
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* To check if the terms are agreed */}
+                  {errMsg.termsNotChecked ? (
+                    <p className='termsErrMsg'>{errMsg.termsNotChecked}</p>
+                  ) : null}
+
+                  {/* To check if all fields are filled */}
+                  {errMsg.fieldsEmpty ? (
+                    <p className='emptyFieldsErrMsg'>{errMsg.fieldsEmpty}</p>
+                  ) : null}
+                  <button type='submit'>Sign Up</button>
+                </form>
+                <h3 className='or'>Or SignUp with</h3>
+                <div className='iconsDiv'>
+                  <div>
+                    <FcGoogle className='loginIcons' />
+                  </div>
+                  <div>
+                    <FaSquareXTwitter className='loginIcons' />
+                  </div>
                 </div>
               </div>
-
-              {/* To check if the terms are agreed */}
-              {errMsg.termsNotChecked ? (
-                <p className='termsErrMsg'>{errMsg.termsNotChecked}</p>
-              ) : null}
-
-              {/* To check if all fields are filled */}
-              {errMsg.fieldsEmpty ? (
-                <p className='emptyFieldsErrMsg'>{errMsg.fieldsEmpty}</p>
-              ) : null}
-              <button type='submit' disabled={!isLoading}>
-                Sign Up
-              </button>
-            </form>
-            <h3 className='or'>Or SignUp with</h3>
-            <div className='iconsDiv'>
-              <div>
-                <FcGoogle className='loginIcons' />
-              </div>
-              <div>
-                <FaSquareXTwitter className='loginIcons' />
-              </div>
+              <p className='logText'>
+                Already have an account?{" "}
+                <span onClick={() => navigate("/login")}>Login</span>
+              </p>
             </div>
           </div>
-          <p className='logText'>
-            Already have an account?{" "}
-            <span onClick={() => navigate("/login")}>Login</span>
-          </p>
-        </div>
-      </div>
-    </section>
+        </section>
+      )}
+    </>
   );
 };
+
 
 export default SignUp;

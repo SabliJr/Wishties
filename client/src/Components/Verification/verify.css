@@ -5,6 +5,10 @@
   justify-content: flex-start;
   width: 75%;
   margin: 8rem auto 10rem;
+  background-color: #fbfffe;
+  padding: 1.6rem 1rem;
+  border-radius: 1.2rem;
+  box-shadow: rgba(162, 162, 162, 0.156) 0px 2px 8px 0px;
 }
 
 .emailImg {
@@ -31,7 +35,7 @@
   border: transparent;
   background-color: #1547d2;
   color: #fbfffe;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-family: 'Archivo', sans-serif;
   margin: 2rem 0;
   padding: .5rem 1rem;
@@ -81,7 +85,7 @@
 
     @media screen and (max-width: 600px) {
       .verify-container h1 {
-        font-size: 1.8rem;
+        font-size: 1.62rem;
       }
 
       .verify-container {
