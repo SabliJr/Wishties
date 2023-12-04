@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
@@ -7,6 +7,7 @@ import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   return (

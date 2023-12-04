@@ -7,6 +7,7 @@ import SignUp from "./Pages/Signup";
 import Error from "./Pages/NotFound";
 import WishList from "./Pages/WishList";
 import Verify from "./Pages/VerificationPage";
+import Loader from "./Loader";
 
 const PrivateRoutes = () => {
   const token = localStorage.getItem("token");
@@ -39,6 +40,7 @@ const RoutesFile = () => {
         <Route path='/' element={<Home />} />
         <Route path='/*' element={<Error />} />
         <Route path='/verify' element={<Verify />} />
+        <Route path='/loader' element={<Loader />} />
 
         <Route element={<PrivateRoutes />}>
           <Route path='/wishlist' element={<WishList />} />
