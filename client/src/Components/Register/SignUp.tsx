@@ -1,23 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
-import { FaSquareXTwitter, FaApple } from "react-icons/fa6";
+import { FaSquareXTwitter } from "react-icons/fa6";
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onRegistration } from "../../API/authApi";
-import { registrationInfo } from "../../Types/creatorSocialLinksTypes";
+import {
+  registrationInfo,
+  iErrorMsgs,
+} from "../../Types/creatorSocialLinksTypes";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,15}$/;
+const PWD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,15}$/;
 
 const SignUp = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
   const [validPwd, setValidPwd] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [errMsg, setErrMsg] = useState<iErrorMsgs>({
+    fieldsEmpty: "",
+    termsNotChecked: "",
+    validPwdErr: "",
+    validMatchErr: "",
+    validEmailErr: "",
+  });
   const [registerValues, setRegisterValues] = useState<registrationInfo>({
     creator_name: "",
     email: "",
@@ -32,60 +42,89 @@ const SignUp = () => {
     });
   };
 
-  //TO check if the user has agreed to the terms
-  const handleCheckboxChange = () => {
-    setAgreeTerms((prevValue) => !prevValue);
-  };
-
   // to check if the email is valid
   const validateEmail = (email: string) => {
     return EMAIL_REGEX.test(email);
   };
 
   useEffect(() => {
-    setValidPwd(PWD_REGEX.test(registerValues.password));
+    const isPwdValid = PWD_REGEX.test(registerValues.password);
+    setValidPwd(isPwdValid);
     setValidMatch(registerValues.password === matchPwd);
   }, [registerValues.password, matchPwd]);
-
-  console.log("registerValues", registerValues);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log("Handling submit........");
 
-    // const v1 = EMAIL_REGEX.test(registerValues.email);
-    // const v2 = PWD_REGEX.test(registerValues.password);
-    // if (!v1 || !v2) {
-    //   setErrMsg("Please fill in all fields.");
-    //   return;
-    // }
+    if (
+      !registerValues.email ||
+      !registerValues.password ||
+      !registerValues.creator_name
+    ) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        fieldsEmpty: "Please fill in all fields.",
+      }));
+      return;
+    }
 
-    // if (!agreeTerms) {
-    //   setErrMsg("Please agree to the terms.");
-    //   return;
-    // }
+    if (!agreeTerms) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        termsNotChecked: "Please agree to the terms of service to proceed!.",
+      }));
+      return;
+    }
 
-    // if (!validateEmail(registerValues.email)) {
-    //   setErrMsg("Please enter a valid email address.");
-    //   return;
-    // }
+    if (!validateEmail(registerValues.email)) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        validEmailErr: "Please enter a valid email address.",
+      }));
+      return;
+    }
 
-    // if (!validMatch) {
-    //   setErrMsg("Passwords do not match.");
-    //   return;
-    // }
+    if (!validMatch) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        validMatchErr: "Passwords do not match.",
+      }));
+      return;
+    }
 
-    // if (validMatch && validPwd && agreeTerms) {
-    //   setErrMsg("");
-    // }
+    if (!validPwd) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        validPwdErr:
+          "Password must be 8-15 characters long, contain at least one uppercase letter, one lowercase letter, one number and one special character.",
+      }));
+      return;
+    }
+
+    if (validMatch && validPwd && agreeTerms) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        fieldsEmpty: "",
+        termsNotChecked: "",
+        validPwdErr: "",
+        validMatchErr: "",
+        validEmailErr: "",
+      }));
+    }
 
     try {
+      setIsLoading(true);
       const res = await onRegistration(registerValues);
+      setIsLoading(false);
       console.log("res", res);
     } catch (err: any) {
       console.error(err.res);
     }
   };
+
+  console.log(errMsg);
+  console.log(agreeTerms);
 
   return (
     <section className='signSection'>
@@ -102,52 +141,102 @@ const SignUp = () => {
                 type='text'
                 placeholder='name'
                 value={registerValues.creator_name}
-                onChange={(e) => onValueChange(e, "creator_name")}
+                onChange={(e) => {
+                  onValueChange(e, "creator_name");
+                  setErrMsg((prevValue) => ({
+                    ...prevValue,
+                    fieldsEmpty: "",
+                  }));
+                }}
                 autoComplete='off'
-                required
               />
               <input
                 type='email'
                 placeholder='Email'
                 autoComplete='off'
                 value={registerValues.email}
-                onChange={(e) => onValueChange(e, "email")}
-                required
+                onChange={(e) => {
+                  onValueChange(e, "email");
+                  setErrMsg((prevValue) => ({
+                    ...prevValue,
+                    validEmailErr: "",
+                  }));
+                }}
               />
+
+              {/* To check if the email is valid */}
+              {errMsg.validEmailErr ? (
+                <p className='emailErrMsg'>{errMsg.validEmailErr}</p>
+              ) : null}
+
               <input
                 type='password'
                 placeholder='Password'
-                onChange={(e) => onValueChange(e, "password")}
+                onChange={(e) => {
+                  onValueChange(e, "password");
+                  setErrMsg((prevValue) => ({
+                    ...prevValue,
+                    validPwdErr: "",
+                  }));
+                }}
                 value={registerValues.password}
                 autoComplete='off'
-                required
               />
+              {errMsg.validPwdErr ? (
+                <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
+              ) : null}
               <div>
                 <input
                   type='password'
                   placeholder='Confirm Password'
                   value={matchPwd}
-                  onChange={(e) => setMatchPwd(e.target.value)}
+                  onChange={(e) => {
+                    setMatchPwd(e.target.value);
+                    setErrMsg((prevValue) => ({
+                      ...prevValue,
+                      validMatchErr: "",
+                    }));
+                  }}
                   autoComplete='off'
-                  required
                 />
+                {errMsg.validMatchErr ? (
+                  <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
+                ) : null}
                 <div className='agree'>
                   <input
                     type='checkbox'
                     id='agreeCheck'
                     checked={agreeTerms}
-                    onChange={handleCheckboxChange}
-                    required
+                    onChange={() => {
+                      setAgreeTerms(!agreeTerms);
+                      setErrMsg((prevValue) => ({
+                        ...prevValue,
+                        termsNotChecked: "",
+                      }));
+                    }}
                   />
-                  <p className='agreeText'>
+
+                  <label htmlFor='agreeCheck' className='agreeText'>
                     I agree to the{" "}
                     <span onClick={() => navigate("")}>Terms of Service</span>{" "}
-                    and{" "}
-                    <span onClick={() => navigate("")}>Privacy Policy.</span>
-                  </p>
+                    and <span onClick={() => navigate("")}>Privacy Policy</span>
+                    .
+                  </label>
                 </div>
               </div>
-              <button type='submit'>Sign Up</button>
+
+              {/* To check if the terms are agreed */}
+              {errMsg.termsNotChecked ? (
+                <p className='termsErrMsg'>{errMsg.termsNotChecked}</p>
+              ) : null}
+
+              {/* To check if all fields are filled */}
+              {errMsg.fieldsEmpty ? (
+                <p className='emptyFieldsErrMsg'>{errMsg.fieldsEmpty}</p>
+              ) : null}
+              <button type='submit' disabled={!isLoading}>
+                Sign Up
+              </button>
             </form>
             <h3 className='or'>Or SignUp with</h3>
             <div className='iconsDiv'>

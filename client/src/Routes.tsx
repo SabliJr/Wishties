@@ -6,8 +6,9 @@ import Home from "./Pages/Home";
 import SignUp from "./Pages/Signup";
 import Error from "./Pages/NotFound";
 import WishList from "./Pages/WishList";
+import Verify from "./Pages/VerificationPage";
 
-const PrivateRoutes = () => { 
+const PrivateRoutes = () => {
   const token = localStorage.getItem("token");
   const isAuth = token ? true : false;
   const isCreator = localStorage.getItem("isCreator") === "true" ? true : false;
@@ -15,15 +16,11 @@ const PrivateRoutes = () => {
   const isCreatorOrUser = isCreator || isUser;
   const isCreatorAndUser = isCreator && isUser;
   const isCreatorOrUserAndAuth = isCreatorOrUser && isAuth;
-  
-  return (
-    <>
-      {isAuth ? <Outlet /> : <Navigate to='/signUp'/>}
-    </>
-  );
-}
 
-const CreatorRoutes = () => { 
+  return <>{isAuth ? <Outlet /> : <Navigate to='/signUp' />}</>;
+};
+
+const CreatorRoutes = () => {
   const token = localStorage.getItem("token");
   const isAuth = token ? true : false;
   const isCreator = localStorage.getItem("isCreator") === "true" ? true : false;
@@ -31,13 +28,9 @@ const CreatorRoutes = () => {
   const isCreatorOrUser = isCreator || isUser;
   const isCreatorAndUser = isCreator && isUser;
   const isCreatorOrUserAndAuth = isCreatorOrUser && isAuth;
-  
-  return (
-    <>
-      {!isCreatorOrUserAndAuth ? <Outlet /> : <Navigate to='/login'/>}
-    </>
-  );
-}
+
+  return <>{!isCreatorOrUserAndAuth ? <Outlet /> : <Navigate to='/login' />}</>;
+};
 
 const RoutesFile = () => {
   return (
@@ -45,6 +38,7 @@ const RoutesFile = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/*' element={<Error />} />
+        <Route path='/verify' element={<Verify />} />
 
         <Route element={<PrivateRoutes />}>
           <Route path='/wishlist' element={<WishList />} />

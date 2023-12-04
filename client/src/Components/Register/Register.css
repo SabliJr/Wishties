@@ -102,12 +102,6 @@
   cursor: pointer;
 }
 
-.forms p {
-  color: #d4145ad3;
-  cursor: pointer;
-  margin: .42rem 0;
-}
-
 .iconsDiv {
   display: flex;
   align-items: center;
@@ -162,6 +156,22 @@
   font-family: 'Source Serif 4', serif;
   font-style: italic;
   text-decoration: underline;
+}
+
+.termsErrMsg,
+#pwdErrMsg,
+.emailErrMsg,
+.matchErrMsg,
+.emptyFieldsErrMsg {
+  color: red;
+  font-size: 1rem;
+  background-color: rgba(239, 209, 209, 0.693);
+  padding: .5rem .3rem;
+  border-radius: .42rem;
+}
+
+#pwdErrMsg {
+  margin: 0;
 }
 
 @media screen and (max-width: 1042px) {
