@@ -16,13 +16,13 @@
 }
 
 .verify-container h1 {
-  font-size: 3.2rem;
+  font-size: 3rem;
   font-family: 'Archivo', sans-serif;
   margin: 1.42rem 0;
 }
 
 .verify-container p {
-  font-size: 1.42rem;
+  font-size: 1.2rem;
   font-family: 'Avenue', sans-serif;
   width: 85%;
   text-align: center;
@@ -35,7 +35,7 @@
   border: transparent;
   background-color: #1547d2;
   color: #fbfffe;
-  font-size: 1.6rem;
+  font-size: 1.42rem;
   font-family: 'Archivo', sans-serif;
   margin: 2rem 0;
   padding: .5rem 1rem;
@@ -46,7 +46,7 @@
 }
 
 .checkSpam {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #d4145ad3;
   font-style: italic;

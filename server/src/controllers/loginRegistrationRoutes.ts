@@ -24,7 +24,7 @@ const userRegistration = async (req: Request, res: Response) => {
 
     const mailOptions = {
       from: `Wishties 🎁` + process.env.EMAIL_HOST,
-      to: email, // Replace with the user's email from the registration data
+      to: email, // This is the email that you want to send to
       subject: 'Email Verification',
       html: `<p>Click the following link to verify your email: <a href="http://localhost:3000/verify/${verificationToken}">Verify Email</a></p>`,
     };

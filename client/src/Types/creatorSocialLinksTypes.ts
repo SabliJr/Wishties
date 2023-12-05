@@ -21,4 +21,5 @@ export interface iErrorMsgs {
   validPwdErr: string;
   validEmailErr: string;
   validMatchErr: string;
+  emailExistsErr: string;
 }
