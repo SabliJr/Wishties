@@ -2,10 +2,6 @@ import { check } from 'express-validator';
 import { query } from '../db';
 import { compare } from 'bcryptjs';
 
-// interface CustomError extends Error {
-//   status?: number;
-// }
-
 const password = check('password')
   .isLength({ min: 8 })
   .withMessage('Password must be at least 8 characters long.');
@@ -16,25 +12,6 @@ const email = check('email')
   .withMessage('Please provide a valid Email.');
 
   //Check if email already exists in the database
-// const emailExist = check('email').custom(
-//   async (value) => { 
-//     const { rows } = await query('SELECT * FROM creator WHERE email = $1', [value]);
-
-//     if (rows.length > 0) {
-//       throw new Error('Email already exists');
-//     }
-// });
-
-// class CustomError extends Error {
-//   status?: number;
-
-//   constructor(name: string, message: string, status?: number) {
-//     super(message);
-//     this.status = status;
-//     this.name = name;
-//   }
-// }
-
 interface CustomError extends Error {
   status?: number;
 }

@@ -3,11 +3,14 @@ import "./App.css";
 
 //RoutersFile
 import LaRoutes from "./Routes";
+import { GlobalValuesProvider } from "./Context/globalValuesContextProvider";
 
 const App = () => {
   return (
     <div className='App'>
-      <LaRoutes />
+      <GlobalValuesProvider>
+        <LaRoutes />
+      </GlobalValuesProvider>
     </div>
   );
 };

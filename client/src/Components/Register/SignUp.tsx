@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
@@ -9,15 +9,17 @@ import { onRegistration } from "../../API/authApi";
 import {
   registrationInfo,
   iErrorMsgs,
+  iGlobalValues,
 } from "../../Types/creatorSocialLinksTypes";
 import Loader from "../../Assets/VZvw.gif";
-// import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const USER_NAME_REGEX = /^[a-zA-Z0-9_-]{3,}$/;
 const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,15}$/;
 
-const SignUp = () => {
+const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [matchPwd, setMatchPwd] = useState("");
@@ -30,13 +32,16 @@ const SignUp = () => {
     validMatchErr: "",
     validEmailErr: "",
     emailExistsErr: "",
+    theNameErr: "",
   });
   const [registerValues, setRegisterValues] = useState<registrationInfo>({
     creator_name: "",
     email: "",
     password: "",
   });
-  // const { setUserEmail } = useUserInfoCOntext();
+
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setUserEmail } = contextValues as iGlobalValues;
   const navigate = useNavigate();
 
   const onValueChange = (e: any, field: string) => {
@@ -105,6 +110,15 @@ const SignUp = () => {
       return;
     }
 
+    if (!USER_NAME_REGEX.test(registerValues.creator_name)) {
+      setErrMsg((prevValue) => ({
+        ...prevValue,
+        theNameErr:
+          "Username must be 3-15 characters long and can contain only letters, numbers, underscores and hyphens.",
+      }));
+      return;
+    }
+
     try {
       setIsLoading(true);
       const res = await onRegistration(registerValues);
@@ -118,14 +132,14 @@ const SignUp = () => {
           ...prevValue,
           emailExistsErr: err.response.data.errors[0].msg,
         }));
-        // setIsLoading(false);
+      } else {
+        // Handle other errors
+        setErrMsg((prevValue) => ({
+          ...prevValue,
+          fieldsEmpty: "Something went wrong. Please try again later.",
+        }));
       }
-      // else {
-      //   // Handle other errors
-      //   console.error("An error occurred:", err);
-      // }
       setIsLoading(false);
-      console.error("An error occurred:", err);
     }
   };
 
@@ -155,10 +169,17 @@ const SignUp = () => {
                     setErrMsg((prevValue) => ({
                       ...prevValue,
                       fieldsEmpty: "",
+                      theNameErr: "",
                     }));
                   }}
                   autoComplete='off'
                 />
+                  
+                  {/* To check if the name is valid */}
+                {errMsg.theNameErr ? (
+                  <p className='nameErrMsg'>{errMsg.theNameErr}</p>
+                ) : null}
+
                 <input
                   type='email'
                   placeholder='Email'
@@ -166,6 +187,7 @@ const SignUp = () => {
                   value={registerValues.email}
                   onChange={(e) => {
                     onValueChange(e, "email");
+                    setUserEmail(registerValues.email);
                     setErrMsg((prevValue) => ({
                       ...prevValue,
                       validEmailErr: "",
@@ -271,6 +293,5 @@ const SignUp = () => {
     </>
   );
 };
-
 
 export default SignUp;

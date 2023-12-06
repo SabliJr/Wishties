@@ -162,7 +162,8 @@
 #pwdErrMsg,
 .emailErrMsg,
 .matchErrMsg,
-.emptyFieldsErrMsg {
+.emptyFieldsErrMsg,
+.nameErrMsg {
   color: red;
   font-size: 1rem;
   background-color: rgba(239, 209, 209, 0.693);

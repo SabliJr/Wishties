@@ -16,7 +16,8 @@
 }
 
 .verify-container h1 {
-  font-size: 3rem;
+  font-size: 2.42rem;
+  font-weight: 800;
   font-family: 'Archivo', sans-serif;
   margin: 1.42rem 0;
 }
@@ -49,6 +50,14 @@
   font-size: 1.4rem;
   font-weight: 700;
   color: #d4145ad3;
+  font-style: italic;
+  font-family: 'Source Serif 4', serif;
+}
+
+.userEmailSpan {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #335ed3;
   font-style: italic;
   font-family: 'Source Serif 4', serif;
 }

@@ -1,26 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./verify.css";
 
 import { useNavigate } from "react-router-dom";
 import { onRequestVerificationAgain } from "../../API/authApi";
 import EmailImg from "../../Assets/completed.png";
-// import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
-
-type tProps = {
-  userEmail: string;
-};
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const Verify = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  // const { userEmail } = useUserInfoCOntext();
-  // console.log(userEmail);
+
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { userEmail } = contextValues as iGlobalValues;
 
   const handleResendVerification = async () => {
-    // navigate("/loader");
     try {
       setIsLoading(true);
-      const res = await onRequestVerificationAgain("userEmail");
+      const res = await onRequestVerificationAgain(userEmail as string);
       console.log(res);
       navigate("/verify");
     } catch (err) {
@@ -34,7 +31,8 @@ const Verify = (): JSX.Element => {
         <img src={EmailImg} alt='Email sent' className='emailImg' />
         <h1>Please verify your email.</h1>
         <p>
-          You're almost there! We have sent a verification email to "userEmail".
+          You're almost there! We have sent a verification email to{" "}
+          <span className='userEmailSpan'>{userEmail}</span>!
         </p>
         <br />
         <br />
