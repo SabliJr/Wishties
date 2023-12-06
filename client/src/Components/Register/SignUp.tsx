@@ -11,8 +11,8 @@ import {
   iErrorMsgs,
   iGlobalValues,
 } from "../../Types/creatorSocialLinksTypes";
-import Loader from "../../Assets/VZvw.gif";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import Loader from "../../Loader";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const USER_NAME_REGEX = /^[a-zA-Z0-9_-]{3,}$/;
@@ -126,6 +126,7 @@ const SignUp: React.FC = () => {
         navigate("/verify");
         setIsLoading(false);
       }
+      setUserEmail(registerValues.email);
     } catch (err: any) {
       if (err.response && err.response.status === 409) {
         setErrMsg((prevValue) => ({
@@ -145,11 +146,7 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      {isLoading && (
-        <div className='TheLoader'>
-          <img src={Loader} alt='spinner' className='spinnerImg' />
-        </div>
-      )}
+      {isLoading && <Loader />}
       <section className='signSection'>
         <UserImg />
         <div className='signup'>
@@ -174,8 +171,8 @@ const SignUp: React.FC = () => {
                   }}
                   autoComplete='off'
                 />
-                  
-                  {/* To check if the name is valid */}
+
+                {/* To check if the name is valid */}
                 {errMsg.theNameErr ? (
                   <p className='nameErrMsg'>{errMsg.theNameErr}</p>
                 ) : null}
@@ -187,7 +184,6 @@ const SignUp: React.FC = () => {
                   value={registerValues.email}
                   onChange={(e) => {
                     onValueChange(e, "email");
-                    setUserEmail(registerValues.email);
                     setErrMsg((prevValue) => ({
                       ...prevValue,
                       validEmailErr: "",

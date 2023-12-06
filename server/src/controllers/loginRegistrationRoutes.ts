@@ -18,7 +18,7 @@ const userRegistration = async (req: Request, res: Response) => {
     const verificationToken = generateVerificationToken(username);
 
     await query(
-      'INSERT INTO creator (creator_name, email, pwd, username, verification_code) VALUES($1, $2, $3, $4, $5)',
+      'INSERT INTO creator (creator_name, email, pwd, username, verification_token) VALUES($1, $2, $3, $4, $5)',
       [ creator_name, email, pwd, username, verificationToken ]);
 
     const mailOptions = {
@@ -28,8 +28,7 @@ const userRegistration = async (req: Request, res: Response) => {
       html: `<p>Click the following link to verify your email: <a href="http://localhost:3000/verify/${verificationToken}">Verify Email</a></p>`,
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Verification email sent:', info.response);
+   await transporter.sendMail(mailOptions);
 
     res.status(201).json({
       success: true,
@@ -77,7 +76,7 @@ const reverifyEmail = async (req: Request, res: Response) => {
     if (!userResult.rows || userResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'User not found.',
+        message: "User don't exist, please register.",
       });
     }
 
@@ -98,12 +97,10 @@ const reverifyEmail = async (req: Request, res: Response) => {
       html: `<p>Click the following link to verify your email: <a href="http://wishties.com/verify/${newVerificationToken}">Verify Email</a></p>`,
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('New verification email sent:', info.response);
-
+    await transporter.sendMail(mailOptions);
     res.status(200).json({
       success: true,
-      message: 'A new verification email has been sent. Please check your email for verification.',
+      message: 'A new verification email has been sent, please check your email.',
     });
   } catch (error: any) {
     console.error('Error during requesting verification again:', error);

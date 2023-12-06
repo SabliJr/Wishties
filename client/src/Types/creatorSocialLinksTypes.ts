@@ -28,4 +28,6 @@ export interface iErrorMsgs {
 export interface iGlobalValues { 
   userEmail: string | undefined;
   setUserEmail: React.Dispatch<React.SetStateAction<string>>;
+  reverificationSuccess: string;
+  setReverificationSuccess: React.Dispatch<React.SetStateAction<string>>;
 }

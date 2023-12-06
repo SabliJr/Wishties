@@ -7,13 +7,15 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userEmail, setUserEmail] = useState("");
-  console.log(userEmail);
+  const [reverificationSuccess, setReverificationSuccess] = useState("");
 
   return (
     <GlobalValuesContext.Provider
       value={{
         userEmail,
         setUserEmail,
+        reverificationSuccess,
+        setReverificationSuccess,
       }}>
       {children}
     </GlobalValuesContext.Provider>
