@@ -8,8 +8,8 @@ import { userAuth } from '../middlewares/validationMiddleware';
 const router = Router();
 
 router.get('/creators', getCreators);
-router.post('/register', registerValidation, validate, userRegistration); // creator registration
-router.post('/login', loginValidation, validate, userLogin); // creator login
+router.post('/register', registerValidation, validate(409), userRegistration); // creator registration
+router.post('/login', loginValidation, validate(401), userLogin); // creator login
 router.get('/logout', userLogout) // logout creator
 router.get('/verify-email/:token', emailVerification) // verify creator email
 router.get('/request-verification-again', reverifyEmail)

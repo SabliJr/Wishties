@@ -11,7 +11,6 @@ import transporter from '../util/NodemailerConfig';
 // User Registration
 const userRegistration = async (req: Request, res: Response) => {
   const { creator_name, email, password } = req.body;
-  console.log('req.body:', req.body);
 
   try {
     const pwd = await hash(password, 12);

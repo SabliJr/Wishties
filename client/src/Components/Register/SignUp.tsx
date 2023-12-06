@@ -113,14 +113,19 @@ const SignUp = () => {
         setIsLoading(false);
       }
     } catch (err: any) {
-      if (err.response.status === 400) {
+      if (err.response && err.response.status === 409) {
         setErrMsg((prevValue) => ({
           ...prevValue,
           emailExistsErr: err.response.data.errors[0].msg,
         }));
-        setIsLoading(false);
+        // setIsLoading(false);
       }
-      console.log(err);
+      // else {
+      //   // Handle other errors
+      //   console.error("An error occurred:", err);
+      // }
+      setIsLoading(false);
+      console.error("An error occurred:", err);
     }
   };
 
