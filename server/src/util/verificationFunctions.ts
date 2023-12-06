@@ -11,7 +11,6 @@ const generateVerificationToken = (username: string) => {
 
   // Use the hash as a unique identifier in the token
   const token = jwt.sign({ hash }, SECRET_KEY, { expiresIn: '1h' }); // Set to 1 hour
-  console.log('Verification token generated:', token);
   return token;
 };
 

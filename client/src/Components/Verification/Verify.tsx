@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./verify.css";
 
 import { useNavigate } from "react-router-dom";
@@ -9,19 +9,47 @@ import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const Verify = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState("");
   const navigate = useNavigate();
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { userEmail } = contextValues as iGlobalValues;
+  const { userEmail, setUserEmail, setReverificationSuccess } =
+    contextValues as iGlobalValues;
+
+  useEffect(() => {
+    if (!userEmail) {
+      navigate("/signUp");
+    }
+    setUserEmail && setUserEmail(userEmail as string);
+  }, [userEmail, navigate, setUserEmail]);
+
+  // Setting a dynamic timeout (e.g., 90 seconds)
+  const timeoutDuration = 5 * 1000; // 90 seconds in milliseconds
+  let remainingTime = timeoutDuration / 1000;
 
   const handleResendVerification = async () => {
     try {
       setIsLoading(true);
       const res = await onRequestVerificationAgain(userEmail as string);
-      console.log(res);
-      navigate("/verify");
-    } catch (err) {
-      console.log(err);
+      if (res.data.success === true) {
+        navigate("/check-email");
+        setIsLoading(false);
+      }
+      setReverificationSuccess && setReverificationSuccess(res.data.message);
+    } catch (err: any) {
+      if (err.response.status === 404) {
+        setIsError(err.response.data.message);
+
+        // Display countdown timer
+        const countdownInterval = setInterval(() => {
+          remainingTime -= 1;
+          if (remainingTime <= 0) {
+            clearInterval(countdownInterval);
+            setIsLoading(false);
+            navigate("/signUp");
+          }
+        }, 1000);
+      }
     }
   };
 
@@ -44,9 +72,14 @@ const Verify = (): JSX.Element => {
         <br />
         <br />
         <p>Still can't find the email !? No problem.</p>
-        <button className='verifyBtn' onClick={handleResendVerification}>
+        <button
+          className='verifyBtn'
+          onClick={handleResendVerification}
+          disabled={isLoading}>
           Resend Verification Email
         </button>
+        <br />
+        {isError && remainingTime && <p className='verifyError'>{isError}</p>}
       </div>
     </>
   );

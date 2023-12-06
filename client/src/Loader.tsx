@@ -1,15 +1,11 @@
 import React from "react";
-import HashLoader from "react-spinners/HashLoader";
+
+import LoaderImg from "./Assets/VZvw.gif";
 
 const Loader = () => {
   return (
-    <div>
-      <HashLoader
-        size={70}
-        style={{
-          color: "rgba(214, 131, 54, 1)",
-        }}
-      />
+    <div className='TheLoader'>
+      <img src={LoaderImg} alt='LoaderImage' className='spinnerImg' />
     </div>
   );
 };

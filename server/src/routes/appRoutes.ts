@@ -12,7 +12,7 @@ router.post('/register', registerValidation, validate(409), userRegistration); /
 router.post('/login', loginValidation, validate(401), userLogin); // creator login
 router.get('/logout', userLogout) // logout creator
 router.get('/verify-email/:token', emailVerification) // verify creator email
-router.get('/request-verification-again', reverifyEmail)
+router.post('/request-verification-again', reverifyEmail)
 // router.post('/add-wish', userAuth, ) // add wish to the wish list
 //router.post('/update-wish',) // update the wish by the creator
 //router.post('/delete-wish',) // delete the wish by the creator
