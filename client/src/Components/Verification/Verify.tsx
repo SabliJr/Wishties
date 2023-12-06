@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./verify.css";
 
 import { useNavigate } from "react-router-dom";
-import { requestVerificationAgain } from "../../API/authApi";
+import { onRequestVerificationAgain } from "../../API/authApi";
 import EmailImg from "../../Assets/completed.png";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const Verify = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { userEmail } = contextValues as iGlobalValues;
+
   const handleResendVerification = async () => {
-    navigate("/loader");
     try {
       setIsLoading(true);
-      const res = await requestVerificationAgain("email");
+      const res = await onRequestVerificationAgain(userEmail as string);
       console.log(res);
       navigate("/verify");
     } catch (err) {
@@ -26,7 +30,10 @@ const Verify = (): JSX.Element => {
       <div className='verify-container'>
         <img src={EmailImg} alt='Email sent' className='emailImg' />
         <h1>Please verify your email.</h1>
-        <p>You're almost there! We have sent a verification email to email.</p>
+        <p>
+          You're almost there! We have sent a verification email to{" "}
+          <span className='userEmailSpan'>{userEmail}</span>!
+        </p>
         <br />
         <br />
         <p>

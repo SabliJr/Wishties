@@ -11,6 +11,8 @@ interface userInfoType {
   setDisplayedSocialLinks: React.Dispatch<
     React.SetStateAction<iCreatorSocialLinks[]>
   >;
+  userEmail: string;
+  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const userInfoContext = createContext<userInfoType | undefined>(undefined);
@@ -19,31 +21,34 @@ const UserProfileContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
-  }): JSX.Element => {
-    //Creator profile info edit
-    const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
-      coverPhoto: "",
-      profilePhoto: "",
-      profileName: "",
-      userName: "",
-      userBio: "",
-    });
+}): JSX.Element => {
+  //Creator profile info edit
+  const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
+    coverPhoto: "",
+    profilePhoto: "",
+    profileName: "",
+    userName: "",
+    userBio: "",
+  });
+  const [userEmail, setUserEmail] = useState("");
+  const [displayedSocialLinks, setDisplayedSocialLinks] =
+    useState(creatorSocialLinks);
 
-  const [displayedSocialLinks, setDisplayedSocialLinks] = useState(creatorSocialLinks);
-
-    return (
-      <userInfoContext.Provider
-        value={{
-          userInfo,
-          setUserInfo,
-          creatorSocialLinks,
-          displayedSocialLinks,
-          setDisplayedSocialLinks,
-        }}>
-        {children}
-      </userInfoContext.Provider>
-    );
-  };
+  return (
+    <userInfoContext.Provider
+      value={{
+        userInfo,
+        setUserInfo,
+        creatorSocialLinks,
+        displayedSocialLinks,
+        setDisplayedSocialLinks,
+        userEmail,
+        setUserEmail,
+      }}>
+      {children}
+    </userInfoContext.Provider>
+  );
+};
 
 function useUserInfoCOntext(): userInfoType {
   const userContext = useContext(userInfoContext);
@@ -60,6 +65,8 @@ function useUserInfoCOntext(): userInfoType {
     creatorSocialLinks,
     displayedSocialLinks,
     setDisplayedSocialLinks,
+    userEmail,
+    setUserEmail,
   } = userContext;
   return {
     userInfo,
@@ -67,6 +74,8 @@ function useUserInfoCOntext(): userInfoType {
     creatorSocialLinks,
     displayedSocialLinks,
     setDisplayedSocialLinks,
+    userEmail,
+    setUserEmail,
   };
 }
 

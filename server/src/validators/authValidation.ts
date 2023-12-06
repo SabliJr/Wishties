@@ -12,6 +12,10 @@ const email = check('email')
   .withMessage('Please provide a valid Email.');
 
   //Check if email already exists in the database
+interface CustomError extends Error {
+  status?: number;
+}
+
 const emailExist = check('email').custom(
   async (value) => { 
     const { rows } = await query('SELECT * FROM creator WHERE email = $1', [value]);

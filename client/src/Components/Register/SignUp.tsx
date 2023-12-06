@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
@@ -6,17 +6,20 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onRegistration } from "../../API/authApi";
-import Loader from "../../Loader";
 import {
   registrationInfo,
   iErrorMsgs,
+  iGlobalValues,
 } from "../../Types/creatorSocialLinksTypes";
+import Loader from "../../Assets/VZvw.gif";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const USER_NAME_REGEX = /^[a-zA-Z0-9_-]{3,}$/;
 const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,15}$/;
 
-const SignUp = () => {
+const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [matchPwd, setMatchPwd] = useState("");
@@ -28,12 +31,17 @@ const SignUp = () => {
     validPwdErr: "",
     validMatchErr: "",
     validEmailErr: "",
+    emailExistsErr: "",
+    theNameErr: "",
   });
   const [registerValues, setRegisterValues] = useState<registrationInfo>({
     creator_name: "",
     email: "",
     password: "",
   });
+
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setUserEmail } = contextValues as iGlobalValues;
   const navigate = useNavigate();
 
   const onValueChange = (e: any, field: string) => {
@@ -102,165 +110,188 @@ const SignUp = () => {
       return;
     }
 
-    if (validMatch && validPwd && agreeTerms) {
+    if (!USER_NAME_REGEX.test(registerValues.creator_name)) {
       setErrMsg((prevValue) => ({
         ...prevValue,
-        fieldsEmpty: "",
-        termsNotChecked: "",
-        validPwdErr: "",
-        validMatchErr: "",
-        validEmailErr: "",
+        theNameErr:
+          "Username must be 3-15 characters long and can contain only letters, numbers, underscores and hyphens.",
       }));
+      return;
     }
 
     try {
-      // setIsLoading(true);
+      setIsLoading(true);
       const res = await onRegistration(registerValues);
-      // setIsLoading(false);
-      console.log("res", res);
+      if (res.status === 201) {
+        navigate("/verify");
+        setIsLoading(false);
+      }
     } catch (err: any) {
-      console.error(err.res);
+      if (err.response && err.response.status === 409) {
+        setErrMsg((prevValue) => ({
+          ...prevValue,
+          emailExistsErr: err.response.data.errors[0].msg,
+        }));
+      } else {
+        // Handle other errors
+        setErrMsg((prevValue) => ({
+          ...prevValue,
+          fieldsEmpty: "Something went wrong. Please try again later.",
+        }));
+      }
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <section className='signSection'>
-          <UserImg />
-          <div className='signup'>
-            <div className='FormsDiv'>
-              <h3 className='signUpTitle'>Hello!</h3>
-              <div className='loginTitle'>
-                <p>Sign up today and get you wishes fulfilled.</p>
-              </div>
-              <div>
-                <form className='forms' onSubmit={handleSubmit}>
-                  <input
-                    type='text'
-                    placeholder='name'
-                    value={registerValues.creator_name}
-                    onChange={(e) => {
-                      onValueChange(e, "creator_name");
-                      setErrMsg((prevValue) => ({
-                        ...prevValue,
-                        fieldsEmpty: "",
-                      }));
-                    }}
-                    autoComplete='off'
-                  />
-                  <input
-                    type='email'
-                    placeholder='Email'
-                    autoComplete='off'
-                    value={registerValues.email}
-                    onChange={(e) => {
-                      onValueChange(e, "email");
-                      setErrMsg((prevValue) => ({
-                        ...prevValue,
-                        validEmailErr: "",
-                      }));
-                    }}
-                  />
+      {isLoading && (
+        <div className='TheLoader'>
+          <img src={Loader} alt='spinner' className='spinnerImg' />
+        </div>
+      )}
+      <section className='signSection'>
+        <UserImg />
+        <div className='signup'>
+          <div className='FormsDiv'>
+            <h3 className='signUpTitle'>Hello!</h3>
+            <div className='loginTitle'>
+              <p>Sign up today and get you wishes fulfilled.</p>
+            </div>
+            <div>
+              <form className='forms' onSubmit={handleSubmit}>
+                <input
+                  type='text'
+                  placeholder='name'
+                  value={registerValues.creator_name}
+                  onChange={(e) => {
+                    onValueChange(e, "creator_name");
+                    setErrMsg((prevValue) => ({
+                      ...prevValue,
+                      fieldsEmpty: "",
+                      theNameErr: "",
+                    }));
+                  }}
+                  autoComplete='off'
+                />
+                  
+                  {/* To check if the name is valid */}
+                {errMsg.theNameErr ? (
+                  <p className='nameErrMsg'>{errMsg.theNameErr}</p>
+                ) : null}
 
-                  {/* To check if the email is valid */}
-                  {errMsg.validEmailErr ? (
-                    <p className='emailErrMsg'>{errMsg.validEmailErr}</p>
-                  ) : null}
+                <input
+                  type='email'
+                  placeholder='Email'
+                  autoComplete='off'
+                  value={registerValues.email}
+                  onChange={(e) => {
+                    onValueChange(e, "email");
+                    setUserEmail(registerValues.email);
+                    setErrMsg((prevValue) => ({
+                      ...prevValue,
+                      validEmailErr: "",
+                      emailExistsErr: "",
+                    }));
+                  }}
+                />
 
+                {/* To check if the email is valid */}
+                {errMsg.validEmailErr ? (
+                  <p className='emailErrMsg'>{errMsg.validEmailErr}</p>
+                ) : null}
+
+                {/* To check if the email already exists */}
+                {errMsg.emailExistsErr ? (
+                  <p className='emailErrMsg'>{errMsg.emailExistsErr}</p>
+                ) : null}
+
+                <input
+                  type='password'
+                  placeholder='Password'
+                  onChange={(e) => {
+                    onValueChange(e, "password");
+                    setErrMsg((prevValue) => ({
+                      ...prevValue,
+                      validPwdErr: "",
+                    }));
+                  }}
+                  value={registerValues.password}
+                  autoComplete='off'
+                />
+                {errMsg.validPwdErr ? (
+                  <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
+                ) : null}
+                <div>
                   <input
                     type='password'
-                    placeholder='Password'
+                    placeholder='Confirm Password'
+                    value={matchPwd}
                     onChange={(e) => {
-                      onValueChange(e, "password");
+                      setMatchPwd(e.target.value);
                       setErrMsg((prevValue) => ({
                         ...prevValue,
-                        validPwdErr: "",
+                        validMatchErr: "",
                       }));
                     }}
-                    value={registerValues.password}
                     autoComplete='off'
                   />
-                  {errMsg.validPwdErr ? (
-                    <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
+                  {errMsg.validMatchErr ? (
+                    <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
                   ) : null}
-                  <div>
+                  <div className='agree'>
                     <input
-                      type='password'
-                      placeholder='Confirm Password'
-                      value={matchPwd}
-                      onChange={(e) => {
-                        setMatchPwd(e.target.value);
+                      type='checkbox'
+                      id='agreeCheck'
+                      checked={agreeTerms}
+                      onChange={() => {
+                        setAgreeTerms(!agreeTerms);
                         setErrMsg((prevValue) => ({
                           ...prevValue,
-                          validMatchErr: "",
+                          termsNotChecked: "",
                         }));
                       }}
-                      autoComplete='off'
                     />
-                    {errMsg.validMatchErr ? (
-                      <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
-                    ) : null}
-                    <div className='agree'>
-                      <input
-                        type='checkbox'
-                        id='agreeCheck'
-                        checked={agreeTerms}
-                        onChange={() => {
-                          setAgreeTerms(!agreeTerms);
-                          setErrMsg((prevValue) => ({
-                            ...prevValue,
-                            termsNotChecked: "",
-                          }));
-                        }}
-                      />
 
-                      <label htmlFor='agreeCheck' className='agreeText'>
-                        I agree to the{" "}
-                        <span onClick={() => navigate("")}>
-                          Terms of Service
-                        </span>{" "}
-                        and{" "}
-                        <span onClick={() => navigate("")}>Privacy Policy</span>
-                        .
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* To check if the terms are agreed */}
-                  {errMsg.termsNotChecked ? (
-                    <p className='termsErrMsg'>{errMsg.termsNotChecked}</p>
-                  ) : null}
-
-                  {/* To check if all fields are filled */}
-                  {errMsg.fieldsEmpty ? (
-                    <p className='emptyFieldsErrMsg'>{errMsg.fieldsEmpty}</p>
-                  ) : null}
-                  <button type='submit'>Sign Up</button>
-                </form>
-                <h3 className='or'>Or SignUp with</h3>
-                <div className='iconsDiv'>
-                  <div>
-                    <FcGoogle className='loginIcons' />
-                  </div>
-                  <div>
-                    <FaSquareXTwitter className='loginIcons' />
+                    <label htmlFor='agreeCheck' className='agreeText'>
+                      I agree to the{" "}
+                      <span onClick={() => navigate("")}>Terms of Service</span>{" "}
+                      and{" "}
+                      <span onClick={() => navigate("")}>Privacy Policy</span>.
+                    </label>
                   </div>
                 </div>
+
+                {/* To check if the terms are agreed */}
+                {errMsg.termsNotChecked ? (
+                  <p className='termsErrMsg'>{errMsg.termsNotChecked}</p>
+                ) : null}
+
+                {/* To check if all fields are filled */}
+                {errMsg.fieldsEmpty ? (
+                  <p className='emptyFieldsErrMsg'>{errMsg.fieldsEmpty}</p>
+                ) : null}
+                <button type='submit'>Sign Up</button>
+              </form>
+              <h3 className='or'>Or SignUp with</h3>
+              <div className='iconsDiv'>
+                <div>
+                  <FcGoogle className='loginIcons' />
+                </div>
+                <div>
+                  <FaSquareXTwitter className='loginIcons' />
+                </div>
               </div>
-              <p className='logText'>
-                Already have an account?{" "}
-                <span onClick={() => navigate("/login")}>Login</span>
-              </p>
             </div>
+            <p className='logText'>
+              Already have an account?{" "}
+              <span onClick={() => navigate("/login")}>Login</span>
+            </p>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </>
   );
 };
-
 
 export default SignUp;

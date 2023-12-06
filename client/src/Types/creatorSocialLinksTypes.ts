@@ -21,4 +21,11 @@ export interface iErrorMsgs {
   validPwdErr: string;
   validEmailErr: string;
   validMatchErr: string;
+  emailExistsErr: string;
+  theNameErr: string;
+}
+
+export interface iGlobalValues { 
+  userEmail: string | undefined;
+  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
 }
