@@ -45,7 +45,7 @@ const RoutesFile = () => {
         <Route path='/check-email' element={<CheckEmail />} />
 
         <Route element={<PrivateRoutes />}>
-          <Route path='/wishlist' element={<WishList />} />
+          <Route path='/wishlist/:username' element={<WishList />} />
         </Route>
         <Route element={<CreatorRoutes />}>
           <Route path='/login' element={<Login />} />

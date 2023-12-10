@@ -1,7 +1,7 @@
 import { query } from '../db';
 import { Request, Response } from 'express';
 import { hash } from 'bcryptjs';
-import { SECRET_KEY } from '../constants';
+import { CLIENT_URL, SECRET_KEY, SERVER_URL } from '../constants';
 import jwt from 'jsonwebtoken';
 
 import { generateUniqueUsername } from '../util/genUniqueUsername';
@@ -15,7 +15,7 @@ const userRegistration = async (req: Request, res: Response) => {
   try {
     const pwd = await hash(password, 12);
     const username = await generateUniqueUsername(creator_name);
-    const verificationToken = generateVerificationToken(username);
+    const verificationToken = generateVerificationToken(email);
 
     await query(
       'INSERT INTO creator (creator_name, email, pwd, username, verification_token) VALUES($1, $2, $3, $4, $5)',
@@ -25,7 +25,8 @@ const userRegistration = async (req: Request, res: Response) => {
       from: `Wishties 🎁` + process.env.EMAIL_HOST,
       to: email, // This is the email that you want to send to
       subject: 'Email Verification',
-      html: `<p>Click the following link to verify your email: <a href="http://localhost:3000/verify/${verificationToken}">Verify Email</a></p>`,
+      html: `<p>Click the following link to verify your email: 
+      <a href="${SERVER_URL}/api/verify-email/${verificationToken}">Verify Email</a></p>`,
     };
 
    await transporter.sendMail(mailOptions);
@@ -38,7 +39,7 @@ const userRegistration = async (req: Request, res: Response) => {
     console.error('Error during registration:', error);
     res.status(500).json({
       success: false,
-      message: 'Internal Server Error',
+      message: 'Something went wrong, please try again',
       error: error.message, // or any relevant information from the error
     });
   }
@@ -48,19 +49,31 @@ const userRegistration = async (req: Request, res: Response) => {
 const emailVerification = async (req: Request, res: Response) => { 
   try {
     const { token } = req.params;
-
     const decoded = await jwt.verify(token, SECRET_KEY);
-    const { creator_id } = decoded as { creator_id: number };
-    await query('UPDATE creator SET is_verified = TRUE WHERE creator_id = $1', [creator_id]);
+    const { email, exp } = decoded as { email: string, exp: number };
+
+    // Check if the token has expired
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (exp && exp < currentTime) {
+      return res.status(401).json({
+        success: false,
+        message: 'The verification link has expired. Please register again.',
+      });
+    }
+
+    // update the verification status in the database
+    await query('UPDATE creator SET is_verified = TRUE WHERE email = $1', [email]);
 
     // Redirect to the creator's wishlist page
-    const username = await query('SELECT username FROM creator WHERE creator_id = $1', [creator_id]);
-    res.redirect(`http://localhost:3000/wishlist/${username}`);
+    const username = await query('SELECT username FROM creator WHERE email = $1', [email]);
+    let creator_name = username.rows[0].username;
+
+    res.redirect(`${CLIENT_URL}/wishlist/${creator_name}`);
   } catch (error: any) {
     console.error('Error during email verification:', error);
     res.status(500).json({
       success: false,
-      message: 'Internal Server Error',
+      message: 'Something went wrong, please try again.',
       error: error.message, // or any relevant information from the error
     });
   }
@@ -91,10 +104,11 @@ const reverifyEmail = async (req: Request, res: Response) => {
 
     // Send a new verification email
     const mailOptions = {
-      from: process.env.EMAIL_HOST,
+      from: `Wishties 🎁` + process.env.EMAIL_HOST,
       to: email,
       subject: 'Email Verification',
-      html: `<p>Click the following link to verify your email: <a href="http://wishties.com/verify/${newVerificationToken}">Verify Email</a></p>`,
+      html: `<p>Click the following link to verify your email:
+      <a href="${SERVER_URL}/api/verify-email/${newVerificationToken}">Verify Email</a></p>`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -106,7 +120,7 @@ const reverifyEmail = async (req: Request, res: Response) => {
     console.error('Error during requesting verification again:', error);
     res.status(500).json({
       success: false,
-      message: 'Internal Server Error',
+      message: 'Something went wrong, please try again.',
       error: error.message,
     });
   }
@@ -126,7 +140,7 @@ const userLogin = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Something went wrong, please try again.');
   }
 };
 
@@ -139,7 +153,7 @@ const userLogout = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Something went wrong, please try again.');
   }
 };
 
