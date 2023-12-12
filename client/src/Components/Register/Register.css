@@ -163,6 +163,7 @@
 .emailErrMsg,
 .matchErrMsg,
 .emptyFieldsErrMsg,
+.serverErrMsg,
 .nameErrMsg {
   color: red;
   font-size: 1rem;
