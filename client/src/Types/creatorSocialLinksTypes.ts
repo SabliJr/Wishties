@@ -30,4 +30,6 @@ export interface iGlobalValues {
   setUserEmail: React.Dispatch<React.SetStateAction<string>>;
   reverificationSuccess: string;
   setReverificationSuccess: React.Dispatch<React.SetStateAction<string>>;
+  serverErrMsg: string;
+  setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
 }

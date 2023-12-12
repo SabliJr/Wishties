@@ -12,11 +12,11 @@
 }
 
 .emailImg {
-  width: 10rem;
+  width: 8rem;
 }
 
 .verify-container h1 {
-  font-size: 2.42rem;
+  font-size: 2rem;
   font-weight: 800;
   font-family: 'Archivo', sans-serif;
   margin: 1.42rem 0;
@@ -80,32 +80,16 @@
   border-radius: .42rem;
 }
 
-.verifyError::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, transparent, red, transparent);
-  animation: slide-animation 2.5s forwards linear;
+#certify {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
-
-@keyframes slide-animation {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
     .verify-container h1 {
-      font-size: 2.3rem;
+      font-size: 1.8rem;
     }
 
     .verify-container p {
@@ -134,7 +118,7 @@
 
     @media screen and (max-width: 600px) {
       .verify-container h1 {
-        font-size: 1.62rem;
+        font-size: 1.6rem;
       }
 
       .verify-container {
@@ -160,6 +144,29 @@
 
       .emailImg {
         width: 6rem;
+      }
+
+      .userEmailSpan {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      #certify {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+
+      @media screen and (max-width: 400px) {
+        .verify-container h1 {
+          font-size: 1.4rem;
+        }
+
+        .verifyBtn {
+          height: 2.5rem;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
       }
     }
   }

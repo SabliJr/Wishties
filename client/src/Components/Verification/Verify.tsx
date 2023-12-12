@@ -13,7 +13,7 @@ const Verify = (): JSX.Element => {
   const navigate = useNavigate();
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { userEmail, setUserEmail, setReverificationSuccess } =
+  const { userEmail, setUserEmail, setReverificationSuccess, serverErrMsg } =
     contextValues as iGlobalValues;
 
   useEffect(() => {
@@ -52,26 +52,45 @@ const Verify = (): JSX.Element => {
       }
     }
   };
+  console.log(serverErrMsg);
 
   return (
     <>
       <div className='verify-container'>
         <img src={EmailImg} alt='Email sent' className='emailImg' />
         <h1>Please verify your email.</h1>
-        <p>
-          You're almost there! We have sent a verification email to{" "}
-          <span className='userEmailSpan'>{userEmail}</span>!
-        </p>
+        {serverErrMsg ? (
+          <>
+            <p className='verifyError'>{serverErrMsg}</p>
+
+            <br />
+            <br />
+            <p>
+              Just click the link to complete your verification. If you don't
+              see it, you may need to{" "}
+              <span className='checkSpam'>check your spam</span> folder.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              You're almost there! We have sent a verification email to{" "}
+              <span className='userEmailSpan'>{userEmail}</span>!
+            </p>
+
+            <br />
+            <br />
+            <p>
+              Just click the link in the email to complete your signUp. If you
+              don't see it, you may need to{" "}
+              <span className='checkSpam'>check your spam</span> folder.
+            </p>
+          </>
+        )}
+
         <br />
         <br />
-        <p>
-          Just click the link in the email to complete your signUp. If you don't
-          see it, you may need to{" "}
-          <span className='checkSpam'>check your spam</span> folder.
-        </p>
-        <br />
-        <br />
-        <p>Still can't find the email !? No problem.</p>
+        <p id='certify'>Still can't find the email !? No problem.</p>
         <button
           className='verifyBtn'
           onClick={handleResendVerification}

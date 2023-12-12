@@ -10,43 +10,24 @@ import Loader from "../../Loader";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const PWD_REGEX =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,15}$/;
-
-const Index = (): JSX.Element => {
+const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
-  const [serverErrMsg, setServerErrMsg] = useState("");
+  const [isError, setIsError] = useState("");
   const [logInData, setLogInData] = useState({
     email: "",
     pwd: "",
   });
-  const [errMsg, setErrMsg] = useState({
-    emailErr: "",
-    pwdErr: "",
-  });
+  const [emptyFields, setEmptyFields] = useState("");
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setUserEmail, setReverificationSuccess } =
-    contextValues as iGlobalValues;
+  const { setUserEmail, setServerErrMsg } = contextValues as iGlobalValues;
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!EMAIL_REGEX.test(logInData.email)) {
-      setErrMsg({
-        ...errMsg,
-        emailErr: "Please enter a valid email",
-      });
-      return;
-    }
-
-    if (!PWD_REGEX.test(logInData.pwd)) {
-      setErrMsg({
-        ...errMsg,
-        pwdErr: "Password must be 8-15 characters long",
-      });
+    if (!logInData.email || !logInData.pwd) {
+      setEmptyFields("Please fill in all fields");
       return;
     }
 
@@ -63,32 +44,34 @@ const Index = (): JSX.Element => {
 
       setIsLoading(false);
     } catch (error: any) {
-      console.log(error);
+      if (error.response) {
+        // Check if the error has a response and response data
+        if (error.response.status === 403) {
+          let theError = error.response.data.message;
 
-      // If a user email is not verified
-      if (error.response.status === 403) {
-        setServerErrMsg(error.response.data.message);
-        setUserEmail && setUserEmail(logInData.email);
-        navigate("/verify");
-      }
+          // If there are errors, update the state with the error message
+          setServerErrMsg(theError);
+          setUserEmail && setUserEmail(logInData.email);
+          navigate("/verify");
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errors &&
+          error.response.status === 500 &&
+          error.response.data.errors.length > 0
+        ) {
+          setIsError(error.response.data.errors[0].msg);
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errors
+        ) {
+          setIsError(error.response.data.errors[0].msg);
+        }
 
-      // If a user email does not exist & not registered
-      if (error.response.status === 404) {
-        setServerErrMsg(error.response.data.message);
-        navigate("/signUp");
+        console.log(error);
+        setIsLoading(false);
       }
-
-      // If there is a server error
-      if (error.response.status === 500) {
-        setServerErrMsg(error.response.data.message);
-      }
-
-      // If a user email or password is incorrect or not matched
-      if (error.response.status === 401) {
-        setServerErrMsg(error.response.data.message);
-      }
-      console.log(error.response.status);
-      setIsLoading(false);
     }
   };
 
@@ -114,17 +97,10 @@ const Index = (): JSX.Element => {
                   value={logInData.email}
                   onChange={(e) => {
                     setLogInData({ ...logInData, email: e.target.value });
-                    setErrMsg((prevValue) => ({
-                      ...prevValue,
-                      emailErr: "",
-                    }));
+                    setEmptyFields("");
+                    setServerErrMsg("");
                   }}
                 />
-
-                {/* Email error */}
-                {errMsg.emailErr && (
-                  <p className='emailErrMsg'>{errMsg.emailErr}</p>
-                )}
 
                 <span>
                   <input
@@ -133,23 +109,25 @@ const Index = (): JSX.Element => {
                     value={logInData.pwd}
                     onChange={(e) => {
                       setLogInData({ ...logInData, pwd: e.target.value });
-                      setErrMsg((prevValue) => ({
-                        ...prevValue,
-                        pwdErr: "",
-                      }));
+                      setEmptyFields("");
+                      setServerErrMsg("");
                     }}
                   />
 
                   <p
                     style={{
                       marginTop: "1rem",
+                      color: "#d4145ad3",
                     }}>
                     Forget password?
                   </p>
                 </span>
 
                 {/* Password error */}
-                {errMsg.pwdErr && <p id='pwdErrMsg'>{errMsg.pwdErr}</p>}
+                {emptyFields && <p id='pwdErrMsg'>{emptyFields}</p>}
+
+                {/* Server error */}
+                {isError && <p className='serverErrMsg'>{isError}</p>}
 
                 <button type='submit'>Login</button>
               </form>
@@ -170,4 +148,4 @@ const Index = (): JSX.Element => {
   );
 };
 
-export default Index;
+export default Login;
