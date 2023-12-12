@@ -11,7 +11,6 @@ router.get('/creators', getCreators);
 router.post('/register', registerValidation, validate(409), userRegistration); // creator registration
 router.get('/verify-email/:token', emailVerification) // verify creator email
 router.post('/request-verification-again', reverifyEmail)
-
 router.post('/login', loginValidation, validate(401), userLogin); // creator login
 router.get('/logout', userLogout) // logout creator
 // router.post('/add-wish', userAuth, ) // add wish to the wish list

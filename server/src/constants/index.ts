@@ -6,12 +6,14 @@ dotenv.config();
   const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
   const SERVER_URL = process.env.SERVER_URL || 'http://localhost:8000';
   const NODE_ENV = process.env.NODE_ENV || 'development';
-  const SECRET_KEY = process.env.SECRET_KEY || 'secret';
+const SECRET_KEY = process.env.SECRET_KEY || 'secret';
+  const EMAIL_HOST = process.env.EMAIL_HOST;
 
 export {
   PORT,
   CLIENT_URL,
   SERVER_URL,
   NODE_ENV,
-  SECRET_KEY
+  SECRET_KEY,
+  EMAIL_HOST
 }

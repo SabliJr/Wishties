@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
@@ -7,13 +7,16 @@ import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onLogin } from "../../API/authApi";
 import Loader from "../../Loader";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,15}$/;
 
-const Index = () => {
+const Index = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
+  const [serverErrMsg, setServerErrMsg] = useState("");
   const [logInData, setLogInData] = useState({
     email: "",
     pwd: "",
@@ -22,6 +25,10 @@ const Index = () => {
     emailErr: "",
     pwdErr: "",
   });
+
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setUserEmail, setReverificationSuccess } =
+    contextValues as iGlobalValues;
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,11 +53,41 @@ const Index = () => {
     try {
       setIsLoading(true);
       const res = await onLogin(logInData);
-      console.log(res);
+
+      // If a user email is verified and logged in is successfully
+      if (res.data.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        navigate("/wishlist");
+      }
+
       setIsLoading(false);
-      // navigate("/home");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+
+      // If a user email is not verified
+      if (error.response.status === 403) {
+        setServerErrMsg(error.response.data.message);
+        setUserEmail && setUserEmail(logInData.email);
+        navigate("/verify");
+      }
+
+      // If a user email does not exist & not registered
+      if (error.response.status === 404) {
+        setServerErrMsg(error.response.data.message);
+        navigate("/signUp");
+      }
+
+      // If there is a server error
+      if (error.response.status === 500) {
+        setServerErrMsg(error.response.data.message);
+      }
+
+      // If a user email or password is incorrect or not matched
+      if (error.response.status === 401) {
+        setServerErrMsg(error.response.data.message);
+      }
+      console.log(error.response.status);
       setIsLoading(false);
     }
   };
@@ -74,9 +111,14 @@ const Index = () => {
                 <input
                   type='email'
                   placeholder='Email'
-                  onChange={(e) =>
-                    setLogInData({ ...logInData, email: e.target.value })
-                  }
+                  value={logInData.email}
+                  onChange={(e) => {
+                    setLogInData({ ...logInData, email: e.target.value });
+                    setErrMsg((prevValue) => ({
+                      ...prevValue,
+                      emailErr: "",
+                    }));
+                  }}
                 />
 
                 {/* Email error */}
@@ -88,10 +130,16 @@ const Index = () => {
                   <input
                     type='password'
                     placeholder='Password'
-                    onChange={(e) =>
-                      setLogInData({ ...logInData, pwd: e.target.value })
-                    }
+                    value={logInData.pwd}
+                    onChange={(e) => {
+                      setLogInData({ ...logInData, pwd: e.target.value });
+                      setErrMsg((prevValue) => ({
+                        ...prevValue,
+                        pwdErr: "",
+                      }));
+                    }}
                   />
+
                   <p
                     style={{
                       marginTop: "1rem",
