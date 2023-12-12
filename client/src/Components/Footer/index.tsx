@@ -6,7 +6,6 @@ import FooterLogo from "../../Assets/xLogo.png";
 import { BsInstagram } from "react-icons/bs";
 import { RiTwitterXLine } from "react-icons/ri";
 import { GrLinkedinOption } from "react-icons/gr";
-import { FaSquareXTwitter } from "react-icons/fa6";
 
 const Index = () => {
   const laDate = new Date().getFullYear();
@@ -56,15 +55,6 @@ const Index = () => {
         </div>
       </main>
       <div className='copy'>
-        <p>
-          <a
-            className='DevName'
-            href='https://twitter.com/sablijr'
-            target='_blank'
-            rel='noopener noreferrer'>
-            Built by @sablijr <FaSquareXTwitter />
-          </a>
-        </p>
         <p>Wishties &copy;{laDate}</p>
       </div>
     </footer>
