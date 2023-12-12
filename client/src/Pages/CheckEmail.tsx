@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../Types/creatorSocialLinksTypes";
+import "../App.css";
 
 import Navbar from "../Components/TheHeader/index";
 import Footer from "../Components/Footer/index";

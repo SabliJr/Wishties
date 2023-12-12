@@ -1,11 +1,11 @@
 import { query } from '../db';
 import { Request, Response } from 'express';
 import { hash } from 'bcryptjs';
-import { CLIENT_URL, SECRET_KEY, SERVER_URL } from '../constants';
+import { CLIENT_URL, SECRET_KEY, SERVER_URL, EMAIL_HOST } from '../constants';
 import jwt from 'jsonwebtoken';
 
 import { generateUniqueUsername } from '../util/genUniqueUsername';
-import { generateVerificationToken } from '../util/verificationFunctions';
+import { generateVerificationToken, sendVerificationEmail } from '../util/verificationFunctions';
 import transporter from '../util/NodemailerConfig';
 
 // User Registration
@@ -21,16 +21,8 @@ const userRegistration = async (req: Request, res: Response) => {
       'INSERT INTO creator (creator_name, email, pwd, username, verification_token) VALUES($1, $2, $3, $4, $5)',
       [ creator_name, email, pwd, username, verificationToken ]);
 
-    const mailOptions = {
-      from: `Wishties 🎁` + process.env.EMAIL_HOST,
-      to: email, // This is the email that you want to send to
-      subject: 'Email Verification',
-      html: `<p>Click the following link to verify your email: 
-      <a href="${SERVER_URL}/api/verify-email/${verificationToken}">Verify Email</a></p>`,
-    };
-
-   await transporter.sendMail(mailOptions);
-
+    const laMailOption = sendVerificationEmail(email as string, verificationToken);
+    await transporter.sendMail(laMailOption);
     res.status(201).json({
       success: true,
       message: 'The registration was successful. Please check your email for verification.'
@@ -103,15 +95,8 @@ const reverifyEmail = async (req: Request, res: Response) => {
     ]);
 
     // Send a new verification email
-    const mailOptions = {
-      from: `Wishties 🎁` + process.env.EMAIL_HOST,
-      to: email,
-      subject: 'Email Verification',
-      html: `<p>Click the following link to verify your email:
-      <a href="${SERVER_URL}/api/verify-email/${newVerificationToken}">Verify Email</a></p>`,
-    };
-
-    await transporter.sendMail(mailOptions);
+    const laMailOption = sendVerificationEmail(email as string, newVerificationToken);
+    await transporter.sendMail(laMailOption);
     res.status(200).json({
       success: true,
       message: 'A new verification email has been sent, please check your email.',
@@ -132,8 +117,21 @@ const userLogin = async (req: Request, res: Response) => {
   try {
     const { creator } = req.body;
     const { creator_id, creator_name, email } = creator;
-    const token = await jwt.sign({ creator_id, creator_name, email }, SECRET_KEY, { expiresIn: '12d' });
 
+    // Check if the creator is verified, if not, send a new verification email.
+    const is_verified = await query('SELECT is_verified FROM creator WHERE email = $1', [email]);
+    if (!is_verified.rows[0].is_verified) {
+      const newVerificationToken = generateVerificationToken(email);  // Generate a new verification token
+      const laMailOption = sendVerificationEmail(email as string, newVerificationToken)
+      await transporter.sendMail(laMailOption);
+
+      return res.status(403).json({
+        success: false,
+        message: 'Please verify your email first, we have sent you a verification link.',
+      });
+    }
+
+    const token = await jwt.sign({ creator_id, creator_name, email }, SECRET_KEY, { expiresIn: '12d' });
     res.status(200).cookie('token', token, { httpOnly: true}).json({
       success: true,
       message: 'The login was successful!',

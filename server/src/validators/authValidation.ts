@@ -12,10 +12,6 @@ const email = check('email')
   .withMessage('Please provide a valid Email.');
 
   //Check if email already exists in the database
-interface CustomError extends Error {
-  status?: number;
-}
-
 const emailExist = check('email').custom(
   async (value) => { 
     const { rows } = await query('SELECT * FROM creator WHERE email = $1', [value]);
@@ -31,13 +27,13 @@ const loginCheck = check('email').custom(
     const { rows } = await query('SELECT * FROM creator WHERE email = $1', [value]);
 
     if (rows.length === 0) {
-      throw new Error('Invalid username or password.');
+      throw new Error('Invalid email or password.');
     }
 
-    const { creator_password } = rows[0];
-    const isMatch = await compare(req.body.password, creator_password);
+    const { pwd } = rows[0];
+    const isMatch = await compare(req.body.pwd, pwd);
     if (!isMatch) {
-      throw new Error('Invalid username or password.');
+      throw new Error('Invalid email or password.');
     }
 
     req.body.creator = rows[0];
