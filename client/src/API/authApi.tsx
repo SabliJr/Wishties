@@ -12,7 +12,9 @@ const onRequestVerificationAgain = async (email: string) => {
 };
 
 const onLogin = async (loginData: loginInfo) => {
-  return await axios.post(`${SERER_URL}/login`, loginData);
+  return await axios.post(`${SERER_URL}/login`, loginData, {
+    withCredentials: true,
+  });
 };
 
 const onLogout = async () => {

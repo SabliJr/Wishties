@@ -18,8 +18,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   credentials: true,
-  origin: CLIENT_URL
-}))
+  origin: CLIENT_URL,
+  optionsSuccessStatus: 200
+}));
 
 // Routes
 app.use('/api', router);

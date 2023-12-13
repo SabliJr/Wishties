@@ -60,7 +60,7 @@ const emailVerification = async (req: Request, res: Response) => {
     const username = await query('SELECT username FROM creator WHERE email = $1', [email]);
     let creator_name = username.rows[0].username;
 
-    res.redirect(`${CLIENT_URL}/wishlist/${creator_name}`);
+    res.redirect(`${CLIENT_URL}/${creator_name}`);
   } catch (error: any) {
     console.error('Error during email verification:', error);
     res.status(500).json({
@@ -111,7 +111,6 @@ const reverifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-
 // Login creator
 const userLogin = async (req: Request, res: Response) => { 
   try {
@@ -121,9 +120,23 @@ const userLogin = async (req: Request, res: Response) => {
     // Check if the creator is verified, if not, send a new verification email.
     const is_verified = await query('SELECT is_verified FROM creator WHERE email = $1', [email]);
     if (!is_verified.rows[0].is_verified) {
-      const newVerificationToken = generateVerificationToken(email);  // Generate a new verification token
-      const laMailOption = sendVerificationEmail(email as string, newVerificationToken)
-      await transporter.sendMail(laMailOption);
+       const newVerificationToken = generateVerificationToken(email);
+      // Check if the token was generated successfully
+      if (!newVerificationToken) {
+        return res.status(500).json({
+          success: false,
+          message: 'Something went wrong, please try again.',
+        });
+      }
+
+      const emailSent = sendVerificationEmail(email as string, newVerificationToken);
+      // Check if the email was sent successfully
+      if (!emailSent) {
+        return res.status(500).json({
+          success: false,
+          message: 'Something went wrong, please try again.',
+        });
+      }
 
       return res.status(403).json({
         success: false,
@@ -132,7 +145,9 @@ const userLogin = async (req: Request, res: Response) => {
     }
 
     const token = await jwt.sign({ creator_id, creator_name, email }, SECRET_KEY, { expiresIn: '12d' });
-    res.status(200).cookie('token', token, { httpOnly: true}).json({
+    res.status(200).cookie('token', token, {
+       maxAge: 1000 * 60 * 60 * 24 * 12, path: '/', sameSite: 'none', secure: true, httpOnly: true
+    }).json({
       success: true,
       message: 'The login was successful!',
     });
