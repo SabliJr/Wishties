@@ -12,18 +12,20 @@ import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
+  const [emptyFields, setEmptyFields] = useState("");
   const [isError, setIsError] = useState("");
   const [logInData, setLogInData] = useState({
     email: "",
     pwd: "",
   });
-  const [emptyFields, setEmptyFields] = useState("");
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { setUserEmail, setServerErrMsg } = contextValues as iGlobalValues;
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (!logInData.email || !logInData.pwd) {
@@ -34,17 +36,28 @@ const Login = (): JSX.Element => {
     try {
       setIsLoading(true);
       const res = await onLogin(logInData);
+      console.log(res);
 
       // If a user email is verified and logged in is successfully
-      if (res.data.status === 200) {
+      if (res.status === 200) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/wishlist");
+        localStorage.setItem("isUser", res.data.isUser);
+        localStorage.setItem("isCreator", res.data.isCreator);
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("profileImg", res.data.profileImg);
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("isVerified", res.data.isVerified);
+        localStorage.setItem("isSocialLogin", res.data.isSocialLogin);
+        localStorage.setItem("emailVerified", res.data.emailVerified);
+
+        // navigate("/wishlist");
       }
 
       setIsLoading(false);
     } catch (error: any) {
       if (error.response) {
+        console.log(error.response);
         // Check if the error has a response and response data
         if (error.response.status === 403) {
           let theError = error.response.data.message;
@@ -98,7 +111,7 @@ const Login = (): JSX.Element => {
                   onChange={(e) => {
                     setLogInData({ ...logInData, email: e.target.value });
                     setEmptyFields("");
-                    setServerErrMsg("");
+                    setIsError("");
                   }}
                 />
 
@@ -110,7 +123,7 @@ const Login = (): JSX.Element => {
                     onChange={(e) => {
                       setLogInData({ ...logInData, pwd: e.target.value });
                       setEmptyFields("");
-                      setServerErrMsg("");
+                      setIsError("");
                     }}
                   />
 
