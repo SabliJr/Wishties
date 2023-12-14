@@ -9,6 +9,7 @@ import { onLogin } from "../../API/authApi";
 import Loader from "../../Loader";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { useAuth } from "../../Context/authCntextProvider";
 
 const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,7 @@ const Login = (): JSX.Element => {
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { setUserEmail, setServerErrMsg } = contextValues as iGlobalValues;
+  const { login, setIsCreator } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (
@@ -35,25 +37,17 @@ const Login = (): JSX.Element => {
 
     try {
       setIsLoading(true);
-      const res = await onLogin(logInData);
-      console.log(res);
+      const response = await onLogin(logInData);
+      console.log(response);
 
-      // If a user email is verified and logged in is successfully
-      if (res.status === 200) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("isUser", res.data.isUser);
-        localStorage.setItem("isCreator", res.data.isCreator);
-        localStorage.setItem("email", res.data.email);
-        localStorage.setItem("name", res.data.name);
-        localStorage.setItem("profileImg", res.data.profileImg);
-        localStorage.setItem("userId", res.data.userId);
-        localStorage.setItem("isVerified", res.data.isVerified);
-        localStorage.setItem("isSocialLogin", res.data.isSocialLogin);
-        localStorage.setItem("emailVerified", res.data.emailVerified);
+      // If a user email is verified and logged in is successful
+      if (response.status === 202) {
+        // Save the user id and username in the context
+        login(response.data.user.id, response.data.user.username);
+        // setIsCreator(response.data.user.id);
 
-        // navigate("/wishlist");
+        navigate(`/wishlist/${response.data.user.username}`);
       }
-
       setIsLoading(false);
     } catch (error: any) {
       if (error.response) {
@@ -125,6 +119,7 @@ const Login = (): JSX.Element => {
                       setEmptyFields("");
                       setIsError("");
                     }}
+                    autoComplete='on'
                   />
 
                   <p

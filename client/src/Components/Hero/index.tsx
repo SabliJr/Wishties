@@ -7,8 +7,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   const handleGetStarted = () => { 
-    navigate('/wishlist')
-    console.log("clicked");
+    navigate("/wishlist/:username");
   }
 
   return (

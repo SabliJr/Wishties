@@ -144,12 +144,18 @@ const userLogin = async (req: Request, res: Response) => {
       });
     }
 
-    const token = await jwt.sign({ creator_id, creator_name, email }, SECRET_KEY, { expiresIn: '12d' });
-    res.status(200).cookie('token', token, {
-       maxAge: 1000 * 60 * 60 * 24 * 12, path: '/', sameSite: 'none', secure: true, httpOnly: true
+    const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    const token = await jwt.sign({ creator_id, creator_name, email }, SECRET_KEY, { expiresIn: '10d' });
+    res.status(202).cookie('token', token, {
+       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'strict',  httpOnly: true,  secure: true
     }).json({
       success: true,
       message: 'The login was successful!',
+      user: {
+        creator_id: la_creator.rows[0].creator_id,
+        username: la_creator.rows[0].username,
+      },
+      token: token,
     });
   } catch (error) {
     console.error(error);

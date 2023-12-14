@@ -19,7 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   credentials: true,
   origin: CLIENT_URL,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  exposedHeaders: ['set-cookie','ajax_redirect'],
+  preflightContinue: true,
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept'],
 }));
 
 // Routes
