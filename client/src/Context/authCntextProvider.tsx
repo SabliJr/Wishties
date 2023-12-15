@@ -1,48 +1,39 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useDebugValue,
+} from "react";
+
+import { iAuth } from "../Types/creatorSocialLinksTypes";
 
 interface AuthContextProps {
-  userId: string | null;
-  username: string | null;
   isAuthenticated: boolean;
-  isCreator: boolean;
-  setIsCreator: React.Dispatch<React.SetStateAction<boolean>>;
-  login: (userId: string, username: string) => void;
-  logout: () => void;
+  // logout: () => void;
+  auth: iAuth | {};
+  setAuth: React.Dispatch<React.SetStateAction<{} | iAuth>>;
+  userId: string | null;
+  setUserId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserId] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [isCreator, setIsCreator] = useState<boolean>(false);
+  const [auth, setAuth] = useState({});
 
-  const isAuthenticated = !!userId;
-  const login = (newUserId: string, newUsername: string) => {
-    setUserId(newUserId);
-    setUsername(newUsername);
-  };
-
-  console.log("userId", userId);
-  console.log("isAuth", isAuthenticated);
-  console.log("isCreator", isCreator);
-  console.log("Login", login);
-
-  const logout = () => {
-    setUserId(null);
-    setUsername(null);
-  };
+  const isAuthenticated: boolean = !!userId;
+  console.log("isAuthenticated", isAuthenticated);
+  // console.log("auth", auth);
 
   return (
     <AuthContext.Provider
       value={{
-        userId,
-        username,
         isAuthenticated,
-        isCreator,
-        setIsCreator,
-        login,
-        logout,
+        auth,
+        setAuth,
+        userId,
+        setUserId,
       }}>
       {children}
     </AuthContext.Provider>
@@ -54,5 +45,9 @@ export const useAuth = () => {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+
+  useDebugValue(context.auth, (auth) =>
+    ((auth as iAuth)?.userId as string) ? "Logged In" : "Logged Out"
+  );
   return context;
 };

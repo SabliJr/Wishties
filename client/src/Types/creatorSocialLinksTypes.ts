@@ -33,3 +33,23 @@ export interface iGlobalValues {
   serverErrMsg: string;
   setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface iAuthContext {
+  userEmail: string | undefined;
+  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
+  reverificationSuccess: string;
+  setReverificationSuccess: React.Dispatch<React.SetStateAction<string>>;
+  serverErrMsg: string;
+  setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
+  handleRegistration: (registrationInfo: registrationInfo) => void;
+  handleLogin: (loginInfo: loginInfo) => void;
+  handleLogout: () => void;
+  handleReverification: (email: string) => void;
+  handleResendVerification: (email: string) => void;
+}
+
+export interface iAuth {
+  userId: string;
+  username: string;
+  accessToken: string;
+}

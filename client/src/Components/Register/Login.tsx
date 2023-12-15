@@ -22,7 +22,7 @@ const Login = (): JSX.Element => {
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { setUserEmail, setServerErrMsg } = contextValues as iGlobalValues;
-  const { login, setIsCreator } = useAuth();
+  const { setAuth, userId, setUserId } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (
@@ -38,17 +38,18 @@ const Login = (): JSX.Element => {
     try {
       setIsLoading(true);
       const response = await onLogin(logInData);
-      console.log(response);
 
       // If a user email is verified and logged in is successful
       if (response.status === 202) {
         // Save the user id and username in the context
-        login(response.data.user.id, response.data.user.username);
-        // setIsCreator(response.data.user.id);
+        const accessToken = response?.data?.accessToken;
+        const { creator_id, username } = response?.data.user;
+        setUserId(creator_id);
+        setAuth({ userId, username, accessToken });
+        setLogInData({ email: "", pwd: "" });
 
         navigate(`/wishlist/${response.data.user.username}`);
       }
-      setIsLoading(false);
     } catch (error: any) {
       if (error.response) {
         console.log(error.response);
@@ -76,9 +77,10 @@ const Login = (): JSX.Element => {
           setIsError(error.response.data.errors[0].msg);
         }
 
-        console.log(error);
-        setIsLoading(false);
+        // console.log(error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -124,7 +124,6 @@ const SignUp: React.FC = () => {
       const res = await onRegistration(registerValues);
       if (res.status === 201) {
         navigate("/verify");
-        setIsLoading(false);
       }
       setUserEmail(registerValues.email);
     } catch (err: any) {
@@ -140,6 +139,7 @@ const SignUp: React.FC = () => {
           fieldsEmpty: "Something went wrong. Please try again later.",
         }));
       }
+    } finally {
       setIsLoading(false);
     }
   };
