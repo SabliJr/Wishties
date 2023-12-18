@@ -12,15 +12,21 @@ dotenv.config();
 
 const app: Application = express();
 
+const corsOptions = {
+  credentials: true,
+  origin: CLIENT_URL,
+  optionsSuccessStatus: 204,
+  exposedHeaders: ['set-cookie', 'ajax_redirect'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept', 'XMLHttpRequest'],
+};
+
+app.use(cors(corsOptions));
+app.options('/api/verify-email/', cors()); // Respond to preflight requests
+
 app.use(passport.initialize());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  credentials: true,
-  origin: CLIENT_URL,
-  optionsSuccessStatus: 200
-}));
 
 // Routes
 app.use('/api', router);

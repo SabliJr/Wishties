@@ -124,7 +124,6 @@ const SignUp: React.FC = () => {
       const res = await onRegistration(registerValues);
       if (res.status === 201) {
         navigate("/verify");
-        setIsLoading(false);
       }
       setUserEmail(registerValues.email);
     } catch (err: any) {
@@ -133,6 +132,11 @@ const SignUp: React.FC = () => {
           ...prevValue,
           emailExistsErr: err.response.data.errors[0].msg,
         }));
+      } else if (err.response && err.response.status === 500) {
+        setErrMsg((prevValue) => ({
+          ...prevValue,
+          fieldsEmpty: err.response.data.error[0].msg
+        }))
       } else {
         // Handle other errors
         setErrMsg((prevValue) => ({
@@ -140,6 +144,7 @@ const SignUp: React.FC = () => {
           fieldsEmpty: "Something went wrong. Please try again later.",
         }));
       }
+    } finally {
       setIsLoading(false);
     }
   };

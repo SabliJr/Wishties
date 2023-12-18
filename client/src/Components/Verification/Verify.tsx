@@ -33,7 +33,6 @@ const Verify = (): JSX.Element => {
       const res = await onRequestVerificationAgain(userEmail as string);
       if (res.data.success === true) {
         navigate("/check-email");
-        setIsLoading(false);
       }
       setReverificationSuccess && setReverificationSuccess(res.data.message);
     } catch (err: any) {
@@ -45,14 +44,14 @@ const Verify = (): JSX.Element => {
           remainingTime -= 1;
           if (remainingTime <= 0) {
             clearInterval(countdownInterval);
-            setIsLoading(false);
             navigate("/signUp");
           }
         }, 1000);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
-  console.log(serverErrMsg);
 
   return (
     <>

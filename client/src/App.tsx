@@ -4,13 +4,16 @@ import "./App.css";
 //RoutersFile
 import LaRoutes from "./Routes";
 import { GlobalValuesProvider } from "./Context/globalValuesContextProvider";
+import { AuthProvider } from "./Context/authCntextProvider";
 
 const App = () => {
   return (
     <div className='App'>
-      <GlobalValuesProvider>
-        <LaRoutes />
-      </GlobalValuesProvider>
+      <AuthProvider>
+        <GlobalValuesProvider>
+          <LaRoutes />
+        </GlobalValuesProvider>
+      </AuthProvider>
     </div>
   );
 };

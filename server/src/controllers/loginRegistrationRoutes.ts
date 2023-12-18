@@ -1,7 +1,7 @@
 import { query } from '../db';
 import { Request, Response } from 'express';
 import { hash } from 'bcryptjs';
-import { CLIENT_URL, SECRET_KEY, SERVER_URL, EMAIL_HOST } from '../constants';
+import { ACCESS_SECRET_KEY, REFRESH_TOKEN_SECRET, CLIENT_URL} from '../constants';
 import jwt from 'jsonwebtoken';
 
 import { generateUniqueUsername } from '../util/genUniqueUsername';
@@ -15,7 +15,7 @@ const userRegistration = async (req: Request, res: Response) => {
   try {
     const pwd = await hash(password, 12);
     const username = await generateUniqueUsername(creator_name);
-    const verificationToken = generateVerificationToken(email);
+    const verificationToken = generateVerificationToken(username, email);
 
     await query(
       'INSERT INTO creator (creator_name, email, pwd, username, verification_token) VALUES($1, $2, $3, $4, $5)',
@@ -40,12 +40,24 @@ const userRegistration = async (req: Request, res: Response) => {
 // Email Verification
 const emailVerification = async (req: Request, res: Response) => { 
   try {
-    const { token } = req.params;
-    const decoded = await jwt.verify(token, SECRET_KEY);
-    const { email, exp } = decoded as { email: string, exp: number };
+    const { token } = req.query;
+
+    // Check if the token exists
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'The verification link is invalid.',
+      });
+    }
+
+    // Verify the token with a custom clock timestamp
+    const currentTime = Math.floor(Date.now() / 1000);
+    const decoded = await jwt.verify(token as string, REFRESH_TOKEN_SECRET as string, {
+      clockTimestamp: currentTime,
+    });
+    const { username, email, exp } = decoded as { username: string, exp: number, email: string };
 
     // Check if the token has expired
-    const currentTime = Math.floor(Date.now() / 1000);
     if (exp && exp < currentTime) {
       return res.status(401).json({
         success: false,
@@ -55,12 +67,29 @@ const emailVerification = async (req: Request, res: Response) => {
 
     // update the verification status in the database
     await query('UPDATE creator SET is_verified = TRUE WHERE email = $1', [email]);
+    const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    const { creator_id, creator_name } = la_creator.rows[0];
+
+      // Create an access token that expires in 30  minutes
+    const accessToken = await jwt.sign(
+      { creator_id, creator_name },
+      ACCESS_SECRET_KEY as string,
+      { expiresIn: '10m' }
+    );
 
     // Redirect to the creator's wishlist page
-    const username = await query('SELECT username FROM creator WHERE email = $1', [email]);
-    let creator_name = username.rows[0].username;
-
-    res.redirect(`${CLIENT_URL}/${creator_name}`);
+    res.status(202).cookie('refreshToken', token, {
+       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'strict',  httpOnly: true,  secure: true
+    }).json({
+      success: true,
+      message: 'The verification was successful!',
+      user: {
+        creator_id: la_creator.rows[0].creator_id,
+        username: la_creator.rows[0].username,
+      },
+      accessToken: accessToken,
+      redirectURL: `${CLIENT_URL}/wishlist/${la_creator.rows[0].username}`
+    });
   } catch (error: any) {
     console.error('Error during email verification:', error);
     res.status(500).json({
@@ -86,7 +115,7 @@ const reverifyEmail = async (req: Request, res: Response) => {
     }
 
     const username = userResult.rows[0].username; // Extract username from the result
-    const newVerificationToken = generateVerificationToken(username);  // Generate a new verification token
+    const newVerificationToken = generateVerificationToken(username, email);  // Generate a new verification token
 
     // Update the existing token in the database (if you store it there)
     await query('UPDATE creator SET verification_token = $1 WHERE email = $2', [
@@ -97,6 +126,7 @@ const reverifyEmail = async (req: Request, res: Response) => {
     // Send a new verification email
     const laMailOption = sendVerificationEmail(email as string, newVerificationToken);
     await transporter.sendMail(laMailOption);
+
     res.status(200).json({
       success: true,
       message: 'A new verification email has been sent, please check your email.',
@@ -115,12 +145,12 @@ const reverifyEmail = async (req: Request, res: Response) => {
 const userLogin = async (req: Request, res: Response) => { 
   try {
     const { creator } = req.body;
-    const { creator_id, creator_name, email } = creator;
+    const { creator_id, creator_name, email, username } = creator;
 
     // Check if the creator is verified, if not, send a new verification email.
     const is_verified = await query('SELECT is_verified FROM creator WHERE email = $1', [email]);
     if (!is_verified.rows[0].is_verified) {
-       const newVerificationToken = generateVerificationToken(email);
+       const newVerificationToken = generateVerificationToken(username, email);
       // Check if the token was generated successfully
       if (!newVerificationToken) {
         return res.status(500).json({
@@ -144,12 +174,31 @@ const userLogin = async (req: Request, res: Response) => {
       });
     }
 
-    const token = await jwt.sign({ creator_id, creator_name, email }, SECRET_KEY, { expiresIn: '12d' });
-    res.status(200).cookie('token', token, {
-       maxAge: 1000 * 60 * 60 * 24 * 12, path: '/', sameSite: 'none', secure: true, httpOnly: true
+    // Create an access token that expires in 30  minutes
+    const accessToken = await jwt.sign(
+      { creator_id, creator_name, username },
+      ACCESS_SECRET_KEY as string,
+      { expiresIn: '30m' }
+    );
+
+    // Create a refresh token that expires in 10 days
+    const refreshToken = await jwt.sign(
+      { creator_id, creator_name, username },
+      REFRESH_TOKEN_SECRET as string,
+      { expiresIn: '10d' }
+    );
+
+    const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    res.status(202).cookie('refreshToken', refreshToken, {
+       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'strict',  httpOnly: true,  secure: true
     }).json({
       success: true,
       message: 'The login was successful!',
+      user: {
+        creator_id: la_creator.rows[0].creator_id,
+        username: la_creator.rows[0].username,
+      },
+      accessToken: accessToken
     });
   } catch (error) {
     console.error(error);

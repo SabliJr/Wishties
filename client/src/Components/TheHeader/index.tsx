@@ -18,14 +18,14 @@ const Index = () => {
       <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
         <nav>
           <li>
-            <Link to='/wishlist'>Create Wishlist</Link>
+            <Link to='/wishlist/:username'>Create Wishlist</Link>
           </li>
         </nav>
         <div className='navButtons'>
           <p>
             <Link to='/login'>Login</Link>
           </p>
-          <button onClick={() => navigate("/signup")}>SignUp</button>
+          <button onClick={() => navigate("/signUp")}>SignUp</button>
         </div>
       </div>
       <RiMenu4Line className='menuIcon' onClick={handleTrigger} />

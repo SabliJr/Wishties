@@ -1,0 +1,104 @@
+import React, { useEffect, useState, useRef } from "react";
+import "./verify.css";
+import "../../App.css";
+
+import { useAuth } from "../../Context/authCntextProvider";
+import { onVerifyEmail } from "../../API/authApi";
+
+import Navbar from "../../Components/TheHeader/index";
+import Footer from "../../Components/Footer/index";
+import Loader from "../../Loader";
+
+import MailChecked from "../../Assets/check-mail.png";
+import ErrorImg from "../../Assets/error-message.png";
+
+const VerifyEmail = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [userId, setUserId] = useState("");
+  const [verificationSuccess, setVerificationSuccess] = useState(true);
+
+  const { setAuth } = useAuth();
+
+  // Setting a dynamic timeout (e.g., 90 seconds)
+  const timeoutDuration = 5 * 1000; // 90 seconds in milliseconds
+  const remainingTimeRef = useRef(timeoutDuration / 1000);
+
+  useEffect(() => {
+    (async () => {
+      const token = window.location.pathname.split("/")[2];
+
+      try {
+        setIsLoaded(true);
+        const res = await onVerifyEmail(token);
+        console.log(`The response: ${res}`);
+
+        if (res.status === 202) {
+          // Save the user id and username in the context
+          const accessToken = res?.data?.accessToken;
+          const { creator_id, username } = res?.data.user;
+          console.log(`The response: ${res.data}`);
+
+          setUserId(creator_id);
+          setAuth({ userId, username, accessToken });
+
+          // Set verification success state
+          setVerificationSuccess(true);
+
+          const countdownInterval = setInterval(() => {
+            remainingTimeRef.current -= 1;
+
+            if (remainingTimeRef.current <= 0) {
+              clearInterval(countdownInterval);
+              window.location.href = res?.data?.redirectURL;
+            }
+          }, 1000);
+        }
+      } catch (error: any) {
+        if (error.response.status === 500) {
+          setErrorMessage("Something went wrong. Please try again.");
+        } else if (error.response.status === 404) {
+          setErrorMessage("The token is invalid. Please try again.");
+        } else {
+          setErrorMessage(`Something went wrong. Please try again.`);
+        }
+      } finally {
+        setIsLoaded(false);
+      }
+    })();
+  }, [setAuth, userId]);
+
+  return (
+    <>
+      {isLoaded ? (
+        <Loader />
+      ) : errorMessage ? (
+        <main className='verificationPage'>
+          <Navbar />
+          <div className='emailVerifiedSectionErr'>
+            <img src={ErrorImg} alt='mail-checked' className='checkedMail' />
+            <h3 className='verifyTitleErr'>There was an Error!</h3>
+            <p className='verifyMsgErr'>
+              Something went wrong. Please try again.
+            </p>
+          </div>
+          <Footer />
+        </main>
+      ) : verificationSuccess ? (
+        <main className='verificationPage'>
+          <Navbar />
+          <div className='emailVerifiedSection'>
+            <img src={MailChecked} alt='mail-checked' className='checkedMail' />
+            <h3 className='verifyTitle'>Success!</h3>
+            <p className='verifyMsg'>
+              Your email has been successfully verified.
+            </p>
+          </div>
+          <Footer />
+        </main>
+      ) : null}
+    </>
+  );
+};
+
+export default VerifyEmail;
