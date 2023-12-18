@@ -8,7 +8,6 @@ import React, {
 import { iAuth } from "../Types/creatorSocialLinksTypes";
 
 interface AuthContextProps {
-  isAuthenticated: boolean;
   // logout: () => void;
   auth: iAuth | {};
   setAuth: React.Dispatch<React.SetStateAction<{} | iAuth>>;
@@ -22,14 +21,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [auth, setAuth] = useState({});
 
-  const isAuthenticated: boolean = !!userId;
-  console.log("isAuthenticated", isAuthenticated);
-  // console.log("auth", auth);
-
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
         auth,
         setAuth,
         userId,

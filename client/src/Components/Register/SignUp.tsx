@@ -132,6 +132,11 @@ const SignUp: React.FC = () => {
           ...prevValue,
           emailExistsErr: err.response.data.errors[0].msg,
         }));
+      } else if (err.response && err.response.status === 500) {
+        setErrMsg((prevValue) => ({
+          ...prevValue,
+          fieldsEmpty: err.response.data.error[0].msg
+        }))
       } else {
         // Handle other errors
         setErrMsg((prevValue) => ({

@@ -1,7 +1,7 @@
 import { query } from '../db';
 import { Request, Response } from 'express';
 import { hash } from 'bcryptjs';
-import { CLIENT_URL, ACCESS_SECRET_KEY, REFRESH_TOKEN_SECRET} from '../constants';
+import { ACCESS_SECRET_KEY, REFRESH_TOKEN_SECRET, CLIENT_URL} from '../constants';
 import jwt from 'jsonwebtoken';
 
 import { generateUniqueUsername } from '../util/genUniqueUsername';
@@ -40,12 +40,24 @@ const userRegistration = async (req: Request, res: Response) => {
 // Email Verification
 const emailVerification = async (req: Request, res: Response) => { 
   try {
-    const { token } = req.params;
-    const decoded = await jwt.verify(token, REFRESH_TOKEN_SECRET as string);
+    const { token } = req.query;
+
+    // Check if the token exists
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'The verification link is invalid.',
+      });
+    }
+
+    // Verify the token with a custom clock timestamp
+    const currentTime = Math.floor(Date.now() / 1000);
+    const decoded = await jwt.verify(token as string, REFRESH_TOKEN_SECRET as string, {
+      clockTimestamp: currentTime,
+    });
     const { username, email, exp } = decoded as { username: string, exp: number, email: string };
 
     // Check if the token has expired
-    const currentTime = Math.floor(Date.now() / 1000);
     if (exp && exp < currentTime) {
       return res.status(401).json({
         success: false,
@@ -75,9 +87,9 @@ const emailVerification = async (req: Request, res: Response) => {
         creator_id: la_creator.rows[0].creator_id,
         username: la_creator.rows[0].username,
       },
-      accessToken: accessToken
+      accessToken: accessToken,
+      redirectURL: `${CLIENT_URL}/wishlist/${la_creator.rows[0].username}`
     });
-    res.redirect(`${CLIENT_URL}/${la_creator.rows[0].username}`);
   } catch (error: any) {
     console.error('Error during email verification:', error);
     res.status(500).json({

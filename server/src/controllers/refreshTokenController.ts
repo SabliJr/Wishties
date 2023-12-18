@@ -14,7 +14,6 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   if (!cookies?.refreshToken)
     return res.sendStatus(401);
   const refreshToken = cookies.refreshToken;
-  // console.log(refreshToken);
 
   jwt.verify(
     refreshToken,
@@ -31,7 +30,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     const creator_username = payload.username;
 
        // Now you can use username and email to query the database
-    query('SELECT * FROM creator WHERE username = $1 AND email = $2', [username, email])
+    query('SELECT * FROM creator WHERE email = $1', [email])
       .then(found_user => {
         if (!found_user) {
           return res.sendStatus(403); //Forbidden
@@ -43,7 +42,6 @@ const handleRefreshToken = async (req: Request, res: Response) => {
           { expiresIn: '30m' }
         );
 
-        console.log(accessToken)
         // Send the new access token
         res.json({ accessToken });
       })

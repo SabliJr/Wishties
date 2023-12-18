@@ -1,5 +1,11 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import { useAuth } from "./Context/authCntextProvider";
 
 import Login from "./Pages/Login";
@@ -10,17 +16,21 @@ import WishList from "./Pages/WishList";
 import Verify from "./Pages/VerificationPage";
 import CheckEmail from "./Pages/CheckEmail";
 import PersistLogin from "./utils/persistLogin";
+import VerifyEmail from "./Components/Verification/verifyEmail";
+
+import { iAuth } from "./Types/creatorSocialLinksTypes";
 
 const FullPrivateRoutes = () => {
-  const { isAuthenticated } = useAuth();
+  const { auth, setAuth } = useAuth();
+  console.log("auth", auth);
 
-  return <>{isAuthenticated ? <Outlet /> : <Navigate to='/login' />}</>;
-};
+  useEffect(() => {
+    setAuth(auth as iAuth);
+  }, [auth, setAuth]);
 
-const MidPrivateRoutes = () => {
-  const { isAuthenticated } = useAuth();
-
-  return <>{!isAuthenticated ? <Outlet /> : <Navigate to='/signUp' />}</>;
+  return (
+    <>{(auth as iAuth)?.accessToken ? <Outlet /> : <Navigate to='/login' />}</>
+  );
 };
 
 const RoutesFile = () => {
@@ -31,15 +41,15 @@ const RoutesFile = () => {
         <Route path='/*' element={<Error />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
+        <Route path='/verify-email/:token' element={<VerifyEmail />} />
 
         <Route element={<PersistLogin />}>
           <Route element={<FullPrivateRoutes />}>
             <Route path='/wishlist/:username' element={<WishList />} />
           </Route>
-          <Route element={<MidPrivateRoutes />}>
-            <Route path='/verify' element={<Verify />} />
-            <Route path='/checkEmail' element={<CheckEmail />} />
-          </Route>
+
+          <Route path='/verify' element={<Verify />} />
+          <Route path='/check-email' element={<CheckEmail />} />
         </Route>
       </Routes>
     </BrowserRouter>

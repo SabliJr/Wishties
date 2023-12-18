@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { REFRESH_TOKEN_SECRET, SERVER_URL, EMAIL_HOST } from '../constants';
+import { REFRESH_TOKEN_SECRET, SERVER_URL, EMAIL_HOST, CLIENT_URL } from '../constants';
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,7 +23,7 @@ const sendVerificationEmail = (email: string, token: string) => {
     to: email,
     subject: 'Email Verification',
     html: `<p>Click the following link to verify your email:
-    <a href="${SERVER_URL}/verify-email/${token}">Verify Email</a></p>`,
+    <a href="${CLIENT_URL}/verify-email/${token}">Verify Email</a></p>`,
   };
   return mailOptions;
 };

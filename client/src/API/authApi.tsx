@@ -29,6 +29,16 @@ const onRequestVerificationAgain = async (email: string) => {
   );
 };
 
+const onVerifyEmail = async (token: string) => {
+  return await axios.get(`${SERVER_URL}/verify-email`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: { token }, // Passing the token as a query parameter
+    withCredentials: true,
+  });
+};
+
 const onLogin = async (loginData: loginInfo) => {
   return await axios.post(`${SERVER_URL}/login`, JSON.stringify(loginData), {
     headers: {
@@ -40,6 +50,9 @@ const onLogin = async (loginData: loginInfo) => {
 
 const onRefreshToken = async () => {
   return await axios.get(`${SERVER_URL}/refresh-token`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
     withCredentials: true,
   });
 };
@@ -56,20 +69,121 @@ const onLogout = async () => {
   });
 };
 
-const onGetUser = async () => {
-  return await axios.get(`${SERVER_URL}`);
+const onGetCreator = async () => {
+  return await axios.get(`${SERVER_URL}/get-creator`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
 };
 
-const onGetWishlist = async () => {
-  return await axios.get(`${SERVER_URL}`);
+const onAddWish = async () => {
+  return await axios.get(`${SERVER_URL}/add-wish`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onRemoveWish = async () => {
+  return await axios.get(`${SERVER_URL}/remove-wish`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onEditWish = async () => {
+  return await axios.get(`${SERVER_URL}/edit-wish`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onGetWish = async () => {
+  return await axios.get(`${SERVER_URL}/get-wish`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onGetWishes = async () => {
+  return await axios.get(`${SERVER_URL}/get-wishes`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onGetWishesByCategory = async () => {
+  return await axios.get(`${SERVER_URL}/get-wishes-by-category`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onGetWishesByPrice = async () => {
+  return await axios.get(`${SERVER_URL}/get-wishes-by-price`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onAddSocialLinks = async () => {
+  return await axios.get(`${SERVER_URL}/add-social-links`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onEditSocialLinks = async () => {
+  return await axios.get(`${SERVER_URL}/edit-social-links`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
+const onGetSocialLinks = async () => {
+  return await axios.get(`${SERVER_URL}/get-social-links`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
 };
 
 export {
-  onGetWishlist,
-  onGetUser,
+  onGetCreator,
   onLogout,
   onLogin,
   onRegistration,
   onRequestVerificationAgain,
   onRefreshToken,
+  onAddWish,
+  onRemoveWish,
+  onEditWish,
+  onGetWish,
+  onGetWishes,
+  onGetWishesByCategory,
+  onGetWishesByPrice,
+  onAddSocialLinks,
+  onEditSocialLinks,
+  onGetSocialLinks,
+  onVerifyEmail,
 };
