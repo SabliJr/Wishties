@@ -22,7 +22,7 @@ import { iAuth } from "./Types/creatorSocialLinksTypes";
 
 const FullPrivateRoutes = () => {
   const { auth, setAuth } = useAuth();
-  console.log("auth", auth);
+  // console.log("auth", auth);
 
   useEffect(() => {
     setAuth(auth as iAuth);

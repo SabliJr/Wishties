@@ -2,13 +2,17 @@ import React from "react";
 import "./Hero.css";
 
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/authCntextProvider";
+import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const { username } = auth as iAuth;
 
-  const handleGetStarted = () => { 
-    navigate("/wishlist/:username");
-  }
+  const handleGetStarted = () => {
+    username ? navigate(`/wishlist/${username}`) : navigate(`/login`);
+  };
 
   return (
     <section className='hero'>
@@ -22,9 +26,7 @@ const Index = () => {
         <span> All for free.</span>
       </p>
       <div className='emailDiv'>
-          <button onClick={handleGetStarted}>
-          Get Started For Free
-          </button>
+        <button onClick={handleGetStarted}>Get Started</button>
       </div>
     </section>
   );

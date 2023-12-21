@@ -28,6 +28,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     const username = payload.username;
     const email = payload.email;
     const creator_username = payload.username;
+    let creator_id = payload.creator_id;
 
        // Now you can use username and email to query the database
     query('SELECT * FROM creator WHERE email = $1', [email])
@@ -43,7 +44,12 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         );
 
         // Send the new access token
-        res.json({ accessToken });
+          res.json({
+            accessToken,
+            user: {
+              username,
+              creator_id
+        }});
       })
       .catch(err => {
         // Handle error

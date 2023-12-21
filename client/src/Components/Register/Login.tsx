@@ -44,6 +44,7 @@ const Login = (): JSX.Element => {
         // Save the user id and username in the context
         const accessToken = response?.data?.accessToken;
         const { creator_id, username } = response?.data.user;
+        console.log(username);
         setUserId(creator_id);
         setAuth({ userId, username, accessToken });
         setLogInData({ email: "", pwd: "" });
