@@ -1,35 +1,67 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
+
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/authCntextProvider";
+import { iAuth } from "../../Types/creatorSocialLinksTypes";
+import UserHeader from "../../Container/TheHeader/index";
 
 import Logo from "../../Assets/xLogo.png";
 import { RiMenu4Line } from "react-icons/ri";
+import { FiShoppingCart } from "react-icons/fi";
+import { TiStarFullOutline } from "react-icons/ti";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleTrigger = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
 
+  const { auth } = useAuth();
+  const { username } = auth as iAuth;
+
+  const handleCreateWishlist = () => {
+    username ? navigate(`/wishlist/${username}`) : navigate(`/signUp`);
+  };
+
   return (
-    <header className='Header'>
-      <Link to='/'>
-        <img src={Logo} alt='' className='logo' />
-      </Link>
-      <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
-        <nav>
-          <li>
-            <Link to='/wishlist/:username'>Create Wishlist</Link>
-          </li>
-        </nav>
-        <div className='navButtons'>
-          <p>
-            <Link to='/login'>Login</Link>
-          </p>
-          <button onClick={() => navigate("/signUp")}>SignUp</button>
+    <>
+      {/* {username ? (
+        <header className='Header'>
+          <UserHeader />
+        </header>
+      ) : ( */}
+      <header className='Header'>
+        <Link to='/'>
+          <img src={Logo} alt='' className='logo' />
+        </Link>
+        <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
+          <nav>
+            <li>
+              <Link to=''>FAQ</Link>
+            </li>
+            <li>
+              <Link to={username ? `/wishlist/${username}` : `/login`}></Link>
+            </li>
+          </nav>
+          <div className='userDiv'>
+            <p className='wishItems'>0</p>
+            <FiShoppingCart
+              className='wishIcon'
+              style={{ fontSize: "1.8rem" }}
+            />
+          </div>
+          <div className='navButtons'>
+            <TiStarFullOutline />
+            <p>
+              <Link to='/login'>Login</Link>
+            </p>
+            <button onClick={handleCreateWishlist}> Create Wishlist</button>
+          </div>
         </div>
-      </div>
-      <RiMenu4Line className='menuIcon' onClick={handleTrigger} />
-    </header>
+        <RiMenu4Line className='menuIcon' onClick={handleTrigger} />
+      </header>
+      {/* )} */}
+    </>
   );
 };
 

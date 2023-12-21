@@ -55,7 +55,7 @@ const emailVerification = async (req: Request, res: Response) => {
     const decoded = await jwt.verify(token as string, REFRESH_TOKEN_SECRET as string, {
       clockTimestamp: currentTime,
     });
-    const { username, email, exp } = decoded as { username: string, exp: number, email: string };
+    const { email, exp } = decoded as { username: string, exp: number, email: string };
 
     // Check if the token has expired
     if (exp && exp < currentTime) {

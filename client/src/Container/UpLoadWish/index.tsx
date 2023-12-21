@@ -1,4 +1,4 @@
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import "./upLoadWish.css";
 
 import WishUploadImg from "../../Assets/WishImg.png";
@@ -13,10 +13,11 @@ interface iProps {
 
 const Index = ({ uploadModule, closeUploadModule }: iProps) => {
   const [wishImg, setWishImg] = useState<File | undefined>();
+  const [wishPrice, setWishPrice] = useState("");
   const [wishInputs, setWishInputs] = useState<iWishInfo>({
     name: "",
-    price: "",
     image: undefined,
+    price: null,
     category: "",
   });
   const ImgInputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +33,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
 
     setWishInputs({ ...wishInputs, image: imgFile });
   };
-  console.log(wishInputs);
+
   //This function is to grape the user inputs from the fields
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -45,7 +46,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
   const addTheWish = () => {
     // Assuming you want to add the wish to an array of wishes in your context
     // You can update wishInfo and add it to your context as needed
-    const updatedWishInfo = { ...wishInputs };
+    const updatedWishInfo = { ...wishInputs, wishPrice };
     Wishes?.push(updatedWishInfo);
 
     // Here, you can add the updatedWishInfo to your context or perform any other actions
@@ -60,6 +61,23 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
       closeUploadModule();
     }
   };
+
+  // Formatting the currency.
+  useEffect(() => {
+    const currencyFormatter = Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2,
+    });
+    // console.log(currencyFormatter.format(+wishPrice));
+    // console.log(currencyFormatter.format(num));
+    const num_format = currencyFormatter.format(+wishPrice);
+    if (!isNaN(+num_format)) {
+      console.log(`The formatted one: ${num_format}`);
+      setWishPrice(num_format);
+    }
+  }, [wishPrice]);
+  console.log(wishPrice);
 
   return (
     <main className='wishUploaderSection'>
@@ -80,9 +98,10 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
           Price
           <input
             type='text'
-            placeholder='$'
+            placeholder='Enter Amount $:'
+            value={wishPrice}
             id='thePrice'
-            onChange={(e) => handleInputChange(e, "price")}
+            onChange={(e) => setWishPrice(e.target.value)}
             required
           />
         </label>

@@ -20,11 +20,13 @@ verification_token VARCHAR(256), -- Creator's verification code
 CREATE TABLE wishlist (
     wishlist_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     creator_id UUID REFERENCES creator(creator_id),
-    wish_category VARCHAR(150),
-    wish_type VARCHAR(150),
-    CONSTRAINT fk_creator_id FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON DELETE CASCADE,
-    INDEX (creator_id)
+CONSTRAINT fk_creator_id
+FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
+DELETE CASCADE
 );
+
+CREATE INDEX idx_creator_id ON wishlist (creator_id);
+
 
 -- Create the Wish table
 CREATE TABLE wish (
@@ -34,14 +36,19 @@ CREATE TABLE wish (
     price NUMERIC NOT NULL,
     wish_image TEXT,
     wish_link TEXT,
+wish_category VARCHAR(150),
+              wish_type VARCHAR(150), -- To check if it's a single buy or a subscription
     created_date TIMESTAMP DEFAULT NOW(),
     purchased BOOLEAN DEFAULT FALSE,
     deleted_at TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_wishlist_id
     FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id) ON
-    DELETE CASCADE,
-    INDEX (wishlist_id)
+
+DELETE CASCADE
 );
+
+CREATE INDEX idx_wishlist_id ON wish (wishlist_id);
+
 
 -- Create the Creator's Social Media Links table
 CREATE TABLE social_media_links (
@@ -51,10 +58,11 @@ CREATE TABLE social_media_links (
     platform_image TEXT,
     link TEXT,
     CONSTRAINT fk_creator_id_social_media
-    FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
-    DELETE CASCADE,
-    INDEX (creator_id)
+
+FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
+DELETE CASCADE
 );
+CREATE INDEX idx_creator_id ON creator (creator_id);
 
 -- Create the Fan/Gift Sender table
 CREATE TABLE fan (
@@ -68,7 +76,6 @@ CREATE TABLE fan (
 );
 
 -- Create the Fan's Gift Purchases table
-
 CREATE TABLE purchases (
     purchase_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     fan_id UUID REFERENCES fan(fan_id),
@@ -85,7 +92,6 @@ CREATE TABLE purchases (
 );
 
 -- Create the creator's gift receiving history table
-
 CREATE TABLE creator_gift_receiving_history ( 
     receiving_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     received_creator_id UUID REFERENCES creator(creator_id), 

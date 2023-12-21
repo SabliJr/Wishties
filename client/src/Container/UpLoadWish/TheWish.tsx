@@ -51,7 +51,7 @@ const TheWish = (): JSX.Element => {
           <div key={i} className='theWishDiv'>
             <img ref={imageRef} alt='wishImag' className='wishImag' />
             <h4 className='wishTitle'>{wish.name}</h4>
-            <p className='wishPrice'>$ {wish.price}</p>
+            <p className='wishPrice'>$ {wish.wishPrice}</p>
             <button className='addToCartBtn'>
               <FaCartPlus className='addToCartBtnIcon' />
               Add To Cart

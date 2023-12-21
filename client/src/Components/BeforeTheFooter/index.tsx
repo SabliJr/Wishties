@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/authCntextProvider";
+import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
 import "./bFooter.css";
 import "../Hero/Hero.css";
@@ -10,6 +12,12 @@ import Img3 from "../../Assets/aiony-haust-3TLl_97HNJo-unsplash.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const { username } = auth as iAuth;
+
+  const handleGetStarted = () => {
+    username ? navigate(`/wishlist/${username}`) : navigate(`/login`);
+  };
 
   return (
     <section className='bFooter'>
@@ -20,9 +28,7 @@ const Index = () => {
         fulfilled, and communities grow stronger through connections.
       </p>
       <div className='emailDivDown'>
-        <button onClick={() => navigate("/wishlist")}>
-          Get Started For Free
-        </button>
+        <button onClick={handleGetStarted}>Get Started For Free</button>
       </div>
       <article className='imagesArticle'>
         <div className='cusImgDiv'>
