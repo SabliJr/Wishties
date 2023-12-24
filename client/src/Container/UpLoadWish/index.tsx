@@ -6,6 +6,8 @@ import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
 import { iWishInfo } from "../../Types/wishListTypes";
 import { MdClose } from "react-icons/md";
 
+import { onAddWish } from "../../API/authApi";
+const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 interface iProps {
   uploadModule: boolean;
   closeUploadModule: () => void;
@@ -13,13 +15,11 @@ interface iProps {
 
 const Index = ({ uploadModule, closeUploadModule }: iProps) => {
   const [wishImg, setWishImg] = useState<File | undefined>();
-  const [wishPrice, setWishPrice] = useState("");
-  const [wishInputs, setWishInputs] = useState<iWishInfo>({
-    name: "",
-    image: undefined,
-    price: null,
-    category: "",
+  const [isError, setIsError] = useState({
+    invalidFileTypeErr: "",
+    emptyFieldsErr: "",
   });
+  const [wishInputs, setWishInputs] = useState<iWishInfo>({} as iWishInfo);
   const ImgInputRef = useRef<HTMLInputElement>(null);
   const { Wishes } = useWishInfoContext();
 
@@ -31,7 +31,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
     const imgFile: File | undefined = e.target?.files?.[0];
     setWishImg(imgFile);
 
-    setWishInputs({ ...wishInputs, image: imgFile });
+    setWishInputs({ ...wishInputs, wish_image: imgFile });
   };
 
   //This function is to grape the user inputs from the fields
@@ -40,116 +40,142 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
     field: string
   ) => {
     const value = e.target.value;
+    console.log(value);
     setWishInputs({ ...wishInputs, [field]: value });
   };
 
-  const addTheWish = () => {
-    // Assuming you want to add the wish to an array of wishes in your context
-    // You can update wishInfo and add it to your context as needed
-    const updatedWishInfo = { ...wishInputs, wishPrice };
-    Wishes?.push(updatedWishInfo);
+  const addTheWish = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    // Here, you can add the updatedWishInfo to your context or perform any other actions
+    const formData = new FormData();
+    formData.append("wish_name", wishInputs.wish_name);
+    formData.append("wish_price", wishInputs.wish_price);
+    formData.append("wish_category", wishInputs.wish_category);
+    if (wishInputs.wish_image) {
+      formData.append("wish_image", wishInputs.wish_image);
+    }
 
-    // For example, you can update the context with the new wish
-    //  setWishInfo(wishInputs);
+    if (
+      !wishInputs.wish_name ||
+      !wishInputs.wish_price ||
+      !wishInputs.wish_image
+    ) {
+      setIsError((prev) => ({
+        ...prev,
+        emptyFieldsErr: "Please fill in all your wish details.",
+      }));
 
-    // Reset the form or take other actions as needed
-    //  resetForm();
+      return;
+    }
 
+    if (
+      wishInputs.wish_image &&
+      !ALLOWED_EXTENSIONS.exec(wishInputs.wish_image.name)
+    ) {
+      setIsError((prev) => ({
+        ...prev,
+        invalidFileTypeErr:
+          "Please upload file having extensions .jpeg/.jpg/.png/.webp only.",
+      }));
+
+      return;
+    }
+
+    Wishes?.push(wishInputs);
     if (uploadModule === true) {
       closeUploadModule();
     }
-  };
 
-  // Formatting the currency.
-  useEffect(() => {
-    const currencyFormatter = Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2,
-    });
-    // console.log(currencyFormatter.format(+wishPrice));
-    // console.log(currencyFormatter.format(num));
-    const num_format = currencyFormatter.format(+wishPrice);
-    if (!isNaN(+num_format)) {
-      console.log(`The formatted one: ${num_format}`);
-      setWishPrice(num_format);
+    try {
+      const res = await onAddWish(formData);
+
+      console.log(res);
+    } catch (error) {
+    } finally {
+      console.log("The wish was added successfully");
     }
-  }, [wishPrice]);
-  console.log(wishPrice);
+  };
 
   return (
     <main className='wishUploaderSection'>
       <MdClose className='editProfileClose' onClick={closeUploadModule} />
-      <h3 className='wishInfoTitle'>Wish Information.</h3>
-      <div className='wishInfoInputsDiv'>
-        <label htmlFor='wishName'>
-          Name
-          <input
-            type='text'
-            placeholder='Your wish name'
-            id='wishName'
-            onChange={(e) => handleInputChange(e, "name")}
-            required
-          />
-        </label>
-        <label htmlFor='thePrice'>
-          Price
-          <input
-            type='text'
-            placeholder='Enter Amount $:'
-            value={wishPrice}
-            id='thePrice'
-            onChange={(e) => setWishPrice(e.target.value)}
-            required
-          />
-        </label>
-      </div>
-      <div className='imgUploaderDiv' onClick={handleImgUpload}>
-        {wishImg ? (
-          <img
-            src={URL.createObjectURL(wishImg)}
-            alt='wishUploadImg'
-            className='wishUploadImg'
-          />
-        ) : (
-          <img
-            src={WishUploadImg}
-            alt='wishUploadImg'
-            className='wishUploadImg'
-          />
-        )}
-
-        <p className='UploadAnImage'>Upload an image.</p>
-        <input
-          type='file'
-          id='image_uploads'
-          name='image_uploads'
-          accept='.jpg, .jpeg, .png, .webp'
-          ref={ImgInputRef}
-          style={{ display: "none" }}
-          required
-          onChange={handleImgChange}
-        />
-      </div>
-
-      <div className='categoriesDiv'>
-        <h4>
-          Publish <span>(optional)</span>{" "}
-        </h4>
-        <p>
-          Categorize your wishes to help gifters find what they're looking for
-          on your wishlist.
-        </p>
-        <div>
-          <input type='text' placeholder='Add a category' />
-          <button className='categoryBtn'>Add</button>
+      <form onSubmit={(e) => addTheWish(e)}>
+        <h3 className='wishInfoTitle'>Wish Information.</h3>
+        <div className='wishInfoInputsDiv'>
+          <label htmlFor='wishName'>
+            Name
+            <input
+              type='text'
+              placeholder='Your wish name'
+              id='wishName'
+              onChange={(e) => handleInputChange(e, "wish_name")}
+              required
+            />
+          </label>
+          <label htmlFor='thePrice'>
+            Price
+            <input
+              type='text'
+              placeholder='Enter Amount $:'
+              // value={wishPrice}
+              id='thePrice'
+              onChange={(e) => handleInputChange(e, "wish_price")}
+              required
+            />
+          </label>
         </div>
-      </div>
-      <button className='addWishBtn' onClick={addTheWish}>
-        Add The Wish
-      </button>
+        <div className='imgUploaderDiv' onClick={handleImgUpload}>
+          {wishImg ? (
+            <img
+              src={URL.createObjectURL(wishImg)}
+              alt='wishUploadImg'
+              className='wishUploadImg'
+            />
+          ) : (
+            <img
+              src={WishUploadImg}
+              alt='wishUploadImg'
+              className='wishUploadImg'
+            />
+          )}
+
+          <p className='UploadAnImage'>Upload an image.</p>
+          <input
+            type='file'
+            id='image_uploads'
+            name='image_uploads'
+            accept='.jpg, .jpeg, .png, .webp'
+            ref={ImgInputRef}
+            style={{ display: "none" }}
+            required
+            onChange={handleImgChange}
+          />
+        </div>
+        {isError.invalidFileTypeErr && (
+          <p className='error'>{isError.invalidFileTypeErr}</p>
+        )}
+        <div className='categoriesDiv'>
+          <h4>
+            Publish <span>(optional)</span>{" "}
+          </h4>
+          <p>
+            Categorize your wishes to help gifters find what they're looking for
+            on your wishlist.
+          </p>
+          <div>
+            <input
+              type='text'
+              placeholder='Add a category'
+              onChange={(e) => handleInputChange(e, "wish_category")}
+            />
+            {/* <button className='categoryBtn'>Add</button> */}
+          </div>
+        </div>
+        {isError.emptyFieldsErr && (
+          <p className='error'>{isError.emptyFieldsErr}</p>
+        )}
+        <button className='addWishBtn'>Add The Wish</button>
+      </form>
     </main>
   );
 };
