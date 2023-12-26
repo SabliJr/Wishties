@@ -15,7 +15,6 @@ import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isError, setIsError] = useState("");
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   const { username } = auth as iAuth;

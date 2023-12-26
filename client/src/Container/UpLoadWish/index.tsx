@@ -7,6 +7,7 @@ import { iWishInfo } from "../../Types/wishListTypes";
 import { MdClose } from "react-icons/md";
 
 import { onAddWish } from "../../API/authApi";
+import FormatMoney from "../../utils/FormatMoney";
 const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 interface iProps {
   uploadModule: boolean;
@@ -35,12 +36,15 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
   };
 
   //This function is to grape the user inputs from the fields
+  // Modify the handleInputChange function
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
-    const value = e.target.value;
-    console.log(value);
+    let value = e.target.value;
+    if (field === "wish_price") {
+      //implement the formatMoney function here
+    }
     setWishInputs({ ...wishInputs, [field]: value });
   };
 
@@ -107,6 +111,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
             <input
               type='text'
               placeholder='Your wish name'
+              value={wishInputs.wish_name}
               id='wishName'
               onChange={(e) => handleInputChange(e, "wish_name")}
             />
@@ -116,7 +121,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
             <input
               type='text'
               placeholder='Enter Amount $:'
-              // value={wishPrice}
+              value={wishInputs.wish_price}
               id='thePrice'
               onChange={(e) => handleInputChange(e, "wish_price")}
             />
@@ -163,6 +168,7 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
             <input
               type='text'
               placeholder='Add a category'
+              value={wishInputs.wish_category}
               onChange={(e) => handleInputChange(e, "wish_category")}
             />
             {/* <button className='categoryBtn'>Add</button> */}
