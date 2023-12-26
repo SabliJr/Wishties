@@ -3,10 +3,9 @@
   background-color: #fbfdfd;
   flex-direction: column;
   width: 400px;
-  margin: 8rem auto;
-  height: 50rem;
+  margin: 3rem auto;
+  height: 45rem;
   position: fixed;
-  /* top: 50%; */
   left: 50%;
   backdrop-filter: blur(5rem);
   transform: translate(-50%, -50%);
@@ -110,7 +109,7 @@
   width: 205px;
   height: 210px;
   object-fit: cover;
-  border-radius: .6rem;
+  border-radius: .42rem;
 }
 
 .wishTitle {
@@ -147,4 +146,17 @@
 .addToCartBtnIcon {
   font-size: 1rem;
   margin-right: .5rem;
+}
+
+.wishDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin: .5rem 0;
+}
+
+.wishOptionBtn {
+  font-size: 1rem;
+  cursor: pointer;
 }

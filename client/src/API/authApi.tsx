@@ -64,7 +64,7 @@ export const axiosPrivate = axios.create({
 });
 
 const onLogout = async () => {
-  return await axios.post(`${SERVER_URL}/logout`, {
+  return await axios.get(`${SERVER_URL}/logout`, {
     withCredentials: true,
   });
 };

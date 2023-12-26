@@ -209,7 +209,7 @@ const userLogin = async (req: Request, res: Response) => {
 // Logout creator
 const userLogout = async (req: Request, res: Response) => { 
   try {
-    res.status(200).clearCookie('token').json({
+    res.status(200).clearCookie('refreshToken').json({
       success: true,
       message: 'logged out successfully!',
     });

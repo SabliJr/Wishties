@@ -10,15 +10,6 @@ import multer, {memoryStorage} from 'multer';
 
 const router = Router();
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, '../uploads/');
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, new Date().toISOString() + file.originalname);
-//   },
-// });
-
 const storage = memoryStorage(); // store the file in memory as a buffer and then upload it to the S3 bucket
 const upload = multer({ storage: storage })
 upload.single('wish_image');

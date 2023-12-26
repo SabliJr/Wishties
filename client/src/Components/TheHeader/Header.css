@@ -20,10 +20,10 @@
   list-style: none;
   font-size: 1.3rem;
   font-family: 'Archivo', sans-serif;
-  gap: 2rem;
+  gap: 1.3rem;
   font-weight: 500;
-  font-style: italic;
   cursor: pointer;
+  align-items: center;
 }
 
 .navButtons {

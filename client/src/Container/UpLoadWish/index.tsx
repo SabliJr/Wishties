@@ -1,4 +1,4 @@
-import React, { useState, useRef, ChangeEvent, useEffect } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import "./upLoadWish.css";
 
 import WishUploadImg from "../../Assets/WishImg.png";
@@ -109,7 +109,6 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
               placeholder='Your wish name'
               id='wishName'
               onChange={(e) => handleInputChange(e, "wish_name")}
-              required
             />
           </label>
           <label htmlFor='thePrice'>
@@ -120,7 +119,6 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
               // value={wishPrice}
               id='thePrice'
               onChange={(e) => handleInputChange(e, "wish_price")}
-              required
             />
           </label>
         </div>
@@ -147,7 +145,6 @@ const Index = ({ uploadModule, closeUploadModule }: iProps) => {
             accept='.jpg, .jpeg, .png, .webp'
             ref={ImgInputRef}
             style={{ display: "none" }}
-            required
             onChange={handleImgChange}
           />
         </div>

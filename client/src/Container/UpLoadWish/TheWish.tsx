@@ -45,16 +45,22 @@ const TheWish = (): JSX.Element => {
     });
   }, [Wishes, imageURLs]);
 
+  const handleEdit = () => {
+    console.log("edit");
+  };
+
   return (
     <>
       {Wishes?.length ? (
         Wishes?.map((wish, i) => (
           <div key={i} className='theWishDiv'>
             <img ref={imageRef} alt='wishImag' className='wishImag' />
-            <div>
-              <h4 className='wishTitle'>{wish.wish_name}</h4>
-              <p className='wishPrice'>$ {wish.wish_price}</p>
-              <div className='wishOptionBtn'>
+            <div className='wishDetails'>
+              <div>
+                <h4 className='wishTitle'>{wish.wish_name}</h4>
+                <p className='wishPrice'>$ {wish.wish_price}</p>
+              </div>
+              <div className='wishOptionBtn' onClick={handleEdit}>
                 <HiDotsVertical className='wishOptionBtnIcon' />
               </div>
             </div>
