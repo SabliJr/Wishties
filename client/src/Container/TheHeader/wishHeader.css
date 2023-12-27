@@ -7,11 +7,9 @@
 }
 
 .appSection {
-  position: fixed;
   width: 100%;
   top: 0;
   z-index: 999;
-  background-color: #f0f9f9;
 }
 
 .wishlistLogo {
@@ -22,6 +20,7 @@
 .iconsDiv {
   display: flex;
   gap: 1.3rem;
+  position: relative;
 }
 
 .wishIcon {
@@ -33,6 +32,8 @@
 
 .userDiv {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .wishItems {
@@ -40,10 +41,78 @@
   top: -.5rem;
   background-color: #d4145a;
   color: #f0f9f9;
-  /* border: 1px solid rgb(97, 97, 97); */
   padding: .05rem .2rem;
   border-radius: .3rem;
   right: -.3rem;
   z-index: 333;
+  font-size: .8rem;
+}
+
+.iconsDiv .iconText {
+  visibility: hidden;
+  width: 60px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 0;
+  font-size: .8rem;
+  position: absolute;
+  bottom: -2.5rem;
+  z-index: 1;
+}
+
+.itemsIcon:hover .iconText {
+  visibility: visible;
+}
+
+.itemsIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fqa {
+  font-size: 1.1rem;
+  color: rgb(97, 97, 97);
+  cursor: pointer;
+  gap: 2rem;
+}
+
+.accountDropDown {
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  background-color: #c1efef;
+  border-radius: .6rem;
+  padding: 1rem;
+  width: 10rem;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  z-index: 999;
+  display: none;
+}
+
+.accountDropDown li {
+  color: #1547d2;
   font-size: 1rem;
+  font-weight: 500;
+  list-style: none;
+  cursor: pointer;
+}
+
+.openSettings {
+  display: flex;
+}
+
+
+@media screen and (max-width: 1024px) {
+
+
+  @media screen and (max-width: 800px) {
+
+
+    @media screen and (max-width: 600px) {}
+  }
 }

@@ -1,12 +1,19 @@
 import { Router } from 'express';
 import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
+import { onAddWish } from '../controllers/wishControllers';
 import { registerValidation, loginValidation } from '../validators/authValidation';
 import { getCreators } from '../controllers/getUserController';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
 import { validate } from '../middlewares/authMiddleware';
 import { userAuth } from '../middlewares/validationMiddleware';
+import multer, {memoryStorage} from 'multer';
 
 const router = Router();
+
+const storage = memoryStorage(); // store the file in memory as a buffer and then upload it to the S3 bucket
+const upload = multer({ storage: storage })
+upload.single('wish_image');
+console.log(upload.single('wish_image'));
 
 router.get('/creators', getCreators);
 router.post('/register', registerValidation, validate(409), userRegistration); // creator registration
@@ -16,7 +23,7 @@ router.post('/login', loginValidation, validate(401), userLogin); // creator log
 router.get('/logout', userLogout) // logout creator
 router.get('/refresh-token', handleRefreshToken); // refresh token
 //router.post('/reset-password',) // reset password
-// router.post('/add-wish', userAuth, ) // add wish to the wish list
+router.post('/add-wish', upload.single('wish_image'), onAddWish); // add wish to the wish list
 //router.post('/update-wish',) // update the wish by the creator
 //router.post('/delete-wish',) // delete the wish by the creator
 //router.post('/edit-profile',) // edit or update profile

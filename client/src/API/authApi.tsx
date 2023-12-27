@@ -64,7 +64,7 @@ export const axiosPrivate = axios.create({
 });
 
 const onLogout = async () => {
-  return await axios.post(`${SERVER_URL}/logout`, {
+  return await axios.get(`${SERVER_URL}/logout`, {
     withCredentials: true,
   });
 };
@@ -78,11 +78,8 @@ const onGetCreator = async () => {
   });
 };
 
-const onAddWish = async () => {
-  return await axios.get(`${SERVER_URL}/add-wish`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+const onAddWish = async (FormData: FormData) => {
+  return await axios.post(`${SERVER_URL}/add-wish`, FormData, {
     withCredentials: true,
   });
 };

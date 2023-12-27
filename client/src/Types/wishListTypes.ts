@@ -1,9 +1,8 @@
 export interface iWishInfo {
-  name: string;
-  image: File | undefined;
-  category: string;
-  wishPrice?: string;
-  price: number | null;
+  wish_name: string;
+  wish_image: File | undefined;
+  wish_price: string;
+  wish_category: string;
 }
 
 export interface iUserInfo {

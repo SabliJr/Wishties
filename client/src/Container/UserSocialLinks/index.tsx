@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./UserSocials.css";
 
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
@@ -16,14 +16,48 @@ import SelectPlatform from "./SelectPlatform";
 type SocialMediaLinkFormProps = {
   socialLinksModule: Boolean;
   handleSocialLinksModule: () => void;
+  socialsModal: boolean;
 };
 
 const SocialMediaLinkForm = ({
   socialLinksModule,
   handleSocialLinksModule,
+  socialsModal,
 }: SocialMediaLinkFormProps) => {
   const [linksModule, setLinksModule] = useState(false);
   const { creatorSocialLinks } = useUserInfoCOntext();
+  const modelRef = useRef<HTMLDivElement | null>(null);
+
+  // This function is to close the module of adding wish when the user clicks outside the module
+  const closeModuleOutside = useCallback(
+    (e: MouseEvent) => {
+      if (modelRef?.current && !modelRef?.current?.contains(e.target as Node)) {
+        handleSocialLinksModule();
+      }
+    },
+    [handleSocialLinksModule]
+  );
+
+  useEffect(() => {
+    document.addEventListener("mouseup", closeModuleOutside);
+    return () => {
+      document.removeEventListener("mouseup", closeModuleOutside);
+    };
+  }, [closeModuleOutside]);
+
+  useEffect(() => {
+    // Add the 'modal-open' class to the body when the modal is open
+    if (socialsModal && !modelRef?.current?.contains(document.activeElement)) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+
+    // Clean up function
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, [socialsModal]);
 
   const handleSubmit = () => {
     // You can handle submission logic here if needed
@@ -41,7 +75,9 @@ const SocialMediaLinkForm = ({
 
   return (
     <>
-      <section className='AddingLinksModule'>
+      <div className='SocialLinksModule'></div>
+
+      <section className='AddingLinksModule' ref={modelRef}>
         <CgClose
           className='closeLinksModule'
           onClick={handleSocialLinksModule}
@@ -76,7 +112,9 @@ const SocialMediaLinkForm = ({
         ) : null}
         <button
           className='addLinksBtn'
-          onClick={() => setLinksModule(!linksModule)}>
+          onClick={() => {
+            setLinksModule(!linksModule);
+          }}>
           Add Link <FaPlus className='linksPlusIcon' />
         </button>
         <button type='submit' className='saveLinks' onClick={handleSubmit}>

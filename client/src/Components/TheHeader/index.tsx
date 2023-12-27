@@ -8,8 +8,6 @@ import UserHeader from "../../Container/TheHeader/index";
 
 import Logo from "../../Assets/xLogo.png";
 import { RiMenu4Line } from "react-icons/ri";
-import { FiShoppingCart } from "react-icons/fi";
-import { TiStarFullOutline } from "react-icons/ti";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,42 +23,31 @@ const Index = () => {
 
   return (
     <>
-      {/* {username ? (
+      {username ? (
         <header className='Header'>
           <UserHeader />
         </header>
-      ) : ( */}
-      <header className='Header'>
-        <Link to='/'>
-          <img src={Logo} alt='' className='logo' />
-        </Link>
-        <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
-          <nav>
-            <li>
-              <Link to=''>FAQ</Link>
-            </li>
-            <li>
-              <Link to={username ? `/wishlist/${username}` : `/login`}></Link>
-            </li>
-          </nav>
-          <div className='userDiv'>
-            <p className='wishItems'>0</p>
-            <FiShoppingCart
-              className='wishIcon'
-              style={{ fontSize: "1.8rem" }}
-            />
+      ) : (
+        <header className='Header'>
+          <Link to='/'>
+            <img src={Logo} alt='' className='logo' />
+          </Link>
+          <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
+            <div className='navButtons'>
+              <nav>
+                <li>
+                  <Link to=''>FAQ</Link>
+                </li>
+                <li>
+                  <Link to='/login'>Login</Link>
+                </li>
+                <button onClick={handleCreateWishlist}> Create Wishlist</button>
+              </nav>
+            </div>
           </div>
-          <div className='navButtons'>
-            <TiStarFullOutline />
-            <p>
-              <Link to='/login'>Login</Link>
-            </p>
-            <button onClick={handleCreateWishlist}> Create Wishlist</button>
-          </div>
-        </div>
-        <RiMenu4Line className='menuIcon' onClick={handleTrigger} />
-      </header>
-      {/* )} */}
+          <RiMenu4Line className='menuIcon' onClick={handleTrigger} />
+        </header>
+      )}
     </>
   );
 };

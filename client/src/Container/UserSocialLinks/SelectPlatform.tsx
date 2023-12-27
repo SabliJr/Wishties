@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState } from "react";
 
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
@@ -18,7 +18,6 @@ type SelectPlatformProps = {
   setLinksModule: (value: boolean) => void;
   linksModule: boolean;
 };
-
 
 const SelectPlatform = ({
   setLinksModule,
@@ -113,6 +112,4 @@ const SelectPlatform = ({
   );
 };
 
-export default SelectPlatform
-
-
+export default SelectPlatform;

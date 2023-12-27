@@ -21,12 +21,15 @@ import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user l
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [socialsModal, setSocialsModal] = useState(false);
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
   const { userInfo, creatorSocialLinks } = useUserInfoCOntext();
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
+    setModalOpen((prev) => !prev);
   };
 
   const handleInfoEdit = () => {
@@ -35,6 +38,7 @@ const Index = () => {
 
   const handleSocialLinksModule = () => {
     setSocialLinksModule(!socialLinksModule);
+    setSocialsModal((prev) => !prev);
   };
 
   return (
@@ -42,64 +46,64 @@ const Index = () => {
       <div className='coverImgDiv'>
         <img src={UserCover} alt='' className='userCover' />
       </div>
-      <div className='userInfoContainer'>
-        <div className='userInfoDiv'>
-          {userInfo?.profileName ? (
-            <img src={userInfo.profilePhoto} alt='' className='userImg' />
-          ) : (
-            <img src={UserAvatar} alt='' className='userImg' />
-          )}
-          <div className='userNameDiv'>
-            <h3>Angela Smith</h3>
-            <p>@angela_smith</p>
-          </div>
-          <p className='userBio'>
-            Content Creator | Beauty, Fashion, Lifestyle.
-          </p>
-          {editInfo ? (
-            <UserInfoEdit
-              userImg={User}
-              coverImg={UserCover}
-              editInfo={editInfo}
-              handleInfoEdit={handleInfoEdit}
+      {/* <div className='userInfoContainer'> */}
+      <div className='userInfoDiv userInfoContainer'>
+        {userInfo?.profileName ? (
+          <img src={userInfo.profilePhoto} alt='' className='userImg' />
+        ) : (
+          <img src={UserAvatar} alt='' className='userImg' />
+        )}
+        <div className='userNameDiv'>
+          <h3>Angela Smith</h3>
+          <p>@angela_smith</p>
+        </div>
+        <p className='userBio'>Content Creator | Beauty, Fashion, Lifestyle.</p>
+        {editInfo ? (
+          <UserInfoEdit
+            userImg={User}
+            coverImg={UserCover}
+            editInfo={editInfo}
+            handleInfoEdit={handleInfoEdit}
+          />
+        ) : null}
+        <div className='EditIconsDiv'>
+          <button className='profileEdit' onClick={handleInfoEdit}>
+            Edit your profile{" "}
+            <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
+          </button>
+          <button className='editIconsBtn' onClick={handleSocialLinksModule}>
+            Add social links <TbEdit />
+          </button>
+        </div>
+        <div className='userSocialDiv'>
+          {socialLinksModule ? (
+            <SocialMediaLinkForm
+              socialLinksModule={socialLinksModule}
+              handleSocialLinksModule={handleSocialLinksModule}
+              socialsModal={socialsModal}
             />
           ) : null}
-          <div className='EditIconsDiv'>
-            <button className='profileEdit' onClick={handleInfoEdit}>
-              Edit your profile{" "}
-              <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
-            </button>
-            <button className='editIconsBtn' onClick={handleSocialLinksModule}>
-              Add social links <TbEdit />
-            </button>
-          </div>
-          <div className='userSocialDiv'>
-            {socialLinksModule ? (
-              <SocialMediaLinkForm
-                socialLinksModule={socialLinksModule}
-                handleSocialLinksModule={handleSocialLinksModule}
-              />
-            ) : null}
 
-            {/* Displaying the icons in the creator profile from the server */}
-            {creatorSocialLinks?.map((x) => {
-              return (
-                <div key={x.platform} className="profileLinks" onClick={() => {
+          {/* Displaying the icons in the creator profile from the server */}
+          {creatorSocialLinks?.map((x) => {
+            return (
+              <div
+                key={x.platform}
+                className='profileLinks'
+                onClick={() => {
                   window.open(`${x.platformLinks}`, "_blank");
                   console.log(x.platformLinks);
-                }
-                }>
-                  <img
-                    src={x.icon}
-                    alt={`${x.icon} Icon`}
-                    style={{ width: "30px", height: "30px" }}
-                  />
-                  <p>{x.platform}</p>
-                </div>
-              );
-            })}
-
-          </div>
+                }}>
+                <img
+                  src={x.icon}
+                  alt={`${x.icon} Icon`}
+                  style={{ width: "30px", height: "30px" }}
+                />
+                <p>{x.platform}</p>
+              </div>
+            );
+          })}
+          {/* </div> */}
         </div>
       </div>
       <div className='wishItemsDiv'>
@@ -126,6 +130,7 @@ const Index = () => {
             <UploadWish
               closeUploadModule={handleCloseModule}
               uploadModule={uploadModule}
+              modalOpen={modalOpen}
             />
           ) : null}
         </div>

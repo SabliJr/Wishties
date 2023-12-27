@@ -16,7 +16,7 @@
   border-radius: 1.42rem;
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
-max-height: 35rem;
+  max-height: 35rem;
 }
 
 .closeLinksModule {
@@ -129,4 +129,55 @@ max-height: 35rem;
   font-size: 1.1rem;
   color: #9e1313;
   font-weight: 500;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open .SocialLinksModule {
+  pointer-events: auto;
+}
+
+.SocialLinksModule {
+  background-color: #535353;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: .5;
+}
+
+@media screen and (max-width: 1024px) {
+
+
+  @media screen and (max-width: 800px) {
+
+
+    @media screen and (max-width: 600px) {
+      .AddingLinksModule {
+        width: 330px;
+        padding: 1.5rem 2rem;
+      }
+
+      .closeLinksModule {
+        font-size: 1.3rem;
+      }
+
+      .UpdateLinks {
+        font-size: 1rem;
+      }
+
+      .addLinksBtn {
+        width: 52%;
+        font-weight: 500;
+      }
+
+      .saveLinks {
+        min-height: 3rem;
+      }
+    }
+  }
 }

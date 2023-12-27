@@ -44,7 +44,6 @@ const Login = (): JSX.Element => {
         // Save the user id and username in the context
         const accessToken = response?.data?.accessToken;
         const { creator_id, username } = response?.data.user;
-        console.log(username);
         setUserId(creator_id);
         setAuth({ userId, username, accessToken });
         setLogInData({ email: "", pwd: "" });
@@ -53,7 +52,6 @@ const Login = (): JSX.Element => {
       }
     } catch (error: any) {
       if (error.response) {
-        console.log(error.response);
         // Check if the error has a response and response data
         if (error.response.status === 403) {
           let theError = error.response.data.message;
@@ -77,8 +75,6 @@ const Login = (): JSX.Element => {
         ) {
           setIsError(error.response.data.errors[0].msg);
         }
-
-        // console.log(error);
       }
     } finally {
       setIsLoading(false);
