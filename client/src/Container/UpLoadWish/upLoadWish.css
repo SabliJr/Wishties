@@ -40,6 +40,34 @@
   text-align: center;
 }
 
+.errorMsg {
+  color: red;
+  font-size: 1rem;
+  background-color: rgba(239, 209, 209, 0.693);
+  padding: .5rem .3rem;
+  border-radius: .42rem;
+  margin: 1rem 0;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open .dropBack {
+  pointer-events: auto;
+}
+
+.dropBack {
+  background-color: #535353;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: .5;
+}
+
 .wishInfoInputsDiv label input {
   height: 2.42rem;
   font-size: 1rem;
@@ -68,7 +96,7 @@
 .categoriesDiv {
   display: flex;
   flex-direction: column;
-  margin: 3rem auto;
+  margin: 3rem auto 1.8rem;
   gap: .6rem;
 }
 
@@ -159,4 +187,33 @@
 .wishOptionBtn {
   font-size: 1rem;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+
+
+  @media screen and (max-width: 800px) {
+
+
+    @media screen and (max-width: 600px) {
+      .wishUploaderSection {
+        width: 330px;
+        margin: 0rem auto;
+        height: 40rem;
+        position: fixed;
+        top: 50%;
+        padding: 2rem 1.2rem;
+        border-radius: 1.4rem;
+      }
+
+      .wishUploadImg {
+        max-width: 150px;
+        min-height: 100px;
+      }
+
+      .addWishBtn {
+        font-size: 1rem;
+      }
+    }
+  }
 }

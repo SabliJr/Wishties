@@ -58,7 +58,7 @@ const TheWish = (): JSX.Element => {
             <div className='wishDetails'>
               <div>
                 <h4 className='wishTitle'>{wish.wish_name}</h4>
-                <p className='wishPrice'>$ {wish.wish_price}</p>
+                <p className='wishPrice'>${wish.wish_price}</p>
               </div>
               <div className='wishOptionBtn' onClick={handleEdit}>
                 <HiDotsVertical className='wishOptionBtnIcon' />

@@ -10,6 +10,7 @@ import { TbClipboardList } from "react-icons/tb";
 import { FaUserGear } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
+import { RiMenu4Line } from "react-icons/ri";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
@@ -105,6 +106,7 @@ const Index = () => {
             </ul>
           </div>
         </div>
+        <RiMenu4Line className='menuIcon' />
       </div>
     </section>
   );

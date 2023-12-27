@@ -88,16 +88,6 @@
   margin: 2rem auto;
 }
 
-/* .userSocialDiv div {
-  background-color: #cfcfcf;
-  padding: .3rem .5rem;
-  border-radius: .5rem;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 3rem;
-} */
-
 .userSocialDiv div p {
   font-family: 'Archivo', sans-serif;
 }
@@ -285,4 +275,73 @@
   padding: .2rem .5rem;
   border-radius: .5rem;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+
+
+  @media screen and (max-width: 800px) {
+
+
+    @media screen and (max-width: 600px) {
+      .userCover {
+        height: 8rem;
+      }
+
+      .userImg {
+        width: 6rem;
+        top: -4rem;
+        left: 1rem;
+      }
+
+      .userNameDiv {
+        margin: 2rem 0 1rem;
+        width: 75%;
+      }
+
+      .userNameDiv h3 {
+        font-size: 1rem;
+      }
+
+      .profileSection {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .wishItemsDiv {
+        grid-column: 1/5;
+        margin: 1rem auto;
+        width: 98%;
+      }
+
+      .userInfoDiv {
+        grid-column: 1/5;
+      }
+
+      .userBio {
+        margin: 1rem 0;
+      }
+
+      .EditIconsDiv {
+        width: 100%;
+        flex-direction: row;
+      }
+
+      .profileEdit,
+      .editIconsBtn {
+        font-size: 1rem;
+        border-radius: .5rem;
+      }
+
+      .userSocialDiv {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .profileLinks {
+        width: 40%;
+        gap: 1rem;
+      }
+    }
+  }
 }
