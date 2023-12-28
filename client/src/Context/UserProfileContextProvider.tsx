@@ -4,8 +4,8 @@ import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
 
   const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
 interface userInfoType {
-  userInfo: iUserInfo | undefined;
-  setUserInfo: React.Dispatch<React.SetStateAction<iUserInfo | undefined>>;
+  // userInfo: iUserInfo | undefined;
+  // setUserInfo: React.Dispatch<React.SetStateAction<iUserInfo | undefined>>;
   creatorSocialLinks?: iCreatorSocialLinks[] | undefined;
   displayedSocialLinks: iCreatorSocialLinks[] | undefined;
   setDisplayedSocialLinks: React.Dispatch<
@@ -23,13 +23,13 @@ const UserProfileContextProvider = ({
   children: React.ReactNode;
 }): JSX.Element => {
   //Creator profile info edit
-  const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
-    coverPhoto: "",
-    profilePhoto: "",
-    profileName: "",
-    userName: "",
-    userBio: "",
-  });
+  // const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
+  //   coverPhoto: "",
+  //   profilePhoto: "",
+  //   profileName: "",
+  //   userName: "",
+  //   userBio: "",
+  // });
   const [userEmail, setUserEmail] = useState("");
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState(creatorSocialLinks);
@@ -37,8 +37,8 @@ const UserProfileContextProvider = ({
   return (
     <userInfoContext.Provider
       value={{
-        userInfo,
-        setUserInfo,
+        // userInfo,
+        // setUserInfo,
         creatorSocialLinks,
         displayedSocialLinks,
         setDisplayedSocialLinks,
@@ -60,8 +60,8 @@ function useUserInfoCOntext(): userInfoType {
   }
 
   const {
-    userInfo,
-    setUserInfo,
+    // userInfo,
+    // setUserInfo,
     creatorSocialLinks,
     displayedSocialLinks,
     setDisplayedSocialLinks,
@@ -69,8 +69,8 @@ function useUserInfoCOntext(): userInfoType {
     setUserEmail,
   } = userContext;
   return {
-    userInfo,
-    setUserInfo,
+    // userInfo,
+    // setUserInfo,
     creatorSocialLinks,
     displayedSocialLinks,
     setDisplayedSocialLinks,

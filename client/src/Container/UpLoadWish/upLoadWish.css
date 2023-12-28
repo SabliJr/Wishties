@@ -142,20 +142,20 @@ body.modal-open .dropBack {
 
 .wishTitle {
   font-size: 1rem;
-  margin: 1.2rem 0 .4rem;
+  /* margin: 1.2rem 0 .4rem; */
 }
 
 .wishPrice {
   font-size: 1rem;
   color: #464545;
   letter-spacing: .5px;
-  margin-bottom: .6rem;
+  margin: .6rem 0;
 }
 
 .theWishDiv {
   background-color: #f0f9f9;
   padding: .5rem;
-  border-radius: .4rem;
+  border-radius: .8rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
@@ -181,7 +181,7 @@ body.modal-open .dropBack {
   align-items: center;
   justify-content: space-between;
   gap: .5rem;
-  margin: .5rem 0;
+  margin: 1.5rem 0 .5rem;
 }
 
 .wishOptionBtn {
@@ -204,6 +204,7 @@ body.modal-open .dropBack {
         top: 50%;
         padding: 2rem 1.2rem;
         border-radius: 1.4rem;
+        z-index: 999;
       }
 
       .wishUploadImg {
@@ -213,6 +214,40 @@ body.modal-open .dropBack {
 
       .addWishBtn {
         font-size: 1rem;
+      }
+
+      .theWishDiv {
+        width: 172px;
+        padding: 0;
+      }
+
+      .wishImag {
+        max-width: 100%;
+        max-height: 180px;
+        object-fit: cover;
+        border-radius: 0;
+        border-top-right-radius: .6rem;
+        border-top-left-radius: .6rem;
+      }
+
+      .wishDetails {
+        margin: 1.5rem .3rem 0;
+      }
+
+      .wishPrice {
+        margin: 0.6rem 0;
+      }
+
+      .wishTitle {
+        font-weight: 500;
+        color: black;
+      }
+
+      .addToCartBtn {
+        font-size: 1rem;
+        padding: .5rem;
+        width: 95%;
+        margin: .5rem .3rem;
       }
     }
   }

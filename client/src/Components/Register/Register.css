@@ -261,6 +261,10 @@
       .spinnerImg {
         width: 5rem;
       }
+
+      .iconsDiv {
+        gap: 0.8rem;
+      }
     }
   }
 }

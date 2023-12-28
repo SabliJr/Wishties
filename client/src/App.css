@@ -111,7 +111,7 @@ a {
     @media screen and (max-width: 600px) {
       .App {
         margin: auto;
-        width: 95%;
+        width: 98%;
       }
 
       .msgContainer div {
