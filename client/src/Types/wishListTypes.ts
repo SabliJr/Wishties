@@ -6,9 +6,9 @@ export interface iWishInfo {
 }
 
 export interface iUserInfo {
-  cover_photo?: string;
-  profile_photo?: string;
-  profile_name?: string;
-  user_name?: string;
-  user_bio?: string;
+  cover_photo: File | undefined;
+  profile_photo: File | undefined;
+  profile_name: string;
+  profile_username: string;
+  profile_bio: string;
 }

@@ -112,6 +112,7 @@ a {
       .App {
         margin: auto;
         width: 98%;
+        overflow: hidden;
       }
 
       .msgContainer div {

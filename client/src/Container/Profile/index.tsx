@@ -56,7 +56,6 @@ const Index = () => {
       <div className='coverImgDiv'>
         <img src={UserCover} alt='' className='userCover' />
       </div>
-      {/* <div className='userInfoContainer'> */}
       <div className='userInfoDiv userInfoContainer'>
         {userInfo?.profile_name ? (
           <img src={userInfo.profile_photo} alt='' className='userImg' />
@@ -94,7 +93,6 @@ const Index = () => {
           />
         )}
 
-        {/* <div className='userSocialDiv'> */}
         {/* Displaying the icons in the creator profile from the server */}
         <div className='userSocialLinks'>
           {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 &&
@@ -107,11 +105,7 @@ const Index = () => {
                     window.open(`${x.platformLinks}`, "_blank");
                     console.log(x.platformLinks);
                   }}>
-                  <img
-                    src={x.icon}
-                    alt={`${x.icon} Icon`}
-                    // style={{ width: "30px", height: "30px" }}
-                  />
+                  <img src={x.icon} alt={`${x.icon} Icon`} />
                   <p>{x.platform}</p>
                 </div>
               );
@@ -137,15 +131,13 @@ const Index = () => {
             </button>
           </div>
         </div>
-        <div>
-          {uploadModule ? (
-            <UploadWish
-              closeUploadModule={handleCloseModule}
-              uploadModule={uploadModule}
-              modalOpen={modalOpen}
-            />
-          ) : null}
-        </div>
+        {uploadModule ? (
+          <UploadWish
+            closeUploadModule={handleCloseModule}
+            uploadModule={uploadModule}
+            modalOpen={modalOpen}
+          />
+        ) : null}
         <main className='theWishesSection'>
           <TheWish />
         </main>

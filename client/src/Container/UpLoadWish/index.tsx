@@ -229,7 +229,6 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
                   setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
                 }}
               />
-              {/* <button className='categoryBtn'>Add</button> */}
             </div>
           </div>
           {isError.emptyFieldsErr && (

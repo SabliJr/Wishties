@@ -1,8 +1,8 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext, createContext, useEffect } from "react";
 import { iUserInfo } from "../Types/wishListTypes";
 import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
 
-  const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
+const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
 interface userInfoType {
   // userInfo: iUserInfo | undefined;
   // setUserInfo: React.Dispatch<React.SetStateAction<iUserInfo | undefined>>;

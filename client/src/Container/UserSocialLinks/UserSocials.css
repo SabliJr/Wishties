@@ -150,6 +150,14 @@ body.modal-open .SocialLinksModule {
   opacity: .5;
 }
 
+.errMessage {
+  color: red;
+  font-size: 1rem;
+  background-color: rgba(239, 209, 209, 0.693);
+  padding: .5rem .3rem;
+  border-radius: .42rem;
+}
+
 @media screen and (max-width: 1024px) {
 
 

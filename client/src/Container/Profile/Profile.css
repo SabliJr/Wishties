@@ -144,17 +144,20 @@
 }
 
 .theWishesSection {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(223.2px, 1fr));
+  gap: 1rem;
   row-gap: 2rem;
   column-gap: 1rem;
-  flex-wrap: wrap;
   margin-top: 3rem;
 }
 
 /* This is the update profile section */
+/* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 .editInfoSection {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   background-color: #fbfdfd;
   flex-direction: column;
   width: 600px;
@@ -164,11 +167,12 @@
   top: 45%;
   backdrop-filter: blur(5rem);
   transform: translate(-50%, -50%);
-  padding: 2rem 3rem;
+  padding: 1.6rem 1.8rem;
   border-radius: 1.42rem;
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
   justify-content: space-around;
+  z-index: 100;
 }
 
 .dorpBackModel {
@@ -191,16 +195,14 @@ body.modal-open .dorpBackModel {
 }
 
 .coverImgEditDiv {
-  max-width: 650px;
-  border: 1px solid #1547d2;
-  height: 8rem;
-  border-radius: 1rem;
+  width: 100%;
+  grid-column: 1/5;
 }
 
 .editCoverImg {
   width: 100%;
-
-  height: auto;
+  border-radius: .8rem;
+  height: 10rem;
   object-fit: cover;
 }
 
@@ -213,6 +215,8 @@ body.modal-open .dorpBackModel {
 
 .LabelsDiv {
   display: flex;
+  grid-column: 1/5;
+  width: 100%;
   align-items: center;
   gap: 1rem;
   margin: 1.6rem 0;
@@ -220,6 +224,7 @@ body.modal-open .dorpBackModel {
 
 .LabelsDiv1 {
   position: relative;
+  cursor: pointer;
 }
 
 .LabelsDiv2 {
@@ -234,6 +239,7 @@ body.modal-open .dorpBackModel {
 .userBioInput {
   display: flex;
   flex-direction: column;
+  grid-column: 1/5;
   gap: .6rem;
   width: 100%;
 }
@@ -256,6 +262,8 @@ body.modal-open .dorpBackModel {
 
 .updateProfileBtn {
   font-size: 1.42rem;
+  grid-column: 1/5;
+  width: 100%;
   padding: .5rem .2rem;
   border-radius: .8rem;
   border: transparent;
@@ -296,99 +304,180 @@ body.modal-open .dorpBackModel {
   width: 30px;
 }
 
+.editInfoSection h1 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  grid-column: 1/5;
+}
+
+.editProfileImg {
+  width: 6.42rem;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 2/2;
+}
+
+.ProfilePlus {
+  width: 4.2rem;
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+}
+
+.CoverPlus {
+  width: 5.2rem;
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  transform: translate(-50%);
+}
+
 @media screen and (max-width: 1024px) {
+  .theWishesSection {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
 
+  @media screen and (max-width: 900px) {
+    .theWishesSection {
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    }
 
-  @media screen and (max-width: 800px) {
-
-
-    @media screen and (max-width: 600px) {
-      .userCover {
-        height: 8rem;
-      }
-
-      .userImg {
-        width: 5.5rem;
-        top: -3.6rem;
-        left: 1rem;
-      }
-
-      .userNameDiv {
-        margin: 2rem 0 1rem;
-        width: 75%;
-      }
-
-      .userNameDiv h3 {
-        font-size: 1rem;
-      }
-
-      .profileSection {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .wishItemsDiv {
-        grid-column: 1/5;
-        margin: 1rem auto;
-        width: 98%;
-      }
-
-      .userInfoDiv {
-        grid-column: 1/5;
-      }
-
-      .userBio {
-        margin: 1rem 0;
-      }
-
-      .EditIconsDiv {
-        width: 100%;
-        flex-direction: row;
-      }
-
-      .profileEdit,
-      .editIconsBtn {
-        font-size: 1rem;
-        border-radius: .5rem;
-      }
-
-      .profileLinks {
-        width: 40%;
-        gap: 1rem;
-      }
-
-      .profileSection .userInfoContainer {
-        position: relative;
-        top: 0;
-        /* display: inline-block; */
-        padding: 0.5rem 0.8rem;
-      }
-
-      .wishItemsDiv {
-        margin: 1.3rem auto;
-        /* width: 98%; */
-      }
-
-      #addWish {
-        font-size: 1rem;
-        margin-right: 0;
-      }
-
+    @media screen and (max-width: 820px) {
       .theWishesSection {
-        row-gap: 1.5rem;
-        column-gap: 1rem;
-        margin-top: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       }
 
-      .userSocialLinks {
-        width: 100%;
-      }
+      @media screen and (max-width: 796px) {
+        .theWishesSection {
+          grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        }
 
-      .profileLinks p {
-        font-size: 1rem;
-      }
+        @media screen and (max-width: 600px) {
+          .theWishesSection {
+            grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+          }
 
-      .profileLinks img {
-        width: 1.5rem;
+          .userCover {
+            height: 8rem;
+          }
+
+          .userImg {
+            width: 5.5rem;
+            top: -3.6rem;
+            left: 1rem;
+          }
+
+          .userNameDiv {
+            margin: 2rem 0 1rem;
+            width: 75%;
+          }
+
+          .userNameDiv h3 {
+            font-size: 1rem;
+          }
+
+          .profileSection {
+            grid-template-columns: repeat(4, 1fr);
+          }
+
+          .wishItemsDiv {
+            grid-column: 1/5;
+            margin: 1rem auto;
+            width: 98%;
+          }
+
+          .userInfoDiv {
+            grid-column: 1/5;
+          }
+
+          .userBio {
+            margin: 1rem 0;
+          }
+
+          .EditIconsDiv {
+            width: 100%;
+            flex-direction: row;
+          }
+
+          .profileEdit,
+          .editIconsBtn {
+            font-size: 1rem;
+            border-radius: .5rem;
+          }
+
+          .profileLinks {
+            width: 40%;
+            gap: 1rem;
+          }
+
+          .profileSection .userInfoContainer {
+            position: relative;
+            top: 0;
+            padding: 0.5rem 0.8rem;
+          }
+
+          .wishItemsDiv {
+            margin: 1.3rem auto;
+          }
+
+          #addWish {
+            font-size: 1rem;
+            margin-right: 0;
+          }
+
+          .theWishesSection {
+            row-gap: 1.5rem;
+            column-gap: 1rem;
+            margin-top: 1.5rem;
+          }
+
+          .userSocialLinks {
+            width: 100%;
+          }
+
+          .profileLinks p {
+            font-size: 1rem;
+          }
+
+          .profileLinks img {
+            width: 1.5rem;
+          }
+
+          .editInfoSection {
+            width: 330px;
+            padding: 1.5rem 1rem;
+          }
+
+          .LabelsDiv {
+            flex-direction: column;
+          }
+
+          .userBioInput textarea {
+            height: 7.5rem;
+          }
+
+          .coverImgEditDiv {
+            height: 6rem;
+          }
+
+          .editUserImg {
+            width: 6rem;
+            position: absolute;
+            top: -4rem;
+            left: 50%;
+            transform: translate(-50%);
+          }
+
+          .LabelsDiv2 {
+            margin: 2rem 0 0;
+          }
+
+          @media screen and (max-width: 374px) {
+            .theWishesSection {
+              grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+          }
+        }
       }
     }
   }

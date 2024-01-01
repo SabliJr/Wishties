@@ -54,8 +54,12 @@ const Index = () => {
     }
   };
 
+  const showProfile = () => {
+    navigate(`/profile/${username}`);
+  };
+
   const goToAccountSettings = () => {
-    navigate("/account-settings");
+    navigate("/profile/account-settings");
   };
 
   return (
@@ -99,7 +103,7 @@ const Index = () => {
               <li onClick={goToAccountSettings}>
                 <p>Account Settings</p>
               </li>
-              <li>
+              <li onClick={showProfile}>
                 <p>View your profile</p>
               </li>
               <li onClick={handleLogout}>
