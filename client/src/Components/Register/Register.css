@@ -151,6 +151,12 @@
   width: 1.2rem;
 }
 
+.agreeText {
+  font-size: 1rem;
+  color: #d4145ad3;
+  line-height: 1.3;
+}
+
 .agreeText span {
   font-weight: 600;
   font-family: 'Source Serif 4', serif;
@@ -260,6 +266,10 @@
 
       .spinnerImg {
         width: 5rem;
+      }
+
+      .iconsDiv {
+        gap: 0.8rem;
       }
     }
   }

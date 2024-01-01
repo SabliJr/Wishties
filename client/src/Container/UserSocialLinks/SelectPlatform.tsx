@@ -17,19 +17,22 @@ import Discord from "../../Assets/UserIcons/Discord.png";
 type SelectPlatformProps = {
   setLinksModule: (value: boolean) => void;
   linksModule: boolean;
+  creatorSocialLinks: iCreatorSocialLinks[] | undefined;
 };
 
 const SelectPlatform = ({
   setLinksModule,
   linksModule,
+  creatorSocialLinks,
 }: SelectPlatformProps) => {
+  const [errMessage, setErrMessage] = useState("");
   const [fillingSocialInfo, setFillingSocialInfo] =
     useState<iCreatorSocialLinks>({
       icon: "",
       platform: "",
       platformLinks: "",
     });
-  const { creatorSocialLinks } = useUserInfoCOntext();
+  // const { creatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
     { icon: Insta, platform: "Instagram" },
@@ -73,13 +76,12 @@ const SelectPlatform = ({
   };
 
   const handleAddLinks = () => {
-    setLinksModule(!linksModule); // Close the module first
-
-    // Wait for the state to update before pushing the new link
-    // setTimeout(() => {
-    //   creatorSocialLinks?.push(fillingSocialInfo);
-    // }, 0);
-
+    if (!fillingSocialInfo.platform || !fillingSocialInfo.platformLinks) {
+      setErrMessage("Please fill in all fields");
+      return;
+    }
+    setErrMessage("");
+    setLinksModule(!linksModule); // Close the module
     creatorSocialLinks?.push(fillingSocialInfo as iCreatorSocialLinks);
   };
 
@@ -104,6 +106,8 @@ const SelectPlatform = ({
           onChange={(e) => handleLinkChange(e, "platformLinks")}
         />
       </div>
+
+      {errMessage && <p className='errMessage'>{errMessage}</p>}
 
       <button id='addModuleId' onClick={handleAddLinks}>
         Add

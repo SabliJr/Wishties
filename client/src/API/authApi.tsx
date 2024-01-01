@@ -1,5 +1,6 @@
 import axios from "axios";
 import { registrationInfo, loginInfo } from "../Types/creatorSocialLinksTypes";
+import { iUserInfo } from "../Types/wishListTypes";
 
 const SERVER_URL = "http://localhost:8000/api";
 
@@ -138,8 +139,8 @@ const onGetWishesByPrice = async () => {
   });
 };
 
-const onAddSocialLinks = async () => {
-  return await axios.get(`${SERVER_URL}/add-social-links`, {
+const onAddSocialLinks = async (formData: FormData) => {
+  return await axios.post(`${SERVER_URL}/add-social-links`, formData, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -165,6 +166,15 @@ const onGetSocialLinks = async () => {
   });
 };
 
+const onUpdateCreatorInfo = async (formData: FormData) => {
+  return await axios.post(`${SERVER_URL}/update-profile`, formData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
 export {
   onGetCreator,
   onLogout,
@@ -183,4 +193,5 @@ export {
   onEditSocialLinks,
   onGetSocialLinks,
   onVerifyEmail,
+  onUpdateCreatorInfo,
 };

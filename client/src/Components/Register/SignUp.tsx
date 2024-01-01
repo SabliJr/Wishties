@@ -224,7 +224,7 @@ const SignUp: React.FC = () => {
                   <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
                 ) : null}
                 <div>
-                  <input
+                  {/* <input
                     type='password'
                     placeholder='Confirm Password'
                     value={matchPwd}
@@ -239,7 +239,7 @@ const SignUp: React.FC = () => {
                   />
                   {errMsg.validMatchErr ? (
                     <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
-                  ) : null}
+                  ) : null} */}
                   <div className='agree'>
                     <input
                       type='checkbox'

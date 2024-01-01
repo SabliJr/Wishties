@@ -17,15 +17,24 @@ import TheWish from "../UpLoadWish/TheWish";
 import UserInfoEdit from "./UserInfoEdit";
 import UploadWish from "../UpLoadWish/index";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [socialsModal, setSocialsModal] = useState(false);
+  const [profileEditModal, setProfileEditModal] = useState(false); // This is the edit profile module
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
-  const { userInfo, creatorSocialLinks } = useUserInfoCOntext();
+  const { creatorSocialLinks } = useUserInfoCOntext();
+
+  let userInfo = {
+    profile_name: "Angela Smith",
+    profile_photo: User,
+    profile_bio: "Content Creator | Beauty, Fashion, Lifestyle.",
+    profile_username: "@angela_smith",
+  };
 
   const handleCloseModule = () => {
     setUploadModule(!uploadModule);
@@ -34,6 +43,7 @@ const Index = () => {
 
   const handleInfoEdit = () => {
     setEditInfo(!editInfo);
+    setProfileEditModal((prev) => !prev);
   };
 
   const handleSocialLinksModule = () => {
@@ -46,10 +56,9 @@ const Index = () => {
       <div className='coverImgDiv'>
         <img src={UserCover} alt='' className='userCover' />
       </div>
-      {/* <div className='userInfoContainer'> */}
       <div className='userInfoDiv userInfoContainer'>
-        {userInfo?.profileName ? (
-          <img src={userInfo.profilePhoto} alt='' className='userImg' />
+        {userInfo?.profile_name ? (
+          <img src={userInfo.profile_photo} alt='' className='userImg' />
         ) : (
           <img src={UserAvatar} alt='' className='userImg' />
         )}
@@ -64,6 +73,7 @@ const Index = () => {
             coverImg={UserCover}
             editInfo={editInfo}
             handleInfoEdit={handleInfoEdit}
+            profileEditModal={profileEditModal}
           />
         ) : null}
         <div className='EditIconsDiv'>
@@ -75,35 +85,31 @@ const Index = () => {
             Add social links <TbEdit />
           </button>
         </div>
-        <div className='userSocialDiv'>
-          {socialLinksModule ? (
-            <SocialMediaLinkForm
-              socialLinksModule={socialLinksModule}
-              handleSocialLinksModule={handleSocialLinksModule}
-              socialsModal={socialsModal}
-            />
-          ) : null}
+        {socialLinksModule && (
+          <SocialMediaLinkForm
+            socialLinksModule={socialLinksModule}
+            handleSocialLinksModule={handleSocialLinksModule}
+            socialsModal={socialsModal}
+          />
+        )}
 
-          {/* Displaying the icons in the creator profile from the server */}
-          {creatorSocialLinks?.map((x) => {
-            return (
-              <div
-                key={x.platform}
-                className='profileLinks'
-                onClick={() => {
-                  window.open(`${x.platformLinks}`, "_blank");
-                  console.log(x.platformLinks);
-                }}>
-                <img
-                  src={x.icon}
-                  alt={`${x.icon} Icon`}
-                  style={{ width: "30px", height: "30px" }}
-                />
-                <p>{x.platform}</p>
-              </div>
-            );
-          })}
-          {/* </div> */}
+        {/* Displaying the icons in the creator profile from the server */}
+        <div className='userSocialLinks'>
+          {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 &&
+            creatorSocialLinks?.map((x) => {
+              return (
+                <div
+                  key={x.platform}
+                  className='profileLinks'
+                  onClick={() => {
+                    window.open(`${x.platformLinks}`, "_blank");
+                    console.log(x.platformLinks);
+                  }}>
+                  <img src={x.icon} alt={`${x.icon} Icon`} />
+                  <p>{x.platform}</p>
+                </div>
+              );
+            })}
         </div>
       </div>
       <div className='wishItemsDiv'>
@@ -125,15 +131,13 @@ const Index = () => {
             </button>
           </div>
         </div>
-        <div>
-          {uploadModule ? (
-            <UploadWish
-              closeUploadModule={handleCloseModule}
-              uploadModule={uploadModule}
-              modalOpen={modalOpen}
-            />
-          ) : null}
-        </div>
+        {uploadModule ? (
+          <UploadWish
+            closeUploadModule={handleCloseModule}
+            uploadModule={uploadModule}
+            modalOpen={modalOpen}
+          />
+        ) : null}
         <main className='theWishesSection'>
           <TheWish />
         </main>

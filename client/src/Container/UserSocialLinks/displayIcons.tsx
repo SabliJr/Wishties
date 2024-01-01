@@ -1,28 +1,33 @@
-import React, {useEffect } from 'react'
+import React, { useEffect, useState } from "react";
 import "./UserSocials.css";
 
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 
-
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 
-const DisplayIcons = () => {
+type DisplayIconsProps = {
+  creatorSocialLinks: iCreatorSocialLinks[] | undefined;
+};
+
+const DisplayIcons = ({ creatorSocialLinks }: DisplayIconsProps) => {
   //This is an array of objects
-  const { creatorSocialLinks, displayedSocialLinks, setDisplayedSocialLinks } =
-    useUserInfoCOntext();
+  // const { displayedSocialLinks, setDisplayedSocialLinks } =
+  //   useUserInfoCOntext();
+  const [displayedSocialLinks, setDisplayedSocialLinks] =
+    useState(creatorSocialLinks);
 
-   const handleDelete = (platform: string) => {
-     const newLinks = creatorSocialLinks?.filter(
-       (x: iCreatorSocialLinks) => x.platform !== platform
-     );
-     setDisplayedSocialLinks(newLinks || []);
-   };
+  const handleDelete = (platform: string) => {
+    const newLinks = creatorSocialLinks?.filter(
+      (x: iCreatorSocialLinks) => x.platform !== platform
+    );
+    setDisplayedSocialLinks(newLinks || []);
+  };
 
-   useEffect(() => {
-     setDisplayedSocialLinks(creatorSocialLinks || []);
-   }, [creatorSocialLinks, setDisplayedSocialLinks]);
+  useEffect(() => {
+    setDisplayedSocialLinks(creatorSocialLinks || []);
+  }, [creatorSocialLinks, setDisplayedSocialLinks]);
 
   // const handleDelete = (platform: string) => {
   //   const newLinks = creatorSocialLinks?.filter((x: iCreatorSocialLinks) => x.platform !== platform);
@@ -55,6 +60,6 @@ const DisplayIcons = () => {
       })}
     </>
   );
-}
+};
 
-export default DisplayIcons
+export default DisplayIcons;

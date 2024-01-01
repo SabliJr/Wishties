@@ -10,7 +10,6 @@ import { TbClipboardList } from "react-icons/tb";
 import { FaUserGear } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
-import { RiMenu4Line } from "react-icons/ri";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
@@ -55,8 +54,12 @@ const Index = () => {
     }
   };
 
+  const showProfile = () => {
+    navigate(`/profile/${username}`);
+  };
+
   const goToAccountSettings = () => {
-    navigate("/account-settings");
+    navigate("/profile/account-settings");
   };
 
   return (
@@ -69,14 +72,14 @@ const Index = () => {
           onClick={() => navigate("/")}
         />
         <div className='iconsDiv'>
-          <div onClick={() => navigate("/how-it-works")}>
-            <p className='fqa'>FAQ</p>
-          </div>
+          <p className='fqa' onClick={() => navigate("/how-it-works")}>
+            FAQ
+          </p>
           <div className='userDiv'>
             <p className='wishItems'>0</p>
             <FiShoppingCart
               className='wishIcon'
-              style={{ fontSize: "1.3rem" }}
+              style={{ fontSize: "1.2rem" }}
             />
           </div>
           <div
@@ -100,13 +103,15 @@ const Index = () => {
               <li onClick={goToAccountSettings}>
                 <p>Account Settings</p>
               </li>
+              <li onClick={showProfile}>
+                <p>View your profile</p>
+              </li>
               <li onClick={handleLogout}>
                 <p>Logout</p>
               </li>
             </ul>
           </div>
         </div>
-        <RiMenu4Line className='menuIcon' />
       </div>
     </section>
   );

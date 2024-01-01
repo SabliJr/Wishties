@@ -134,7 +134,7 @@ body.modal-open .dropBack {
 }
 
 .wishImag {
-  width: 205px;
+  width: 100%;
   height: 210px;
   object-fit: cover;
   border-radius: .42rem;
@@ -142,20 +142,19 @@ body.modal-open .dropBack {
 
 .wishTitle {
   font-size: 1rem;
-  margin: 1.2rem 0 .4rem;
 }
 
 .wishPrice {
   font-size: 1rem;
   color: #464545;
   letter-spacing: .5px;
-  margin-bottom: .6rem;
+  margin: .6rem 0;
 }
 
 .theWishDiv {
   background-color: #f0f9f9;
   padding: .5rem;
-  border-radius: .4rem;
+  border-radius: .8rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
@@ -181,7 +180,7 @@ body.modal-open .dropBack {
   align-items: center;
   justify-content: space-between;
   gap: .5rem;
-  margin: .5rem 0;
+  margin: 1.5rem 0 .5rem;
 }
 
 .wishOptionBtn {
@@ -191,28 +190,156 @@ body.modal-open .dropBack {
 
 @media screen and (max-width: 1024px) {
 
+  .profileLinks {
+    width: 95%;
+  }
 
-  @media screen and (max-width: 800px) {
+  .userBio {
+    width: 90%;
+  }
 
+  .wishDetails {
+    margin: 1.5rem .3rem 0;
+  }
 
-    @media screen and (max-width: 600px) {
-      .wishUploaderSection {
-        width: 330px;
-        margin: 0rem auto;
-        height: 40rem;
-        position: fixed;
-        top: 50%;
-        padding: 2rem 1.2rem;
-        border-radius: 1.4rem;
+  .wishImag {
+    width: 100%;
+    border-radius: 0;
+    border-top-right-radius: .6rem;
+    border-top-left-radius: .6rem;
+  }
+
+  .addToCartBtn {
+    font-size: 1rem;
+    padding: .5rem;
+    width: 95%;
+    margin: .5rem .3rem;
+  }
+
+  .profileEdit,
+  .editIconsBtn {
+    font-size: 1.2rem;
+    border-radius: .5rem;
+    gap: .5rem;
+  }
+
+  .EditIconsDiv {
+    align-items: flex-start;
+    margin: 0.3rem 0.8rem;
+  }
+
+  .userSocialLinks {
+    width: 80%;
+    margin: 1rem;
+  }
+
+  .userNameDiv {
+    width: 80%;
+  }
+
+  @media screen and (max-width: 900px) {
+    .userCover {
+      height: 10rem;
+    }
+
+    .wishImag {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 0;
+      border-top-right-radius: .6rem;
+      border-top-left-radius: .6rem;
+    }
+
+    .wishPrice {
+      margin: 0.6rem 0;
+    }
+
+    .userSocialLinks {
+      width: 100%;
+      margin: 0;
+    }
+
+    .profileLinks {
+      width: 90%;
+      gap: 1rem;
+    }
+
+    .theWishesSection {
+      margin-top: 2rem;
+    }
+
+    .profileEdit,
+    .editIconsBtn {
+      font-size: 1rem;
+      padding: .3rem .3rem;
+      border-radius: .5rem;
+      gap: .2rem;
+    }
+
+    .EditIconsDiv {
+      width: 100%;
+      margin: .8rem 0;
+    }
+
+    .userBio {
+      width: 90%;
+    }
+
+    .userNameDiv {
+      width: 90%;
+    }
+
+    @media screen and (max-width: 820px) {
+      .theWishDiv {
+        padding: 0;
+        border-radius: .4rem;
       }
 
-      .wishUploadImg {
-        max-width: 150px;
-        min-height: 100px;
+      .wishImag {
+        border-top-right-radius: .4rem;
+        border-top-left-radius: .4rem;
       }
 
-      .addWishBtn {
-        font-size: 1rem;
+      @media screen and (max-width: 600px) {
+        .wishUploaderSection {
+          width: 330px;
+          margin: 0rem auto;
+          height: 40rem;
+          position: fixed;
+          top: 50%;
+          padding: 2rem 1.2rem;
+          border-radius: 1.4rem;
+          z-index: 999;
+        }
+
+        .wishUploadImg {
+          max-width: 150px;
+          min-height: 100px;
+        }
+
+        .addWishBtn {
+          font-size: 1rem;
+        }
+
+        .wishTitle {
+          font-weight: 500;
+          color: black;
+        }
+
+        .profileLinks {
+          width: 45%;
+        }
+
+        .userCover {
+          height: 8rem;
+        }
+
+        @media screen and (max-width: 374px) {
+          .addToCartBtn {
+            width: 93%;
+          }
+        }
       }
     }
   }

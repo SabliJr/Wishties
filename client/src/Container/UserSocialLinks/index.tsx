@@ -3,6 +3,7 @@ import "./UserSocials.css";
 
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { onAddSocialLinks } from "../../API/authApi";
 
 //React Icons
 import { CgClose } from "react-icons/cg";
@@ -25,8 +26,12 @@ const SocialMediaLinkForm = ({
   socialsModal,
 }: SocialMediaLinkFormProps) => {
   const [linksModule, setLinksModule] = useState(false);
+  // const [creatorSocialLinks, setCreatorSocialLinks] = useState<
+  //   iCreatorSocialLinks[]
+  // >([]);
   const { creatorSocialLinks } = useUserInfoCOntext();
   const modelRef = useRef<HTMLDivElement | null>(null);
+  // const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
 
   // This function is to close the module of adding wish when the user clicks outside the module
   const closeModuleOutside = useCallback(
@@ -59,16 +64,36 @@ const SocialMediaLinkForm = ({
     };
   }, [socialsModal]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // You can handle submission logic here if needed
 
-    setTimeout(() => {
+    const formData = new FormData();
+    creatorSocialLinks?.forEach((x: iCreatorSocialLinks) => {
+      formData.append("icon", x.icon);
+      formData.append("platform", x.platform);
+      formData.append("platformLinks", x.platformLinks);
+    });
+
+    // for (let pair of formData?.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
+
+    Array.from(formData.entries()).forEach(([key, value]) => {
+      console.log(`${key}, ${value}`);
+    });
+
+    try {
+      const res = await onAddSocialLinks(formData);
+      console.log(res);
+    } catch (error) {
+    } finally {
       handleSocialLinksModule();
-      // Send the data to the backend/database by calling an API
-      // Send the images to the cloud storage S3 bucket
-      // Then update the state of the user profile context
-      // Add loading spinner while the data is being sent to the backend/database
-    }, 1000);
+    }
+
+    // Send the data to the backend/database by calling an API
+    // Send the images to the cloud storage S3 bucket
+    // Then update the state of the user profile context
+    // Add loading spinner while the data is being sent to the backend/database
 
     // After the data is sent to the backend/database, you can reset the form
   };
@@ -86,7 +111,7 @@ const SocialMediaLinkForm = ({
 
         {/* Display the icons if there are any links */}
         {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
-          <DisplayIcons />
+          <DisplayIcons creatorSocialLinks={creatorSocialLinks} />
         ) : (
           <div>
             <p>You have not added any social media links yet.</p>
@@ -107,6 +132,7 @@ const SocialMediaLinkForm = ({
             <SelectPlatform
               setLinksModule={setLinksModule}
               linksModule={linksModule}
+              creatorSocialLinks={creatorSocialLinks}
             />
           </label>
         ) : null}

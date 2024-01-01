@@ -27,7 +27,6 @@
   font-size: 1.6rem;
   color: rgb(97, 97, 97);
   cursor: pointer;
-  gap: 2rem;
 }
 
 .userDiv {
@@ -76,7 +75,6 @@
   font-size: 1.1rem;
   color: rgb(97, 97, 97);
   cursor: pointer;
-  gap: 2rem;
 }
 
 .accountDropDown {
@@ -113,6 +111,26 @@
   @media screen and (max-width: 800px) {
 
 
-    @media screen and (max-width: 600px) {}
+    @media screen and (max-width: 600px) {
+      .fqa {
+        font-size: 1rem;
+      }
+
+      .wishItems {
+        font-size: .7rem;
+      }
+
+      .wishIcon {
+        font-size: 1.3rem;
+      }
+
+      .wishlistLogo {
+        width: 4.8rem;
+      }
+
+      .wishNav {
+        margin: 1.2rem auto 0.5rem;
+      }
+    }
   }
 }
