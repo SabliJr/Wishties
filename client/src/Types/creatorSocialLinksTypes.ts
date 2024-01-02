@@ -1,7 +1,7 @@
 export interface iCreatorSocialLinks { 
-  icon: string;
-  platform: string;
-  platformLinks: string;
+  platform_icon: string;
+  platform_name: string;
+  platform_link: string;
 }
 
 export interface registrationInfo { 

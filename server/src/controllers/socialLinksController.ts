@@ -13,7 +13,7 @@ const onAddSocialLinks = (req: Request, res: Response) => {
     try {
         // const { rows } = await query(insertWishQuery, [wish_name, wish_price, wish_category]);
         // const createdWish = rows[0];
-        // res.status(201).json(createdWish);
+        res.status(201).json({ message: 'Wish added successfully.' });
     }
     catch (err) {
         console.error(err);

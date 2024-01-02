@@ -15,23 +15,17 @@ import DisplayIcons from "./displayIcons";
 import SelectPlatform from "./SelectPlatform";
 
 type SocialMediaLinkFormProps = {
-  socialLinksModule: Boolean;
   handleSocialLinksModule: () => void;
-  socialsModal: boolean;
+  disable_bg: boolean;
 };
 
 const SocialMediaLinkForm = ({
-  socialLinksModule,
   handleSocialLinksModule,
-  socialsModal,
+  disable_bg,
 }: SocialMediaLinkFormProps) => {
   const [linksModule, setLinksModule] = useState(false);
-  // const [creatorSocialLinks, setCreatorSocialLinks] = useState<
-  //   iCreatorSocialLinks[]
-  // >([]);
-  const { creatorSocialLinks } = useUserInfoCOntext();
+  const { creatorSocialLinks } = useUserInfoCOntext(); //Create a state for social links;
   const modelRef = useRef<HTMLDivElement | null>(null);
-  // const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
 
   // This function is to close the module of adding wish when the user clicks outside the module
   const closeModuleOutside = useCallback(
@@ -52,7 +46,7 @@ const SocialMediaLinkForm = ({
 
   useEffect(() => {
     // Add the 'modal-open' class to the body when the modal is open
-    if (socialsModal && !modelRef?.current?.contains(document.activeElement)) {
+    if (disable_bg && !modelRef?.current?.contains(document.activeElement)) {
       document.body.classList.add("modal-open");
     } else {
       document.body.classList.remove("modal-open");
@@ -62,40 +56,19 @@ const SocialMediaLinkForm = ({
     return () => {
       document.body.classList.remove("modal-open");
     };
-  }, [socialsModal]);
+  }, [disable_bg]);
 
   const handleSubmit = async () => {
-    // You can handle submission logic here if needed
-
-    const formData = new FormData();
-    creatorSocialLinks?.forEach((x: iCreatorSocialLinks) => {
-      formData.append("icon", x.icon);
-      formData.append("platform", x.platform);
-      formData.append("platformLinks", x.platformLinks);
-    });
-
-    // for (let pair of formData?.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
-
-    Array.from(formData.entries()).forEach(([key, value]) => {
-      console.log(`${key}, ${value}`);
-    });
-
     try {
-      const res = await onAddSocialLinks(formData);
+      const res = await onAddSocialLinks(
+        creatorSocialLinks as iCreatorSocialLinks[]
+      );
       console.log(res);
     } catch (error) {
+      console.log(error);
     } finally {
       handleSocialLinksModule();
     }
-
-    // Send the data to the backend/database by calling an API
-    // Send the images to the cloud storage S3 bucket
-    // Then update the state of the user profile context
-    // Add loading spinner while the data is being sent to the backend/database
-
-    // After the data is sent to the backend/database, you can reset the form
   };
 
   return (
@@ -111,7 +84,7 @@ const SocialMediaLinkForm = ({
 
         {/* Display the icons if there are any links */}
         {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
-          <DisplayIcons creatorSocialLinks={creatorSocialLinks} />
+          <DisplayIcons />
         ) : (
           <div>
             <p>You have not added any social media links yet.</p>
@@ -132,7 +105,6 @@ const SocialMediaLinkForm = ({
             <SelectPlatform
               setLinksModule={setLinksModule}
               linksModule={linksModule}
-              creatorSocialLinks={creatorSocialLinks}
             />
           </label>
         ) : null}

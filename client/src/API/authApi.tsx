@@ -1,6 +1,9 @@
 import axios from "axios";
-import { registrationInfo, loginInfo } from "../Types/creatorSocialLinksTypes";
-import { iUserInfo } from "../Types/wishListTypes";
+import {
+  registrationInfo,
+  loginInfo,
+  iCreatorSocialLinks,
+} from "../Types/creatorSocialLinksTypes";
 
 const SERVER_URL = "http://localhost:8000/api";
 
@@ -139,13 +142,17 @@ const onGetWishesByPrice = async () => {
   });
 };
 
-const onAddSocialLinks = async (formData: FormData) => {
-  return await axios.post(`${SERVER_URL}/add-social-links`, formData, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
+const onAddSocialLinks = async (creatorSocialLinks: iCreatorSocialLinks[]) => {
+  return await axios.post(
+    `${SERVER_URL}/add-social-links`,
+    JSON.stringify(creatorSocialLinks),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
 };
 
 const onEditSocialLinks = async () => {

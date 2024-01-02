@@ -23,7 +23,7 @@ import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user l
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [socialsModal, setSocialsModal] = useState(false);
+  const [disable_bg, setDisable_bg] = useState(false);
   const [profileEditModal, setProfileEditModal] = useState(false); // This is the edit profile module
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
@@ -36,19 +36,19 @@ const Index = () => {
     profile_username: "@angela_smith",
   };
 
-  const handleCloseModule = () => {
+  const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);
     setModalOpen((prev) => !prev);
   };
 
-  const handleInfoEdit = () => {
+  const handleProfileInfoEdit = () => {
     setEditInfo(!editInfo);
     setProfileEditModal((prev) => !prev);
   };
 
   const handleSocialLinksModule = () => {
-    setSocialLinksModule(!socialLinksModule);
-    setSocialsModal((prev) => !prev);
+    setSocialLinksModule((prev) => !prev);
+    setDisable_bg((prev) => !prev);
   };
 
   return (
@@ -72,12 +72,12 @@ const Index = () => {
             userImg={User}
             coverImg={UserCover}
             editInfo={editInfo}
-            handleInfoEdit={handleInfoEdit}
+            handleProfileInfoEdit={handleProfileInfoEdit}
             profileEditModal={profileEditModal}
           />
         ) : null}
         <div className='EditIconsDiv'>
-          <button className='profileEdit' onClick={handleInfoEdit}>
+          <button className='profileEdit' onClick={handleProfileInfoEdit}>
             Edit your profile{" "}
             <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
           </button>
@@ -85,13 +85,12 @@ const Index = () => {
             Add social links <TbEdit />
           </button>
         </div>
-        {socialLinksModule && (
+        {socialLinksModule ? (
           <SocialMediaLinkForm
-            socialLinksModule={socialLinksModule}
+            disable_bg={disable_bg}
             handleSocialLinksModule={handleSocialLinksModule}
-            socialsModal={socialsModal}
           />
-        )}
+        ) : null}
 
         {/* Displaying the icons in the creator profile from the server */}
         <div className='userSocialLinks'>
@@ -99,14 +98,14 @@ const Index = () => {
             creatorSocialLinks?.map((x) => {
               return (
                 <div
-                  key={x.platform}
+                  key={x.platform_name}
                   className='profileLinks'
                   onClick={() => {
-                    window.open(`${x.platformLinks}`, "_blank");
-                    console.log(x.platformLinks);
+                    window.open(`${x.platform_link}`, "_blank");
+                    console.log(x.platform_link);
                   }}>
-                  <img src={x.icon} alt={`${x.icon} Icon`} />
-                  <p>{x.platform}</p>
+                  <img src={x.platform_icon} alt={`${x.platform_icon} Icon`} />
+                  <p>{x.platform_name}</p>
                 </div>
               );
             })}
@@ -125,7 +124,7 @@ const Index = () => {
             <button
               className='wishItemBtn'
               id='addWish'
-              onClick={handleCloseModule}>
+              onClick={handleCloseWishModule}>
               Add wish
               <FiPlusSquare />
             </button>
@@ -133,7 +132,7 @@ const Index = () => {
         </div>
         {uploadModule ? (
           <UploadWish
-            closeUploadModule={handleCloseModule}
+            closeUploadModule={handleCloseWishModule}
             uploadModule={uploadModule}
             modalOpen={modalOpen}
           />

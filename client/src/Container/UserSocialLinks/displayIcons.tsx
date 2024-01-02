@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./UserSocials.css";
 
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 
-type DisplayIconsProps = {
-  creatorSocialLinks: iCreatorSocialLinks[] | undefined;
-};
-
-const DisplayIcons = ({ creatorSocialLinks }: DisplayIconsProps) => {
-  //This is an array of objects
-  // const { displayedSocialLinks, setDisplayedSocialLinks } =
-  //   useUserInfoCOntext();
+const DisplayIcons = () => {
+  const { creatorSocialLinks } = useUserInfoCOntext(); //Create a state for social links;
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState(creatorSocialLinks);
 
   const handleDelete = (platform: string) => {
     const newLinks = creatorSocialLinks?.filter(
-      (x: iCreatorSocialLinks) => x.platform !== platform
+      (x: iCreatorSocialLinks) => x.platform_link !== platform
     );
     setDisplayedSocialLinks(newLinks || []);
   };
@@ -29,30 +23,24 @@ const DisplayIcons = ({ creatorSocialLinks }: DisplayIconsProps) => {
     setDisplayedSocialLinks(creatorSocialLinks || []);
   }, [creatorSocialLinks, setDisplayedSocialLinks]);
 
-  // const handleDelete = (platform: string) => {
-  //   const newLinks = creatorSocialLinks?.filter((x: iCreatorSocialLinks) => x.platform !== platform);
-  //   console.log(newLinks);
-  //   return newLinks;
-  // };
-
   return (
     <>
       {displayedSocialLinks?.map((x: iCreatorSocialLinks) => {
         return (
-          <div key={x.platform} className='socialMediaLinkDiv'>
+          <div key={x.platform_name} className='socialMediaLinkDiv'>
             <div>
               <img
-                src={x.icon}
-                alt={`${x.icon} Icon`}
+                src={x.platform_icon}
+                alt={`${x.platform_icon} Icon`}
                 style={{ width: "28px", height: "28px" }}
               />
-              <p className='platformNameDisplaying'>{x.platform}</p>
+              <p className='platformNameDisplaying'>{x.platform_name}</p>
             </div>
             <div>
               <FiEdit className='editLinksIcons' />
               <MdDelete
                 className='editLinksIcons'
-                onClick={() => handleDelete(x.platform)}
+                onClick={() => handleDelete(x.platform_name)}
               />
             </div>
           </div>
