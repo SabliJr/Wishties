@@ -1,22 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./UserSocials.css";
 
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
-import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
+import { onDeleteSocialLinks } from "../../API/authApi";
 
 const DisplayIcons = () => {
-  const { creatorSocialLinks } = useUserInfoCOntext(); //Create a state for social links;
-  const [displayedSocialLinks, setDisplayedSocialLinks] =
-    useState(creatorSocialLinks);
+  const {
+    creatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
+    setCreatorSocialLinks,
+  } = useUserInfoCOntext(); //Create a state for social links;
 
-  const handleDelete = (platform: string) => {
+  const handleDelete = async (link_id: string) => {
     const newLinks = creatorSocialLinks?.filter(
-      (x: iCreatorSocialLinks) => x.platform_link !== platform
+      (x: iCreatorSocialLinks) => x.link_id !== link_id
     );
-    setDisplayedSocialLinks(newLinks || []);
+
+    try {
+      setCreatorSocialLinks(newLinks || []);
+      const res = await onDeleteSocialLinks(link_id);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -27,7 +37,7 @@ const DisplayIcons = () => {
     <>
       {displayedSocialLinks?.map((x: iCreatorSocialLinks) => {
         return (
-          <div key={x.platform_name} className='socialMediaLinkDiv'>
+          <div key={x.link_id} className='socialMediaLinkDiv'>
             <div>
               <img
                 src={x.platform_icon}
@@ -37,10 +47,9 @@ const DisplayIcons = () => {
               <p className='platformNameDisplaying'>{x.platform_name}</p>
             </div>
             <div>
-              <FiEdit className='editLinksIcons' />
               <MdDelete
                 className='editLinksIcons'
-                onClick={() => handleDelete(x.platform_name)}
+                onClick={() => handleDelete(x.link_id)}
               />
             </div>
           </div>

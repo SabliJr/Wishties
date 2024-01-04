@@ -1,4 +1,5 @@
 export interface iCreatorSocialLinks { 
+  link_id: string;
   platform_icon: string;
   platform_name: string;
   platform_link: string;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Profile.css";
 
 //User Images
@@ -16,9 +16,9 @@ import { LiaUserEditSolid } from "react-icons/lia";
 import TheWish from "../UpLoadWish/TheWish";
 import UserInfoEdit from "./UserInfoEdit";
 import UploadWish from "../UpLoadWish/index";
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
+import { onGetSocialLinks } from "../../API/authApi";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
@@ -27,7 +27,9 @@ const Index = () => {
   const [profileEditModal, setProfileEditModal] = useState(false); // This is the edit profile module
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
-  const { creatorSocialLinks } = useUserInfoCOntext();
+  const [getCreatorSocialLinks, setGetCreatorSocialLinks] = useState<
+    iCreatorSocialLinks[]
+  >([]);
 
   let userInfo = {
     profile_name: "Angela Smith",
@@ -35,6 +37,19 @@ const Index = () => {
     profile_bio: "Content Creator | Beauty, Fashion, Lifestyle.",
     profile_username: "@angela_smith",
   };
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      try {
+        const res = await onGetSocialLinks();
+        setGetCreatorSocialLinks(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchSocialLinks();
+  }, []);
 
   const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);
@@ -94,8 +109,8 @@ const Index = () => {
 
         {/* Displaying the icons in the creator profile from the server */}
         <div className='userSocialLinks'>
-          {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 &&
-            creatorSocialLinks?.map((x) => {
+          {(getCreatorSocialLinks as iCreatorSocialLinks[])?.length > 0 &&
+            getCreatorSocialLinks?.map((x) => {
               return (
                 <div
                   key={x.platform_name}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./UserSocials.css";
 
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
@@ -24,25 +24,30 @@ const SocialMediaLinkForm = ({
   disable_bg,
 }: SocialMediaLinkFormProps) => {
   const [linksModule, setLinksModule] = useState(false);
+  const [disable_btn, setDisable_btn] = useState(false);
   const { creatorSocialLinks } = useUserInfoCOntext(); //Create a state for social links;
   const modelRef = useRef<HTMLDivElement | null>(null);
 
-  // This function is to close the module of adding wish when the user clicks outside the module
-  const closeModuleOutside = useCallback(
-    (e: MouseEvent) => {
-      if (modelRef?.current && !modelRef?.current?.contains(e.target as Node)) {
-        handleSocialLinksModule();
-      }
-    },
-    [handleSocialLinksModule]
-  );
+  const [initialSocialLinks, setInitialSocialLinks] = useState<
+    iCreatorSocialLinks[]
+  >([]);
+
+  // Remove the dependency on creatorSocialLinks from the first useEffect
+  useEffect(() => {
+    setInitialSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
+  }, []); // This runs only once when the component mounts
 
   useEffect(() => {
-    document.addEventListener("mouseup", closeModuleOutside);
-    return () => {
-      document.removeEventListener("mouseup", closeModuleOutside);
-    };
-  }, [closeModuleOutside]);
+    if (
+      JSON.stringify(creatorSocialLinks) === JSON.stringify(initialSocialLinks)
+    ) {
+      setDisable_btn(true);
+      console.log("disable");
+    } else {
+      setDisable_btn(false);
+      console.log("enable");
+    }
+  }, [creatorSocialLinks, initialSocialLinks]);
 
   useEffect(() => {
     // Add the 'modal-open' class to the body when the modal is open
@@ -64,6 +69,7 @@ const SocialMediaLinkForm = ({
         creatorSocialLinks as iCreatorSocialLinks[]
       );
       console.log(res);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     } finally {
@@ -115,7 +121,11 @@ const SocialMediaLinkForm = ({
           }}>
           Add Link <FaPlus className='linksPlusIcon' />
         </button>
-        <button type='submit' className='saveLinks' onClick={handleSubmit}>
+        <button
+          type='submit'
+          className='saveLinks'
+          onClick={handleSubmit}
+          disabled={disable_btn}>
           Save Links
         </button>
       </section>

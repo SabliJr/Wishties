@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+import { v4 as uuidv4 } from "uuid";
 
 import Insta from "../../Assets/UserIcons/instagram.png";
 import xTwitter from "../../Assets/UserIcons/xT.png";
@@ -27,12 +28,13 @@ const SelectPlatform = ({
   const [errMessage, setErrMessage] = useState("");
   const [fillingSocialInfo, setFillingSocialInfo] =
     useState<iCreatorSocialLinks>({
+      link_id: "",
       platform_icon: "",
       platform_name: "",
       platform_link: "",
     });
 
-  const { creatorSocialLinks } = useUserInfoCOntext();
+  const { setCreatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
     { platform_icon: Insta, platform_name: "Instagram" },
@@ -66,24 +68,29 @@ const SelectPlatform = ({
           ...prevInfo,
           [field]: value,
           platform_icon: selectedPlatform.platform_icon,
+          link_id: uuidv4(),
         }));
       }
     } else {
       setFillingSocialInfo((prevInfo) => ({
         ...prevInfo,
         [field]: value,
+        link_id: uuidv4(),
       }));
     }
   };
 
   const handleAddLinks = () => {
-    console.log(fillingSocialInfo);
     if (!fillingSocialInfo.platform_name || !fillingSocialInfo.platform_link) {
       setErrMessage("Please fill in all fields");
       return;
     }
     setErrMessage("");
-    creatorSocialLinks?.push(fillingSocialInfo as iCreatorSocialLinks);
+    console.log(fillingSocialInfo);
+    setCreatorSocialLinks((prevLinks) => [
+      ...prevLinks,
+      fillingSocialInfo as iCreatorSocialLinks,
+    ]);
     setLinksModule(!linksModule); // Close the module
   };
 

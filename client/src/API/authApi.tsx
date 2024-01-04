@@ -155,11 +155,12 @@ const onAddSocialLinks = async (creatorSocialLinks: iCreatorSocialLinks[]) => {
   );
 };
 
-const onEditSocialLinks = async () => {
-  return await axios.get(`${SERVER_URL}/edit-social-links`, {
+const onDeleteSocialLinks = async (link_id: string) => {
+  return await axios.get(`${SERVER_URL}/delete-social-links`, {
     headers: {
       "Content-Type": "application/json",
     },
+    params: { link_id },
     withCredentials: true,
   });
 };
@@ -197,7 +198,7 @@ export {
   onGetWishesByCategory,
   onGetWishesByPrice,
   onAddSocialLinks,
-  onEditSocialLinks,
+  onDeleteSocialLinks,
   onGetSocialLinks,
   onVerifyEmail,
   onUpdateCreatorInfo,

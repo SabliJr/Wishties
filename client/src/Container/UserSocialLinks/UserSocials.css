@@ -120,7 +120,7 @@
 }
 
 .editLinksIcons {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   cursor: pointer;
 }
 
@@ -166,8 +166,8 @@ body.modal-open .SocialLinksModule {
 
     @media screen and (max-width: 600px) {
       .AddingLinksModule {
-        width: 330px;
-        padding: 1.5rem 2rem;
+        width: 310px;
+        padding: .8rem 1.3rem;
       }
 
       .closeLinksModule {

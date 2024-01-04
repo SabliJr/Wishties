@@ -52,13 +52,10 @@ CREATE INDEX idx_wishlist_id ON wish (wishlist_id);
 
 -- Create the Creator's Social Media Links table
 CREATE TABLE social_media_links (
-    link_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
+link_id VARCHAR(100),
     creator_id UUID REFERENCES creator(creator_id),
     platform_name VARCHAR(150),
-    platform_image TEXT,
-    link TEXT,
-    CONSTRAINT fk_creator_id_social_media
-
+platform_icon TEXT, platform_link TEXT, CONSTRAINT fk_creator_id_social_media
 FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
 DELETE CASCADE
 );
