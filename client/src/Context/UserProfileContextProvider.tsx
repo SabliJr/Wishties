@@ -1,18 +1,18 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
-import { iUserInfo } from "../Types/wishListTypes";
 import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
+import { onGetSocialLinks } from "../API/authApi";
 
-const creatorSocialLinks: iCreatorSocialLinks[] = []; //Create a state for social links
 interface userInfoType {
-  // userInfo: iUserInfo | undefined;
-  // setUserInfo: React.Dispatch<React.SetStateAction<iUserInfo | undefined>>;
   creatorSocialLinks?: iCreatorSocialLinks[] | undefined;
-  displayedSocialLinks: iCreatorSocialLinks[] | undefined;
+  userEmail: string;
+  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
+  setCreatorSocialLinks: React.Dispatch<
+    React.SetStateAction<iCreatorSocialLinks[]>
+  >;
+  displayedSocialLinks: iCreatorSocialLinks[];
   setDisplayedSocialLinks: React.Dispatch<
     React.SetStateAction<iCreatorSocialLinks[]>
   >;
-  userEmail: string;
-  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const userInfoContext = createContext<userInfoType | undefined>(undefined);
@@ -22,28 +22,35 @@ const UserProfileContextProvider = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  //Creator profile info edit
-  // const [userInfo, setUserInfo] = useState<iUserInfo | undefined>({
-  //   coverPhoto: "",
-  //   profilePhoto: "",
-  //   profileName: "",
-  //   userName: "",
-  //   userBio: "",
-  // });
   const [userEmail, setUserEmail] = useState("");
+  const [creatorSocialLinks, setCreatorSocialLinks] = useState<
+    iCreatorSocialLinks[]
+  >([]); // Create a state for social links
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState(creatorSocialLinks);
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      try {
+        const res = await onGetSocialLinks();
+        setCreatorSocialLinks(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchSocialLinks();
+  }, []);
 
   return (
     <userInfoContext.Provider
       value={{
-        // userInfo,
-        // setUserInfo,
         creatorSocialLinks,
-        displayedSocialLinks,
-        setDisplayedSocialLinks,
+        setCreatorSocialLinks,
         userEmail,
         setUserEmail,
+        displayedSocialLinks,
+        setDisplayedSocialLinks,
       }}>
       {children}
     </userInfoContext.Provider>
@@ -60,22 +67,20 @@ function useUserInfoCOntext(): userInfoType {
   }
 
   const {
-    // userInfo,
-    // setUserInfo,
     creatorSocialLinks,
-    displayedSocialLinks,
-    setDisplayedSocialLinks,
     userEmail,
     setUserEmail,
+    setCreatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
   } = userContext;
   return {
-    // userInfo,
-    // setUserInfo,
     creatorSocialLinks,
-    displayedSocialLinks,
-    setDisplayedSocialLinks,
+    setCreatorSocialLinks,
     userEmail,
     setUserEmail,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
   };
 }
 

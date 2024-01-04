@@ -12,14 +12,14 @@ interface iImages {
   userImg: string;
   coverImg: string;
   editInfo: boolean;
-  handleInfoEdit: () => void;
+  handleProfileInfoEdit: () => void;
   profileEditModal: boolean;
 }
 
 const UserInfoEdit = ({
   userImg,
   coverImg,
-  handleInfoEdit,
+  handleProfileInfoEdit,
   editInfo,
   profileEditModal,
 }: iImages) => {
@@ -34,7 +34,7 @@ const UserInfoEdit = ({
 
   const closeEditPopup = () => {
     if (editInfo === true) {
-      handleInfoEdit();
+      handleProfileInfoEdit();
     }
   };
 
@@ -76,10 +76,10 @@ const UserInfoEdit = ({
   const closeModuleOutside = useCallback(
     (e: MouseEvent) => {
       if (modelRef?.current && !modelRef?.current?.contains(e.target as Node)) {
-        handleInfoEdit();
+        handleProfileInfoEdit();
       }
     },
-    [handleInfoEdit]
+    [handleProfileInfoEdit]
   );
 
   useEffect(() => {
@@ -126,7 +126,7 @@ const UserInfoEdit = ({
     } catch (err: any) {
       console.log(err);
     } finally {
-      handleInfoEdit();
+      handleProfileInfoEdit();
     }
   };
 

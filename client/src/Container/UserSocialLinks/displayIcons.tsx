@@ -1,58 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./UserSocials.css";
 
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
-import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
+import { onDeleteSocialLinks } from "../../API/authApi";
 
-type DisplayIconsProps = {
-  creatorSocialLinks: iCreatorSocialLinks[] | undefined;
-};
+const DisplayIcons = () => {
+  const {
+    creatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
+    setCreatorSocialLinks,
+  } = useUserInfoCOntext(); //Create a state for social links;
 
-const DisplayIcons = ({ creatorSocialLinks }: DisplayIconsProps) => {
-  //This is an array of objects
-  // const { displayedSocialLinks, setDisplayedSocialLinks } =
-  //   useUserInfoCOntext();
-  const [displayedSocialLinks, setDisplayedSocialLinks] =
-    useState(creatorSocialLinks);
-
-  const handleDelete = (platform: string) => {
+  const handleDelete = async (link_id: string) => {
     const newLinks = creatorSocialLinks?.filter(
-      (x: iCreatorSocialLinks) => x.platform !== platform
+      (x: iCreatorSocialLinks) => x.link_id !== link_id
     );
-    setDisplayedSocialLinks(newLinks || []);
+
+    try {
+      setCreatorSocialLinks(newLinks || []);
+      const res = await onDeleteSocialLinks(link_id);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     setDisplayedSocialLinks(creatorSocialLinks || []);
   }, [creatorSocialLinks, setDisplayedSocialLinks]);
 
-  // const handleDelete = (platform: string) => {
-  //   const newLinks = creatorSocialLinks?.filter((x: iCreatorSocialLinks) => x.platform !== platform);
-  //   console.log(newLinks);
-  //   return newLinks;
-  // };
-
   return (
     <>
       {displayedSocialLinks?.map((x: iCreatorSocialLinks) => {
         return (
-          <div key={x.platform} className='socialMediaLinkDiv'>
+          <div key={x.link_id} className='socialMediaLinkDiv'>
             <div>
               <img
-                src={x.icon}
-                alt={`${x.icon} Icon`}
+                src={x.platform_icon}
+                alt={`${x.platform_icon} Icon`}
                 style={{ width: "28px", height: "28px" }}
               />
-              <p className='platformNameDisplaying'>{x.platform}</p>
+              <p className='platformNameDisplaying'>{x.platform_name}</p>
             </div>
             <div>
-              <FiEdit className='editLinksIcons' />
               <MdDelete
                 className='editLinksIcons'
-                onClick={() => handleDelete(x.platform)}
+                onClick={() => handleDelete(x.link_id)}
               />
             </div>
           </div>

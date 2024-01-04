@@ -1,6 +1,8 @@
 import { check } from 'express-validator';
 import { query } from '../db';
 import { compare } from 'bcryptjs';
+import { Request, Response, NextFunction } from 'express';
+import { isValidAuthToken } from '../util/verificationFunctions';
 
 const password = check('password')
   .isLength({ min: 8 })
@@ -39,10 +41,20 @@ const loginCheck = check('email').custom(
     req.body.creator = rows[0];
 });
 
+const authenticateCreator =  (req: Request, res: Response, next: NextFunction) => {
+  const { refreshToken } = req.cookies;
+   if (!refreshToken || !isValidAuthToken(refreshToken)) {
+    return res.status(401).json({ error: 'Unauthorized' });
+   }
+
+  next();
+}
+
 const loginValidation = [loginCheck];
 const registerValidation = [email, password, emailExist];
 
 export { 
   registerValidation,
-  loginValidation
+  loginValidation,
+  authenticateCreator
  };

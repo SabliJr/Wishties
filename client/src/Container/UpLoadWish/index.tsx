@@ -91,19 +91,12 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
     // }
     setWishInputs({ ...wishInputs, [field]: value });
   };
-  console.log(wishInputs.wish_price);
+  // console.log(wishInputs.wish_price);
 
   const addTheWish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("wish_name", wishInputs.wish_name);
-    formData.append("wish_price", wishInputs.wish_price);
-    formData.append("wish_category", wishInputs.wish_category);
-    if (wishInputs.wish_image) {
-      formData.append("wish_image", wishInputs.wish_image);
-    }
-
     if (
       !wishInputs.wish_name ||
       !wishInputs.wish_price ||
@@ -131,9 +124,13 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
     }
 
     Wishes?.push(wishInputs);
-    if (uploadModule === true) {
-      closeUploadModule();
-    }
+      formData.append("wish_name", wishInputs.wish_name);
+      formData.append("wish_price", wishInputs.wish_price);
+      formData.append("wish_category", wishInputs.wish_category);
+      if (wishInputs.wish_image) {
+        formData.append("wish_image", wishInputs.wish_image);
+      }
+
 
     try {
       const res = await onAddWish(formData);
@@ -142,6 +139,9 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
     } catch (error) {
     } finally {
       console.log("The wish was added successfully");
+      if (uploadModule === true) {
+        closeUploadModule();
+      }
     }
   };
 
@@ -223,7 +223,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
               <input
                 type='text'
                 placeholder='Add a category'
-                value={wishInputs.wish_category}
+                value={wishInputs.wish_category || ""}
                 onChange={(e) => {
                   handleInputChange(e, "wish_category");
                   setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));

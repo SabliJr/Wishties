@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { REFRESH_TOKEN_SECRET, SERVER_URL, EMAIL_HOST, CLIENT_URL } from '../constants';
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
+// import { ACCESS_SECRET_KEY, REFRESH_TOKEN_SECRET } from '../constants';
 
 const generateVerificationToken = (username: string, email: string) => {
   // Generate a hash of the username
@@ -12,7 +13,7 @@ const generateVerificationToken = (username: string, email: string) => {
     .substring(0, 10);
 
   // Use the hash as a unique identifier in the token
-  const token = jwt.sign({ hash, username, email }, REFRESH_TOKEN_SECRET as string, { expiresIn: '3h' }); // Set to 1 hour
+  const token = jwt.sign({ hash, username, email }, REFRESH_TOKEN_SECRET as string, { expiresIn: '1h' }); // Set to 1 hour
   return token;
 };
 
@@ -28,5 +29,14 @@ const sendVerificationEmail = (email: string, token: string) => {
   return mailOptions;
 };
 
+const isValidAuthToken = (authToken: string) => {
+  try {
+    jwt.verify(authToken, REFRESH_TOKEN_SECRET as string);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+ 
 
-export { generateVerificationToken, sendVerificationEmail };
+export { generateVerificationToken, sendVerificationEmail, isValidAuthToken };

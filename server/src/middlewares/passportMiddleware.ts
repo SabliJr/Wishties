@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { SECRET_KEY } from '../constants';
+import { ACCESS_SECRET_KEY } from '../constants';
 import { query } from '../db';
 import { compare } from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
@@ -19,7 +19,7 @@ const cookieExtractor = (req: Request) => {
 
 const options = {
   jwtFromRequest: cookieExtractor,
-  secretOrKey: SECRET_KEY
+  secretOrKey: ACCESS_SECRET_KEY
 };
 
 passport.use(
