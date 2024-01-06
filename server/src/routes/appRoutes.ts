@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 // Controllers
 import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
-import { onAddWish } from '../controllers/wishControllers';
+import { onAddWish, onGetWishes } from '../controllers/wishControllers';
 import { onAddSocialLinks, onGetSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
 import { onProfileUpdate } from '../controllers/profileController';
 
@@ -29,6 +29,7 @@ router.post('/login', loginValidation, validate(401), userLogin); // creator log
 router.get('/logout', userLogout) // logout creator
 router.get('/refresh-token', handleRefreshToken); // refresh token
 router.post('/add-wish', upload.single('wish_image'), authenticateCreator, validate(401), onAddWish); // add wish to the wish list
+router.get('/get-wishes', authenticateCreator, validate(401), onGetWishes); // get all wishes
 router.post('/update-profile', upload.array('profile_images'), authenticateCreator, validate(401), onProfileUpdate) // edit or update profile
 router.post('/add-social-links', authenticateCreator, onAddSocialLinks) // add social links at the creation of the profile
 router.get('/get-social-links', authenticateCreator, onGetSocialLinks) // get social links 

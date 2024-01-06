@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
-import { onGetSocialLinks } from "../API/authApi";
+import { onGetSocialLinks, onGetWishes } from "../API/authApi";
+import { iWish } from "../Types/wishListTypes";
 
 interface userInfoType {
   creatorSocialLinks?: iCreatorSocialLinks[] | undefined;
@@ -33,6 +34,7 @@ const UserProfileContextProvider = ({
     const fetchSocialLinks = async () => {
       try {
         const res = await onGetSocialLinks();
+
         setCreatorSocialLinks(res.data);
       } catch (error) {
         console.log(error);

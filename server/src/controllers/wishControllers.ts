@@ -1,34 +1,55 @@
 import { Request, Response } from 'express';
-import { ACCESS_SECRET_KEY, REFRESH_TOKEN_SECRET, CLIENT_URL } from '../constants';
+import { REFRESH_TOKEN_SECRET } from '../constants';
 import { query } from '../db/index';
-import { sign, verify } from 'jsonwebtoken';
-import { compare } from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
-import { } from '@aws-sdk/client-s3'
+import { verify } from 'jsonwebtoken';
+import { onUploadImage } from '../config/s3'; 
+
+interface DecodedToken {
+  username: string;
+  creator_name: string;
+  creator_id: string;
+  [key: string]: any; // for any other properties that might be in the token
+}
 
 const onAddWish = async (req: Request, res: Response) => {
   const { wish_name, wish_price, wish_category } = req.body;
   const wish_image = req.file;
-  console.log(wish_name, wish_price, wish_category);
-  console.log(wish_image);
+
+  const isUploaded = await onUploadImage(wish_image);
+  if (!isUploaded.status)
+    return res.status(500).json({
+      error: isUploaded.message
+    });
 
   const cookies = req.cookies;
   if (!cookies?.refreshToken)
     return res.sendStatus(401);
   const refreshToken = cookies.refreshToken;
-  console.log(refreshToken);
 
   // Verify the user's refresh token and get the user's username and email before sending the wish to the database;
+  let decoded;
+  try {
+    decoded = verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(401);
+  }
 
-  //   const insertWishQuery = `
-  //   INSERT INTO wish (wish_name, price, wish_image, wish_category)
-  //   VALUES ($1, $2, $3, $4, $5, $6, $7)
-  //   RETURNING *;
-  // `;
+  const { creator_id } = decoded;
+  try {
+    const creator = await query(
+      'SELECT * FROM creator WHERE creator_id = $1', [creator_id]
+    );
+    if (creator.rows.length === 0) {
+      return res.status(404).json({
+        error: 'unauthorized'
+      });
+    }
 
- try {
-    // const { rows } = await query(insertWishQuery, [wish_name, wish_price, wish_category]);
-    // const createdWish = rows[0];
+    await query(
+      'INSERT INTO wishes (wish_name, wish_price, wish_image, wish_category, creator_id) VALUES ($1, $2, $3, $4, $5)',
+      [wish_name, wish_price, isUploaded.imageUrl, wish_category, creator_id]
+    );
     res.status(201).json({ message: 'Wish added successfully.'});
   } catch (err) {
     console.error(err);
@@ -36,4 +57,40 @@ const onAddWish = async (req: Request, res: Response) => {
   }
 }
 
-export { onAddWish };
+const onGetWishes = async (req: Request, res: Response) => {
+  const cookies = req.cookies;
+  if (!cookies?.refreshToken)
+    return res.sendStatus(401);
+  const refreshToken = cookies.refreshToken;
+
+  // Verify the user's refresh token and get the user's username and email before sending the wish to the database;
+  let decoded;
+  try {
+    decoded = verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(401);
+  }
+
+  const { creator_id } = decoded;
+  try {
+    const creator = await query(
+      'SELECT * FROM creator WHERE creator_id = $1', [creator_id]
+    );
+    if (creator.rows.length === 0) {
+      return res.status(404).json({
+        error: 'unauthorized'
+      });
+    }
+
+    const wishes = await query(
+      'SELECT * FROM wishes WHERE creator_id = $1', [creator_id]
+    );
+    res.status(200).json({ wishes: wishes.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while fetching the wishes.' });
+  }
+}
+
+export { onAddWish, onGetWishes };

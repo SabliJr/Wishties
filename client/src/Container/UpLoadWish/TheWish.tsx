@@ -1,49 +1,27 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
-import { iWishInfo } from "../../Types/wishListTypes";
+import React, { useEffect, useState } from "react";
+import { iWish } from "../../Types/wishListTypes";
+import { onGetWishes } from "../../API/authApi";
+import Loader from "../../Loader";
 
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
 
 const TheWish = (): JSX.Element => {
-  const { Wishes } = useWishInfoContext();
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const getImageURLs = async () => {
-      const urls = await Promise.all(
-        (Wishes as iWishInfo[])?.map(async (wish) => {
-          if (wish.wish_image) {
-            return new Promise<string>((resolve) => {
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                if (e.target && typeof e.target.result === "string") {
-                  resolve(e.target.result);
-                }
-              };
-              reader.readAsDataURL(wish.wish_image as File);
-            });
-          } else {
-            return "";
-          }
-        })
-      );
-
-      setImageURLs(urls);
-    };
-
-    getImageURLs();
-
-    //To Update the image when the image is uploaded
-    Wishes?.map((w: iWishInfo, i: number) => {
-      if (imageURLs[i]) {
-        imageRef.current?.setAttribute("src", imageURLs[i]);
-      } else {
-        imageRef.current?.setAttribute("src", "");
+    (async () => {
+      try {
+        const wishes = await onGetWishes();
+        setCreatorWishes(wishes.data.wishes as iWish[]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoaded(false);
       }
-    });
-  }, [Wishes, imageURLs]);
+    })();
+  }, []);
 
   const handleEdit = () => {
     console.log("edit");
@@ -51,14 +29,16 @@ const TheWish = (): JSX.Element => {
 
   return (
     <>
-      {Wishes?.length ? (
-        Wishes?.map((wish, i) => (
-          <div key={i} className='theWishDiv'>
-            <img ref={imageRef} alt='wishImag' className='wishImag' />
+      {isLoaded ? (
+        <Loader />
+      ) : creatorWishes && creatorWishes.length > 0 ? (
+        creatorWishes?.map((x) => (
+          <div key={x.wish_id} className='theWishDiv'>
+            <img src={x.wish_image} alt='wishImag' className='wishImag' />
             <div className='wishDetails'>
               <div>
-                <h4 className='wishTitle'>{wish.wish_name}</h4>
-                <p className='wishPrice'>${wish.wish_price}</p>
+                <h4 className='wishTitle'>{x.wish_name}</h4>
+                <p className='wishPrice'>${x.wish_price}</p>
               </div>
               <div className='wishOptionBtn' onClick={handleEdit}>
                 <HiDotsVertical className='wishOptionBtnIcon' />

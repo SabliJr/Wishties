@@ -31,7 +31,6 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
   });
   const [wishInputs, setWishInputs] = useState<iWishInfo>({} as iWishInfo);
   const ImgInputRef = useRef<HTMLInputElement>(null);
-  const { Wishes } = useWishInfoContext();
   const modelRef = useRef<HTMLDivElement | null>(null);
 
   const handleImgUpload = () => {
@@ -91,7 +90,6 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
     // }
     setWishInputs({ ...wishInputs, [field]: value });
   };
-  // console.log(wishInputs.wish_price);
 
   const addTheWish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -123,22 +121,19 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
       return;
     }
 
-    Wishes?.push(wishInputs);
-      formData.append("wish_name", wishInputs.wish_name);
-      formData.append("wish_price", wishInputs.wish_price);
-      formData.append("wish_category", wishInputs.wish_category);
-      if (wishInputs.wish_image) {
-        formData.append("wish_image", wishInputs.wish_image);
-      }
-
+    // Wishes?.push(wishInputs);
+    formData.append("wish_name", wishInputs.wish_name);
+    formData.append("wish_price", wishInputs.wish_price);
+    formData.append("wish_category", wishInputs.wish_category);
+    if (wishInputs.wish_image) {
+      formData.append("wish_image", wishInputs.wish_image);
+    }
 
     try {
-      const res = await onAddWish(formData);
-
-      console.log(res);
+      await onAddWish(formData);
+      window.location.reload();
     } catch (error) {
     } finally {
-      console.log("The wish was added successfully");
       if (uploadModule === true) {
         closeUploadModule();
       }
