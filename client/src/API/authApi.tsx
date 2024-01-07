@@ -4,6 +4,7 @@ import {
   loginInfo,
   iCreatorSocialLinks,
 } from "../Types/creatorSocialLinksTypes";
+import { iWish } from "../Types/wishListTypes";
 
 const SERVER_URL = "http://localhost:8000/api";
 
@@ -98,12 +99,8 @@ const onRemoveWish = async (wish_id: string) => {
   });
 };
 
-const onEditWish = async (wish_id: string) => {
-  return await axios.get(`${SERVER_URL}/edit-wish`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    params: { wish_id },
+const onEditWish = async (wish: FormData) => {
+  return await axios.put(`${SERVER_URL}/update-wish`, wish, {
     withCredentials: true,
   });
 };

@@ -15,7 +15,7 @@ export interface iUserInfo {
 
 export interface iWish {
   wish_name: string;
-  wish_image: string;
+  wish_image: string | undefined | File;
   wish_price: string;
   wish_category: string;
   wish_id: string;

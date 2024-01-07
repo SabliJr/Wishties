@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { iWish } from "../../Types/wishListTypes";
-import { onGetWishes, onRemoveWish, onEditWish } from "../../API/authApi";
+import { onGetWishes, onRemoveWish } from "../../API/authApi";
 import Loader from "../../Loader";
+import EditWish from "./EditWish";
 
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
@@ -15,6 +16,7 @@ import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 const TheWish = (): JSX.Element => {
   const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
   const [editingWishId, setEditingWishId] = useState<null | string>(null);
+  const [wishToEdit, setWishToEdit] = useState<iWish | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { refresh, setRefresh } = contextValues as iGlobalValues;
@@ -34,12 +36,9 @@ const TheWish = (): JSX.Element => {
   }, [refresh, setRefresh]);
 
   const handleEditWish = async (wish_id: string) => {
-    try {
-      let res = await onEditWish(wish_id);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    const wish = creatorWishes?.filter((x) => x.wish_id === wish_id);
+    setWishToEdit(wish[0]);
+    setEditingWishId(null);
   };
 
   const handleDeleteWish = async (wish_id: string) => {
@@ -62,7 +61,11 @@ const TheWish = (): JSX.Element => {
       ) : creatorWishes && creatorWishes.length > 0 ? (
         creatorWishes?.map((x) => (
           <div key={x.wish_id} className='theWishDiv'>
-            <img src={x.wish_image} alt='wishImag' className='wishImag' />
+            <img
+              src={x.wish_image as string}
+              alt='wishImag'
+              className='wishImag'
+            />
             <div className='wishDetails'>
               <div>
                 <h4 className='wishTitle'>{x.wish_name}</h4>
@@ -106,6 +109,9 @@ const TheWish = (): JSX.Element => {
         ))
       ) : (
         <h3>Please Add Your Wishes!</h3>
+      )}
+      {wishToEdit && (
+        <EditWish wishToEdit={wishToEdit} setWishToEdit={setWishToEdit} />
       )}
     </>
   );

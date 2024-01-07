@@ -148,4 +148,69 @@ const onDeleteWish = async (req: Request, res: Response) => {
   }
 }
 
-export { onAddWish, onGetWishes, onDeleteWish };
+const onUpdateWish = async (req: Request, res: Response) => {
+  let { wish_id, wish_name, wish_price, wish_category } = req.body;
+  let wish_image;
+  let wish_image_file = req.file;
+
+  const cookies = req.cookies;
+  if (!cookies?.refreshToken)
+    return res.sendStatus(401);
+
+  const refreshToken = cookies.refreshToken;
+  let decoded;
+  try {
+    decoded = verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(401);
+  }
+
+  const { creator_id } = decoded;
+  try {
+    const creator = await query(
+      'SELECT * FROM creator WHERE creator_id = $1', [creator_id]
+    );
+    if (creator.rows.length === 0) {
+      return res.status(404).json({
+        error: 'unauthorized'
+      });
+    }
+
+    const wish = await query(
+      'SELECT * FROM wishes WHERE wish_id = $1', [wish_id]
+    );
+    if (wish.rows.length === 0) {
+      return res.status(404).json({
+        error: 'Wish not found.'
+      });
+    }
+
+    if (wish_image_file) {
+      let isDeleted = await onDeleteImage(`${WISHES_IMAGES_FOLDER}/${wish_image_file}`);
+      if (!isDeleted.status)
+        return res.status(500).json({
+          error: isDeleted.message
+        });
+      
+      const isUploaded = await onUploadImage(wish_image_file);
+      if (!isUploaded.status)
+        return res.status(500).json({
+          error: isUploaded.message
+        });
+      wish_image = isUploaded.imageUrl;
+    }
+    
+    await query(
+      'UPDATE wishes SET wish_name = $1, wish_price = $2, wish_image = $3, wish_category = $4 WHERE wish_id = $5',
+      [wish_name, wish_price, wish_image, wish_category, wish_id]
+    );
+    res.status(200).json({ message: 'Wish updated successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while updating the wish.' });
+  }
+
+}
+
+export { onAddWish, onGetWishes, onDeleteWish, onUpdateWish };

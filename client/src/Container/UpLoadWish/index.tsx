@@ -151,7 +151,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
   return (
     <>
-      {isUploading && <Loader />}
+      {isUploading && !isError && <Loader />}
       <div className='dropBack'></div>
       <main className='wishUploaderSection' ref={modelRef}>
         <MdClose className='editProfileClose' onClick={closeUploadModule} />
