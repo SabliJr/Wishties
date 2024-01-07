@@ -48,7 +48,7 @@ const Login = (): JSX.Element => {
         setAuth({ userId, username, accessToken });
         setLogInData({ email: "", pwd: "" });
 
-        navigate(`/wishlist/${response.data.user.username}`);
+        navigate(`/edit-profile/${response.data.user.username}`);
       }
     } catch (error: any) {
       if (error.response) {

@@ -105,7 +105,6 @@ const UserInfoEdit = ({
       document.body.classList.remove("modal-open");
     };
   }, [profileEditModal]);
-  console.log(userProfileInfo);
 
   const handelSubmitData = async () => {
     const formData = new FormData();
@@ -121,8 +120,7 @@ const UserInfoEdit = ({
     }
 
     try {
-      const res = await onUpdateCreatorInfo(formData);
-      console.log(res);
+      await onUpdateCreatorInfo(formData);
     } catch (err: any) {
       console.log(err);
     } finally {

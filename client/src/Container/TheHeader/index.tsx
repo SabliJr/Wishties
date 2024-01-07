@@ -55,7 +55,7 @@ const Index = () => {
   };
 
   const showProfile = () => {
-    navigate(`/profile/${username}`);
+    navigate(`/${username}`);
   };
 
   const goToAccountSettings = () => {
@@ -84,7 +84,7 @@ const Index = () => {
           </div>
           <div
             className='itemsIcon'
-            onClick={() => navigate(`/wishlist/${username}`)}>
+            onClick={() => navigate(`/edit-profile/${username}`)}>
             <TbClipboardList className='wishIcon' />
             <span className='iconText'>Wishlist</span>
           </div>

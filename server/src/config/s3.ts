@@ -1,6 +1,7 @@
 import {
   S3Client,
   PutObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { S3_BUCKET_NAME, S3_REGION, S3_ACCESS_KEY, S3_SECRET_ACCESS_KEY, S3_URL, WISHES_IMAGES_FOLDER } from '../constants';
 import crypto from 'crypto';
@@ -21,7 +22,6 @@ const generateFileName = (fileName: string): string => {
 }
 
 const onUploadImage = async (file: Express.Multer.File | undefined) => {
-  console.log(file);
   const fileName = generateFileName(file?.originalname as string);
   const fileType = file?.mimetype;
   const fileContent = file?.buffer;
@@ -50,4 +50,25 @@ const onUploadImage = async (file: Express.Multer.File | undefined) => {
   }
 }
 
-export { onUploadImage };
+const onDeleteImage = async (fileName: string) => {
+  const params = {
+    Bucket: S3_BUCKET_NAME,
+    Key: fileName,
+  };
+
+  try {
+    await s3Client.send(new DeleteObjectCommand(params));
+    return {
+      status: true,
+      message: 'Image deleted successfully.'
+    };
+  } catch (err: any) {
+    console.error(err);
+    return {
+      status: false,
+      message: 'An error occurred while deleting the image.'
+    };
+  }
+}
+
+export { onUploadImage, onDeleteImage };

@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useContext } from "react";
 import { iWish } from "../../Types/wishListTypes";
-import { onGetWishes } from "../../API/authApi";
+import { onGetWishes, onRemoveWish, onEditWish } from "../../API/authApi";
 import Loader from "../../Loader";
 
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
+import { TbEdit } from "react-icons/tb";
+import { MdDeleteForever } from "react-icons/md";
+import { RiCloseLine } from "react-icons/ri";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 
 const TheWish = (): JSX.Element => {
   const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
+  const [editingWishId, setEditingWishId] = useState<null | string>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { refresh, setRefresh } = contextValues as iGlobalValues;
@@ -29,8 +33,26 @@ const TheWish = (): JSX.Element => {
     setRefresh(false);
   }, [refresh, setRefresh]);
 
-  const handleEdit = () => {
-    console.log("edit");
+  const handleEditWish = async (wish_id: string) => {
+    try {
+      let res = await onEditWish(wish_id);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteWish = async (wish_id: string) => {
+    try {
+      await onRemoveWish(wish_id);
+      setRefresh(true);
+    } catch (error: any) {
+      if (error?.response) {
+        alert("Something went wrong, please try again.");
+      }
+    } finally {
+      setEditingWishId(null);
+    }
   };
 
   return (
@@ -46,7 +68,9 @@ const TheWish = (): JSX.Element => {
                 <h4 className='wishTitle'>{x.wish_name}</h4>
                 <p className='wishPrice'>${x.wish_price}</p>
               </div>
-              <div className='wishOptionBtn' onClick={handleEdit}>
+              <div
+                className='wishOptionBtn'
+                onClick={() => setEditingWishId(x.wish_id)}>
                 <HiDotsVertical className='wishOptionBtnIcon' />
               </div>
             </div>
@@ -54,6 +78,30 @@ const TheWish = (): JSX.Element => {
               <FaCartPlus className='addToCartBtnIcon' />
               Add To Cart
             </button>
+            {editingWishId === x.wish_id && (
+              <div className='editingDiv'>
+                <RiCloseLine
+                  className='closeEditDiv'
+                  onClick={() => setEditingWishId(null)}
+                />
+                <p onClick={() => handleEditWish(x.wish_id)}>
+                  <TbEdit
+                    style={{
+                      color: "green",
+                    }}
+                  />{" "}
+                  Edit wish
+                </p>
+                <p onClick={() => handleDeleteWish(x.wish_id)}>
+                  <MdDeleteForever
+                    style={{
+                      color: "red",
+                    }}
+                  />{" "}
+                  Delete wish
+                </p>
+              </div>
+            )}
           </div>
         ))
       ) : (

@@ -31,13 +31,11 @@ const VerifyEmail = () => {
       try {
         setIsLoaded(true);
         const res = await onVerifyEmail(token);
-        console.log(`The response: ${res}`);
 
         if (res.status === 202) {
           // Save the user id and username in the context
           const accessToken = res?.data?.accessToken;
           const { creator_id, username } = res?.data.user;
-          console.log(`The response: ${res.data}`);
 
           setUserId(creator_id);
           setAuth({ userId, username, accessToken });

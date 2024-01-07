@@ -45,7 +45,7 @@ const RoutesFile = () => {
 
         <Route element={<PersistLogin />}>
           <Route element={<FullPrivateRoutes />}>
-            <Route path='/wishlist/:username' element={<WishList />} />
+            <Route path='/edit-profile/:username' element={<WishList />} />
           </Route>
 
           <Route path='/verify' element={<Verify />} />

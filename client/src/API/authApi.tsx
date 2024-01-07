@@ -88,20 +88,22 @@ const onAddWish = async (FormData: FormData) => {
   });
 };
 
-const onRemoveWish = async () => {
-  return await axios.get(`${SERVER_URL}/remove-wish`, {
+const onRemoveWish = async (wish_id: string) => {
+  return await axios.get(`${SERVER_URL}/delete-wish`, {
     headers: {
       "Content-Type": "application/json",
     },
+    params: { wish_id },
     withCredentials: true,
   });
 };
 
-const onEditWish = async () => {
+const onEditWish = async (wish_id: string) => {
   return await axios.get(`${SERVER_URL}/edit-wish`, {
     headers: {
       "Content-Type": "application/json",
     },
+    params: { wish_id },
     withCredentials: true,
   });
 };

@@ -67,10 +67,7 @@ const SocialMediaLinkForm = ({
     setIsLoading(true);
 
     try {
-      const res = await onAddSocialLinks(
-        creatorSocialLinks as iCreatorSocialLinks[]
-      );
-      console.log(res);
+     await onAddSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
       setRefetchIcons(true);
     } catch (error) {
       console.log(error);
