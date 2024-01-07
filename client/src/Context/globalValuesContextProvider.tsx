@@ -9,6 +9,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userEmail, setUserEmail] = useState("");
   const [reverificationSuccess, setReverificationSuccess] = useState("");
   const [serverErrMsg, setServerErrMsg] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   return (
     <GlobalValuesContext.Provider
@@ -19,6 +20,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setReverificationSuccess,
         serverErrMsg,
         setServerErrMsg,
+        refresh,
+        setRefresh,
       }}>
       {children}
     </GlobalValuesContext.Provider>

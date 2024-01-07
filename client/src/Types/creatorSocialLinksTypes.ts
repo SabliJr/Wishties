@@ -33,6 +33,8 @@ export interface iGlobalValues {
   setReverificationSuccess: React.Dispatch<React.SetStateAction<string>>;
   serverErrMsg: string;
   setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
+  refresh: boolean;
+  setRefresh: (value: any) => boolean;
 }
 
 export interface iAuthContext {

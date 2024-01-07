@@ -86,7 +86,6 @@ const SelectPlatform = ({
       return;
     }
     setErrMessage("");
-    console.log(fillingSocialInfo);
     setCreatorSocialLinks((prevLinks) => [
       ...prevLinks,
       fillingSocialInfo as iCreatorSocialLinks,

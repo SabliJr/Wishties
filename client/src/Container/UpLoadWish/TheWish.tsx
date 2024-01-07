@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { iWish } from "../../Types/wishListTypes";
 import { onGetWishes } from "../../API/authApi";
 import Loader from "../../Loader";
@@ -6,9 +6,14 @@ import Loader from "../../Loader";
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
 
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+
 const TheWish = (): JSX.Element => {
   const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { refresh, setRefresh } = contextValues as iGlobalValues;
 
   useEffect(() => {
     (async () => {
@@ -21,7 +26,8 @@ const TheWish = (): JSX.Element => {
         setIsLoaded(false);
       }
     })();
-  }, []);
+    setRefresh(false);
+  }, [refresh, setRefresh]);
 
   const handleEdit = () => {
     console.log("edit");

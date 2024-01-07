@@ -13,6 +13,8 @@ const DisplayIcons = () => {
     displayedSocialLinks,
     setDisplayedSocialLinks,
     setCreatorSocialLinks,
+    setRefetchIcons,
+    refetchIcons,
   } = useUserInfoCOntext(); //Create a state for social links;
 
   const handleDelete = async (link_id: string) => {
@@ -22,8 +24,8 @@ const DisplayIcons = () => {
 
     try {
       setCreatorSocialLinks(newLinks || []);
-      const res = await onDeleteSocialLinks(link_id);
-      console.log(res);
+      await onDeleteSocialLinks(link_id);
+       setRefetchIcons(true);
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +33,7 @@ const DisplayIcons = () => {
 
   useEffect(() => {
     setDisplayedSocialLinks(creatorSocialLinks || []);
-  }, [creatorSocialLinks, setDisplayedSocialLinks]);
+  }, [creatorSocialLinks, setDisplayedSocialLinks, refetchIcons]);
 
   return (
     <>

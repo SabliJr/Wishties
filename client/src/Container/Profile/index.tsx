@@ -19,6 +19,7 @@ import UploadWish from "../UpLoadWish/index";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
 import { onGetSocialLinks } from "../../API/authApi";
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
@@ -30,6 +31,7 @@ const Index = () => {
   const [getCreatorSocialLinks, setGetCreatorSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
+  const { setRefetchIcons, refetchIcons } = useUserInfoCOntext(); //Create a state for social links;
 
   let userInfo = {
     profile_name: "Angela Smith",
@@ -39,17 +41,17 @@ const Index = () => {
   };
 
   useEffect(() => {
-    const fetchSocialLinks = async () => {
+    (async () => {
       try {
         const res = await onGetSocialLinks();
         setGetCreatorSocialLinks(res.data);
       } catch (error) {
         console.log(error);
       }
-    };
+    })();
 
-    fetchSocialLinks();
-  }, []);
+    setRefetchIcons(false);
+  }, [setRefetchIcons, refetchIcons]);
 
   const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);
@@ -117,7 +119,6 @@ const Index = () => {
                   className='profileLinks'
                   onClick={() => {
                     window.open(`${x.platform_link}`, "_blank");
-                    console.log(x.platform_link);
                   }}>
                   <img src={x.platform_icon} alt={`${x.platform_icon} Icon`} />
                   <p>{x.platform_name}</p>

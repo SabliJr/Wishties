@@ -1,7 +1,6 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
-import { onGetSocialLinks, onGetWishes } from "../API/authApi";
-import { iWish } from "../Types/wishListTypes";
+import { onGetSocialLinks } from "../API/authApi";
 
 interface userInfoType {
   creatorSocialLinks?: iCreatorSocialLinks[] | undefined;
@@ -14,6 +13,8 @@ interface userInfoType {
   setDisplayedSocialLinks: React.Dispatch<
     React.SetStateAction<iCreatorSocialLinks[]>
   >;
+  setRefetchIcons: React.Dispatch<React.SetStateAction<boolean>>;
+  refetchIcons: boolean;
 }
 
 const userInfoContext = createContext<userInfoType | undefined>(undefined);
@@ -29,20 +30,22 @@ const UserProfileContextProvider = ({
   >([]); // Create a state for social links
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState(creatorSocialLinks);
+  const [refetchIcons, setRefetchIcons] = useState(false);
 
   useEffect(() => {
-    const fetchSocialLinks = async () => {
+    (async () => {
       try {
         const res = await onGetSocialLinks();
-
         setCreatorSocialLinks(res.data);
       } catch (error) {
         console.log(error);
       }
-    };
-
-    fetchSocialLinks();
+    })();
   }, []);
+
+  useEffect(() => {
+    setDisplayedSocialLinks(creatorSocialLinks);
+  }, [creatorSocialLinks]);
 
   return (
     <userInfoContext.Provider
@@ -53,6 +56,8 @@ const UserProfileContextProvider = ({
         setUserEmail,
         displayedSocialLinks,
         setDisplayedSocialLinks,
+        refetchIcons,
+        setRefetchIcons,
       }}>
       {children}
     </userInfoContext.Provider>
@@ -75,6 +80,8 @@ function useUserInfoCOntext(): userInfoType {
     setCreatorSocialLinks,
     displayedSocialLinks,
     setDisplayedSocialLinks,
+    refetchIcons,
+    setRefetchIcons,
   } = userContext;
   return {
     creatorSocialLinks,
@@ -83,6 +90,8 @@ function useUserInfoCOntext(): userInfoType {
     setUserEmail,
     displayedSocialLinks,
     setDisplayedSocialLinks,
+    refetchIcons,
+    setRefetchIcons,
   };
 }
 

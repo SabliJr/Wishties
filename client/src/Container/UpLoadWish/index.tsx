@@ -4,15 +4,19 @@ import React, {
   ChangeEvent,
   useEffect,
   useCallback,
+  useContext,
 } from "react";
 import "./upLoadWish.css";
 
 import WishUploadImg from "../../Assets/WishImg.png";
-import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+
 import { iWishInfo } from "../../Types/wishListTypes";
 import { MdClose } from "react-icons/md";
 
 import { onAddWish } from "../../API/authApi";
+import Loader from "../../Loader";
 import CurrencyInput, { formatValue } from "react-currency-input-field";
 
 import FormatMoney from "../../utils/FormatMoney";
@@ -24,6 +28,7 @@ interface iProps {
 }
 
 const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
+  const [isUploading, setIsUploading] = useState(false);
   const [wishImg, setWishImg] = useState<File | undefined>();
   const [isError, setIsError] = useState({
     invalidFileTypeErr: "",
@@ -32,6 +37,8 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
   const [wishInputs, setWishInputs] = useState<iWishInfo>({} as iWishInfo);
   const ImgInputRef = useRef<HTMLInputElement>(null);
   const modelRef = useRef<HTMLDivElement | null>(null);
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setRefresh } = contextValues as iGlobalValues;
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -93,6 +100,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
   const addTheWish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsUploading(true);
 
     const formData = new FormData();
     if (
@@ -131,17 +139,19 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
     try {
       await onAddWish(formData);
-      window.location.reload();
+      setRefresh(true);
     } catch (error) {
     } finally {
       if (uploadModule === true) {
         closeUploadModule();
       }
+      setIsUploading(false);
     }
   };
 
   return (
     <>
+      {isUploading && <Loader />}
       <div className='dropBack'></div>
       <main className='wishUploaderSection' ref={modelRef}>
         <MdClose className='editProfileClose' onClick={closeUploadModule} />
