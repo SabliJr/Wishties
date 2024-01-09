@@ -2,32 +2,38 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 import "./Profile.css";
 
 import { MdClose } from "react-icons/md";
-import { iUserInfo } from "../../Types/wishListTypes";
+import { iUserInfo, iCreatorProfile } from "../../Types/wishListTypes";
 import { onUpdateCreatorInfo } from "../../API/authApi";
 
 import ProfilePlus from "../../Assets/camera.png";
 import CoverPlus from "../../Assets/Plus.png";
 
 interface iImages {
-  userImg: string;
-  coverImg: string;
+  userInfo: iCreatorProfile | undefined;
   editInfo: boolean;
   handleProfileInfoEdit: () => void;
   profileEditModal: boolean;
+  creator_cover_photo: string | undefined;
+  creator_profile_photo: string | undefined;
 }
 
 const UserInfoEdit = ({
-  userImg,
-  coverImg,
   handleProfileInfoEdit,
+  userInfo,
   editInfo,
   profileEditModal,
+  creator_cover_photo,
+  creator_profile_photo,
 }: iImages) => {
   const [profileImgFile, setProfileImgFile] = useState<File | undefined>();
   const [coverImgFile, setCoverImgFile] = useState<File | undefined>();
-  const [userProfileInfo, setUserProfileInfo] = useState<iUserInfo>(
-    {} as iUserInfo
-  );
+  const [userProfileInfo, setUserProfileInfo] = useState<iUserInfo>({
+    profile_name: userInfo?.creator_name,
+    profile_username: userInfo?.username,
+    profile_bio: userInfo?.creator_bio ? userInfo.creator_bio : "",
+    profile_photo: undefined || userInfo?.profile_image,
+    cover_photo: undefined || userInfo?.cover_image,
+  } as iUserInfo);
   const modelRef = React.useRef<HTMLDivElement | null>(null);
   const coverImgRef = useRef<HTMLInputElement>(null);
   const profileImgRef = useRef<HTMLInputElement>(null);
@@ -112,19 +118,27 @@ const UserInfoEdit = ({
     formData.append("profile_name", userProfileInfo.profile_name);
     formData.append("profile_username", userProfileInfo.profile_username);
     formData.append("profile_bio", userProfileInfo.profile_bio);
-    if (userProfileInfo.profile_photo) {
+    if (
+      userProfileInfo.profile_photo &&
+      userProfileInfo.profile_photo !== userInfo?.profile_image
+    ) {
       formData.append("profile_photo", userProfileInfo.profile_photo);
     }
-    if (userProfileInfo.cover_photo) {
+
+    if (
+      userProfileInfo.cover_photo &&
+      userProfileInfo.cover_photo !== userInfo?.cover_image
+    ) {
       formData.append("cover_photo", userProfileInfo.cover_photo);
     }
 
     try {
-      await onUpdateCreatorInfo(formData);
+      const res = await onUpdateCreatorInfo(formData);
+      console.log(res);
     } catch (err: any) {
       console.log(err);
     } finally {
-      handleProfileInfoEdit();
+      // handleProfileInfoEdit();
     }
   };
 
@@ -150,7 +164,7 @@ const UserInfoEdit = ({
               className='editCoverImg'
             />
           ) : (
-            <img src={coverImg} alt='' className='editCoverImg' />
+            <img src={creator_cover_photo} alt='' className='editCoverImg' />
           )}
           <img src={CoverPlus} alt='CoverPlus' className='CoverPlus' />
         </div>
@@ -163,7 +177,11 @@ const UserInfoEdit = ({
                 className='editProfileImg'
               />
             ) : (
-              <img src={userImg} alt='' className='editProfileImg' />
+              <img
+                src={creator_profile_photo}
+                alt=''
+                className='editProfileImg'
+              />
             )}
             <input
               type='file'
@@ -182,6 +200,7 @@ const UserInfoEdit = ({
                 type='text'
                 placeholder='Your name'
                 id='yourName'
+                value={userProfileInfo?.profile_name}
                 onChange={(e) => handleInfoInput(e, "profile_name")}
               />
             </label>
@@ -190,6 +209,7 @@ const UserInfoEdit = ({
               <input
                 type='text'
                 placeholder='Your user Name'
+                value={userProfileInfo?.profile_username}
                 onChange={(e) => handleInfoInput(e, "profile_username")}
               />
             </label>
@@ -204,6 +224,7 @@ const UserInfoEdit = ({
             rows={4}
             cols={20}
             maxLength={160}
+            value={userProfileInfo?.profile_bio}
             wrap='soft'
             placeholder='Write your bio here...'
             onChange={(e) => handleInfoInput(e, "profile_bio")}

@@ -4,7 +4,6 @@ import {
   loginInfo,
   iCreatorSocialLinks,
 } from "../Types/creatorSocialLinksTypes";
-import { iWish } from "../Types/wishListTypes";
 
 const SERVER_URL = "http://localhost:8000/api";
 
@@ -174,10 +173,7 @@ const onGetSocialLinks = async () => {
 };
 
 const onUpdateCreatorInfo = async (formData: FormData) => {
-  return await axios.post(`${SERVER_URL}/update-profile`, formData, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+  return await axios.put(`${SERVER_URL}/update-user-profile`, formData, {
     withCredentials: true,
   });
 };

@@ -18,8 +18,9 @@ import UserInfoEdit from "./UserInfoEdit";
 import UploadWish from "../UpLoadWish/index";
 import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
 import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
-import { onGetSocialLinks } from "../../API/authApi";
+import { onGetSocialLinks, onGetCreator } from "../../API/authApi";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
+import { iCreatorProfile } from "../../Types/wishListTypes";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
@@ -31,14 +32,19 @@ const Index = () => {
   const [getCreatorSocialLinks, setGetCreatorSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
+  const [userInfo, setUserInfo] = useState<iCreatorProfile | undefined>(); //Create a state for social links;
   const { setRefetchIcons, refetchIcons } = useUserInfoCOntext(); //Create a state for social links;
 
-  let userInfo = {
-    profile_name: "Angela Smith",
-    profile_photo: User,
-    profile_bio: "Content Creator | Beauty, Fashion, Lifestyle.",
-    profile_username: "@angela_smith",
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await onGetCreator();
+        setUserInfo(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -68,28 +74,36 @@ const Index = () => {
     setDisable_bg((prev) => !prev);
   };
 
+  let creator_cover_photo = userInfo?.cover_image
+    ? userInfo.cover_image
+    : UserCover;
+  let creator_profile_photo = userInfo?.profile_image
+    ? userInfo.profile_image
+    : UserAvatar;
+  let creator_bio = userInfo?.creator_bio
+    ? userInfo.creator_bio
+    : "No bio yet, say something to your fans!";
+
   return (
     <section className='profileSection'>
       <div className='coverImgDiv'>
-        <img src={UserCover} alt='' className='userCover' />
+        <img src={creator_cover_photo} alt='' className='userCover' />
       </div>
       <div className='userInfoDiv userInfoContainer'>
-        {userInfo?.profile_name ? (
-          <img src={userInfo.profile_photo} alt='' className='userImg' />
-        ) : (
-          <img src={UserAvatar} alt='' className='userImg' />
-        )}
+        <img src={creator_profile_photo} alt='' className='userImg' />
+
         <div className='userNameDiv'>
-          <h3>Angela Smith</h3>
-          <p>@angela_smith</p>
+          <h3>{userInfo?.creator_name}</h3>
+          <p>{userInfo?.username}</p>
         </div>
-        <p className='userBio'>Content Creator | Beauty, Fashion, Lifestyle.</p>
+        <p className='userBio'>{creator_bio}</p>
         {editInfo ? (
           <UserInfoEdit
-            userImg={User}
-            coverImg={UserCover}
             editInfo={editInfo}
+            creator_cover_photo={creator_cover_photo}
+            userInfo={userInfo}
             handleProfileInfoEdit={handleProfileInfoEdit}
+            creator_profile_photo={creator_profile_photo}
             profileEditModal={profileEditModal}
           />
         ) : null}

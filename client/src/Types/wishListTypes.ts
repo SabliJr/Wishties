@@ -6,8 +6,8 @@ export interface iWishInfo {
 }
 
 export interface iUserInfo {
-  cover_photo: File | undefined;
-  profile_photo: File | undefined;
+  cover_photo: File | undefined | string;
+  profile_photo: File | undefined | string;
   profile_name: string;
   profile_username: string;
   profile_bio: string;
@@ -19,4 +19,13 @@ export interface iWish {
   wish_price: string;
   wish_category: string;
   wish_id: string;
+}
+
+export interface iCreatorProfile {
+  creator_name: string;
+  username: string;
+  creator_bio: string;
+  creator_id: string;
+  profile_image: string;
+  cover_image: string;
 }

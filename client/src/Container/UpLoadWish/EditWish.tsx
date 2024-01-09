@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
+import "./upLoadWish.css";
 
 import { onEditWish } from "../../API/authApi";
 import { iWish } from "../../Types/wishListTypes";

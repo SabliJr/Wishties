@@ -3,6 +3,7 @@ import { iWish } from "../../Types/wishListTypes";
 import { onGetWishes, onRemoveWish } from "../../API/authApi";
 import Loader from "../../Loader";
 import EditWish from "./EditWish";
+import "./upLoadWish.css";
 
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
@@ -66,45 +67,47 @@ const TheWish = (): JSX.Element => {
               alt='wishImag'
               className='wishImag'
             />
-            <div className='wishDetails'>
-              <div>
-                <h4 className='wishTitle'>{x.wish_name}</h4>
-                <p className='wishPrice'>${x.wish_price}</p>
+            <div className='justForRelativity'>
+              <div className='wishDetails'>
+                <div>
+                  <h4 className='wishTitle'>{x.wish_name}</h4>
+                  <p className='wishPrice'>${x.wish_price}</p>
+                </div>
+                <div
+                  className='wishOptionBtn'
+                  onClick={() => setEditingWishId(x.wish_id)}>
+                  <HiDotsVertical className='wishOptionBtnIcon' />
+                </div>
               </div>
-              <div
-                className='wishOptionBtn'
-                onClick={() => setEditingWishId(x.wish_id)}>
-                <HiDotsVertical className='wishOptionBtnIcon' />
-              </div>
+              <button className='addToCartBtn'>
+                <FaCartPlus className='addToCartBtnIcon' />
+                Add To Cart
+              </button>
+              {editingWishId === x.wish_id && (
+                <div className='editingDiv'>
+                  <RiCloseLine
+                    className='closeEditDiv'
+                    onClick={() => setEditingWishId(null)}
+                  />
+                  <p onClick={() => handleEditWish(x.wish_id)}>
+                    <TbEdit
+                      style={{
+                        color: "green",
+                      }}
+                    />{" "}
+                    Edit wish
+                  </p>
+                  <p onClick={() => handleDeleteWish(x.wish_id)}>
+                    <MdDeleteForever
+                      style={{
+                        color: "red",
+                      }}
+                    />{" "}
+                    Delete wish
+                  </p>
+                </div>
+              )}
             </div>
-            <button className='addToCartBtn'>
-              <FaCartPlus className='addToCartBtnIcon' />
-              Add To Cart
-            </button>
-            {editingWishId === x.wish_id && (
-              <div className='editingDiv'>
-                <RiCloseLine
-                  className='closeEditDiv'
-                  onClick={() => setEditingWishId(null)}
-                />
-                <p onClick={() => handleEditWish(x.wish_id)}>
-                  <TbEdit
-                    style={{
-                      color: "green",
-                    }}
-                  />{" "}
-                  Edit wish
-                </p>
-                <p onClick={() => handleDeleteWish(x.wish_id)}>
-                  <MdDeleteForever
-                    style={{
-                      color: "red",
-                    }}
-                  />{" "}
-                  Delete wish
-                </p>
-              </div>
-            )}
           </div>
         ))
       ) : (

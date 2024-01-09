@@ -7,7 +7,7 @@ import { onAddSocialLinks, onGetSocialLinks, onDeleteSocialLink } from '../contr
 import { onProfileUpdate } from '../controllers/profileController';
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
-import { getCreators } from '../controllers/getUserController';
+import { getCreators, onCreatorInfo, onUpdateProfile } from '../controllers/getUserController';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
 import { validate } from '../middlewares/authMiddleware';
 
@@ -21,7 +21,13 @@ const upload = multer({ storage: storage })
 upload.single('wish_image');
 console.log(upload.single('wish_image'));
 
+// User routes
 router.get('/creators', getCreators);
+router.get('/get-creator', authenticateCreator, validate(401), onCreatorInfo) // get creator profile
+router.put('/update-user-profile', upload.fields([
+  { name: 'profile_photo', maxCount: 1 }, { name: 'cover_photo', maxCount: 1 }]
+), authenticateCreator, validate(401), onUpdateProfile);
+
 router.post('/register', registerValidation, validate(409), userRegistration); // creator registration
 router.get('/verify-email?:token', emailVerification) // verify creator email
 router.post('/request-verification-again', reverifyEmail)

@@ -157,7 +157,7 @@ body.modal-open .dropBack {
   background-color: #f0f9f9;
   padding: .5rem;
   border-radius: .8rem;
-  position: relative;
+  /* position: relative; */
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
@@ -184,6 +184,7 @@ body.modal-open .dropBack {
   justify-content: space-between;
   gap: .5rem;
   margin: 1.5rem 0 .5rem;
+  /* z-index: 1; */
 }
 
 .wishOptionBtn {
@@ -197,7 +198,7 @@ body.modal-open .dropBack {
   border-radius: .6rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   border: .8px solid #535353;
-  position: absolute;
+  /* position: absolute; */
   bottom: 25%;
   right: -20%;
   transform: translate(-50%, 50%);
@@ -213,7 +214,7 @@ body.modal-open .dropBack {
 }
 
 .editingDiv .closeEditDiv {
-  position: absolute;
+  /* position: absolute; */
   top: .18rem;
   right: .2rem;
   cursor: pointer;
@@ -221,8 +222,9 @@ body.modal-open .dropBack {
 
 /* ------------------------------------------------------------------------------------------- */
 /* Updating the wish */
-
-
+/* .justForRelativity {
+  position: relative;
+} */
 
 @media screen and (max-width: 1024px) {
 
