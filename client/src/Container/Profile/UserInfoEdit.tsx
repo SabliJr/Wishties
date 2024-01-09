@@ -17,6 +17,7 @@ interface iImages {
   creator_profile_photo: string | undefined;
 }
 
+const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 const UserInfoEdit = ({
   handleProfileInfoEdit,
   userInfo,
@@ -34,6 +35,9 @@ const UserInfoEdit = ({
     profile_photo: undefined || userInfo?.profile_image,
     cover_photo: undefined || userInfo?.cover_image,
   } as iUserInfo);
+  const [isError, setIsError] = useState({
+    invalidFileTypeErr: "",
+  });
   const modelRef = React.useRef<HTMLDivElement | null>(null);
   const coverImgRef = useRef<HTMLInputElement>(null);
   const profileImgRef = useRef<HTMLInputElement>(null);
@@ -115,6 +119,21 @@ const UserInfoEdit = ({
   const handelSubmitData = async () => {
     const formData = new FormData();
 
+    if (
+      (userProfileInfo?.cover_photo instanceof File &&
+        !ALLOWED_EXTENSIONS.exec(userProfileInfo?.cover_photo.name)) ||
+      (userProfileInfo?.profile_photo instanceof File &&
+        !ALLOWED_EXTENSIONS.exec(userProfileInfo?.profile_photo.name))
+    ) {
+      setIsError((prev) => ({
+        ...prev,
+        invalidFileTypeErr:
+          "Please upload file having extensions .jpeg/.jpg/.png/.webp only.",
+      }));
+
+      return;
+    }
+
     formData.append("profile_name", userProfileInfo.profile_name);
     formData.append("profile_username", userProfileInfo.profile_username);
     formData.append("profile_bio", userProfileInfo.profile_bio);
@@ -138,7 +157,7 @@ const UserInfoEdit = ({
     } catch (err: any) {
       console.log(err);
     } finally {
-      // handleProfileInfoEdit();
+      handleProfileInfoEdit();
     }
   };
 
@@ -230,6 +249,9 @@ const UserInfoEdit = ({
             onChange={(e) => handleInfoInput(e, "profile_bio")}
           />
         </label>{" "}
+        {isError.invalidFileTypeErr && (
+          <p className='error'>{isError.invalidFileTypeErr}</p>
+        )}
         <button className='updateProfileBtn' onClick={handelSubmitData}>
           Update Profile
         </button>
