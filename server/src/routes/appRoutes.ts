@@ -1,13 +1,14 @@
 import { Router } from 'express';
+import { check } from 'express-validator';
 
 // Controllers
 import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
 import { onAddWish, onGetWishes, onDeleteWish, onUpdateWish } from '../controllers/wishControllers';
 import { onAddSocialLinks, onGetSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
-import { onProfileUpdate } from '../controllers/profileController';
+import { onUpdateProfile, onCheckUsername } from '../controllers/profileController';
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
-import { getCreators, onCreatorInfo, onUpdateProfile } from '../controllers/getUserController';
+import { getCreators, onCreatorInfo } from '../controllers/getUserController';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
 import { validate } from '../middlewares/authMiddleware';
 
@@ -28,13 +29,17 @@ router.put('/update-user-profile', upload.fields([
   { name: 'profile_photo', maxCount: 1 }, { name: 'cover_photo', maxCount: 1 }]
 ), authenticateCreator, validate(401), onUpdateProfile);
 
+// Authentication routes
 router.post('/register', registerValidation, validate(409), userRegistration); // creator registration
 router.get('/verify-email?:token', emailVerification) // verify creator email
 router.post('/request-verification-again', reverifyEmail)
 router.post('/login', loginValidation, validate(401), userLogin); // creator login
 router.get('/logout', userLogout) // logout creator
 router.get('/refresh-token', handleRefreshToken); // refresh token
-router.post('/update-profile', upload.array('profile_images'), authenticateCreator, validate(401), onProfileUpdate)
+
+// Profile routes
+router.get('/check-username', check('username').isString().trim().escape(), onCheckUsername) // get creator profile
+router.post('/update-profile', upload.array('profile_images'), authenticateCreator, validate(401), onUpdateProfile)
 
 // Wishes routes
 router.post('/add-wish', upload.single('wish_image'), authenticateCreator, validate(401), onAddWish); // add wish

@@ -29,9 +29,8 @@ const UserInfoEdit = ({
 }: iImages) => {
   const [profileImgFile, setProfileImgFile] = useState<File | undefined>();
   const [coverImgFile, setCoverImgFile] = useState<File | undefined>();
-  const [isUsernameAvailable, setIsUsernameAvailable] = useState<
-    boolean | null
-  >(null);
+  const [isUsernameAvailable, setIsUsernameAvailable] =
+    useState<boolean>(false);
   const [newUsername, setNewUsername] = useState<string>(
     userInfo?.username as string
   );
@@ -69,29 +68,35 @@ const UserInfoEdit = ({
 
   const handleUsernameChange = debounce(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newUsername = e.target.value;
+      try {
+        const newUsername = e.target.value;
 
-      if (newUsername.length > 0) {
-        try {
-          console.log(`This is the modified username ${newUsername}`);
-          const res = await onIsUsernameAvailable(newUsername);
-          console.log(res);
+        if (newUsername.length > 0) {
+          const response = await onIsUsernameAvailable(newUsername);
 
-          if (res.data === false) {
-            setIsUsernameAvailable(false);
-            setIsError((prev) => ({
+          if (response.data.isExists === false) {
+            console.log(response.data);
+
+            console.log("Username is available");
+            setUserProfileInfo((prev) => ({
               ...prev,
-              usernameErr: "Username already exists.",
+              profile_username: newUsername,
             }));
           }
+        }
+      } catch (error: any) {
+        if (error.response && error.response.data.isExists === true) {
+          console.log(error.response.data);
 
           setIsUsernameAvailable(true);
-          setUserProfileInfo((prev) => ({
+          console.log("Username is not available");
+          setIsError((prev) => ({
             ...prev,
-            profile_username: newUsername,
+            usernameErr: error.response.data.message,
           }));
-        } catch (err: any) {
-          console.log(err);
+        } else {
+          // Handle other errors
+          console.error(error);
         }
       }
     },
@@ -282,7 +287,7 @@ const UserInfoEdit = ({
                 }}
               />
             </label>
-            {isUsernameAvailable === false && (
+            {isUsernameAvailable && userInfo?.username !== newUsername && (
               <p className='error'>{isError.usernameErr}</p>
             )}
           </div>

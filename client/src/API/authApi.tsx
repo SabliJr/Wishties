@@ -179,7 +179,7 @@ const onUpdateCreatorInfo = async (formData: FormData) => {
 };
 
 const onIsUsernameAvailable = async (username: string) => {
-  return await axios.get(`${SERVER_URL}/is-username-available`, {
+  return await axios.get(`${SERVER_URL}/check-username`, {
     headers: {
       "Content-Type": "application/json",
     },
