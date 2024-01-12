@@ -16,35 +16,31 @@ verification_token VARCHAR(256), -- Creator's verification code
  is_verified BOOLEAN DEFAULT FALSE -- Creator's verification status
 );
 
--- Create the Wishlist table
-CREATE TABLE wishlist (
-    wishlist_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
-    creator_id UUID REFERENCES creator(creator_id),
-CONSTRAINT fk_creator_id
-FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
-DELETE CASCADE
-);
+-- -- Create the Wishlist table
+-- CREATE TABLE wishlist (
+--     wishlist_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
+--     creator_id UUID REFERENCES creator(creator_id),
+-- CONSTRAINT fk_creator_id
+-- FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
+-- DELETE CASCADE
+-- );
 
-CREATE INDEX idx_creator_id ON wishlist (creator_id);
+-- CREATE INDEX idx_creator_id ON wishlist (creator_id);
 
 
 -- Create the Wish table
-CREATE TABLE wish (
+CREATE TABLE wishes (
     wish_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
-    wishlist_id UUID REFERENCES wishlist(wishlist_id),
+creator_id UUID REFERENCES creator(creator_id), -- wishlist_id UUID REFERENCES wishlist(wishlist_id),
     wish_name VARCHAR(256) NOT NULL,
-    price NUMERIC NOT NULL,
+wish_price NUMERIC NOT NULL,
     wish_image TEXT,
-    wish_link TEXT,
+-- wish_link TEXT,
 wish_category VARCHAR(150),
               wish_type VARCHAR(150), -- To check if it's a single buy or a subscription
     created_date TIMESTAMP DEFAULT NOW(),
     purchased BOOLEAN DEFAULT FALSE,
-    deleted_at TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_wishlist_id
-    FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id) ON
-
-DELETE CASCADE
+deleted_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE INDEX idx_wishlist_id ON wish (wishlist_id);

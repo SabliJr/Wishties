@@ -88,20 +88,18 @@ const onAddWish = async (FormData: FormData) => {
   });
 };
 
-const onRemoveWish = async () => {
-  return await axios.get(`${SERVER_URL}/remove-wish`, {
+const onRemoveWish = async (wish_id: string) => {
+  return await axios.get(`${SERVER_URL}/delete-wish`, {
     headers: {
       "Content-Type": "application/json",
     },
+    params: { wish_id },
     withCredentials: true,
   });
 };
 
-const onEditWish = async () => {
-  return await axios.get(`${SERVER_URL}/edit-wish`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+const onEditWish = async (wish: FormData) => {
+  return await axios.put(`${SERVER_URL}/update-wish`, wish, {
     withCredentials: true,
   });
 };
@@ -175,10 +173,17 @@ const onGetSocialLinks = async () => {
 };
 
 const onUpdateCreatorInfo = async (formData: FormData) => {
-  return await axios.post(`${SERVER_URL}/update-profile`, formData, {
+  return await axios.put(`${SERVER_URL}/update-user-profile`, formData, {
+    withCredentials: true,
+  });
+};
+
+const onIsUsernameAvailable = async (username: string) => {
+  return await axios.get(`${SERVER_URL}/check-username`, {
     headers: {
       "Content-Type": "application/json",
     },
+    params: { username },
     withCredentials: true,
   });
 };
@@ -202,4 +207,5 @@ export {
   onGetSocialLinks,
   onVerifyEmail,
   onUpdateCreatorInfo,
+  onIsUsernameAvailable,
 };

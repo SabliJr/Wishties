@@ -13,6 +13,7 @@ import { RiCloseFill } from "react-icons/ri";
 //Components
 import DisplayIcons from "./displayIcons";
 import SelectPlatform from "./SelectPlatform";
+import Loader from "../../Loader";
 
 type SocialMediaLinkFormProps = {
   handleSocialLinksModule: () => void;
@@ -23,9 +24,10 @@ const SocialMediaLinkForm = ({
   handleSocialLinksModule,
   disable_bg,
 }: SocialMediaLinkFormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [linksModule, setLinksModule] = useState(false);
   const [disable_btn, setDisable_btn] = useState(false);
-  const { creatorSocialLinks } = useUserInfoCOntext(); //Create a state for social links;
+  const { creatorSocialLinks, setRefetchIcons } = useUserInfoCOntext(); //Create a state for social links;
   const modelRef = useRef<HTMLDivElement | null>(null);
 
   const [initialSocialLinks, setInitialSocialLinks] = useState<
@@ -35,17 +37,15 @@ const SocialMediaLinkForm = ({
   // Remove the dependency on creatorSocialLinks from the first useEffect
   useEffect(() => {
     setInitialSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
-  }, []); // This runs only once when the component mounts
+  }, []); //@ts-ignore // This runs only once when the component mounts
 
   useEffect(() => {
     if (
       JSON.stringify(creatorSocialLinks) === JSON.stringify(initialSocialLinks)
     ) {
       setDisable_btn(true);
-      console.log("disable");
     } else {
       setDisable_btn(false);
-      console.log("enable");
     }
   }, [creatorSocialLinks, initialSocialLinks]);
 
@@ -64,23 +64,23 @@ const SocialMediaLinkForm = ({
   }, [disable_bg]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+
     try {
-      const res = await onAddSocialLinks(
-        creatorSocialLinks as iCreatorSocialLinks[]
-      );
-      console.log(res);
-      window.location.reload();
+     await onAddSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
+      setRefetchIcons(true);
     } catch (error) {
       console.log(error);
     } finally {
       handleSocialLinksModule();
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <div className='SocialLinksModule'></div>
-
+      {isLoading && <Loader />}
       <section className='AddingLinksModule' ref={modelRef}>
         <CgClose
           className='closeLinksModule'

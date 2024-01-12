@@ -51,7 +51,7 @@
   aspect-ratio: 2/2;
   object-fit: cover;
   position: absolute;
-  top: -5.42rem;
+  top: -5rem;
   left: 2rem;
   border: 5px solid #f5f8f8;
 }
@@ -172,7 +172,7 @@
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
   justify-content: space-around;
-  z-index: 100;
+  /* z-index: 100 !important; */
 }
 
 .dorpBackModel {

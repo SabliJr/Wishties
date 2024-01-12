@@ -18,7 +18,7 @@ const Index = () => {
   const { username } = auth as iAuth;
 
   const handleCreateWishlist = () => {
-    username ? navigate(`/wishlist/${username}`) : navigate(`/signUp`);
+    username ? navigate(`/edit-profile/${username}`) : navigate(`/signUp`);
   };
 
   return (

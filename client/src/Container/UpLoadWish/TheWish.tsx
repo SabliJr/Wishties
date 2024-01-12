@@ -1,77 +1,120 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useWishInfoContext } from "../../Context/wishInfoContextProvider";
-import { iWishInfo } from "../../Types/wishListTypes";
+import React, { useEffect, useState, useContext } from "react";
+import { iWish } from "../../Types/wishListTypes";
+import { onGetWishes, onRemoveWish } from "../../API/authApi";
+import Loader from "../../Loader";
+import EditWish from "./EditWish";
+import "./upLoadWish.css";
 
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
+import { TbEdit } from "react-icons/tb";
+import { MdDeleteForever } from "react-icons/md";
+import { RiCloseLine } from "react-icons/ri";
+
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 
 const TheWish = (): JSX.Element => {
-  const { Wishes } = useWishInfoContext();
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
+  const [editingWishId, setEditingWishId] = useState<null | string>(null);
+  const [wishToEdit, setWishToEdit] = useState<iWish | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { refresh, setRefresh } = contextValues as iGlobalValues;
 
   useEffect(() => {
-    const getImageURLs = async () => {
-      const urls = await Promise.all(
-        (Wishes as iWishInfo[])?.map(async (wish) => {
-          if (wish.wish_image) {
-            return new Promise<string>((resolve) => {
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                if (e.target && typeof e.target.result === "string") {
-                  resolve(e.target.result);
-                }
-              };
-              reader.readAsDataURL(wish.wish_image as File);
-            });
-          } else {
-            return "";
-          }
-        })
-      );
-
-      setImageURLs(urls);
-    };
-
-    getImageURLs();
-
-    //To Update the image when the image is uploaded
-    Wishes?.map((w: iWishInfo, i: number) => {
-      if (imageURLs[i]) {
-        imageRef.current?.setAttribute("src", imageURLs[i]);
-      } else {
-        imageRef.current?.setAttribute("src", "");
+    (async () => {
+      try {
+        const wishes = await onGetWishes();
+        setCreatorWishes(wishes.data.wishes as iWish[]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoaded(false);
       }
-    });
-  }, [Wishes, imageURLs]);
+    })();
+    setRefresh(false);
+  }, [refresh, setRefresh]);
 
-  const handleEdit = () => {
-    console.log("edit");
+  const handleEditWish = async (wish_id: string) => {
+    const wish = creatorWishes?.filter((x) => x.wish_id === wish_id);
+    setWishToEdit(wish[0]);
+    setEditingWishId(null);
+  };
+
+  const handleDeleteWish = async (wish_id: string) => {
+    try {
+      await onRemoveWish(wish_id);
+      setRefresh(true);
+    } catch (error: any) {
+      if (error?.response) {
+        alert("Something went wrong, please try again.");
+      }
+    } finally {
+      setEditingWishId(null);
+    }
   };
 
   return (
     <>
-      {Wishes?.length ? (
-        Wishes?.map((wish, i) => (
-          <div key={i} className='theWishDiv'>
-            <img ref={imageRef} alt='wishImag' className='wishImag' />
-            <div className='wishDetails'>
-              <div>
-                <h4 className='wishTitle'>{wish.wish_name}</h4>
-                <p className='wishPrice'>${wish.wish_price}</p>
+      {isLoaded ? (
+        <Loader />
+      ) : creatorWishes && creatorWishes.length > 0 ? (
+        creatorWishes?.map((x) => (
+          <div key={x.wish_id} className='theWishDiv'>
+            <img
+              src={x.wish_image as string}
+              alt='wishImag'
+              className='wishImag'
+            />
+            <div className='justForRelativity'>
+              <div className='wishDetails'>
+                <div>
+                  <h4 className='wishTitle'>{x.wish_name}</h4>
+                  <p className='wishPrice'>${x.wish_price}</p>
+                </div>
+                <div
+                  className='wishOptionBtn'
+                  onClick={() => setEditingWishId(x.wish_id)}>
+                  <HiDotsVertical className='wishOptionBtnIcon' />
+                </div>
               </div>
-              <div className='wishOptionBtn' onClick={handleEdit}>
-                <HiDotsVertical className='wishOptionBtnIcon' />
-              </div>
+              <button className='addToCartBtn'>
+                <FaCartPlus className='addToCartBtnIcon' />
+                Add To Cart
+              </button>
+              {editingWishId === x.wish_id && (
+                <div className='editingDiv'>
+                  <RiCloseLine
+                    className='closeEditDiv'
+                    onClick={() => setEditingWishId(null)}
+                  />
+                  <p onClick={() => handleEditWish(x.wish_id)}>
+                    <TbEdit
+                      style={{
+                        color: "green",
+                      }}
+                    />{" "}
+                    Edit wish
+                  </p>
+                  <p onClick={() => handleDeleteWish(x.wish_id)}>
+                    <MdDeleteForever
+                      style={{
+                        color: "red",
+                      }}
+                    />{" "}
+                    Delete wish
+                  </p>
+                </div>
+              )}
             </div>
-            <button className='addToCartBtn'>
-              <FaCartPlus className='addToCartBtnIcon' />
-              Add To Cart
-            </button>
           </div>
         ))
       ) : (
         <h3>Please Add Your Wishes!</h3>
+      )}
+      {wishToEdit && (
+        <EditWish wishToEdit={wishToEdit} setWishToEdit={setWishToEdit} />
       )}
     </>
   );
