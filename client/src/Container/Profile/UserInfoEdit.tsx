@@ -3,7 +3,8 @@ import "./Profile.css";
 
 import { MdClose } from "react-icons/md";
 import { iUserInfo, iCreatorProfile } from "../../Types/wishListTypes";
-import { onUpdateCreatorInfo } from "../../API/authApi";
+import { onUpdateCreatorInfo, onIsUsernameAvailable } from "../../API/authApi";
+import { debounce } from "lodash";
 
 import ProfilePlus from "../../Assets/camera.png";
 import CoverPlus from "../../Assets/Plus.png";
@@ -28,6 +29,12 @@ const UserInfoEdit = ({
 }: iImages) => {
   const [profileImgFile, setProfileImgFile] = useState<File | undefined>();
   const [coverImgFile, setCoverImgFile] = useState<File | undefined>();
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState<
+    boolean | null
+  >(null);
+  const [newUsername, setNewUsername] = useState<string>(
+    userInfo?.username as string
+  );
   const [userProfileInfo, setUserProfileInfo] = useState<iUserInfo>({
     profile_name: userInfo?.creator_name,
     profile_username: userInfo?.username,
@@ -37,6 +44,7 @@ const UserInfoEdit = ({
   } as iUserInfo);
   const [isError, setIsError] = useState({
     invalidFileTypeErr: "",
+    usernameErr: "",
   });
   const modelRef = React.useRef<HTMLDivElement | null>(null);
   const coverImgRef = useRef<HTMLInputElement>(null);
@@ -48,13 +56,47 @@ const UserInfoEdit = ({
     }
   };
 
-  const handleCoverImgUpload = () => {
-    coverImgRef?.current?.click();
+  const handleImgUploads = (field: string) => {
+    field === "cover_photo"
+      ? coverImgRef?.current?.click()
+      : profileImgRef?.current?.click();
   };
 
-  const handleProfileImgUpload = () => {
-    profileImgRef?.current?.click();
+  // Handler for updating the state immediately as the user types
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewUsername(e.target.value);
   };
+
+  const handleUsernameChange = debounce(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newUsername = e.target.value;
+
+      if (newUsername.length > 0) {
+        try {
+          console.log(`This is the modified username ${newUsername}`);
+          const res = await onIsUsernameAvailable(newUsername);
+          console.log(res);
+
+          if (res.data === false) {
+            setIsUsernameAvailable(false);
+            setIsError((prev) => ({
+              ...prev,
+              usernameErr: "Username already exists.",
+            }));
+          }
+
+          setIsUsernameAvailable(true);
+          setUserProfileInfo((prev) => ({
+            ...prev,
+            profile_username: newUsername,
+          }));
+        } catch (err: any) {
+          console.log(err);
+        }
+      }
+    },
+    2000
+  );
 
   const handleImgUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -167,7 +209,9 @@ const UserInfoEdit = ({
       <div className='editInfoSection' ref={modelRef}>
         <MdClose className='editProfileClose' onClick={closeEditPopup} />
         <h1>Edit your profile.</h1>
-        <div className='coverImgEditDiv' onClick={handleCoverImgUpload}>
+        <div
+          className='coverImgEditDiv'
+          onClick={() => handleImgUploads("cover_photo")}>
           <input
             type='file'
             name='image_uploads'
@@ -188,7 +232,9 @@ const UserInfoEdit = ({
           <img src={CoverPlus} alt='CoverPlus' className='CoverPlus' />
         </div>
         <div className='LabelsDiv'>
-          <div className='LabelsDiv1' onClick={handleProfileImgUpload}>
+          <div
+            className='LabelsDiv1'
+            onClick={() => handleImgUploads("profile_image")}>
             {profileImgFile ? (
               <img
                 src={URL.createObjectURL(profileImgFile)}
@@ -223,15 +269,22 @@ const UserInfoEdit = ({
                 onChange={(e) => handleInfoInput(e, "profile_name")}
               />
             </label>
-            <label htmlFor=''>
+            <label htmlFor='yourUserName'>
               User Name
               <input
                 type='text'
+                id='yourUserName'
                 placeholder='Your user Name'
-                value={userProfileInfo?.profile_username}
-                onChange={(e) => handleInfoInput(e, "profile_username")}
+                value={newUsername}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  handleUsernameChange(e);
+                }}
               />
             </label>
+            {isUsernameAvailable === false && (
+              <p className='error'>{isError.usernameErr}</p>
+            )}
           </div>
         </div>
         <label className='userBioInput'>
