@@ -13,7 +13,6 @@
   border-radius: 1.42rem;
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
-  /* z-index: 999; */
 }
 
 .wishInfoInputsDiv,
@@ -67,7 +66,6 @@ body.modal-open .dropBack {
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: .5;
-  /* z-index: 99; */
 }
 
 .wishInfoInputsDiv label input {
@@ -157,7 +155,6 @@ body.modal-open .dropBack {
   background-color: #f0f9f9;
   padding: .5rem;
   border-radius: .8rem;
-  /* position: relative; */
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
@@ -171,8 +168,6 @@ body.modal-open .dropBack {
   border-radius: .3rem;
   cursor: pointer;
   width: 100%;
-  /* z-index: 10;
-  position: relative; */
 }
 
 .addToCartBtnIcon {
@@ -186,7 +181,6 @@ body.modal-open .dropBack {
   justify-content: space-between;
   gap: .5rem;
   margin: 1.5rem 0 .5rem;
-  /* z-index: 1; */
 }
 
 .wishOptionBtn {
@@ -200,11 +194,9 @@ body.modal-open .dropBack {
   border-radius: .6rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   border: .8px solid #535353;
-  /* position: absolute;
-  bottom: 55%;
-  right: -20%; */
-  /* display: inline-block; */
-  /* transform: translate(-50%, 50%); */
+  position: absolute;
+  bottom: -2rem;
+  right: 15%;
 }
 
 .editingDiv p {
@@ -217,19 +209,15 @@ body.modal-open .dropBack {
 }
 
 .closeEditDiv {
-  /* position: relative; */
+  position: absolute;
   top: .18rem;
   right: .2rem;
   cursor: pointer;
 }
 
-/* ------------------------------------------------------------------------------------------- */
-/* Updating the wish */
-
-/* .justForRelativity {
-  position: ;
-   z-index: 10;
-} */
+.relativeWrapper {
+  position: relative;
+}
 
 @media screen and (max-width: 1024px) {
 
@@ -346,7 +334,7 @@ body.modal-open .dropBack {
 
       @media screen and (max-width: 600px) {
         .wishUploaderSection {
-          width: 330px;
+          width: 300px;
           margin: 0rem auto;
           height: 40rem;
           position: fixed;

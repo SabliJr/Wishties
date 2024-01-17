@@ -328,7 +328,7 @@ const UserInfoEdit = ({
         </div>
         <label className='userBioInput'>
           <p>
-            Your Bio: <span>150 characters</span>
+            Your Bio: <span>Max 150 characters</span>
           </p>
           <textarea
             name='postContent'

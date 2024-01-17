@@ -150,8 +150,6 @@
   row-gap: 2rem;
   column-gap: 1rem;
   margin-top: 3rem;
-  /* position: relative; */
-  /* z-index: -1; */
 }
 
 /* This is the update profile section */
@@ -174,7 +172,6 @@
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
   justify-content: space-around;
-  /* z-index: 100 !important; */
 }
 
 .dorpBackModel {
@@ -311,6 +308,7 @@ body.modal-open .dorpBackModel {
   font-size: 1.5rem;
   margin: 1rem 0;
   grid-column: 1/5;
+  color: #d4145a;
 }
 
 .editProfileImg {
@@ -343,6 +341,11 @@ body.modal-open .dorpBackModel {
   height: 100%;
 }
 
+.userBioInput p {
+  color: #d4145aa6;
+  font-size: 1.2rem;
+}
+
 @media screen and (max-width: 1024px) {
   .theWishesSection {
     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -363,6 +366,12 @@ body.modal-open .dorpBackModel {
           grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
         }
 
+        .userImg {
+          width: 6.5rem;
+          top: -3.6rem;
+          left: 1rem;
+        }
+
         @media screen and (max-width: 600px) {
           .theWishesSection {
             grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
@@ -374,8 +383,6 @@ body.modal-open .dorpBackModel {
 
           .userImg {
             width: 5.5rem;
-            top: -3.6rem;
-            left: 1rem;
           }
 
           .userNameDiv {
@@ -457,10 +464,13 @@ body.modal-open .dorpBackModel {
           .editInfoSection {
             width: 330px;
             padding: 1.5rem 1rem;
+            top: 50%;
           }
 
           .LabelsDiv {
             flex-direction: column;
+            margin: .8rem 0 1.4rem;
+            gap: 0rem;
           }
 
           .userBioInput textarea {
@@ -480,7 +490,29 @@ body.modal-open .dorpBackModel {
           }
 
           .LabelsDiv2 {
-            margin: 2rem 0 0;
+            margin: .2rem 0 0;
+          }
+
+          .editCoverImg {
+            height: 8rem;
+          }
+
+          .CoverPlus {
+            width: 3.3rem;
+          }
+
+          .ProfilePlus {
+            width: 3.2rem;
+            left: 1.5rem;
+            top: 1.5rem;
+          }
+
+          .editInfoSection h1 {
+            font-size: 1.2rem;
+          }
+
+          .userBioInput p {
+            font-size: .8rem;
           }
 
           @media screen and (max-width: 374px) {

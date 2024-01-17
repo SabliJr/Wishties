@@ -67,20 +67,20 @@ const TheWish = (): JSX.Element => {
               alt='wishImag'
               className='wishImag'
             />
-            <div className='justForRelativity'>
-              <div className='wishDetails'>
-                <div>
-                  <h4 className='wishTitle'>{x.wish_name}</h4>
-                  <p className='wishPrice'>${x.wish_price}</p>
-                </div>
-                <div
-                  className='wishOptionBtn'
-                  onClick={() => setEditingWishId(x.wish_id)}>
-                  <HiDotsVertical className='wishOptionBtnIcon' />
-                </div>
+            <div className='wishDetails'>
+              <div>
+                <h4 className='wishTitle'>{x.wish_name}</h4>
+                <p className='wishPrice'>${x.wish_price}</p>
               </div>
+              <div
+                className='wishOptionBtn'
+                onClick={() => setEditingWishId(x.wish_id)}>
+                <HiDotsVertical className='wishOptionBtnIcon' />
+              </div>
+            </div>
 
-              {editingWishId === x.wish_id && (
+            {editingWishId === x.wish_id && (
+              <div className='relativeWrapper'>
                 <div className='editingDiv'>
                   <RiCloseLine
                     className='closeEditDiv'
@@ -103,13 +103,13 @@ const TheWish = (): JSX.Element => {
                     Delete wish
                   </p>
                 </div>
-              )}
+              </div>
+            )}
 
-              <button className='addToCartBtn'>
-                <FaCartPlus className='addToCartBtnIcon' />
-                Add To Cart
-              </button>
-            </div>
+            <button className='addToCartBtn'>
+              <FaCartPlus className='addToCartBtnIcon' />
+              Add To Cart
+            </button>
           </div>
         ))
       ) : (
