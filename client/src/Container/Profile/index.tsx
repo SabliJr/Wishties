@@ -3,7 +3,6 @@ import "./Profile.css";
 
 //User Images
 import UserCover from "../../Assets/pexels-inga-seliverstova-3394779.jpg";
-import User from "../../Assets/pexels-michelle-leman-6774998.jpg";
 import UserAvatar from "../../Assets/UserAvatar.png";
 
 //Icons
@@ -33,7 +32,12 @@ const Index = () => {
     iCreatorSocialLinks[]
   >([]);
   const [userInfo, setUserInfo] = useState<iCreatorProfile | undefined>(); //Create a state for social links;
-  const { setRefetchIcons, refetchIcons } = useUserInfoCOntext(); //Create a state for social links;
+  const {
+    setRefetchIcons,
+    refetchIcons,
+    refetchCreatorData,
+    setRefetchCreatorData,
+  } = useUserInfoCOntext(); //Create a state for social links;
 
   useEffect(() => {
     (async () => {
@@ -44,7 +48,9 @@ const Index = () => {
         console.log(error);
       }
     })();
-  }, []);
+
+    setRefetchCreatorData(false);
+  }, [refetchCreatorData, setRefetchCreatorData]);
 
   useEffect(() => {
     (async () => {
@@ -57,7 +63,7 @@ const Index = () => {
     })();
 
     setRefetchIcons(false);
-  }, [setRefetchIcons, refetchIcons]);
+  }, [refetchIcons, setRefetchIcons]);
 
   const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);
@@ -94,7 +100,7 @@ const Index = () => {
 
         <div className='userNameDiv'>
           <h3>{userInfo?.creator_name}</h3>
-          <p>{userInfo?.username}</p>
+          <p>@{userInfo?.username}</p>
         </div>
         <p className='userBio'>{creator_bio}</p>
         {editInfo ? (

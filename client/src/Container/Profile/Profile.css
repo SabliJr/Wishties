@@ -270,6 +270,7 @@ body.modal-open .dorpBackModel {
   background-color: #1547d2;
   color: #fbfdfd;
   margin: 2rem 0 0;
+  cursor: pointer;
 }
 
 .editProfileClose {
@@ -330,6 +331,14 @@ body.modal-open .dorpBackModel {
   left: 50%;
   top: 18%;
   transform: translate(-50%);
+}
+
+.UpdateProfileLoader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 @media screen and (max-width: 1024px) {

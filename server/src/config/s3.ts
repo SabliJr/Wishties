@@ -21,14 +21,14 @@ const generateFileName = (fileName: string): string => {
   return generatedFileName;
 }
 
-const onUploadImage = async (file: Express.Multer.File | undefined) => {
-  const fileName = generateFileName(file?.originalname as string);
+const onUploadImage = async (file: Express.Multer.File | undefined, folder_name: string) => {
+  const imgFileName = generateFileName(file?.originalname as string);
   const fileType = file?.mimetype;
   const fileContent = file?.buffer;
 
   const params = {
     Bucket: S3_BUCKET_NAME,
-    Key: `${WISHES_IMAGES_FOLDER}/${fileName}`,
+    Key: `${folder_name}/${imgFileName}`,
     Body: fileContent,
     ContentType: fileType,
   };
@@ -39,7 +39,7 @@ const onUploadImage = async (file: Express.Multer.File | undefined) => {
     return {
       status: true,
       message: 'Image uploaded successfully.',
-      imageUrl: `${S3_URL}/${WISHES_IMAGES_FOLDER}/${fileName}`
+      imageUrl: `${S3_URL}/${folder_name}/${imgFileName}`
     };
   } catch (err: any) {
     console.error(err);

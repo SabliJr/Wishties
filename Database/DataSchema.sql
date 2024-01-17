@@ -34,7 +34,7 @@ CREATE TABLE wishes (
 creator_id UUID REFERENCES creator(creator_id), -- wishlist_id UUID REFERENCES wishlist(wishlist_id),
     wish_name VARCHAR(256) NOT NULL,
 wish_price NUMERIC NOT NULL,
-    wish_image TEXT,
+wish_image TEXT NOT NULL,
 -- wish_link TEXT,
 wish_category VARCHAR(150),
               wish_type VARCHAR(150), -- To check if it's a single buy or a subscription

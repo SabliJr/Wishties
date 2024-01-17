@@ -151,9 +151,9 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
   return (
     <>
-      {isUploading && !isError && <Loader />}
       <div className='dropBack'></div>
       <main className='wishUploaderSection' ref={modelRef}>
+        {!isUploading && !isError && <Loader />}
         <MdClose className='editProfileClose' onClick={closeUploadModule} />
         <form onSubmit={(e) => addTheWish(e)}>
           <h3 className='wishInfoTitle'>Wish Information.</h3>
@@ -239,7 +239,9 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
           {isError.emptyFieldsErr && (
             <p className='errorMsg'>{isError.emptyFieldsErr}</p>
           )}
-          <button className='addWishBtn'>Add The Wish</button>
+          <button className='addWishBtn' disabled={isUploading}>
+            Add The Wish
+          </button>
         </form>
       </main>
     </>

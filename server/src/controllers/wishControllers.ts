@@ -16,7 +16,7 @@ const onAddWish = async (req: Request, res: Response) => {
   const { wish_name, wish_price, wish_category } = req.body;
   const wish_image = req.file;
 
-  const isUploaded = await onUploadImage(wish_image);
+  const isUploaded = await onUploadImage(wish_image, WISHES_IMAGES_FOLDER as string);
   if (!isUploaded.status)
     return res.status(500).json({
       error: isUploaded.message
@@ -193,7 +193,7 @@ const onUpdateWish = async (req: Request, res: Response) => {
           error: isDeleted.message
         });
       
-      const isUploaded = await onUploadImage(wish_image_file);
+      const isUploaded = await onUploadImage(wish_image_file, WISHES_IMAGES_FOLDER as string);
       if (!isUploaded.status)
         return res.status(500).json({
           error: isUploaded.message

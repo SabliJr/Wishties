@@ -15,6 +15,8 @@ interface userInfoType {
   >;
   setRefetchIcons: React.Dispatch<React.SetStateAction<boolean>>;
   refetchIcons: boolean;
+  refetchCreatorData: Boolean;
+  setRefetchCreatorData: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const userInfoContext = createContext<userInfoType | undefined>(undefined);
@@ -31,6 +33,7 @@ const UserProfileContextProvider = ({
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState(creatorSocialLinks);
   const [refetchIcons, setRefetchIcons] = useState(false);
+  const [refetchCreatorData, setRefetchCreatorData] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -58,6 +61,8 @@ const UserProfileContextProvider = ({
         setDisplayedSocialLinks,
         refetchIcons,
         setRefetchIcons,
+        refetchCreatorData,
+        setRefetchCreatorData,
       }}>
       {children}
     </userInfoContext.Provider>
@@ -82,6 +87,8 @@ function useUserInfoCOntext(): userInfoType {
     setDisplayedSocialLinks,
     refetchIcons,
     setRefetchIcons,
+    refetchCreatorData,
+    setRefetchCreatorData,
   } = userContext;
   return {
     creatorSocialLinks,
@@ -92,6 +99,8 @@ function useUserInfoCOntext(): userInfoType {
     setDisplayedSocialLinks,
     refetchIcons,
     setRefetchIcons,
+    refetchCreatorData,
+    setRefetchCreatorData,
   };
 }
 

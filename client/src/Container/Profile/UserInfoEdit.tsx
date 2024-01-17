@@ -4,10 +4,12 @@ import "./Profile.css";
 import { MdClose } from "react-icons/md";
 import { iUserInfo, iCreatorProfile } from "../../Types/wishListTypes";
 import { onUpdateCreatorInfo, onIsUsernameAvailable } from "../../API/authApi";
+import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { debounce } from "lodash";
 
 import ProfilePlus from "../../Assets/camera.png";
 import CoverPlus from "../../Assets/Plus.png";
+import Loader from "../../Loader";
 
 interface iImages {
   userInfo: iCreatorProfile | undefined;
@@ -34,6 +36,8 @@ const UserInfoEdit = ({
   const [newUsername, setNewUsername] = useState<string>(
     userInfo?.username as string
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
   const [userProfileInfo, setUserProfileInfo] = useState<iUserInfo>({
     profile_name: userInfo?.creator_name,
     profile_username: userInfo?.username,
@@ -49,16 +53,25 @@ const UserInfoEdit = ({
   const coverImgRef = useRef<HTMLInputElement>(null);
   const profileImgRef = useRef<HTMLInputElement>(null);
 
+  const { setRefetchCreatorData } = useUserInfoCOntext(); //Create a state for social links;
+
   const closeEditPopup = () => {
     if (editInfo === true) {
       handleProfileInfoEdit();
     }
   };
 
+  // This is called whenever a user has made changes to the data
+  const handleDataChange = () => {
+    setHasChanges(true);
+  };
+
   const handleImgUploads = (field: string) => {
-    field === "cover_photo"
+    return field === "cover_photo"
       ? coverImgRef?.current?.click()
-      : profileImgRef?.current?.click();
+      : field === "profile_image"
+      ? profileImgRef?.current?.click()
+      : null;
   };
 
   // Handler for updating the state immediately as the user types
@@ -75,9 +88,9 @@ const UserInfoEdit = ({
           const response = await onIsUsernameAvailable(newUsername);
 
           if (response.data.isExists === false) {
-            console.log(response.data);
+            // console.log(response.data);
 
-            console.log("Username is available");
+            // console.log("Username is available");
             setUserProfileInfo((prev) => ({
               ...prev,
               profile_username: newUsername,
@@ -86,10 +99,10 @@ const UserInfoEdit = ({
         }
       } catch (error: any) {
         if (error.response && error.response.data.isExists === true) {
-          console.log(error.response.data);
+          // console.log(error.response.data);
 
           setIsUsernameAvailable(true);
-          console.log("Username is not available");
+          // console.log("Username is not available");
           setIsError((prev) => ({
             ...prev,
             usernameErr: error.response.data.message,
@@ -108,9 +121,21 @@ const UserInfoEdit = ({
     field: string
   ) => {
     let imgFile: File | undefined = e.target?.files?.[0];
+    handleDataChange();
 
-    if (field === "cover_photo") setCoverImgFile(imgFile);
-    else if (field === "profile_photo") setProfileImgFile(imgFile);
+    if (field === "cover_photo") {
+      setCoverImgFile(imgFile);
+      setUserProfileInfo((prev) => ({
+        ...prev,
+        cover_photo: imgFile as File,
+      }));
+    } else if (field === "profile_photo") {
+      setProfileImgFile(imgFile);
+      setUserProfileInfo((prev) => ({
+        ...prev,
+        profile_photo: imgFile as File,
+      }));
+    }
   };
 
   const handleInfoInput = (
@@ -120,11 +145,10 @@ const UserInfoEdit = ({
     field: string
   ) => {
     let userInputs = e.target?.value;
+    handleDataChange();
 
     setUserProfileInfo((prev) => ({
       ...prev,
-      cover_photo: coverImgFile,
-      profile_photo: profileImgFile,
       [field]: userInputs,
     }));
   };
@@ -164,6 +188,8 @@ const UserInfoEdit = ({
   }, [profileEditModal]);
 
   const handelSubmitData = async () => {
+    setIsLoading(true);
+    handleDataChange();
     const formData = new FormData();
 
     if (
@@ -189,6 +215,7 @@ const UserInfoEdit = ({
       userProfileInfo.profile_photo !== userInfo?.profile_image
     ) {
       formData.append("profile_photo", userProfileInfo.profile_photo);
+      console.log("Profile photo is added");
     }
 
     if (
@@ -196,15 +223,21 @@ const UserInfoEdit = ({
       userProfileInfo.cover_photo !== userInfo?.cover_image
     ) {
       formData.append("cover_photo", userProfileInfo.cover_photo);
+      console.log("Cover photo is added");
     }
 
     try {
-      const res = await onUpdateCreatorInfo(formData);
-      console.log(res);
+      await onUpdateCreatorInfo(formData);
+      handleProfileInfoEdit();
+      setRefetchCreatorData(true);
     } catch (err: any) {
       console.log(err);
+      setIsError((prev) => ({
+        ...prev,
+        invalidFileTypeErr: err.response.data.message,
+      }));
     } finally {
-      handleProfileInfoEdit();
+      setIsLoading(false);
     }
   };
 
@@ -212,6 +245,7 @@ const UserInfoEdit = ({
     <>
       <div className='dorpBackModel'></div>
       <div className='editInfoSection' ref={modelRef}>
+        {isLoading && <Loader />}
         <MdClose className='editProfileClose' onClick={closeEditPopup} />
         <h1>Edit your profile.</h1>
         <div
@@ -294,13 +328,13 @@ const UserInfoEdit = ({
         </div>
         <label className='userBioInput'>
           <p>
-            Your Bio: <span>160 characters</span>
+            Your Bio: <span>150 characters</span>
           </p>
           <textarea
             name='postContent'
             rows={4}
             cols={20}
-            maxLength={160}
+            maxLength={150}
             value={userProfileInfo?.profile_bio}
             wrap='soft'
             placeholder='Write your bio here...'
@@ -310,7 +344,10 @@ const UserInfoEdit = ({
         {isError.invalidFileTypeErr && (
           <p className='error'>{isError.invalidFileTypeErr}</p>
         )}
-        <button className='updateProfileBtn' onClick={handelSubmitData}>
+        <button
+          className='updateProfileBtn'
+          onClick={handelSubmitData}
+          disabled={isLoading || !hasChanges}>
           Update Profile
         </button>
       </div>

@@ -13,7 +13,7 @@
   border-radius: 1.42rem;
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
-  z-index: 999;
+  /* z-index: 999; */
 }
 
 .wishInfoInputsDiv,
@@ -67,7 +67,7 @@ body.modal-open .dropBack {
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: .5;
-  z-index: 99;
+  /* z-index: 99; */
 }
 
 .wishInfoInputsDiv label input {
@@ -199,7 +199,7 @@ body.modal-open .dropBack {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   border: .8px solid #535353;
   /* position: absolute; */
-  bottom: 25%;
+  bottom: 55%;
   right: -20%;
   transform: translate(-50%, 50%);
 }
@@ -213,7 +213,7 @@ body.modal-open .dropBack {
   cursor: pointer;
 }
 
-.editingDiv .closeEditDiv {
+.closeEditDiv {
   /* position: absolute; */
   top: .18rem;
   right: .2rem;
@@ -224,6 +224,7 @@ body.modal-open .dropBack {
 /* Updating the wish */
 /* .justForRelativity {
   position: relative;
+  z-index: 10;
 } */
 
 @media screen and (max-width: 1024px) {

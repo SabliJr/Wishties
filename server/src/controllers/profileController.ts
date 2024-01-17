@@ -12,7 +12,6 @@ interface DecodedToken {
   [key: string]: any; // for any other properties that might be in the token
 }
 
-
 const onUpdateProfile = async (req: Request, res: Response) => {
   const cookie = req.cookies;
   if (!cookie.refreshToken)
@@ -33,13 +32,13 @@ const onUpdateProfile = async (req: Request, res: Response) => {
   const { profile_name, profile_username, profile_bio } = req.body;
 
   try {
-    if (cover_photo[0]) {
+    if (cover_photo && cover_photo[0]) {
       let isCoverImage = await query('SELECT cover_image FROM creator WHERE creator_id = $1', [creator_id]);
-      console.log('This is the cover image');
-      console.log(isCoverImage.rows[0].cover_image);
+      let old_cover_image = isCoverImage.rows[0].cover_image;
+      old_cover_image = old_cover_image.split('/')[4];
 
       if (isCoverImage.rows[0].cover_image) {
-        const isDeleted = await onDeleteImage(`${COVER_IMAGES_FOLDER}/${isCoverImage.rows[0].cover_image}`);
+        const isDeleted = await onDeleteImage(`${COVER_IMAGES_FOLDER}/${old_cover_image}`);
         if (!isDeleted.status) {
           return res.status(500).json({
             message: isDeleted.message
@@ -47,20 +46,22 @@ const onUpdateProfile = async (req: Request, res: Response) => {
         }
       }
 
-      const isUploaded = await onUploadImage(cover_photo[0]);
+      const isUploaded = await onUploadImage(cover_photo[0], COVER_IMAGES_FOLDER as string);
       if (!isUploaded.status) {
         return res.status(500).json({
           message: isUploaded.message
         });
       }
       cover_image = isUploaded.imageUrl;
-    } else if (profile_photo[0]) {
+    }
+
+    if (profile_photo && profile_photo[0]) {
       let isProfileImage = await query('SELECT profile_image FROM creator WHERE creator_id = $1', [creator_id]);
-      console.log('This is the profile image')
-      console.log(isProfileImage.rows[0].profile_image);
+      let old_profile_image = isProfileImage.rows[0].profile_image;
+      old_profile_image = old_profile_image.split('/')[4];
 
       if (isProfileImage.rows[0].profile_image) {
-        const isDeleted = await onDeleteImage(`${PROFILES_IMAGES_FOLDER}/${isProfileImage.rows[0].profile_image}`);
+        const isDeleted = await onDeleteImage(`${PROFILES_IMAGES_FOLDER}/${old_profile_image}`);
         if (!isDeleted.status) {
           return res.status(500).json({
             message: isDeleted.message
@@ -68,7 +69,7 @@ const onUpdateProfile = async (req: Request, res: Response) => {
         }
       }
 
-      const isUploaded = await onUploadImage(profile_photo[0]);
+      const isUploaded = await onUploadImage(profile_photo[0], PROFILES_IMAGES_FOLDER as string);
       if (!isUploaded.status) {
         return res.status(500).json({
           message: isUploaded.message
@@ -112,15 +113,12 @@ const onUpdateProfile = async (req: Request, res: Response) => {
     }
 
     // Remove the last comma
-    queryText = queryText.slice(0, -1);
+    queryText = queryText?.slice(0, -1);
 
-    queryText += ` WHERE creator_id = $${index} RETURNING *`;
+    queryText += ` WHERE creator_id = $${index}`;
     values.push(creator_id);
 
-    // const { rows } = await query(queryText, values);
-    console.log(queryText);
-    console.log(values);
-
+    await query(queryText, values);
     res.status(200).json({
       message: 'Profile updated successfully'
     }); // Assuming you want to send the result as JSON
