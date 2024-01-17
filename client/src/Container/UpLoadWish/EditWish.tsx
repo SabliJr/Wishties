@@ -81,7 +81,6 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
   const handleUpdateWish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let formData = new FormData();
-    setIsUpdating(true);
 
     if (!wishToEdit.wish_name || !wishToEdit.wish_price) {
       setIsError((prev) => ({
@@ -111,6 +110,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
       return;
     }
 
+    setIsUpdating(true);
     try {
       await onEditWish(formData);
       setRefresh(true);
@@ -124,7 +124,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
 
   return (
     <>
-      {!disable_btn && isUpdating && <Loader />}
+      {isUpdating && <Loader />}
       <div className='dropBack'></div>
 
       <div className='wishUploaderSection' ref={modelRef}>

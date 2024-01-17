@@ -200,11 +200,40 @@ const onUpdateWish = async (req: Request, res: Response) => {
         });
       wish_image = isUploaded.imageUrl;
     }
-    
-    await query(
-      'UPDATE wishes SET wish_name = $1, wish_price = $2, wish_image = $3, wish_category = $4 WHERE wish_id = $5',
-      [wish_name, wish_price, wish_image, wish_category, wish_id]
-    );
+
+    let queryText = 'UPDATE wishes SET ';
+    let queryValues = [];
+    let queryIndex = 1;
+
+    if (wish_name) {
+      queryText += `wish_name = $${queryIndex}, `;
+      queryValues.push(wish_name);
+      queryIndex++;
+    }
+
+    if (wish_price) {
+      queryText += `wish_price = $${queryIndex}, `;
+      queryValues.push(wish_price);
+      queryIndex++;
+    }
+
+    if (wish_image) {
+      queryText += `wish_image = $${queryIndex}, `;
+      queryValues.push(wish_image);
+      queryIndex++;
+    }
+
+    if (wish_category) {
+      queryText += `wish_category = $${queryIndex}, `;
+      queryValues.push(wish_category);
+      queryIndex++;
+    }
+
+    queryText = queryText.slice(0, -2);
+    queryText += ` WHERE wish_id = $${queryIndex}`;
+    queryValues.push(wish_id);
+
+    await query(queryText, queryValues);
     res.status(200).json({ message: 'Wish updated successfully.' });
   } catch (err) {
     console.error(err);
