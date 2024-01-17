@@ -79,10 +79,7 @@ const TheWish = (): JSX.Element => {
                   <HiDotsVertical className='wishOptionBtnIcon' />
                 </div>
               </div>
-              <button className='addToCartBtn'>
-                <FaCartPlus className='addToCartBtnIcon' />
-                Add To Cart
-              </button>
+
               {editingWishId === x.wish_id && (
                 <div className='editingDiv'>
                   <RiCloseLine
@@ -107,6 +104,11 @@ const TheWish = (): JSX.Element => {
                   </p>
                 </div>
               )}
+
+              <button className='addToCartBtn'>
+                <FaCartPlus className='addToCartBtnIcon' />
+                Add To Cart
+              </button>
             </div>
           </div>
         ))

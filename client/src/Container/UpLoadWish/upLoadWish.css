@@ -171,6 +171,8 @@ body.modal-open .dropBack {
   border-radius: .3rem;
   cursor: pointer;
   width: 100%;
+  /* z-index: 10;
+  position: relative; */
 }
 
 .addToCartBtnIcon {
@@ -198,10 +200,11 @@ body.modal-open .dropBack {
   border-radius: .6rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   border: .8px solid #535353;
-  /* position: absolute; */
+  /* position: absolute;
   bottom: 55%;
-  right: -20%;
-  transform: translate(-50%, 50%);
+  right: -20%; */
+  /* display: inline-block; */
+  /* transform: translate(-50%, 50%); */
 }
 
 .editingDiv p {
@@ -214,7 +217,7 @@ body.modal-open .dropBack {
 }
 
 .closeEditDiv {
-  /* position: absolute; */
+  /* position: relative; */
   top: .18rem;
   right: .2rem;
   cursor: pointer;
@@ -222,9 +225,10 @@ body.modal-open .dropBack {
 
 /* ------------------------------------------------------------------------------------------- */
 /* Updating the wish */
+
 /* .justForRelativity {
-  position: relative;
-  z-index: 10;
+  position: ;
+   z-index: 10;
 } */
 
 @media screen and (max-width: 1024px) {

@@ -100,7 +100,12 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
   const addTheWish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsUploading(true);
+
+    // Reset error state
+    setIsError({
+      invalidFileTypeErr: "",
+      emptyFieldsErr: "",
+    });
 
     const formData = new FormData();
     if (
@@ -129,7 +134,6 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
       return;
     }
 
-    // Wishes?.push(wishInputs);
     formData.append("wish_name", wishInputs.wish_name);
     formData.append("wish_price", wishInputs.wish_price);
     formData.append("wish_category", wishInputs.wish_category);
@@ -137,10 +141,19 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
       formData.append("wish_image", wishInputs.wish_image);
     }
 
+    // Set isUploading to true only after all validations have passed
+    setIsUploading(true);
+
     try {
       await onAddWish(formData);
       setRefresh(true);
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
+      // Set an error state here to inform the user about the error
+      setIsError((prev) => ({
+        ...prev,
+        serverError: error.message,
+      }));
     } finally {
       if (uploadModule === true) {
         closeUploadModule();
@@ -149,103 +162,105 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
     }
   };
 
-  return (
-    <>
-      <div className='dropBack'></div>
-      <main className='wishUploaderSection' ref={modelRef}>
-        {!isUploading && !isError && <Loader />}
-        <MdClose className='editProfileClose' onClick={closeUploadModule} />
-        <form onSubmit={(e) => addTheWish(e)}>
-          <h3 className='wishInfoTitle'>Wish Information.</h3>
-          <div className='wishInfoInputsDiv'>
-            <label htmlFor='wishName'>
-              Name
-              <input
-                type='text'
-                placeholder='Your wish name'
-                // autoComplete='off'
-                // value={wishInputs.wish_name ? wishInputs.wish_name : ""}
-                id='wishName'
-                onChange={(e) => {
-                  handleInputChange(e, "wish_name");
-                  setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
-                }}
-              />
-            </label>
-            <label htmlFor='thePrice'>
-              Price
-              <input
-                type='text'
-                placeholder='Enter Amount $:'
-                // autoComplete='off'
-                value={wishInputs.wish_price ? wishInputs.wish_price : ""}
-                id='thePrice'
-                onChange={(e) => {
-                  handleInputChange(e, "wish_price");
-                  setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
-                }}
-              />
-            </label>
-          </div>
-          <div className='imgUploaderDiv' onClick={handleImgUpload}>
-            {wishImg ? (
-              <img
-                src={URL.createObjectURL(wishImg)}
-                alt='wishUploadImg'
-                className='wishUploadImg'
-              />
-            ) : (
-              <img
-                src={WishUploadImg}
-                alt='wishUploadImg'
-                className='wishUploadImg'
-              />
-            )}
+ return (
+   <>
+     <div className='dropBack'></div>
+     {isUploading && !Object.values(isError).some((value) => value !== "") && (
+       <Loader />
+     )}
+     <main className='wishUploaderSection' ref={modelRef}>
+       <MdClose className='editProfileClose' onClick={closeUploadModule} />
+       <form onSubmit={(e) => addTheWish(e)}>
+         <h3 className='wishInfoTitle'>Wish Information.</h3>
+         <div className='wishInfoInputsDiv'>
+           <label htmlFor='wishName'>
+             Name
+             <input
+               type='text'
+               placeholder='Your wish name'
+               // autoComplete='off'
+               // value={wishInputs.wish_name ? wishInputs.wish_name : ""}
+               id='wishName'
+               onChange={(e) => {
+                 handleInputChange(e, "wish_name");
+                 setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
+               }}
+             />
+           </label>
+           <label htmlFor='thePrice'>
+             Price
+             <input
+               type='text'
+               placeholder='Enter Amount $:'
+               // autoComplete='off'
+               value={wishInputs.wish_price ? wishInputs.wish_price : ""}
+               id='thePrice'
+               onChange={(e) => {
+                 handleInputChange(e, "wish_price");
+                 setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
+               }}
+             />
+           </label>
+         </div>
+         <div className='imgUploaderDiv' onClick={handleImgUpload}>
+           {wishImg ? (
+             <img
+               src={URL.createObjectURL(wishImg)}
+               alt='wishUploadImg'
+               className='wishUploadImg'
+             />
+           ) : (
+             <img
+               src={WishUploadImg}
+               alt='wishUploadImg'
+               className='wishUploadImg'
+             />
+           )}
 
-            <p className='UploadAnImage'>Upload an image.</p>
-            <input
-              type='file'
-              id='image_uploads'
-              name='image_uploads'
-              accept='.jpg, .jpeg, .png, .webp'
-              ref={ImgInputRef}
-              style={{ display: "none" }}
-              onChange={handleImgChange}
-            />
-          </div>
-          {isError.invalidFileTypeErr && (
-            <p className='error'>{isError.invalidFileTypeErr}</p>
-          )}
-          <div className='categoriesDiv'>
-            <h4>
-              Publish <span>(optional)</span>{" "}
-            </h4>
-            <p>
-              Categorize your wishes to help gifters find what they're looking
-              for on your wishlist.
-            </p>
-            <div>
-              <input
-                type='text'
-                placeholder='Add a category'
-                value={wishInputs.wish_category || ""}
-                onChange={(e) => {
-                  handleInputChange(e, "wish_category");
-                  setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
-                }}
-              />
-            </div>
-          </div>
-          {isError.emptyFieldsErr && (
-            <p className='errorMsg'>{isError.emptyFieldsErr}</p>
-          )}
-          <button className='addWishBtn' disabled={isUploading}>
-            Add The Wish
-          </button>
-        </form>
-      </main>
-    </>
-  );
+           <p className='UploadAnImage'>Upload an image.</p>
+           <input
+             type='file'
+             id='image_uploads'
+             name='image_uploads'
+             accept='.jpg, .jpeg, .png, .webp'
+             ref={ImgInputRef}
+             style={{ display: "none" }}
+             onChange={handleImgChange}
+           />
+         </div>
+         {isError.invalidFileTypeErr && (
+           <p className='error'>{isError.invalidFileTypeErr}</p>
+         )}
+         <div className='categoriesDiv'>
+           <h4>
+             Publish <span>(optional)</span>{" "}
+           </h4>
+           <p>
+             Categorize your wishes to help gifters find what they're looking
+             for on your wishlist.
+           </p>
+           <div>
+             <input
+               type='text'
+               placeholder='Add a category'
+               value={wishInputs.wish_category || ""}
+               onChange={(e) => {
+                 handleInputChange(e, "wish_category");
+                 setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
+               }}
+             />
+           </div>
+         </div>
+         {isError.emptyFieldsErr && (
+           <p className='errorMsg'>{isError.emptyFieldsErr}</p>
+         )}
+         <button className='addWishBtn' disabled={isUploading}>
+           Add The Wish
+         </button>
+       </form>
+     </main>
+   </>
+ );
 };
 
 export default Index;
