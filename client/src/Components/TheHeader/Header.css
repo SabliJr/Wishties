@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.8rem;
+  margin: 1.8rem 0 .5rem;
 }
 
 .navStuff {
@@ -32,6 +32,17 @@
   gap: 1.3rem;
 }
 
+._nav li {
+  font-size: 1.3rem;
+  font-family: sans-serif;
+  font-weight: 500;
+}
+
+._faq {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 .navButtons p {
   font-family: 'Archivo', sans-serif;
   font-size: 1.5rem;
@@ -54,6 +65,16 @@
 .menuIcon {
   font-size: 2.15rem;
   display: none;
+}
+
+._cart_menu_div {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+}
+
+._cart {
+  font-size: 1.42rem;
 }
 
 @media screen and (max-width: 1042px) {

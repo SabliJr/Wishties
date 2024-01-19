@@ -1,0 +1,44 @@
+.wish_details {
+  display: flex;
+  flex-direction: column;
+  margin: 1.3rem .3rem;
+  gap: .4rem;
+}
+
+.surprise_btn {
+  font-size: 1.2rem;
+  color: aliceblue;
+  padding: .4rem .5rem;
+  background-color: #d4145a;
+  border-radius: .6rem;
+  font-weight: 600;
+  border: transparent;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  cursor: pointer;
+
+  font-family: 'Archivo', sans-serif;
+}
+
+#SurpriseIcon_222_16960 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+@media screen and (max-width: 1042px) {
+  @media screen and (max-width: 800px) {
+    @media screen and (max-width: 600px) {
+      .surprise_btn {
+        font-size: 1rem;
+        padding: .2rem .3rem;
+        border-radius: .4rem;
+        font-weight: 600;
+        gap: .3rem;
+      }
+    }
+  }
+}

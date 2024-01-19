@@ -12,10 +12,22 @@ interface DecodedToken {
 }
 
 const getCreators = async (req: Request, res: Response) => {
-  try {
-    const { rows } = await query('SELECT * FROM creator', []);
+  const creator_username = req.query.username;
 
-    res.status(200).json(rows); // Assuming you want to send the result as JSON
+  try {
+    const  user_info  = await query('SELECT * FROM creator WHERE username=$1', [creator_username]);
+    if (!user_info.rows.length)
+      return res.status(404).send('Creator not found');
+
+    let creator_id = user_info.rows[0]?.creator_id;
+    const user_links = await query('SELECT * FROM social_media_links WHERE creator_id = $1', [creator_id]);
+    const user_wishes = await query('SELECT * FROM wishes WHERE creator_id = $1', [creator_id]);
+
+    res.status(200).json({
+      user_info: user_info.rows[0],
+      user_links: user_links.rows,
+      user_wishes: user_wishes.rows
+    }); // Assuming you want to send the result as JSON
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

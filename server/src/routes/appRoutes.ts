@@ -23,7 +23,7 @@ upload.single('wish_image');
 console.log(upload.single('wish_image'));
 
 // User routes
-router.get('/creators', getCreators);
+router.get('/creator', getCreators);
 router.get('/get-creator', authenticateCreator, validate(401), onCreatorInfo) // get creator profile
 router.put('/update-user-profile', upload.fields([
   { name: 'profile_photo', maxCount: 1 }, { name: 'cover_photo', maxCount: 1 }]

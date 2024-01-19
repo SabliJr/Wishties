@@ -188,6 +188,16 @@ const onIsUsernameAvailable = async (username: string) => {
   });
 };
 
+const onGetCreatorInfo = async (username: string) => {
+  return await axios.get(`${SERVER_URL}/creator`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: { username },
+    withCredentials: true,
+  });
+};
+
 export {
   onGetCreator,
   onLogout,
@@ -208,4 +218,5 @@ export {
   onVerifyEmail,
   onUpdateCreatorInfo,
   onIsUsernameAvailable,
+  onGetCreatorInfo,
 };
