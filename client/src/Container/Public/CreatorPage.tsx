@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { onGetCreatorInfo } from "../../API/authApi";
+import React, { useEffect, useState, useContext } from "react";
 import "../Profile/Profile.css";
 import "./creator_page_style.css";
 
@@ -7,20 +6,31 @@ import "./creator_page_style.css";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import { FaCartPlus } from "react-icons/fa";
+import { GrClose } from "react-icons/gr";
+
+import { iGlobalValues, iCart } from "../../Types/creatorSocialLinksTypes";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { onGetCreatorInfo } from "../../API/authApi";
+import { useNavigate } from "react-router-dom";
 
 const CreatorPage = () => {
   const [creatorInfo, setCreatorInfo] = useState<any>({});
   const [creatorWishes, setCreatorWishes] = useState<any>([]);
   const [creatorSocialLinks, setCreatorSocialLinks] = useState<any>([]);
+  const [addingToCartItemId, setAddingToCartItemId] = useState<null | string>(
+    null
+  );
 
   let creator_username = window.location.pathname.split("/")[1];
-  console.log("creator_username", creator_username);
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { cartItems, setCartItems } = contextValues as iGlobalValues;
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       try {
         const res = await onGetCreatorInfo(creator_username);
-        console.log("res", res);
 
         setCreatorInfo(res.data.user_info);
         setCreatorSocialLinks(res.data.user_links);
@@ -31,7 +41,23 @@ const CreatorPage = () => {
     })();
   }, []);
 
-  // console.log("creatorInfo", creatorInfo);
+  const handleAddToCart = (wish: iCart) => {
+    let cart = cartItems.cart;
+
+    let wishInCart = cart.find((item: iCart) => item.wish_id === wish.wish_id);
+    if (wishInCart) {
+      cartItems.cartTotalQuantity++;
+      cartItems.cartTotalAmount += Number(wish.wish_price);
+      wishInCart.quantity++;
+      setCartItems({ ...cartItems });
+    } else {
+      cartItems.cartTotalQuantity++;
+      cartItems.cartTotalAmount += Number(wish.wish_price);
+      wish.quantity = 1;
+      cart.push(wish);
+      setCartItems({ ...cartItems });
+    }
+  };
 
   return (
     <section className='profileSection'>
@@ -55,7 +81,7 @@ const CreatorPage = () => {
         <div className='userSocialLinks'>
           {creatorSocialLinks?.map((link: any) => (
             <div
-              key={link.platform_name}
+              key={link.link_id}
               className='profileLinks'
               onClick={() => {
                 window.open(`${link.platform_link}`, "_blank");
@@ -119,23 +145,56 @@ const CreatorPage = () => {
             </button>
           </div>
         </div>
-        <main className='theWishesSection'>
-          {creatorWishes?.map((wish: any) => (
-            <div className='theWishDiv' key={wish.id}>
+        <main className='theWishesSection _cart_wishes'>
+          {creatorWishes?.map((wish: iCart) => (
+            <div className='theWishDiv' key={wish.wish_id}>
               <img src={wish.wish_image} alt='wishImage' className='wishImag' />
               <div className='wish_details'>
-                <h3
-                  style={{
-                    fontSize: "1rem",
-                  }}>
-                  {wish.wish_name}
-                </h3>
-                <p>$ {wish.wish_price}</p>
+                <p className='_popUpWishName'>{wish.wish_name}</p>
+                <p className='_popUpPrice'>${wish.wish_price}</p>
               </div>
-              <button className='addToCartBtn'>
+              <button
+                className='addToCartBtn'
+                onClick={() => setAddingToCartItemId(wish.wish_id)}>
                 <FaCartPlus className='addToCartBtnIcon' />
                 Add To Cart
               </button>
+              {addingToCartItemId === wish.wish_id && (
+                <>
+                  <div className='dropBack'></div>
+                  <div className='wishPopUp'>
+                    <span
+                      className='_popUpCloseIcon'
+                      onClick={() => setAddingToCartItemId(null)}>
+                      <GrClose />
+                    </span>
+                    <img
+                      src={wish.wish_image}
+                      alt='wish_image'
+                      className='_popUpImg'
+                    />
+                    <p className='_popUpWishName'>{wish.wish_name}</p>
+                    <p className='_popUpPrice'>${wish.wish_price}</p>
+                    <div className='popUpBtns'>
+                      <button
+                        onClick={() => {
+                          setAddingToCartItemId(null);
+                          handleAddToCart(wish);
+                        }}>
+                        Add To Cart & Keep Shopping
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAddingToCartItemId(null);
+                          handleAddToCart(wish);
+                          navigate("/cart");
+                        }}>
+                        Add To Cart & Checkout
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </main>

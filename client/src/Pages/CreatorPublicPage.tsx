@@ -6,11 +6,11 @@ import Header from "../Components/TheHeader/index";
 
 const CreatorPublicPage = () => {
   return (
-    <main className='creator_public_page'>
+    <>
       <Header />
       <CreatorPage />
       <Footer />
-    </main>
+    </>
   );
 };
 

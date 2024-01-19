@@ -140,14 +140,7 @@ body.modal-open .dropBack {
   border-radius: .42rem;
 }
 
-.wishTitle {
-  font-size: 1rem;
-}
-
 .wishPrice {
-  font-size: 1rem;
-  color: #464545;
-  letter-spacing: .5px;
   margin: .6rem 0;
 }
 
@@ -282,10 +275,6 @@ body.modal-open .dropBack {
       border-top-left-radius: .6rem;
     }
 
-    .wishPrice {
-      margin: 0.6rem 0;
-    }
-
     .userSocialLinks {
       width: 100%;
       margin: 0;
@@ -350,11 +339,6 @@ body.modal-open .dropBack {
 
         .addWishBtn {
           font-size: 1rem;
-        }
-
-        .wishTitle {
-          font-weight: 500;
-          color: black;
         }
 
         .profileLinks {

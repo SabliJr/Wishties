@@ -26,6 +26,25 @@ export interface iErrorMsgs {
   theNameErr: string;
 }
 
+export interface iCart {
+created_date: null | string | number;
+creator_id: string;
+deleted_at: null | string | number;
+purchased: boolean;
+wish_category: string | null;
+wish_id: string;
+wish_image: string;
+wish_name: string;
+wish_price: number;
+  wish_type: string | null;
+  quantity: number;
+}
+
+export type cartProps = {
+  cart: iCart[];
+  cartTotalQuantity: number;
+  cartTotalAmount: number;
+};
 export interface iGlobalValues { 
   userEmail: string | undefined;
   setUserEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -35,6 +54,10 @@ export interface iGlobalValues {
   setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
   refresh: boolean;
   setRefresh: (value: any) => boolean;
+  cartItems: cartProps;
+  setCartItems: React.Dispatch<React.SetStateAction<cartProps>>;
+  cartTotalQuantity: number,
+  cartTotalAmount: number,
 }
 
 export interface iAuthContext {

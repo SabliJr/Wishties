@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import { iGlobalValues } from "../Types/creatorSocialLinksTypes";
+import { iGlobalValues, cartProps } from "../Types/creatorSocialLinksTypes";
 
 const GlobalValuesContext = createContext<iGlobalValues | {}>({});
 
@@ -10,6 +10,13 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [reverificationSuccess, setReverificationSuccess] = useState("");
   const [serverErrMsg, setServerErrMsg] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [cartItems, setCartItems] = useState<cartProps>({
+    cart: [],
+    cartTotalQuantity: 0,
+    cartTotalAmount: 0,
+  });
+
+  console.log("cartItems", cartItems);
 
   return (
     <GlobalValuesContext.Provider
@@ -22,6 +29,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setServerErrMsg,
         refresh,
         setRefresh,
+        cartItems,
+        setCartItems,
       }}>
       {children}
     </GlobalValuesContext.Provider>

@@ -4,6 +4,7 @@ import { onGetWishes, onRemoveWish } from "../../API/authApi";
 import Loader from "../../Loader";
 import EditWish from "./EditWish";
 import "./upLoadWish.css";
+import "../Public/creator_page_style.css";
 
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
@@ -69,8 +70,8 @@ const TheWish = (): JSX.Element => {
             />
             <div className='wishDetails'>
               <div>
-                <h4 className='wishTitle'>{x.wish_name}</h4>
-                <p className='wishPrice'>${x.wish_price}</p>
+                <p className='_popUpWishName'>{x.wish_name}</p>
+                <p className='_popUpPrice wishPrice'>${x.wish_price}</p>
               </div>
               <div
                 className='wishOptionBtn'

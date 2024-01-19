@@ -20,6 +20,7 @@ import VerifyEmail from "./Components/Verification/verifyEmail";
 
 import { iAuth } from "./Types/creatorSocialLinksTypes";
 import CreatorPage from "./Pages/CreatorPublicPage";
+import Cart from "./Pages/Cart";
 
 const FullPrivateRoutes = () => {
   const { auth, setAuth } = useAuth();
@@ -44,6 +45,7 @@ const RoutesFile = () => {
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/verify-email/:token' element={<VerifyEmail />} />
         <Route path='/:username' element={<CreatorPage />} />
+        <Route path='/cart' element={<Cart />} />
 
         <Route element={<PersistLogin />}>
           <Route element={<FullPrivateRoutes />}>

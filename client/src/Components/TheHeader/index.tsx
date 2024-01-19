@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,9 @@ import UserHeader from "../../Container/TheHeader/index";
 import Logo from "../../Assets/xLogo.png";
 import { RiMenu4Line } from "react-icons/ri";
 import { FiShoppingCart } from "react-icons/fi";
+
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +24,9 @@ const Index = () => {
   const handleCreateWishlist = () => {
     username ? navigate(`/edit-profile/${username}`) : navigate(`/signUp`);
   };
+
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { cartItems } = contextValues as iGlobalValues;
 
   return (
     <>
@@ -35,9 +41,10 @@ const Index = () => {
           </Link>
 
           <div className='_cart_menu_div'>
-            <Link to='' className='_cart'>
-              <FiShoppingCart />
-            </Link>
+            <div className='userDiv' onClick={() => navigate("/cart")}>
+              <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
+              <FiShoppingCart className='wishIcon _cart' />
+            </div>
             <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
               <div className='navButtons'>
                 <nav className='_nav'>

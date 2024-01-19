@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
@@ -12,6 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { iAuth } from "../../Types/creatorSocialLinksTypes";
+
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,6 +65,9 @@ const Index = () => {
     navigate("/profile/account-settings");
   };
 
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { cartItems } = contextValues as iGlobalValues;
+
   return (
     <section className='appSection'>
       <div className='wishNav'>
@@ -75,8 +81,8 @@ const Index = () => {
           <p className='fqa' onClick={() => navigate("/how-it-works")}>
             FAQ
           </p>
-          <div className='userDiv'>
-            <p className='wishItems'>0</p>
+          <div className='userDiv' onClick={() => navigate("/cart")}>
+            <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
             <FiShoppingCart
               className='wishIcon'
               style={{ fontSize: "1.2rem" }}
