@@ -29,7 +29,7 @@
 }
 
 .wishPopUp {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -79,10 +79,6 @@
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-._cart_wishes {
-  position: relative;
-}
-
 ._popUpCloseIcon {
   position: absolute;
   top: 1.5rem;
@@ -108,6 +104,10 @@
 
 @media screen and (max-width: 1042px) {
   @media screen and (max-width: 800px) {
+    .wishPopUp {
+      width: 23rem;
+    }
+
     @media screen and (max-width: 600px) {
       .surprise_btn {
         font-size: 1rem;
@@ -115,6 +115,17 @@
         border-radius: .4rem;
         font-weight: 600;
         gap: .3rem;
+      }
+
+      .wishPopUp {
+        width: 20rem;
+        padding: 2.8rem 1rem 1rem 1rem;
+      }
+
+      .popUpBtns button {
+        padding: .5rem .8rem;
+        font-size: 1rem;
+        font-weight: 500;
       }
     }
   }

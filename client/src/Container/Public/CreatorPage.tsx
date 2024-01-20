@@ -145,7 +145,7 @@ const CreatorPage = () => {
             </button>
           </div>
         </div>
-        <main className='theWishesSection _cart_wishes'>
+        <main className='theWishesSection'>
           {creatorWishes?.map((wish: iCart) => (
             <div className='theWishDiv' key={wish.wish_id}>
               <img src={wish.wish_image} alt='wishImage' className='wishImag' />
