@@ -218,21 +218,73 @@
 ._cart_inputs_div {
   display: flex;
   gap: .8rem;
-  align-items: flex-start;
-  justify-content: center;
-  width: 60%;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
 }
 
-._cart_pseudonym,
-._cart_email {
-  width: 80%;
-  height: 2.8rem;
+/* Forms styles */
+/* ------------------------------------------------------------------------------- */
+
+.form__div {
+  position: relative;
+  height: 3.25rem;
+  width: 40%;
+  background-color: #fff;
   border-radius: .5rem;
-  border: 1px solid #ccc;
-  padding: .5rem;
-  font-size: 1rem;
-  outline: none;
 }
+
+.form__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  outline: none;
+  padding: 1rem;
+  background: none;
+  z-index: 1;
+}
+
+.form__label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  padding: 0 0.25rem;
+  background-color: #fff;
+  color: #525252;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+/*Input focus move up label*/
+.form__input:focus+.form__label {
+  top: -0.5rem;
+  left: 0.8rem;
+  color: #1547d2;
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 10;
+}
+
+/*Input focus sticky top label*/
+.form__input:not(:placeholder-shown).form__input:not(:focus)+.form__label {
+  top: -0.5rem;
+  left: 0.8rem;
+  z-index: 10;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/*Input focus*/
+.form__input:focus {
+  border: 1px solid #1547d2;
+}
+
+/* ------------------------------------------------------------------------------------ */
 
 ._cart_terms_policy,
 ._cart_publish_btn {

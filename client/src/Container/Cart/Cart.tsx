@@ -182,24 +182,26 @@ const Cart = () => {
               placeholder='Type your message here...'
               maxLength={280}
             />
+
             <div className='_cart_inputs_div'>
-              <label htmlFor='sender_name'>
-                From:
+              <div className='form__div'>
+                <input type='text' className='form__input' placeholder=' ' />
+                <label htmlFor='' className='form__label'>
+                  From:
+                </label>
+              </div>
+
+              <div className='form__div'>
                 <input
-                  type='text'
-                  id='sender_name'
-                  placeholder='From:'
-                  className='_cart_pseudonym'
+                  type='email'
+                  className='form__input'
+                  placeholder=' '
+                  required
                 />
-              </label>
-              <label htmlFor='fan_email'>
-                Email*: private
-                <input
-                  type='Email'
-                  placeholder='Email*: private'
-                  className='_cart_email'
-                />
-              </label>
+                <label htmlFor='' className='form__label'>
+                  Email*: private
+                </label>
+              </div>
             </div>
           </div>
 
