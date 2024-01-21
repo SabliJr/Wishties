@@ -11,7 +11,7 @@ const Index = () => {
   const { username } = auth as iAuth;
 
   const handleGetStarted = () => {
-    username ? navigate(`/edit-profile/${username}`) : navigate(`/login`);
+    username ? navigate(`/edit-profile/${username}`) : navigate(`/signUp`);
   };
 
   return (

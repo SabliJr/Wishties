@@ -12,23 +12,71 @@ const Cart = () => {
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
 
+  const handleIncreaseQuantity = (wish_id: string) => {
+    const newCart = cartItems?.cart.map((x: iCart) =>
+      x.wish_id === wish_id
+        ? {
+            ...x,
+            quantity: x.quantity + 1,
+          }
+        : x
+    );
+
+    const newTotal = newCart?.reduce(
+      (sum, item) => sum + Number(item.wish_price) * item.quantity,
+      0
+    );
+
+    const newTotalQuantity = newCart?.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+
+    setCartItems({
+      ...cartItems,
+      cart: newCart,
+      cartTotalAmount: newTotal,
+      cartTotalQuantity: newTotalQuantity,
+    });
+  };
+
+  const handleDecreaseQuantity = (wish_id: string) => {
+    const newCart = cartItems?.cart
+      .map((x: iCart) =>
+        x.wish_id === wish_id ? { ...x, quantity: x.quantity - 1 } : x
+      )
+      .filter((x: iCart) => x.quantity > 0);
+
+    const newTotal = newCart?.reduce(
+      (sum, item) => sum - Number(item.wish_price) * item.quantity,
+      0
+    );
+
+    const newTotalQuantity = newCart?.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+
+    setCartItems({
+      ...cartItems,
+      cart: newCart,
+      cartTotalAmount: newTotal,
+      cartTotalQuantity: newTotalQuantity,
+    });
+  };
+
   return (
-    <main>
-      <h1>Shopping Cart</h1>
+    <main className='_cart_container'>
+      <h2>Wishes Shopping.</h2>
       {cartItems?.cart.length === 0 ? (
-        <div>
-          <p>Your Cart is empty</p>
-          <button>
-            <span>
-              <BsArrowLeft />
-            </span>{" "}
-            Support you favorite creator!
-          </button>
-        </div>
+        <p className='_empty_cart'>Your Cart is empty!</p>
       ) : (
         <section>
-          <div>
-            <h5>Wish Basket for "creator_name" @"creator_username"</h5>
+          <div className='_cart_titles'>
+            <h5>
+              Wish Basket for "creator_name"{" "}
+              <span className='_cart_username'>@"creator_username"</span>
+            </h5>
             <p>
               You are about to send a payout to "creator_name" to fund their
               wishes.
@@ -36,94 +84,155 @@ const Cart = () => {
             <p></p>
           </div>
           <div>
-            <div>
-              <h5>Wish</h5>
-              <h5>Price</h5>
-              <h5>Quantity</h5>
-              <h5>Subtotal</h5>
+            <div className='_cart_wish_sections'>
+              <p>Wishes</p>
+              <p>Quantity</p>
+              <p>Subtotal</p>
             </div>
             {cartItems?.cart.map((item: iCart) => (
-              <div key={item.wish_id} className='cart-item'>
-                <img src={item.wish_image} alt={item.wish_name} />
-                <div>
-                  <h3>{item.wish_name}</h3>
-                </div>
-                <div>
-                  <button
-                    onClick={() => {
-                      setCartItems?.((prev) => {
-                        const newCart = prev?.cart.filter(
-                          (x: iCart) => x.wish_id !== item.wish_id
-                        );
-                        const newTotalQuantity = newCart.length;
-                        const newTotalAmount = newCart.reduce(
-                          (total, item) => total + Number(item.wish_price),
-                          0
-                        );
+              <div key={item.wish_id} className='_cart_item'>
+                <div className='_wish_rapper'>
+                  <img
+                    src={item.wish_image}
+                    alt={item.wish_name}
+                    className='_cart_wish_img'
+                  />
+                  <div className='_cart_wish_details'>
+                    <span>
+                      <p>{item.wish_name}</p>
+                      <p className='price _cart_wish_price'>
+                        ${item.wish_price}
+                      </p>
+                    </span>
 
-                        return {
-                          cart: newCart,
-                          cartTotalQuantity: newTotalQuantity,
-                          cartTotalAmount: newTotalAmount,
-                        };
-                      });
-                    }}>
-                    Remove
-                  </button>
-                  <h3 className='price'>${item.wish_price}</h3>
-                  <div>
-                    <button>
-                      <AiOutlinePlus />
-                    </button>
-                    <p>{item.quantity}</p>
-                    <button>
-                      <AiOutlineMinus />
+                    <button
+                      className='_cart_remove_btn'
+                      onClick={() => {
+                        setCartItems?.((prev) => {
+                          const newCart = prev?.cart.filter(
+                            (x: iCart) => x.wish_id !== item.wish_id
+                          );
+                          const newTotalQuantity = newCart.length;
+                          const newTotalAmount = newCart.reduce(
+                            (total, item) => total + Number(item.wish_price),
+                            0
+                          );
+
+                          return {
+                            cart: newCart,
+                            cartTotalQuantity: newTotalQuantity,
+                            cartTotalAmount: newTotalAmount,
+                          };
+                        });
+                      }}>
+                      Remove
                     </button>
                   </div>
-                  <p>{0}</p>
                 </div>
+                <div className='_cart_qnty_btns'>
+                  <button
+                    className='_cart_qnty_btn'
+                    onClick={() => handleIncreaseQuantity(item.wish_id)}>
+                    <AiOutlinePlus />
+                  </button>
+                  <p>{item.quantity}</p>
+                  <button
+                    className='_cart_qnty_btn'
+                    onClick={() => handleDecreaseQuantity(item.wish_id)}>
+                    <AiOutlineMinus />
+                  </button>
+                </div>
+                <p className='_cart_subtotal'>
+                  ${item.quantity * Number(item.wish_price)}
+                </p>
               </div>
             ))}
           </div>
-          <div>
-            <button>Clear Cart</button>
-            <div>
-              <h5>10% Fee: ${0}</h5>
+          <div className='_cart_bottom_details'>
+            <button
+              className='_clear_cart_btn'
+              onClick={() =>
+                setCartItems({
+                  cart: [],
+                  cartTotalAmount: 0,
+                  cartTotalQuantity: 0,
+                })
+              }>
+              Clear Cart
+            </button>
+            <div className='_cart_total_details'>
+              <h5>10% Fee: ${(cartItems.cartTotalAmount * 0.1).toFixed(5)}</h5>
               <h5>Total: ${cartItems?.cartTotalAmount}</h5>
-              <button>
+              <button className='_add_more_wishes_btn'>
                 <span>
                   <BsArrowLeft />
                 </span>{" "}
-                Add More Wish
+                Add More Wishes
               </button>
             </div>
           </div>
-          <div>
-            <p>Add Message:</p>
-            <textarea></textarea>
-            <input type='text' />
-            <input type='Email' />
+          <div className='_cart_fan_info'>
+            <p className='_add_message'>Add Message:</p>
+            <textarea
+              name='message'
+              className='_cart_message'
+              id='message'
+              cols={30}
+              rows={10}
+              placeholder='Type your message here...'
+              maxLength={280}
+            />
+            <div className='_cart_inputs_div'>
+              <label htmlFor='sender_name'>
+                From:
+                <input
+                  type='text'
+                  id='sender_name'
+                  placeholder='From:'
+                  className='_cart_pseudonym'
+                />
+              </label>
+              <label htmlFor='fan_email'>
+                Email*: private
+                <input
+                  type='Email'
+                  placeholder='Email*: private'
+                  className='_cart_email'
+                />
+              </label>
+            </div>
           </div>
 
-          <div>
+          <div className='_cart_terms_div'>
             <div>
-              <button>
-                <input type='checkbox' /> Don't publish
-              </button>
+              <p className='_cart_publish_btn'>
+                <input type='checkbox' className='_cart_publish_checkbox' />{" "}
+                Don't publish
+              </p>
+              <p className='_publishing_notice'>
+                If checked, your wisher will not be able to publish your message
+                and pseudonym you provided above to their wishlist. Regardless
+                of whether you check this or not, your email and personal
+                information will always be private.
+              </p>
             </div>
             <div>
-              <button>
-                <input type='checkbox' /> I agree to the Terms of Service and
-                Privacy Policy and the following statements:
-              </button>
-              <ol>
+              <p className='_cart_terms_policy'>
+                <input
+                  type='checkbox'
+                  className='_cart_terms_policy_checkbox'
+                />{" "}
+                I agree to the Terms of Service and Privacy Policy and the
+                following statements:
+              </p>
+              <ul className='_cart_terms'>
                 <li>
                   I understand that I am making a non-refundable cash gift
                   donation.
                 </li>
                 <li>
-                  I expect <span>NO</span> product or service in return from the
-                  gift recipient.
+                  I expect <span className='_cart_no'>NO</span> product or
+                  service in return from the gift recipient.
                 </li>
                 <li>
                   This payment is a donation intended for the gift recipient.
@@ -143,9 +252,11 @@ const Cart = () => {
                   "CHECKOUT", I will have created a legally binding e-signature
                   to this agreement.
                 </li>
-              </ol>
+              </ul>
             </div>
-            <button>CHECKOUT</button>
+          </div>
+          <div className='_checkout_btn_div'>
+            <button className='_checkout_btn'>CHECKOUT</button>
           </div>
         </section>
       )}
