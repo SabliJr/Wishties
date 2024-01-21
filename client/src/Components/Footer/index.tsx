@@ -2,6 +2,7 @@ import React from "react";
 import "./footer.css";
 
 import FooterLogo from "../../Assets/xLogo.png";
+import { useNavigate } from "react-router-dom";
 
 import { BsInstagram } from "react-icons/bs";
 import { RiTwitterXLine } from "react-icons/ri";
@@ -9,6 +10,7 @@ import { GrLinkedinOption } from "react-icons/gr";
 
 const Index = () => {
   const laDate = new Date().getFullYear();
+  let navigate = useNavigate();
 
   return (
     <footer className='Footer'>
@@ -39,18 +41,20 @@ const Index = () => {
         <div className='footerLinks'>
           <div>
             <h3>Legal</h3>
-            <p>Terms of Service</p>
-            <p> Privacy Policy</p>
+            <p onClick={() => navigate("/terms-of-service")}>
+              Terms of Service
+            </p>
+            <p onClick={() => navigate("/privacy-policy")}> Privacy Policy</p>
           </div>
           <div>
             <h3>Help</h3>
-            <p>FAQ & Help</p>
-            <p>How it Works</p>
+            <p onClick={() => navigate("/help")}>FAQ & Help</p>
+            <p onClick={() => navigate("/how-it-works")}>How it Works</p>
           </div>
           <div>
             <h3>General</h3>
-            <p>Contact</p>
-            <p>About</p>
+            <p onClick={() => navigate("/contact")}>Contact</p>
+            <p onClick={() => navigate("/about")}>About</p>
           </div>
         </div>
       </main>

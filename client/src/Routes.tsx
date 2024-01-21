@@ -11,7 +11,7 @@ import { useAuth } from "./Context/authCntextProvider";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import SignUp from "./Pages/Signup";
-import Error from "./Pages/NotFound";
+import NotFound from "./Pages/NotFound";
 import WishList from "./Pages/WishList";
 import Verify from "./Pages/VerificationPage";
 import CheckEmail from "./Pages/CheckEmail";
@@ -40,7 +40,6 @@ const RoutesFile = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/*' element={<Error />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/verify-email/:token' element={<VerifyEmail />} />
@@ -55,6 +54,7 @@ const RoutesFile = () => {
           <Route path='/verify' element={<Verify />} />
           <Route path='/check-email' element={<CheckEmail />} />
         </Route>
+        <Route path='/*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

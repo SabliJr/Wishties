@@ -10,6 +10,7 @@
   font-weight: 400;
   text-align: center;
   color: #121212;
+  padding-left: 1rem;
 }
 
 ._empty_cart {
@@ -23,8 +24,8 @@
   flex-direction: column;
   gap: .4rem;
   margin: 0 0 1rem;
-  padding: 0 0 1rem;
-  text-align: center;
+  padding: 0 0 1rem 1rem;
+  text-align: left;
   margin: 1rem 0;
 }
 
@@ -45,8 +46,7 @@
 ._cart_wish_sections {
   display: grid;
   justify-content: space-between;
-  grid-template-columns: 2fr repeat(2, 1fr);
-  margin: 0 0 1rem;
+  grid-template-columns: 3fr repeat(2, 1fr);
   padding: 1rem;
   border-bottom: 1px solid #ccc;
 }
@@ -58,12 +58,15 @@
   letter-spacing: .5px;
 }
 
+._cart_wish_sections>p:nth-child(3) {
+  text-align: center;
+}
+
 ._cart_item {
   display: grid;
-  grid-template-columns: 2fr repeat(2, 1fr);
+  grid-template-columns: 3fr repeat(2, 1fr);
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 1rem;
   padding: .6rem;
   border-bottom: 1px solid #ccc;
 }
@@ -181,7 +184,9 @@
   color: #1547d2;
   padding: .5rem .8rem;
   border-radius: .42rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 ._add_more_wishes_btn:hover {
@@ -210,9 +215,10 @@
   height: 10rem;
 }
 
-._add_message {
+._msg_div ._add_message {
   font-size: 1.3rem;
   color: #252525;
+  margin-left: .6rem;
 }
 
 ._cart_inputs_div {
@@ -284,15 +290,53 @@
   border: 1px solid #1547d2;
 }
 
+._fan_email_notice,
+._fan_name_notice {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #d4145a;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+._email_notice_msg,
+._name_notice_msg {
+  position: absolute;
+  top: 3.6rem;
+  right: -5rem;
+  width: 80%;
+  color: #fff;
+  font-size: .65rem;
+  line-height: 1.3;
+  background-color: #464646;
+  padding: .5rem;
+  border-radius: .4rem;
+  letter-spacing: .5px;
+  visibility: hidden;
+  z-index: 10;
+}
+
+._name_notice_msg {
+  width: auto;
+  right: -1rem;
+}
+
+.form__div:hover ._email_notice_msg,
+.form__div:hover ._name_notice_msg {
+  visibility: visible;
+}
+
 /* ------------------------------------------------------------------------------------ */
 
 ._cart_terms_policy,
 ._cart_publish_btn {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: .5rem;
   border: transparent;
-  color: #d4145a;
+  color: #121212;
   font-size: 1.5rem;
   background: transparent;
   margin: 2rem 0 .6rem;
@@ -316,7 +360,7 @@
 ._publishing_notice {
   font-size: 1rem;
   font-weight: 400;
-  color: #252525;
+  color: #777777;
   line-height: 1.3;
   margin: .5rem 0;
   letter-spacing: .5px;
@@ -346,7 +390,7 @@
 
 ._cart_no {
   font-weight: 600;
-  color: #eeb700;
+  color: #1547d2;
   font-family: 'Source Serif 4', serif;
   font-style: italic;
 }
@@ -356,4 +400,239 @@
   color: #1547d2;
   font-family: serif;
   font-style: italic;
+}
+
+._terms_policy_span {
+  color: #d4145a;
+  cursor: pointer;
+  font-style: italic;
+}
+
+._msg_div {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  align-items: flex-start;
+  justify-content: center;
+  margin: .6rem 0;
+  width: 80%;
+}
+
+._msg_div ._cart_message_notice {
+  font-size: .8rem;
+  font-weight: 400;
+  color: #777777;
+  line-height: 1.3;
+  letter-spacing: .5px;
+  margin-left: .6rem;
+}
+
+._msg_div ._msg_count {
+  color: #121212;
+}
+
+@media screen and (max-width: 1024px) {
+  @media screen and (max-width: 800px) {
+
+    ._cart_terms_policy,
+    ._cart_publish_btn {
+      font-size: 1.1rem;
+    }
+
+    ._cart_terms_div ._cart_terms li,
+    ._publishing_notice {
+      font-size: .8rem;
+    }
+
+    ._cart_message {
+      width: 90%;
+    }
+
+    ._msg_div {
+      width: 100%;
+    }
+
+    ._cart_inputs_div {
+      width: 100%;
+    }
+
+    .form__div {
+      height: 2.8rem;
+    }
+
+    .form__label {
+      font-size: .8rem;
+    }
+
+    ._fan_email_notice,
+    ._fan_name_notice {
+      font-size: 1rem;
+    }
+
+    ._cart_wish_sections>p {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    ._cart_total_details h5 {
+      font-size: 1rem;
+    }
+
+    ._cart_total_details {
+      gap: .6rem;
+    }
+
+    ._add_more_wishes_btn {
+      font-size: 1rem;
+      gap: .3rem;
+    }
+
+    ._clear_cart_btn {
+      font-size: 1rem;
+      padding: .3rem .5rem;
+    }
+
+    ._cart_remove_btn {
+      width: 5.6rem;
+      font-size: 1rem;
+    }
+
+    ._cart_container h2 {
+      font-size: 1.6rem;
+    }
+
+    ._cart_titles h5 {
+      font-size: 1rem;
+    }
+
+    ._cart_titles p {
+      font-size: .8rem;
+    }
+
+    ._cart_titles {
+      margin: .6rem;
+      text-align: left;
+      padding: 0;
+    }
+
+    ._checkout_btn {
+      width: auto;
+      font-size: 1rem;
+      margin: .5rem 0;
+    }
+
+    @media screen and (max-width: 600px) {
+      ._cart_container {
+        margin: 2rem auto;
+      }
+
+      ._cart_wish_sections {
+        padding: .5rem;
+        gap: .8rem;
+      }
+
+      ._cart_container h2 {
+        font-size: 1.5rem;
+        margin: 0 .5rem 1rem;
+        padding: 0;
+      }
+
+      ._wish_rapper {
+        gap: .5rem;
+      }
+
+      ._cart_wish_img {
+        width: 80px;
+        height: 90px;
+      }
+
+      ._cart_wish_details ._cart_wish_price {
+        font-size: .7rem;
+        font-weight: 400;
+        margin: .3rem 0;
+      }
+
+      ._cart_remove_btn {
+        width: 3.8rem;
+        font-size: .8rem;
+        border-radius: 0.25rem;
+      }
+
+      ._cart_item {
+        gap: .8rem;
+      }
+
+      ._cart_qnty_btns {
+        gap: .5rem;
+        justify-content: center;
+      }
+
+      ._cart_qnty_btn {
+        font-size: .8rem;
+        padding: .06rem .1rem;
+      }
+
+      ._cart_subtotal {
+        font-size: 1rem;
+        font-weight: 400;
+      }
+
+      ._cart_wish_name {
+        font-size: .8rem;
+        letter-spacing: .3px;
+        line-height: 1.2;
+      }
+
+      ._cart_bottom_details {
+        margin: 1rem .3rem .6rem;
+      }
+
+      ._cart_message {
+        width: 100%;
+      }
+
+      ._cart_inputs_div {
+        flex-direction: column;
+      }
+
+      .form__div {
+        width: 100%;
+      }
+
+      ._cart_fan_info {
+        margin: 0 .3rem;
+      }
+
+      ._add_more_wishes_btn {
+        font-size: .8rem;
+        font-weight: 600;
+        letter-spacing: .3px;
+      }
+
+      ._msg_div ._add_message {
+        font-size: 1rem;
+      }
+
+      ._cart_terms_policy,
+      ._cart_publish_btn {
+        font-size: 1rem;
+      }
+
+      ._cart_terms_div {
+        width: 100%;
+        padding: .5rem;
+      }
+
+      ._checkout_btn_div {
+        margin-top: .3rem;
+      }
+
+      ._checkout_btn {
+        font-size: 1rem;
+        margin: .3rem 0;
+        font-weight: 500;
+        letter-spacing: .3px;
+      }
+    }
+  }
 }

@@ -3,14 +3,17 @@ import "./cart.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues, iCart } from "../../Types/creatorSocialLinksTypes";
+import { useNavigate } from "react-router-dom";
 
 //Icons
 import { BsArrowLeft } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 const Cart = () => {
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
+  let navigate = useNavigate();
 
   const handleIncreaseQuantity = (wish_id: string) => {
     const newCart = cartItems?.cart.map((x: iCart) =>
@@ -48,7 +51,7 @@ const Cart = () => {
       .filter((x: iCart) => x.quantity > 0);
 
     const newTotal = newCart?.reduce(
-      (sum, item) => sum - Number(item.wish_price) * item.quantity,
+      (sum, item) => sum + Number(item.wish_price) * item.quantity,
       0
     );
 
@@ -67,7 +70,16 @@ const Cart = () => {
 
   return (
     <main className='_cart_container'>
-      <h2>Wishes Shopping.</h2>
+      <h2
+        style={
+          cartItems?.cart.length === 0
+            ? { textAlign: "center" }
+            : {
+                textAlign: "left",
+              }
+        }>
+        Wishes Shopping.
+      </h2>
       {cartItems?.cart.length === 0 ? (
         <p className='_empty_cart'>Your Cart is empty!</p>
       ) : (
@@ -99,7 +111,7 @@ const Cart = () => {
                   />
                   <div className='_cart_wish_details'>
                     <span>
-                      <p>{item.wish_name}</p>
+                      <p className='_cart_wish_name'>{item.wish_name}</p>
                       <p className='price _cart_wish_price'>
                         ${item.wish_price}
                       </p>
@@ -142,9 +154,11 @@ const Cart = () => {
                     <AiOutlineMinus />
                   </button>
                 </div>
-                <p className='_cart_subtotal'>
-                  ${item.quantity * Number(item.wish_price)}
-                </p>
+                <div style={{ textAlign: "center" }}>
+                  <p className='_cart_subtotal'>
+                    ${item.quantity * Number(item.wish_price)}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -164,31 +178,40 @@ const Cart = () => {
               <h5>10% Fee: ${(cartItems.cartTotalAmount * 0.1).toFixed(5)}</h5>
               <h5>Total: ${cartItems?.cartTotalAmount}</h5>
               <button className='_add_more_wishes_btn'>
-                <span>
-                  <BsArrowLeft />
-                </span>{" "}
+                {/* <span> */}
+                <BsArrowLeft />
+                {/* </span>{" "} */}
                 Add More Wishes
               </button>
             </div>
           </div>
           <div className='_cart_fan_info'>
-            <p className='_add_message'>Add Message:</p>
-            <textarea
-              name='message'
-              className='_cart_message'
-              id='message'
-              cols={30}
-              rows={10}
-              placeholder='Type your message here...'
-              maxLength={280}
-            />
-
+            <div className='_msg_div'>
+              <p className='_add_message'>Add Message:</p>
+              <textarea
+                name='message'
+                className='_cart_message'
+                id='message'
+                cols={30}
+                rows={10}
+                placeholder='Type your message here...'
+                maxLength={257}
+              />
+              <p className='_cart_message_notice'>
+                This size gift allows you 256 characters.{" "}
+                <span className='_msg_count'>256</span> remaining.
+              </p>
+            </div>
             <div className='_cart_inputs_div'>
               <div className='form__div'>
                 <input type='text' className='form__input' placeholder=' ' />
                 <label htmlFor='' className='form__label'>
                   From:
                 </label>
+                <span className='_fan_name_notice'>
+                  <AiFillQuestionCircle />
+                </span>
+                <p className='_name_notice_msg'>Visible to "@creator_name"</p>
               </div>
 
               <div className='form__div'>
@@ -201,6 +224,14 @@ const Cart = () => {
                 <label htmlFor='' className='form__label'>
                   Email*: private
                 </label>
+                <span className='_fan_email_notice'>
+                  <AiFillQuestionCircle />
+                </span>
+                <p className='_email_notice_msg'>
+                  Your email is private and will not be seen by Sabli Jr.
+                  Receipts and messages from Sabli Jr will be relayed to this
+                  email.
+                </p>
               </div>
             </div>
           </div>
@@ -224,8 +255,19 @@ const Cart = () => {
                   type='checkbox'
                   className='_cart_terms_policy_checkbox'
                 />{" "}
-                I agree to the Terms of Service and Privacy Policy and the
-                following statements:
+                I agree to the{" "}
+                <span
+                  className='_terms_policy_span'
+                  onClick={() => navigate("/terms-of-service")}>
+                  Terms of Service
+                </span>{" "}
+                and{" "}
+                <span
+                  className='_terms_policy_span'
+                  onClick={() => navigate("/privacy-policy")}>
+                  Privacy Policy
+                </span>
+                and the following statements:
               </p>
               <ul className='_cart_terms'>
                 <li>
