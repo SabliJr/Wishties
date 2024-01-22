@@ -17,9 +17,7 @@ import { MdClose } from "react-icons/md";
 
 import { onAddWish } from "../../API/authApi";
 import Loader from "../../utils/Loader";
-import CurrencyInput, { formatValue } from "react-currency-input-field";
 
-import FormatMoney from "../../utils/FormatMoney";
 const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 interface iProps {
   uploadModule: boolean;

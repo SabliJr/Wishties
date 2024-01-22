@@ -162,6 +162,7 @@
   font-family: 'Source Serif 4', serif;
   font-style: italic;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .termsErrMsg,

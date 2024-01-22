@@ -32,6 +32,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
     ImgInputRef?.current?.click();
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (wishToEdit) {
       setComparedWish(wishToEdit);

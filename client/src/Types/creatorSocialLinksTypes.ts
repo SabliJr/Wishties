@@ -23,7 +23,7 @@ export interface iErrorMsgs {
   termsNotChecked: string;
   validPwdErr: string;
   validEmailErr: string;
-  validMatchErr: string;
+  // validMatchErr: string;
   emailExistsErr: string;
   theNameErr: string;
 }

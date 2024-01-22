@@ -35,9 +35,10 @@ const SocialMediaLinkForm = ({
   >([]);
 
   // Remove the dependency on creatorSocialLinks from the first useEffect
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setInitialSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
-  }, []); //@ts-ignore // This runs only once when the component mounts
+  }, []); // This runs only once when the component mounts
 
   useEffect(() => {
     if (
@@ -67,7 +68,7 @@ const SocialMediaLinkForm = ({
     setIsLoading(true);
 
     try {
-     await onAddSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
+      await onAddSocialLinks(creatorSocialLinks as iCreatorSocialLinks[]);
       setRefetchIcons(true);
     } catch (error) {
       console.log(error);

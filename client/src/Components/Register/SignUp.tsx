@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
@@ -22,14 +22,10 @@ const PWD_REGEX =
 const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [matchPwd, setMatchPwd] = useState("");
-  const [validMatch, setValidMatch] = useState(false);
-  const [validPwd, setValidPwd] = useState(false);
   const [errMsg, setErrMsg] = useState<iErrorMsgs>({
     fieldsEmpty: "",
     termsNotChecked: "",
     validPwdErr: "",
-    validMatchErr: "",
     validEmailErr: "",
     emailExistsErr: "",
     theNameErr: "",
@@ -55,12 +51,6 @@ const SignUp: React.FC = () => {
   const validateEmail = (email: string) => {
     return EMAIL_REGEX.test(email);
   };
-
-  useEffect(() => {
-    const isPwdValid = PWD_REGEX.test(registerValues.password);
-    setValidPwd(isPwdValid);
-    setValidMatch(registerValues.password === matchPwd);
-  }, [registerValues.password, matchPwd]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -93,15 +83,7 @@ const SignUp: React.FC = () => {
       return;
     }
 
-    if (!validMatch) {
-      setErrMsg((prevValue) => ({
-        ...prevValue,
-        validMatchErr: "Passwords do not match.",
-      }));
-      return;
-    }
-
-    if (!validPwd) {
+    if (!PWD_REGEX.test(registerValues.password)) {
       setErrMsg((prevValue) => ({
         ...prevValue,
         validPwdErr:
@@ -135,8 +117,8 @@ const SignUp: React.FC = () => {
       } else if (err.response && err.response.status === 500) {
         setErrMsg((prevValue) => ({
           ...prevValue,
-          fieldsEmpty: err.response.data.error[0].msg
-        }))
+          fieldsEmpty: err.response.data.error[0].msg,
+        }));
       } else {
         // Handle other errors
         setErrMsg((prevValue) => ({
@@ -224,22 +206,6 @@ const SignUp: React.FC = () => {
                   <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
                 ) : null}
                 <div>
-                  {/* <input
-                    type='password'
-                    placeholder='Confirm Password'
-                    value={matchPwd}
-                    onChange={(e) => {
-                      setMatchPwd(e.target.value);
-                      setErrMsg((prevValue) => ({
-                        ...prevValue,
-                        validMatchErr: "",
-                      }));
-                    }}
-                    autoComplete='off'
-                  />
-                  {errMsg.validMatchErr ? (
-                    <p className='matchErrMsg'>{errMsg.validMatchErr}</p>
-                  ) : null} */}
                   <div className='agree'>
                     <input
                       type='checkbox'
@@ -256,9 +222,14 @@ const SignUp: React.FC = () => {
 
                     <label htmlFor='agreeCheck' className='agreeText'>
                       I agree to the{" "}
-                      <span onClick={() => navigate("")}>Terms of Service</span>{" "}
+                      <span onClick={() => navigate("/terms-of-service")}>
+                        Terms of Service
+                      </span>{" "}
                       and{" "}
-                      <span onClick={() => navigate("")}>Privacy Policy</span>.
+                      <span onClick={() => navigate("/privacy-policy")}>
+                        Privacy Policy
+                      </span>
+                      .
                     </label>
                   </div>
                 </div>

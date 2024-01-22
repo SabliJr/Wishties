@@ -27,12 +27,13 @@ const TheWish = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       try {
+        setIsLoaded(false);
         const wishes = await onGetWishes();
         setCreatorWishes(wishes.data.wishes as iWish[]);
+        setIsLoaded(true);
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoaded(false);
+        setIsLoaded(true);
       }
     })();
     setRefresh(false);
@@ -59,65 +60,69 @@ const TheWish = (): JSX.Element => {
 
   return (
     <>
-      {isLoaded ? (
+      {!isLoaded ? (
         <Loader />
-      ) : creatorWishes && creatorWishes.length > 0 ? (
-        creatorWishes?.map((x) => (
-          <div key={x.wish_id} className='theWishDiv'>
-            <img
-              src={x.wish_image as string}
-              alt='wishImag'
-              className='wishImag'
-            />
-            <div className='wishDetails'>
-              <div>
-                <p className='_popUpWishName'>{x.wish_name}</p>
-                <p className='_popUpPrice wishPrice'>
-                  <FormatMoney price={Number(x.wish_price)} />
-                </p>
-              </div>
-              <div
-                className='wishOptionBtn'
-                onClick={() => setEditingWishId(x.wish_id)}>
-                <HiDotsVertical className='wishOptionBtnIcon' />
-              </div>
-            </div>
-
-            {editingWishId === x.wish_id && (
-              <div className='relativeWrapper'>
-                <div className='editingDiv'>
-                  <RiCloseLine
-                    className='closeEditDiv'
-                    onClick={() => setEditingWishId(null)}
-                  />
-                  <p onClick={() => handleEditWish(x.wish_id)}>
-                    <TbEdit
-                      style={{
-                        color: "green",
-                      }}
-                    />{" "}
-                    Edit wish
-                  </p>
-                  <p onClick={() => handleDeleteWish(x.wish_id)}>
-                    <MdDeleteForever
-                      style={{
-                        color: "red",
-                      }}
-                    />{" "}
-                    Delete wish
-                  </p>
-                </div>
-              </div>
-            )}
-
-            <button className='addToCartBtn'>
-              <FaCartPlus className='addToCartBtnIcon' />
-              Add To Cart
-            </button>
-          </div>
-        ))
       ) : (
-        <h3>Please Add Your Wishes!</h3>
+        <>
+          {isLoaded && creatorWishes && creatorWishes.length > 0 ? (
+            creatorWishes?.map((x) => (
+              <div key={x.wish_id} className='theWishDiv'>
+                <img
+                  src={x.wish_image as string}
+                  alt='wishImag'
+                  className='wishImag'
+                />
+                <div className='wishDetails'>
+                  <div>
+                    <p className='_popUpWishName'>{x.wish_name}</p>
+                    <p className='_popUpPrice wishPrice'>
+                      <FormatMoney price={Number(x.wish_price)} />
+                    </p>
+                  </div>
+                  <div
+                    className='wishOptionBtn'
+                    onClick={() => setEditingWishId(x.wish_id)}>
+                    <HiDotsVertical className='wishOptionBtnIcon' />
+                  </div>
+                </div>
+
+                {editingWishId === x.wish_id && (
+                  <div className='relativeWrapper'>
+                    <div className='editingDiv'>
+                      <RiCloseLine
+                        className='closeEditDiv'
+                        onClick={() => setEditingWishId(null)}
+                      />
+                      <p onClick={() => handleEditWish(x.wish_id)}>
+                        <TbEdit
+                          style={{
+                            color: "green",
+                          }}
+                        />{" "}
+                        Edit wish
+                      </p>
+                      <p onClick={() => handleDeleteWish(x.wish_id)}>
+                        <MdDeleteForever
+                          style={{
+                            color: "red",
+                          }}
+                        />{" "}
+                        Delete wish
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <button className='addToCartBtn'>
+                  <FaCartPlus className='addToCartBtnIcon' />
+                  Add To Cart
+                </button>
+              </div>
+            ))
+          ) : (
+            <h3>Please Add Your Wishes!</h3>
+          )}
+        </>
       )}
       {wishToEdit && (
         <EditWish wishToEdit={wishToEdit} setWishToEdit={setWishToEdit} />
