@@ -28,4 +28,9 @@ export interface iCreatorProfile {
   creator_id: string;
   profile_image: string;
   cover_image: string;
+  created_at?: string;
+  email?: string;
+  is_verified?: boolean;
+  pwd?: string;
+  verification_token?: string;
 }

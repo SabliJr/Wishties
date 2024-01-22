@@ -1,7 +1,7 @@
 import React from "react";
-import "./App.css";
+import "../App.css";
 
-import LoaderImg from "./Assets/VZvw.gif";
+import LoaderImg from "../Assets/VZvw.gif";
 
 const Loader = () => {
   return (

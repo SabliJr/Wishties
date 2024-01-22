@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "../Profile/Profile.css";
 import "./creator_page_style.css";
 
@@ -10,37 +10,23 @@ import { GrClose } from "react-icons/gr";
 
 import { iGlobalValues, iCart } from "../../Types/creatorSocialLinksTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { onGetCreatorInfo } from "../../API/authApi";
 import { useNavigate } from "react-router-dom";
+import FormatMoney from "../../utils/FormatMoney";
 
 const CreatorPage = () => {
-  const [creatorInfo, setCreatorInfo] = useState<any>({});
-  const [creatorWishes, setCreatorWishes] = useState<any>([]);
-  const [creatorSocialLinks, setCreatorSocialLinks] = useState<any>([]);
   const [addingToCartItemId, setAddingToCartItemId] = useState<null | string>(
     null
   );
-
-  let creator_username = window.location.pathname.split("/")[1];
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { cartItems, setCartItems } = contextValues as iGlobalValues;
+  const {
+    cartItems,
+    setCartItems,
+    creatorInfo,
+    creatorWishes,
+    creatorSocialLinks,
+  } = contextValues as iGlobalValues;
 
   let navigate = useNavigate();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await onGetCreatorInfo(creator_username);
-
-        setCreatorInfo(res.data.user_info);
-        setCreatorSocialLinks(res.data.user_links);
-        setCreatorWishes(res.data.user_wishes);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-
   const handleAddToCart = (wish: iCart) => {
     let cart = cartItems.cart;
 
@@ -116,7 +102,7 @@ const CreatorPage = () => {
                   width='25'
                   height='25'
                   fill='none'>
-                  <g clip-path='url(#clip0_222_16960)'>
+                  <g clipPath='url(#clip0_222_16960)'>
                     <path
                       d='M9.38737 11.9832C10.3078 11.9832 11.054 11.237 11.054 10.3166C11.054 9.39609 10.3078 8.6499 9.38737 8.6499C8.4669 8.6499 7.7207 9.39609 7.7207 10.3166C7.7207 11.237 8.4669 11.9832 9.38737 11.9832Z'
                       fill='currentColor'></path>
@@ -151,7 +137,9 @@ const CreatorPage = () => {
               <img src={wish.wish_image} alt='wishImage' className='wishImag' />
               <div className='wish_details'>
                 <p className='_popUpWishName'>{wish.wish_name}</p>
-                <p className='_popUpPrice'>${wish.wish_price}</p>
+                <p className='_popUpPrice'>
+                  <FormatMoney price={wish.wish_price} />
+                </p>
               </div>
               <button
                 className='addToCartBtn'

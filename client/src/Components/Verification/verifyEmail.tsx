@@ -7,7 +7,7 @@ import { onVerifyEmail } from "../../API/authApi";
 
 import Navbar from "../../Components/TheHeader/index";
 import Footer from "../../Components/Footer/index";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 
 import MailChecked from "../../Assets/check-mail.png";
 import ErrorImg from "../../Assets/error-message.png";

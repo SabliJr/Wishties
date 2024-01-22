@@ -13,7 +13,7 @@ import { RiCloseFill } from "react-icons/ri";
 //Components
 import DisplayIcons from "./displayIcons";
 import SelectPlatform from "./SelectPlatform";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 
 type SocialMediaLinkFormProps = {
   handleSocialLinksModule: () => void;

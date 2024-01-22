@@ -6,7 +6,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onLogin } from "../../API/authApi";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { useAuth } from "../../Context/authCntextProvider";

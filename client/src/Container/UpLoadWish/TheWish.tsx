@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { iWish } from "../../Types/wishListTypes";
 import { onGetWishes, onRemoveWish } from "../../API/authApi";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 import EditWish from "./EditWish";
 import "./upLoadWish.css";
 import "../Public/creator_page_style.css";
@@ -14,6 +14,7 @@ import { RiCloseLine } from "react-icons/ri";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import FormatMoney from "../../utils/FormatMoney";
 
 const TheWish = (): JSX.Element => {
   const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
@@ -71,7 +72,9 @@ const TheWish = (): JSX.Element => {
             <div className='wishDetails'>
               <div>
                 <p className='_popUpWishName'>{x.wish_name}</p>
-                <p className='_popUpPrice wishPrice'>${x.wish_price}</p>
+                <p className='_popUpPrice wishPrice'>
+                  <FormatMoney price={Number(x.wish_price)} />
+                </p>
               </div>
               <div
                 className='wishOptionBtn'

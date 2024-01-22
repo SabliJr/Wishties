@@ -10,6 +10,8 @@ import { BsArrowLeft } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { AiFillQuestionCircle } from "react-icons/ai";
 
+import FormatMoney from "../../utils/FormatMoney";
+
 const Cart = () => {
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
@@ -68,6 +70,10 @@ const Cart = () => {
     });
   };
 
+  const handleCheckout = async () => {
+    console.log("Checkout");
+  };
+
   return (
     <main className='_cart_container'>
       <h2
@@ -113,7 +119,8 @@ const Cart = () => {
                     <span>
                       <p className='_cart_wish_name'>{item.wish_name}</p>
                       <p className='price _cart_wish_price'>
-                        ${item.wish_price}
+                        {/* ${item.wish_price} */}
+                        <FormatMoney price={item.wish_price} />
                       </p>
                     </span>
 
@@ -156,7 +163,9 @@ const Cart = () => {
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <p className='_cart_subtotal'>
-                    ${item.quantity * Number(item.wish_price)}
+                    <FormatMoney
+                      price={item.quantity * Number(item.wish_price)}
+                    />
                   </p>
                 </div>
               </div>
@@ -175,12 +184,14 @@ const Cart = () => {
               Clear Cart
             </button>
             <div className='_cart_total_details'>
-              <h5>10% Fee: ${(cartItems.cartTotalAmount * 0.1).toFixed(5)}</h5>
-              <h5>Total: ${cartItems?.cartTotalAmount}</h5>
+              <h5>
+                10% Fee: <FormatMoney price={cartItems.cartTotalAmount * 0.1} />
+              </h5>
+              <h5>
+                Total: <FormatMoney price={cartItems?.cartTotalAmount} />
+              </h5>
               <button className='_add_more_wishes_btn'>
-                {/* <span> */}
                 <BsArrowLeft />
-                {/* </span>{" "} */}
                 Add More Wishes
               </button>
             </div>
@@ -299,7 +310,7 @@ const Cart = () => {
               </ul>
             </div>
           </div>
-          <div className='_checkout_btn_div'>
+          <div className='_checkout_btn_div' onClick={handleCheckout}>
             <button className='_checkout_btn'>CHECKOUT</button>
           </div>
         </section>

@@ -1,5 +1,11 @@
 import React, { useState, createContext } from "react";
-import { iGlobalValues, cartProps } from "../Types/creatorSocialLinksTypes";
+import {
+  iGlobalValues,
+  cartProps,
+  iCart,
+  iCreatorSocialLinks,
+} from "../Types/creatorSocialLinksTypes";
+import { iCreatorProfile } from "../Types/wishListTypes";
 
 const GlobalValuesContext = createContext<iGlobalValues | {}>({});
 
@@ -16,7 +22,13 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     cartTotalAmount: 0,
   });
 
-  console.log("cartItems", cartItems);
+  const [creatorInfo, setCreatorInfo] = useState<iCreatorProfile>(
+    {} as iCreatorProfile
+  );
+  const [creatorWishes, setCreatorWishes] = useState<iCart[]>([]);
+  const [creatorSocialLinks, setCreatorSocialLinks] = useState<
+    iCreatorSocialLinks[]
+  >([]);
 
   return (
     <GlobalValuesContext.Provider
@@ -31,6 +43,12 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setRefresh,
         cartItems,
         setCartItems,
+        creatorInfo,
+        setCreatorInfo,
+        creatorWishes,
+        setCreatorWishes,
+        creatorSocialLinks,
+        setCreatorSocialLinks,
       }}>
       {children}
     </GlobalValuesContext.Provider>

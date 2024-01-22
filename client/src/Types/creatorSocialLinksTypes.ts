@@ -1,3 +1,5 @@
+import { iCreatorProfile } from "./wishListTypes";
+
 export interface iCreatorSocialLinks { 
   link_id: string;
   platform_icon: string;
@@ -36,8 +38,8 @@ wish_id: string;
 wish_image: string;
 wish_name: string;
 wish_price: number;
-  wish_type: string | null;
-  quantity: number;
+wish_type: string | null;
+quantity: number;
 }
 
 export type cartProps = {
@@ -58,6 +60,12 @@ export interface iGlobalValues {
   setCartItems: React.Dispatch<React.SetStateAction<cartProps>>;
   cartTotalQuantity: number,
   cartTotalAmount: number,
+  creatorInfo: iCreatorProfile;
+  setCreatorInfo: React.Dispatch<React.SetStateAction<iCreatorProfile>>;
+  creatorWishes: iCart[];
+  setCreatorWishes: React.Dispatch<React.SetStateAction<iCart[]>>;
+  creatorSocialLinks: iCreatorSocialLinks[];
+  setCreatorSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks>>;
 }
 
 export interface iAuthContext {

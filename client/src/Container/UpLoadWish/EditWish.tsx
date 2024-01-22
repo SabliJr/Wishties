@@ -6,7 +6,7 @@ import { iWish } from "../../Types/wishListTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 import { MdClose } from "react-icons/md";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 
 interface iEditWishProps {
   wishToEdit: iWish;

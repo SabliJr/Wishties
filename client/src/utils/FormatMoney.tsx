@@ -5,7 +5,7 @@ const FormatMoney = ({ price }: { price: number }) => {
     <>
       {new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "USD", // Change this
+        currency: "USD",
       }).format(price as unknown as number)}
     </>
   );

@@ -12,7 +12,7 @@ import {
   iGlobalValues,
 } from "../../Types/creatorSocialLinksTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const USER_NAME_REGEX = /^[a-zA-Z0-9_-]+(?: [a-zA-Z0-9_-]+)*$/;

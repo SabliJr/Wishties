@@ -9,7 +9,7 @@ import { debounce } from "lodash";
 
 import ProfilePlus from "../../Assets/camera.png";
 import CoverPlus from "../../Assets/Plus.png";
-import Loader from "../../Loader";
+import Loader from "../../utils/Loader";
 
 interface iImages {
   userInfo: iCreatorProfile | undefined;

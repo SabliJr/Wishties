@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../Hooks/useRefreshToken";
 import { useAuth } from "../Context/authCntextProvider";
 import { iAuth } from "../Types/creatorSocialLinksTypes";
-import Loader from "../Loader";
+import Loader from "./Loader";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);

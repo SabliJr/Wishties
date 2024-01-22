@@ -140,6 +140,7 @@
   font-weight: 500;
   color: #252525;
   letter-spacing: .5px;
+  font-family: sans-serif;
 }
 
 ._cart_bottom_details {
@@ -166,6 +167,7 @@
   gap: .8rem;
   align-items: center;
   justify-content: center;
+  font-family: sans-serif;
 }
 
 ._cart_total_details h5 {
