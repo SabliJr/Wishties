@@ -1,0 +1,25 @@
+._error_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 65vh;
+}
+
+._error_page h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000;
+}
+
+._error_page p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #d4145a;
+}
+
+@media screen and (max-width: 1024px) {
+  @media screen and (max-width: 800px) {
+    @media screen and (max-width: 600px) {}
+  }
+}

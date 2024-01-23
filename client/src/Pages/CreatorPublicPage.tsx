@@ -8,9 +8,11 @@ import { onGetCreatorInfo } from "../API/authApi";
 import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../Types/creatorSocialLinksTypes";
 import Loader from "../utils/Loader";
+import Errors from "../Pages/Errors";
 
 const CreatorPublicPage = () => {
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
+  const [error, setError] = useState("");
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { setCreatorInfo, setCreatorWishes, setCreatorSocialLinks } =
     contextValues as iGlobalValues;
@@ -25,8 +27,14 @@ const CreatorPublicPage = () => {
         setCreatorSocialLinks(res.data.user_links);
         setCreatorWishes(res.data.user_wishes);
         setIsPublicDataLoading(false);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        if (error?.response?.status === 404) {
+          setError(error?.response?.data);
+        } else if (error?.message === "Network Error") {
+          setError("Network Error");
+        } else {
+          setError("Something went wrong!");
+        }
         setIsPublicDataLoading(false);
       }
     })();
@@ -42,6 +50,8 @@ const CreatorPublicPage = () => {
     <>
       {isPublicDataLoading ? (
         <Loader />
+      ) : error ? (
+        <Errors error={error} />
       ) : (
         <>
           <Header />

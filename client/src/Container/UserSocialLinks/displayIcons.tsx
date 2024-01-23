@@ -8,6 +8,7 @@ import { MdDelete } from "react-icons/md";
 import { onDeleteSocialLinks } from "../../API/authApi";
 
 const DisplayIcons = () => {
+  const [isError, setIsError] = React.useState("");
   const {
     creatorSocialLinks,
     displayedSocialLinks,
@@ -25,9 +26,11 @@ const DisplayIcons = () => {
     try {
       setCreatorSocialLinks(newLinks || []);
       await onDeleteSocialLinks(link_id);
-       setRefetchIcons(true);
+      setRefetchIcons(true);
     } catch (error) {
-      console.log(error);
+      if (error) {
+        setIsError("Something went wrong deleting link, please try again!");
+      }
     }
   };
 
@@ -57,6 +60,7 @@ const DisplayIcons = () => {
           </div>
         );
       })}
+      {isError && <p className='error'>{isError}</p>}
     </>
   );
 };

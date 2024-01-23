@@ -17,9 +17,18 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [serverErrMsg, setServerErrMsg] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [cartItems, setCartItems] = useState<cartProps>({
-    cart: [],
-    cartTotalQuantity: 0,
-    cartTotalAmount: 0,
+    cart: (() => {
+      const cart = localStorage.getItem("cart_items");
+      return cart ? JSON.parse(cart) : [];
+    })(),
+    cartTotalQuantity: (() => {
+      const cart_total_quantity = localStorage.getItem("cart_total_quantity");
+      return cart_total_quantity ? JSON.parse(cart_total_quantity) : 0;
+    })(),
+    cartTotalAmount: (() => {
+      const cart_total_amount = localStorage.getItem("cart_total_amount");
+      return cart_total_amount ? JSON.parse(cart_total_amount) : 0;
+    })(),
   });
 
   const [creatorInfo, setCreatorInfo] = useState<iCreatorProfile>(

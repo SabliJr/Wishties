@@ -1,18 +1,20 @@
 import React from "react";
+import "./Pages.css";
 
 import Header from "../Components/TheHeader/index";
 import Footer from "../Components/Footer/index";
 
-const NotFound = () => {
+const Errors = ({ error }: { error: string }) => {
   return (
     <>
       <Header />
-      <div>
-        <h3>404 Not Found</h3>
+      <div className='_error_page'>
+        <h1>Error! 😧</h1>
+        <p>{error}</p>
       </div>
       <Footer />
     </>
   );
 };
 
-export default NotFound;
+export default Errors;

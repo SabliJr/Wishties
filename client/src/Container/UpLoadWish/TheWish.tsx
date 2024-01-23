@@ -15,8 +15,15 @@ import { RiCloseLine } from "react-icons/ri";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
 import FormatMoney from "../../utils/FormatMoney";
+import { iErrors } from "../../Types/ErrorsTypes";
 
-const TheWish = (): JSX.Element => {
+const TheWish = ({
+  setErrors,
+  errors,
+}: {
+  setErrors: React.Dispatch<React.SetStateAction<iErrors>>;
+  errors: iErrors;
+}): JSX.Element => {
   const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
   const [editingWishId, setEditingWishId] = useState<null | string>(null);
   const [wishToEdit, setWishToEdit] = useState<iWish | null>(null);
@@ -32,7 +39,13 @@ const TheWish = (): JSX.Element => {
         setCreatorWishes(wishes.data.wishes as iWish[]);
         setIsLoaded(true);
       } catch (error) {
-        console.log(error);
+        if (error) {
+          setErrors({
+            ...errors,
+            wishes_error:
+              "Something went wrong loading wishes, please try again!",
+          });
+        }
         setIsLoaded(true);
       }
     })();

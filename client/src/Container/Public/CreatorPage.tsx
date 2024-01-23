@@ -18,31 +18,50 @@ const CreatorPage = () => {
     null
   );
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const {
-    cartItems,
-    setCartItems,
-    creatorInfo,
-    creatorWishes,
-    creatorSocialLinks,
-  } = contextValues as iGlobalValues;
+  const { setCartItems, creatorInfo, creatorWishes, creatorSocialLinks } =
+    contextValues as iGlobalValues;
 
   let navigate = useNavigate();
   const handleAddToCart = (wish: iCart) => {
-    let cart = cartItems.cart;
+    setCartItems((prevCartItems) => {
+      let cart = [...prevCartItems.cart];
+      let wishInCart = cart.find(
+        (item: iCart) => item.wish_id === wish.wish_id
+      );
 
-    let wishInCart = cart.find((item: iCart) => item.wish_id === wish.wish_id);
-    if (wishInCart) {
-      cartItems.cartTotalQuantity++;
-      cartItems.cartTotalAmount += Number(wish.wish_price);
-      wishInCart.quantity++;
-      setCartItems({ ...cartItems });
-    } else {
-      cartItems.cartTotalQuantity++;
-      cartItems.cartTotalAmount += Number(wish.wish_price);
-      wish.quantity = 1;
-      cart.push(wish);
-      setCartItems({ ...cartItems });
-    }
+      if (wishInCart) {
+        wishInCart.quantity++;
+      } else {
+        wish.quantity = 1;
+        cart.push(wish);
+      }
+
+      const cartTotalQuantity = cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      const cartTotalAmount = cart.reduce(
+        (total, item) => total + item.wish_price * item.quantity,
+        0
+      );
+
+      localStorage.setItem("cart_items", JSON.stringify(cart));
+      localStorage.setItem(
+        "cart_total_quantity",
+        JSON.stringify(cartTotalQuantity)
+      );
+      localStorage.setItem(
+        "cart_total_amount",
+        JSON.stringify(cartTotalAmount)
+      );
+
+      return {
+        ...prevCartItems,
+        cart,
+        cartTotalQuantity,
+        cartTotalAmount,
+      };
+    });
   };
 
   return (

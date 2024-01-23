@@ -37,12 +37,21 @@ const Cart = () => {
       0
     );
 
-    setCartItems({
+    const cartNewItems = {
       ...cartItems,
       cart: newCart,
       cartTotalAmount: newTotal,
       cartTotalQuantity: newTotalQuantity,
-    });
+    };
+
+    setCartItems(cartNewItems);
+
+    localStorage.setItem("cart_items", JSON.stringify(newCart));
+    localStorage.setItem("cart_total_amount", JSON.stringify(newTotal));
+    localStorage.setItem(
+      "cart_total_quantity",
+      JSON.stringify(newTotalQuantity)
+    );
   };
 
   const handleDecreaseQuantity = (wish_id: string) => {
@@ -62,12 +71,20 @@ const Cart = () => {
       0
     );
 
-    setCartItems({
+    const cartNewItems = {
       ...cartItems,
       cart: newCart,
       cartTotalAmount: newTotal,
       cartTotalQuantity: newTotalQuantity,
-    });
+    };
+    setCartItems(cartNewItems);
+
+    localStorage.setItem("cart_items", JSON.stringify(newCart));
+    localStorage.setItem("cart_total_amount", JSON.stringify(newTotal));
+    localStorage.setItem(
+      "cart_total_quantity",
+      JSON.stringify(newTotalQuantity)
+    );
   };
 
   const handleCheckout = async () => {

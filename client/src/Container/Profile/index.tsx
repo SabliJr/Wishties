@@ -20,6 +20,7 @@ import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user l
 import { onGetSocialLinks, onGetCreator } from "../../API/authApi";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorProfile } from "../../Types/wishListTypes";
+import { iErrors } from "../../Types/ErrorsTypes";
 
 const Index = () => {
   const [uploadModule, setUploadModule] = useState(false);
@@ -28,6 +29,11 @@ const Index = () => {
   const [profileEditModal, setProfileEditModal] = useState(false); // This is the edit profile module
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
+  const [errors, setErrors] = useState<iErrors>({
+    links_error: "",
+    profile_info_error: "",
+    wishes_error: "",
+  }); //Create a state for social links;
   const [getCreatorSocialLinks, setGetCreatorSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
@@ -45,7 +51,12 @@ const Index = () => {
         const res = await onGetCreator();
         setUserInfo(res.data);
       } catch (error) {
-        console.log(error);
+        if (error) {
+          setErrors({
+            ...errors,
+            profile_info_error: "Something went wrong, please try again!",
+          });
+        }
       }
     })();
 
@@ -58,7 +69,12 @@ const Index = () => {
         const res = await onGetSocialLinks();
         setGetCreatorSocialLinks(res.data);
       } catch (error) {
-        console.log(error);
+        if (error) {
+          setErrors({
+            ...errors,
+            links_error: "Something went wrong loading links!",
+          });
+        }
       }
     })();
 
@@ -174,7 +190,11 @@ const Index = () => {
           />
         ) : null}
         <main className='theWishesSection'>
-          <TheWish />
+          {errors.wishes_error ? (
+            <p className='error'>{errors.wishes_error}</p>
+          ) : (
+            <TheWish setErrors={setErrors} errors={errors} />
+          )}
         </main>
       </div>
     </section>
