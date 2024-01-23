@@ -66,6 +66,14 @@ export interface iGlobalValues {
   setCreatorWishes: React.Dispatch<React.SetStateAction<iCart[]>>;
   creatorSocialLinks: iCreatorSocialLinks[];
   setCreatorSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks>>;
+  selectedFilter: string;
+  setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
+  displayFilters: boolean;
+  setDisplayFilters: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  displayCategories: boolean;
+  setDisplayCategories: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface iAuthContext {

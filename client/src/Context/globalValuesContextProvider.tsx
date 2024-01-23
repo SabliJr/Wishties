@@ -16,6 +16,11 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [reverificationSuccess, setReverificationSuccess] = useState("");
   const [serverErrMsg, setServerErrMsg] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("Default");
+  const [displayFilters, setDisplayFilters] = useState(false);
+  const [displayCategories, setDisplayCategories] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
   const [cartItems, setCartItems] = useState<cartProps>({
     cart: (() => {
       const cart = localStorage.getItem("cart_items");
@@ -58,6 +63,14 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setCreatorWishes,
         creatorSocialLinks,
         setCreatorSocialLinks,
+        selectedFilter,
+        setSelectedFilter,
+        displayFilters,
+        setDisplayFilters,
+        selectedCategories,
+        setSelectedCategories,
+        displayCategories,
+        setDisplayCategories,
       }}>
       {children}
     </GlobalValuesContext.Provider>

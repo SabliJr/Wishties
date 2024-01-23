@@ -35,6 +35,7 @@
 .wishBtns {
   justify-content: space-between;
   display: flex;
+  position: relative;
 }
 
 .userCover {
@@ -96,6 +97,7 @@
 .orderbyIcon {
   font-size: 1.5rem;
   color: #d4145a;
+  cursor: pointer;
 }
 
 .leftBtns,

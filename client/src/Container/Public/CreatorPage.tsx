@@ -12,14 +12,24 @@ import { iGlobalValues, iCart } from "../../Types/creatorSocialLinksTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { useNavigate } from "react-router-dom";
 import FormatMoney from "../../utils/FormatMoney";
+import CategoriesFilters from "../../utils/Filtering/CategoriesFilters";
+import WishesFilters from "../../utils/Filtering/WishesFilters";
 
-const CreatorPage = () => {
+const CreatorPage = ({ getCategories }: { getCategories: string[] | null }) => {
   const [addingToCartItemId, setAddingToCartItemId] = useState<null | string>(
     null
   );
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setCartItems, creatorInfo, creatorWishes, creatorSocialLinks } =
-    contextValues as iGlobalValues;
+  const {
+    setCartItems,
+    creatorInfo,
+    creatorWishes,
+    creatorSocialLinks,
+    displayFilters,
+    setDisplayFilters,
+    displayCategories,
+    setDisplayCategories,
+  } = contextValues as iGlobalValues;
 
   let navigate = useNavigate();
   const handleAddToCart = (wish: iCart) => {
@@ -64,6 +74,11 @@ const CreatorPage = () => {
     });
   };
 
+  const HandleFilteringCategories = () => {
+    setDisplayCategories(!displayCategories);
+    setDisplayFilters(false);
+  };
+
   return (
     <section className='profileSection'>
       <div className='coverImgDiv'>
@@ -103,12 +118,22 @@ const CreatorPage = () => {
       <div className='wishItemsDiv'>
         <div className='wishBtns'>
           <div className='leftBtns'>
-            <button className='wishItemBtn'>
+            <button className='wishItemBtn' onClick={HandleFilteringCategories}>
               Categories
               <IoMdArrowDropdown />
             </button>
-            <TbAdjustmentsHorizontal className='orderbyIcon' />
+            <TbAdjustmentsHorizontal
+              className='orderbyIcon'
+              onClick={() => {
+                setDisplayFilters(!displayFilters);
+                setDisplayCategories(false);
+              }}
+            />
           </div>
+          {displayCategories && (
+            <CategoriesFilters getCategories={getCategories} />
+          )}
+          {displayFilters && <WishesFilters />}
           <div className='rightBtns'>
             <button className='surprise_btn'>
               <span>

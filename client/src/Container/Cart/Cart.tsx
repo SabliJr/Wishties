@@ -136,7 +136,6 @@ const Cart = () => {
                     <span>
                       <p className='_cart_wish_name'>{item.wish_name}</p>
                       <p className='price _cart_wish_price'>
-                        {/* ${item.wish_price} */}
                         <FormatMoney price={item.wish_price} />
                       </p>
                     </span>
@@ -152,6 +151,19 @@ const Cart = () => {
                           const newTotalAmount = newCart.reduce(
                             (total, item) => total + Number(item.wish_price),
                             0
+                          );
+
+                          localStorage.setItem(
+                            "cart_items",
+                            JSON.stringify(newCart)
+                          );
+                          localStorage.setItem(
+                            "cart_total_amount",
+                            JSON.stringify(newTotalAmount)
+                          );
+                          localStorage.setItem(
+                            "cart_total_quantity",
+                            JSON.stringify(newTotalQuantity)
                           );
 
                           return {
