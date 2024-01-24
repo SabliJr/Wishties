@@ -1,16 +1,15 @@
 import React from "react";
 
-import Header from "../Components/TheHeader/index";
 import SignUp from "../Components/Register/SignUp";
-import TheFooter from "../Components/Footer/index";
+import Skeleton from "../utils/Skeleton";
 
 const SignUpPage = () => {
   return (
-    <div className='signUpPage'>
-      <Header />
-      <SignUp />
-      <TheFooter />
-    </div>
+    <Skeleton>
+      <div className='signUpPage'>
+        <SignUp />
+      </div>
+    </Skeleton>
   );
 };
 

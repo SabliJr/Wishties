@@ -1,16 +1,15 @@
 import React from "react";
 
 import Verify from "../Components/Verification/Verify";
-import Navbar from "../Components/TheHeader/index";
-import Footer from "../Components/Footer/index";
+import Skeleton from "../utils/Skeleton";
 
 const VerificationPage = () => {
   return (
-    <div className='verificationPage'>
-      <Navbar />
-      <Verify />
-      <Footer />
-    </div>
+    <Skeleton>
+      <div className='verificationPage'>
+        <Verify />
+      </div>
+    </Skeleton>
   );
 };
 

@@ -50,7 +50,10 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
   };
 
   // This function is to close the module of adding wish when the user clicks outside the module
-  CloseModules({ module_ref: modelRef, ft_close_module: closeUploadModule });
+  CloseModules({
+    module_ref: modelRef,
+    ft_close_module: closeUploadModule,
+  });
 
   useEffect(() => {
     // Add the 'modal-open' class to the body when the modal is open
@@ -155,8 +158,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
               <input
                 type='text'
                 placeholder='Your wish name'
-                // autoComplete='off'
-                // value={wishInputs.wish_name ? wishInputs.wish_name : ""}
+                value={wishInputs.wish_name ? wishInputs.wish_name : ""}
                 id='wishName'
                 onChange={(e) => {
                   handleInputChange(e, "wish_name");
@@ -169,7 +171,6 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
               <input
                 type='text'
                 placeholder='Enter Amount $:'
-                // autoComplete='off'
                 value={wishInputs.wish_price ? wishInputs.wish_price : ""}
                 id='thePrice'
                 onChange={(e) => {

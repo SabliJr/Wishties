@@ -17,6 +17,12 @@ import Verify from "./Pages/VerificationPage";
 import CheckEmail from "./Pages/CheckEmail";
 import PersistLogin from "./utils/persistLogin";
 import VerifyEmail from "./Components/Verification/verifyEmail";
+import Contact from "./Pages/Contact";
+import Help from "./Pages/Help";
+import About from "./Pages/About";
+import HowItWorks from "./Pages/HowItWorks";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import TermsOfService from "./Pages/TermsOfService";
 
 import { iAuth } from "./Types/creatorSocialLinksTypes";
 import CreatorPage from "./Pages/CreatorPublicPage";
@@ -24,7 +30,6 @@ import Cart from "./Pages/Cart";
 
 const FullPrivateRoutes = () => {
   const { auth, setAuth } = useAuth();
-  // console.log("auth", auth);
 
   useEffect(() => {
     setAuth(auth as iAuth);
@@ -43,8 +48,13 @@ const RoutesFile = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/verify-email/:token' element={<VerifyEmail />} />
-        <Route path='/:username' element={<CreatorPage />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/terms-of-service' element={<TermsOfService />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/how-it-works' element={<HowItWorks />} />
+        <Route path='/help' element={<Help />} />
+        <Route path='/about' element={<About />} />
 
         <Route element={<PersistLogin />}>
           <Route element={<FullPrivateRoutes />}>
@@ -54,6 +64,7 @@ const RoutesFile = () => {
           <Route path='/verify' element={<Verify />} />
           <Route path='/check-email' element={<CheckEmail />} />
         </Route>
+        <Route path='/wishlist/:username' element={<CreatorPage />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

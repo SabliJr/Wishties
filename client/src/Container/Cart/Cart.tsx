@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./cart.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
@@ -13,6 +13,8 @@ import { AiFillQuestionCircle } from "react-icons/ai";
 import FormatMoney from "../../utils/FormatMoney";
 
 const Cart = () => {
+  const [remainingChars, setRemainingChars] = useState(256);
+
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
   let navigate = useNavigate();
@@ -89,6 +91,12 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     console.log("Checkout");
+  };
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const text = e.target.value;
+    const remaining = 256 - text.length;
+    setRemainingChars(remaining);
   };
 
   return (
@@ -236,10 +244,11 @@ const Cart = () => {
                 rows={10}
                 placeholder='Type your message here...'
                 maxLength={257}
+                onChange={handleTextChange}
               />
               <p className='_cart_message_notice'>
                 This size gift allows you 256 characters.{" "}
-                <span className='_msg_count'>256</span> remaining.
+                <span className='_msg_count'>{remainingChars}</span> remaining.
               </p>
             </div>
             <div className='_cart_inputs_div'>

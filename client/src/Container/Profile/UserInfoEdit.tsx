@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Profile.css";
 
 import { MdClose } from "react-icons/md";
@@ -32,6 +32,7 @@ const UserInfoEdit = ({
 }: iImages) => {
   const [profileImgFile, setProfileImgFile] = useState<File | undefined>();
   const [coverImgFile, setCoverImgFile] = useState<File | undefined>();
+  const [remainsChars, setRemainsChars] = useState<number>(150);
   const [isUsernameAvailable, setIsUsernameAvailable] =
     useState<boolean>(false);
   const [newUsername, setNewUsername] = useState<string>(
@@ -147,6 +148,9 @@ const UserInfoEdit = ({
   ) => {
     let userInputs = e.target?.value;
     handleDataChange();
+    if (field === "profile_bio") {
+      setRemainsChars(150 - userInputs.length);
+    }
 
     setUserProfileInfo((prev) => ({
       ...prev,
@@ -318,7 +322,7 @@ const UserInfoEdit = ({
         </div>
         <label className='userBioInput'>
           <p>
-            Your Bio: <span>Max 150 characters</span>
+            Your Bio: <span>Max 150 characters, remaining {remainsChars}</span>
           </p>
           <textarea
             name='postContent'

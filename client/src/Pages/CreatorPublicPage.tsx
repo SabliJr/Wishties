@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import Footer from "../Components/Footer/index";
 import CreatorPage from "../Container/Public/CreatorPage";
+import Loader from "../utils/Loader";
+import Errors from "../Pages/Errors";
 import Header from "../Components/TheHeader/index";
+import Footer from "../Components/Footer/index";
 
 import { onGetCreatorInfo } from "../API/authApi";
 import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
 import { iCart, iGlobalValues } from "../Types/creatorSocialLinksTypes";
-import Loader from "../utils/Loader";
-import Errors from "../Pages/Errors";
 
 const CreatorPublicPage = () => {
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
@@ -24,7 +24,7 @@ const CreatorPublicPage = () => {
     selectedCategories,
     setSelectedCategories,
   } = contextValues as iGlobalValues;
-  let creator_username = window.location.pathname.split("/")[1];
+  let creator_username = window.location.pathname.split("/")[2];
 
   useEffect(() => {
     (async () => {
@@ -36,13 +36,13 @@ const CreatorPublicPage = () => {
         setUserWishes(res.data.user_wishes);
 
         // Extract categories from the wishes
-        const categories = [
-          ...new Set(
+        const categories = Array.from(
+          new Set(
             res.data.user_wishes
               .filter((wish: iCart) => wish.wish_category !== "undefined")
               .map((wish: iCart) => wish.wish_category)
-          ),
-        ];
+          )
+        );
         setGetCategories(categories as string[]);
 
         setIsPublicDataLoading(false);

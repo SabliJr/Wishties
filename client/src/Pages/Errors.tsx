@@ -1,19 +1,16 @@
 import React from "react";
 import "./Pages.css";
 
-import Header from "../Components/TheHeader/index";
-import Footer from "../Components/Footer/index";
+import Skeleton from "../utils/Skeleton";
 
 const Errors = ({ error }: { error: string }) => {
   return (
-    <>
-      <Header />
+    <Skeleton>
       <div className='_error_page'>
         <h1>Error! 😧</h1>
         <p>{error}</p>
       </div>
-      <Footer />
-    </>
+    </Skeleton>
   );
 };
 

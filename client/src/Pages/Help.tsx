@@ -1,14 +1,12 @@
 import React from "react";
 import Skeleton from "../utils/Skeleton";
 
-import CartPage from "../Container/Cart/Cart";
-
-const Cart = () => {
+const Help = () => {
   return (
     <Skeleton>
-      <CartPage />
+      <h1>Help</h1>
     </Skeleton>
   );
 };
 
-export default Cart;
+export default Help;

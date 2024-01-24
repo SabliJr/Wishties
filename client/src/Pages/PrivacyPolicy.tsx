@@ -1,14 +1,12 @@
 import React from "react";
 import Skeleton from "../utils/Skeleton";
 
-import CartPage from "../Container/Cart/Cart";
-
-const Cart = () => {
+const PrivacyPolicy = () => {
   return (
     <Skeleton>
-      <CartPage />
+      <h1>Privacy Policy</h1>
     </Skeleton>
   );
 };
 
-export default Cart;
+export default PrivacyPolicy;

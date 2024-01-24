@@ -1,17 +1,19 @@
 import React from "react";
+import "./Pages.css";
 
-import Header from "../Components/TheHeader/index";
-import Footer from "../Components/Footer/index";
+import NotFoundSvg from "../utils/404_svg";
+import Skeleton from "../utils/Skeleton";
 
 const NotFound = () => {
   return (
-    <>
-      <Header />
-      <div>
-        <h3>404 Not Found</h3>
+    <Skeleton>
+      <div className='_404_page_container'>
+        <div className='_404_svg'>
+          <NotFoundSvg />
+        </div>
+        <h2 className='_not_found_title'>Page Not Found!</h2>
       </div>
-      <Footer />
-    </>
+    </Skeleton>
   );
 };
 

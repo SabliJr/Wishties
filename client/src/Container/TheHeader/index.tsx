@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
@@ -15,6 +15,7 @@ import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import CloseModules from "../../utils/CloseModules";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,21 +24,10 @@ const Index = () => {
   const { username } = auth as iAuth;
   let moduleRef = useRef<null | HTMLDivElement>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      moduleRef?.current &&
-      !moduleRef?.current?.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
+  const handleCloseNav = () => {
+    setIsOpen(false);
   };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  CloseModules({ module_ref: moduleRef, ft_close_module: handleCloseNav });
 
   const handleLogout = async () => {
     try {
@@ -58,7 +48,7 @@ const Index = () => {
   };
 
   const showProfile = () => {
-    navigate(`/${username}`);
+    navigate(`/wishlist/${username}`);
   };
 
   const goToAccountSettings = () => {
