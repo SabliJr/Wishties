@@ -19,7 +19,9 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedFilter, setSelectedFilter] = useState("Default");
   const [displayFilters, setDisplayFilters] = useState(false);
   const [displayCategories, setDisplayCategories] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([
+    "All",
+  ]);
 
   const [cartItems, setCartItems] = useState<cartProps>({
     cart: (() => {

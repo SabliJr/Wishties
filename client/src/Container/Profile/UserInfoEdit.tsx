@@ -10,6 +10,7 @@ import { debounce } from "lodash";
 import ProfilePlus from "../../Assets/camera.png";
 import CoverPlus from "../../Assets/Plus.png";
 import Loader from "../../utils/Loader";
+import CloseModules from "../../utils/CloseModules";
 
 interface iImages {
   userInfo: iCreatorProfile | undefined;
@@ -154,21 +155,10 @@ const UserInfoEdit = ({
   };
 
   // This function is to close the module of adding wish when the user clicks outside the module
-  const closeModuleOutside = useCallback(
-    (e: MouseEvent) => {
-      if (modelRef?.current && !modelRef?.current?.contains(e.target as Node)) {
-        handleProfileInfoEdit();
-      }
-    },
-    [handleProfileInfoEdit]
-  );
-
-  useEffect(() => {
-    document.addEventListener("mouseup", closeModuleOutside);
-    return () => {
-      document.removeEventListener("mouseup", closeModuleOutside);
-    };
-  }, [closeModuleOutside]);
+  CloseModules({
+    module_ref: modelRef,
+    ft_close_module: handleProfileInfoEdit,
+  });
 
   useEffect(() => {
     // Add the 'modal-open' class to the body when the modal is open

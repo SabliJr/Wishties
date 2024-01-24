@@ -13,6 +13,7 @@ import Errors from "../Pages/Errors";
 const CreatorPublicPage = () => {
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
   const [getCategories, setGetCategories] = useState<string[] | null>([]);
+  const [userWishes, setUserWishes] = useState<iCart[]>([]);
   const [error, setError] = useState("");
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const {
@@ -32,40 +33,7 @@ const CreatorPublicPage = () => {
 
         setCreatorInfo(res.data.user_info);
         setCreatorSocialLinks(res.data.user_links);
-
-        selectedFilter === "Default"
-          ? setCreatorWishes(res.data.user_wishes)
-          : selectedFilter === "LowToHigh"
-          ? setCreatorWishes(
-              res.data.user_wishes.sort(
-                (a: iCart, b: iCart) => a.wish_price - b.wish_price
-              )
-            )
-          : selectedFilter === "HighToLow"
-          ? setCreatorWishes(
-              res.data.user_wishes.sort(
-                (a: iCart, b: iCart) => b.wish_price - a.wish_price
-              )
-            )
-          : selectedFilter === "MostRecent"
-          ? setCreatorWishes(
-              res.data.user_wishes.sort((a: iCart, b: iCart) =>
-                a.created_date && b.created_date
-                  ? new Date(b.created_date).getTime() -
-                    new Date(a.created_date).getTime()
-                  : 0
-              )
-            )
-          : selectedFilter === "Oldest"
-          ? setCreatorWishes(
-              res.data.user_wishes.sort((a: iCart, b: iCart) =>
-                a.created_date && b.created_date
-                  ? new Date(a.created_date).getTime() -
-                    new Date(b.created_date).getTime()
-                  : 0
-              )
-            )
-          : setCreatorWishes(res.data.user_wishes);
+        setUserWishes(res.data.user_wishes);
 
         // Extract categories from the wishes
         const categories = [
@@ -96,7 +64,53 @@ const CreatorPublicPage = () => {
     setCreatorSocialLinks,
     setCreatorWishes,
     selectedFilter,
+    selectedCategories,
+    setSelectedCategories,
   ]);
+
+  useEffect(() => {
+    if (userWishes && userWishes) {
+      const filteredItems = userWishes.filter(
+        (wish: iCart) =>
+          selectedCategories.includes(wish.wish_category as string) ||
+          selectedCategories.includes("All")
+      );
+
+      selectedFilter === "Default"
+        ? setCreatorWishes(filteredItems)
+        : selectedFilter === "LowToHigh"
+        ? setCreatorWishes(
+            filteredItems.sort(
+              (a: iCart, b: iCart) => a.wish_price - b.wish_price
+            )
+          )
+        : selectedFilter === "HighToLow"
+        ? setCreatorWishes(
+            filteredItems.sort(
+              (a: iCart, b: iCart) => b.wish_price - a.wish_price
+            )
+          )
+        : selectedFilter === "MostRecent"
+        ? setCreatorWishes(
+            filteredItems.sort((a: iCart, b: iCart) =>
+              a.created_date && b.created_date
+                ? new Date(b.created_date).getTime() -
+                  new Date(a.created_date).getTime()
+                : 0
+            )
+          )
+        : selectedFilter === "Oldest"
+        ? setCreatorWishes(
+            filteredItems.sort((a: iCart, b: iCart) =>
+              a.created_date && b.created_date
+                ? new Date(a.created_date).getTime() -
+                  new Date(b.created_date).getTime()
+                : 0
+            )
+          )
+        : setCreatorWishes(filteredItems);
+    }
+  }, [selectedCategories, selectedFilter, userWishes]);
 
   return (
     <>

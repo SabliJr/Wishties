@@ -129,11 +129,11 @@ const CreatorPage = ({ getCategories }: { getCategories: string[] | null }) => {
                 setDisplayCategories(false);
               }}
             />
+            {displayCategories && (
+              <CategoriesFilters getCategories={getCategories} />
+            )}
+            {displayFilters && <WishesFilters />}
           </div>
-          {displayCategories && (
-            <CategoriesFilters getCategories={getCategories} />
-          )}
-          {displayFilters && <WishesFilters />}
           <div className='rightBtns'>
             <button className='surprise_btn'>
               <span>

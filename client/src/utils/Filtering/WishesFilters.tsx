@@ -1,21 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import "./CategoriesStyling.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import CloseModules from "../CloseModules";
 
 const WishesFilters = () => {
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { selectedFilter, setSelectedFilter, setDisplayFilters } =
     contextValues as iGlobalValues;
+  let modelRef = useRef<HTMLDivElement | null>(null);
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFilter(event.target.value);
+  const handleCloseFilters = () => {
     setDisplayFilters(false);
   };
 
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFilter(event.target.value);
+    handleCloseFilters();
+  };
+
+  CloseModules({ module_ref: modelRef, ft_close_module: handleCloseFilters });
+
   return (
-    <div className='_filters_container'>
+    <div className='_filters_container' ref={modelRef}>
       <label className='_filters_labels'>
         <input
           type='radio'
