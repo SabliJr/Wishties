@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
@@ -11,17 +11,21 @@ import { FaUserGear } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { iAuth } from "../../Types/creatorSocialLinksTypes";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { iLocalUser } from "../../Types/creatorStuffTypes";
 import CloseModules from "../../utils/CloseModules";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user_info, setUser_info] = useState<iLocalUser | null>({
+    creator_id: "",
+    username: "",
+    role: "",
+  });
   const navigate = useNavigate();
-  const { auth, setAuth } = useAuth();
-  const { username } = auth as iAuth;
+  const { setAuth } = useAuth();
   let moduleRef = useRef<null | HTMLDivElement>(null);
 
   const handleCloseNav = () => {
@@ -29,12 +33,18 @@ const Index = () => {
   };
   CloseModules({ module_ref: moduleRef, ft_close_module: handleCloseNav });
 
+  useEffect(() => {
+    let role = localStorage.getItem("user_info");
+    if (role) setUser_info(JSON.parse(role));
+    else setUser_info(null);
+  }, []);
+
   const handleLogout = async () => {
     try {
       const res = await onLogout();
       if (res.status === 200) {
         setAuth({});
-        navigate("/"); // Display the creator's wishlist as a guest
+        navigate(`/wishlist/${user_info?.username}`); // Display the creator's wishlist as a guest
       }
     } catch (error: any) {
       if (error.response.status === 404) {
@@ -48,7 +58,7 @@ const Index = () => {
   };
 
   const showProfile = () => {
-    navigate(`/wishlist/${username}`);
+    navigate(`/wishlist/${user_info?.username}`);
   };
 
   const goToAccountSettings = () => {
@@ -80,7 +90,7 @@ const Index = () => {
           </div>
           <div
             className='itemsIcon'
-            onClick={() => navigate(`/edit-profile/${username}`)}>
+            onClick={() => navigate(`/edit-profile/${user_info?.username}`)}>
             <TbClipboardList className='wishIcon' />
             <span className='iconText'>Wishlist</span>
           </div>

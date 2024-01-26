@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./UserSocials.css";
 
-import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 
 import { MdDelete } from "react-icons/md";

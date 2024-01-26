@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import "./cart.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues, iCart } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { iCart } from "../../Types/wishListTypes";
 import { useNavigate } from "react-router-dom";
 
 //Icons

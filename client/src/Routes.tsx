@@ -24,7 +24,7 @@ import HowItWorks from "./Pages/HowItWorks";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsOfService from "./Pages/TermsOfService";
 
-import { iAuth } from "./Types/creatorSocialLinksTypes";
+import { iAuth } from "./Types/creatorStuffTypes";
 import CreatorPage from "./Pages/CreatorPublicPage";
 import Cart from "./Pages/Cart";
 

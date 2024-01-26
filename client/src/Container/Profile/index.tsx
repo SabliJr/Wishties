@@ -15,11 +15,11 @@ import { LiaUserEditSolid } from "react-icons/lia";
 import TheWish from "../UpLoadWish/TheWish";
 import UserInfoEdit from "./UserInfoEdit";
 import UploadWish from "../UpLoadWish/index";
-import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
 import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
 import { onGetSocialLinks, onGetCreator } from "../../API/authApi";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
-import { iCreatorProfile } from "../../Types/wishListTypes";
+import { iCreatorProfile } from "../../Types/creatorStuffTypes";
 import { iErrors } from "../../Types/ErrorsTypes";
 
 const Index = () => {

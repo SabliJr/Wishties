@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Profile.css";
 
 import { MdClose } from "react-icons/md";
-import { iUserInfo, iCreatorProfile } from "../../Types/wishListTypes";
+import { iCreatorProfile, iUserInfo } from "../../Types/creatorStuffTypes";
 import { onUpdateCreatorInfo, onIsUsernameAvailable } from "../../API/authApi";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { debounce } from "lodash";

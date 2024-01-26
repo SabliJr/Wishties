@@ -8,6 +8,7 @@ const useLogout = () => {
     setAuth({});
     try {
       await onLogout();
+      localStorage.removeItem("user_info");
     } catch (err) {
       console.error(err);
     }

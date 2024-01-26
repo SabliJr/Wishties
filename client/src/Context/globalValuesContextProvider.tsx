@@ -1,11 +1,10 @@
 import React, { useState, createContext } from "react";
 import {
-  iGlobalValues,
-  cartProps,
-  iCart,
   iCreatorSocialLinks,
-} from "../Types/creatorSocialLinksTypes";
-import { iCreatorProfile } from "../Types/wishListTypes";
+  iCreatorProfile,
+} from "../Types/creatorStuffTypes";
+import { iCart, cartProps } from "../Types/wishListTypes";
+import { iGlobalValues } from "../Types/globalVariablesTypes";
 
 const GlobalValuesContext = createContext<iGlobalValues | {}>({});
 

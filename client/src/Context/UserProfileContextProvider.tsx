@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
-import { iCreatorSocialLinks } from "../Types/creatorSocialLinksTypes";
+import { iCreatorSocialLinks } from "../Types/creatorStuffTypes";
 import { onGetSocialLinks } from "../API/authApi";
 
 interface userInfoType {

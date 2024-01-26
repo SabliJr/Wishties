@@ -1,24 +1,15 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useDebugValue,
-} from "react";
+import React, { createContext, useContext, useState } from "react";
 
-import { iAuth } from "../Types/creatorSocialLinksTypes";
+import { iAuth } from "../Types/creatorStuffTypes";
 
 interface AuthContextProps {
-  // logout: () => void;
   auth: iAuth | {};
   setAuth: React.Dispatch<React.SetStateAction<{} | iAuth>>;
-  userId: string | null;
-  setUserId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userId, setUserId] = useState<string | null>(null);
   const [auth, setAuth] = useState({});
 
   return (
@@ -26,8 +17,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         auth,
         setAuth,
-        userId,
-        setUserId,
       }}>
       {children}
     </AuthContext.Provider>
@@ -40,8 +29,5 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
 
-  useDebugValue(context.auth, (auth) =>
-    ((auth as iAuth)?.userId as string) ? "Logged In" : "Logged Out"
-  );
   return context;
 };

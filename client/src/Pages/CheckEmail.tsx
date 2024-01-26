@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../Types/globalVariablesTypes";
 import "../App.css";
 
 import Skeleton from "../utils/Skeleton";
