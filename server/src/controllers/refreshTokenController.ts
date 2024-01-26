@@ -49,7 +49,9 @@ const handleRefreshToken = async (req: Request, res: Response) => {
             user: {
               username,
               creator_id
-        }});
+            },
+            role: 'creator',
+          });
       })
       .catch(err => {
         // Handle error

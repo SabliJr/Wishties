@@ -34,10 +34,10 @@ const onUpdateProfile = async (req: Request, res: Response) => {
   try {
     if (cover_photo && cover_photo[0]) {
       let isCoverImage = await query('SELECT cover_image FROM creator WHERE creator_id = $1', [creator_id]);
-      let old_cover_image = isCoverImage.rows[0].cover_image;
-      old_cover_image = old_cover_image.split('/')[4];
-
+      
       if (isCoverImage.rows[0].cover_image) {
+        let old_cover_image = isCoverImage.rows[0].cover_image;
+        old_cover_image = old_cover_image.split('/')[4];
         const isDeleted = await onDeleteImage(`${COVER_IMAGES_FOLDER}/${old_cover_image}`);
         if (!isDeleted.status) {
           return res.status(500).json({
@@ -57,10 +57,10 @@ const onUpdateProfile = async (req: Request, res: Response) => {
 
     if (profile_photo && profile_photo[0]) {
       let isProfileImage = await query('SELECT profile_image FROM creator WHERE creator_id = $1', [creator_id]);
-      let old_profile_image = isProfileImage.rows[0].profile_image;
-      old_profile_image = old_profile_image.split('/')[4];
-
+      
       if (isProfileImage.rows[0].profile_image) {
+        let old_profile_image = isProfileImage.rows[0].profile_image;
+        old_profile_image = old_profile_image.split('/')[4];
         const isDeleted = await onDeleteImage(`${PROFILES_IMAGES_FOLDER}/${old_profile_image}`);
         if (!isDeleted.status) {
           return res.status(500).json({

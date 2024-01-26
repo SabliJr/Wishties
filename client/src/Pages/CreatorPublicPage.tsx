@@ -3,12 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import CreatorPage from "../Container/Public/CreatorPage";
 import Loader from "../utils/Loader";
 import Errors from "../Pages/Errors";
-import Header from "../Components/TheHeader/index";
-import Footer from "../Components/Footer/index";
 
 import { onGetCreatorInfo } from "../API/authApi";
 import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
-import { iCart, iGlobalValues } from "../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../Types/globalVariablesTypes";
+import { iCart } from "../Types/wishListTypes";
+import Skeleton from "../utils/Skeleton";
 
 const CreatorPublicPage = () => {
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
@@ -119,11 +119,9 @@ const CreatorPublicPage = () => {
       ) : error ? (
         <Errors error={error} />
       ) : (
-        <>
-          <Header />
+        <Skeleton>
           <CreatorPage getCategories={getCategories} />
-          <Footer />
-        </>
+        </Skeleton>
       )}
     </>
   );

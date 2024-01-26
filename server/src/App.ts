@@ -23,7 +23,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('/api/verify-email/', cors()); // Respond to preflight requests
 
-app.use(passport.initialize());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

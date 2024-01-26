@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "../Hooks/useRefreshToken";
 import { useAuth } from "../Context/authCntextProvider";
-import { iAuth } from "../Types/creatorSocialLinksTypes";
+import { iAuth } from "../Types/creatorStuffTypes";
 import Loader from "./Loader";
 
 const PersistLogin = () => {

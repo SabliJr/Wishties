@@ -13,7 +13,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { RiCloseLine } from "react-icons/ri";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import FormatMoney from "../../utils/FormatMoney";
 import { iErrors } from "../../Types/ErrorsTypes";
 
@@ -28,6 +28,7 @@ const TheWish = ({
   const [editingWishId, setEditingWishId] = useState<null | string>(null);
   const [wishToEdit, setWishToEdit] = useState<iWish | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { refresh, setRefresh } = contextValues as iGlobalValues;
 

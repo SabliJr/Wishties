@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./UserSocials.css";
 
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
-import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
 import { onAddSocialLinks } from "../../API/authApi";
 
 //React Icons

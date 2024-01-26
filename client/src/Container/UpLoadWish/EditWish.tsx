@@ -4,7 +4,7 @@ import "./upLoadWish.css";
 import { onEditWish } from "../../API/authApi";
 import { iWish } from "../../Types/wishListTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { MdClose } from "react-icons/md";
 import Loader from "../../utils/Loader";
 

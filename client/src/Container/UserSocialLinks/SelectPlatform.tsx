@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { iCreatorSocialLinks } from "../../Types/creatorSocialLinksTypes";
+import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { v4 as uuidv4 } from "uuid";
 

@@ -12,7 +12,6 @@ import { getCreators, onCreatorInfo } from '../controllers/getUserController';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
 import { validate } from '../middlewares/authMiddleware';
 
-import { userAuth } from '../middlewares/validationMiddleware';
 import multer, {memoryStorage} from 'multer';
 
 const router = Router();

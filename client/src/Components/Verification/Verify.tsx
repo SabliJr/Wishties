@@ -4,7 +4,7 @@ import "./verify.css";
 import { useNavigate } from "react-router-dom";
 import { onRequestVerificationAgain } from "../../API/authApi";
 import EmailImg from "../../Assets/completed.png";
-import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const Verify = (): JSX.Element => {

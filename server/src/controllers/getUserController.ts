@@ -23,10 +23,42 @@ const getCreators = async (req: Request, res: Response) => {
     const user_links = await query('SELECT * FROM social_media_links WHERE creator_id = $1', [creator_id]);
     const user_wishes = await query('SELECT * FROM wishes WHERE creator_id = $1', [creator_id]);
 
+    let creator_info = {
+      creator_name: user_info.rows[0].creator_name,
+      username: user_info.rows[0].username,
+      creator_bio: user_info.rows[0].creator_bio,
+      creator_id: user_info.rows[0].creator_id,
+      profile_image: user_info.rows[0].profile_image,
+      cover_image: user_info.rows[0].cover_image,
+    };
+
+    let creator_wishes = user_wishes.rows.map((wish: any) => {
+      return {
+        wish_name: wish.wish_name,
+        wish_image: wish.wish_image,
+        wish_price: wish.wish_price,
+        wish_category: wish.wish_category,
+        wish_id: wish.wish_id,
+        created_date: wish.created_date,
+        creator_id: wish.creator_id,
+        wish_type: wish.wish_type,
+      }
+    });
+
+    let creator_links = user_links.rows.map((link: any) => {
+      return {
+        link_id: link.link_id,
+        platform_icon: link.platform_icon,
+        platform_name: link.platform_name,
+        platform_link: link.platform_link,
+      }
+    });
+
+
     res.status(200).json({
-      user_info: user_info.rows[0],
-      user_links: user_links.rows,
-      user_wishes: user_wishes.rows
+      user_info: creator_info,
+      user_links: creator_links,
+      user_wishes: creator_wishes,
     }); // Assuming you want to send the result as JSON
   } catch (error) {
     console.error(error);
@@ -57,6 +89,7 @@ const onCreatorInfo = async (req: Request, res: Response) => {
     res.status(500).send('Internal Server Error');
   }
 }
+
 
 
 export { getCreators, onCreatorInfo };

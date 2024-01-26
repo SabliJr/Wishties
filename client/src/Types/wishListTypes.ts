@@ -5,14 +5,6 @@ export interface iWishInfo {
   wish_category: string;
 }
 
-export interface iUserInfo {
-  cover_photo: File | undefined | string;
-  profile_photo: File | undefined | string;
-  profile_name: string;
-  profile_username: string;
-  profile_bio: string;
-}
-
 export interface iWish {
   wish_name: string;
   wish_image: string | undefined | File;
@@ -21,16 +13,20 @@ export interface iWish {
   wish_id: string;
 }
 
-export interface iCreatorProfile {
-  creator_name: string;
-  username: string;
-  creator_bio: string;
-  creator_id: string;
-  profile_image: string;
-  cover_image: string;
-  created_at?: string;
-  email?: string;
-  is_verified?: boolean;
-  pwd?: string;
-  verification_token?: string;
+export interface iCart {
+created_date: null | string | number;
+creator_id: string;
+wish_category: string | null;
+wish_id: string;
+wish_image: string;
+wish_name: string;
+wish_price: number;
+wish_type: string | null;
+quantity: number;
 }
+
+export type cartProps = {
+  cart: iCart[];
+  cartTotalQuantity: number;
+  cartTotalAmount: number;
+};

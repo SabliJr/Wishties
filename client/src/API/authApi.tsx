@@ -3,7 +3,7 @@ import {
   registrationInfo,
   loginInfo,
   iCreatorSocialLinks,
-} from "../Types/creatorSocialLinksTypes";
+} from "../Types/creatorStuffTypes";
 
 const SERVER_URL = "http://localhost:8000/api";
 
@@ -122,24 +122,6 @@ const onGetWishes = async () => {
   });
 };
 
-const onGetWishesByCategory = async () => {
-  return await axios.get(`${SERVER_URL}/get-wishes-by-category`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
-};
-
-const onGetWishesByPrice = async () => {
-  return await axios.get(`${SERVER_URL}/get-wishes-by-price`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
-};
-
 const onAddSocialLinks = async (creatorSocialLinks: iCreatorSocialLinks[]) => {
   return await axios.post(
     `${SERVER_URL}/add-social-links`,
@@ -210,8 +192,6 @@ export {
   onEditWish,
   onGetWish,
   onGetWishes,
-  onGetWishesByCategory,
-  onGetWishesByPrice,
   onAddSocialLinks,
   onDeleteSocialLinks,
   onGetSocialLinks,

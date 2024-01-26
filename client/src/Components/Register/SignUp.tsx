@@ -6,11 +6,9 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onRegistration } from "../../API/authApi";
-import {
-  registrationInfo,
-  iErrorMsgs,
-  iGlobalValues,
-} from "../../Types/creatorSocialLinksTypes";
+import { registrationInfo } from "../../Types/creatorStuffTypes";
+import { iErrorMsgs } from "../../Types/ErrorsTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import Loader from "../../utils/Loader";
 

@@ -9,7 +9,7 @@ import "./upLoadWish.css";
 
 import WishUploadImg from "../../Assets/WishImg.png";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 
 import { iWishInfo } from "../../Types/wishListTypes";
 import { MdClose } from "react-icons/md";

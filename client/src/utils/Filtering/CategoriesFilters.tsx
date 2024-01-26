@@ -2,7 +2,7 @@ import React, { useContext, useRef } from "react";
 import "./CategoriesStyling.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import CloseModules from "../CloseModules";
 
 const CategoriesFilters = ({

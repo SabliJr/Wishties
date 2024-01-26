@@ -8,7 +8,8 @@ import { TbAdjustmentsHorizontal } from "react-icons/tb";
 import { FaCartPlus } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 
-import { iGlobalValues, iCart } from "../../Types/creatorSocialLinksTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { iCart } from "../../Types/wishListTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { useNavigate } from "react-router-dom";
 import FormatMoney from "../../utils/FormatMoney";
