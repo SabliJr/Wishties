@@ -2,8 +2,7 @@ import React, { useState, useContext } from "react";
 import "./Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../Context/authCntextProvider";
-import { iAuth, iLocalUser } from "../../Types/creatorStuffTypes";
+import { iLocalUser } from "../../Types/creatorStuffTypes";
 
 import Logo from "../../Assets/xLogo.png";
 import { RiMenu4Line } from "react-icons/ri";
