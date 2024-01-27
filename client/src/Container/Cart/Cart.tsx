@@ -25,18 +25,18 @@ const Cart = () => {
       x.wish_id === wish_id
         ? {
             ...x,
-            quantity: x.quantity + 1,
+            quantity: (x.quantity as number) + 1,
           }
         : x
     );
 
     const newTotal = newCart?.reduce(
-      (sum, item) => sum + Number(item.wish_price) * item.quantity,
+      (sum, item) => sum + Number(item.wish_price) * (item.quantity as number),
       0
     );
 
     const newTotalQuantity = newCart?.reduce(
-      (sum, item) => sum + item.quantity,
+      (sum, item) => sum + (item.quantity as number),
       0
     );
 
@@ -60,17 +60,19 @@ const Cart = () => {
   const handleDecreaseQuantity = (wish_id: string) => {
     const newCart = cartItems?.cart
       .map((x: iCart) =>
-        x.wish_id === wish_id ? { ...x, quantity: x.quantity - 1 } : x
+        x.wish_id === wish_id
+          ? { ...x, quantity: (x.quantity as number) - 1 }
+          : x
       )
-      .filter((x: iCart) => x.quantity > 0);
+      .filter((x: iCart) => (x.quantity as number) > 0);
 
     const newTotal = newCart?.reduce(
-      (sum, item) => sum + Number(item.wish_price) * item.quantity,
+      (sum, item) => sum + Number(item.wish_price) * (item.quantity as number),
       0
     );
 
     const newTotalQuantity = newCart?.reduce(
-      (sum, item) => sum + item.quantity,
+      (sum, item) => sum + (item.quantity as number),
       0
     );
 
@@ -137,7 +139,7 @@ const Cart = () => {
               <div key={item.wish_id} className='_cart_item'>
                 <div className='_wish_rapper'>
                   <img
-                    src={item.wish_image}
+                    src={item.wish_image as string}
                     alt={item.wish_name}
                     className='_cart_wish_img'
                   />
@@ -145,7 +147,7 @@ const Cart = () => {
                     <span>
                       <p className='_cart_wish_name'>{item.wish_name}</p>
                       <p className='price _cart_wish_price'>
-                        <FormatMoney price={item.wish_price} />
+                        <FormatMoney price={item.wish_price as number} />
                       </p>
                     </span>
 
@@ -202,7 +204,9 @@ const Cart = () => {
                 <div style={{ textAlign: "center" }}>
                   <p className='_cart_subtotal'>
                     <FormatMoney
-                      price={item.quantity * Number(item.wish_price)}
+                      price={
+                        (item.quantity as number) * Number(item.wish_price)
+                      }
                     />
                   </p>
                 </div>

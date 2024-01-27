@@ -36,7 +36,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
   const ImgInputRef = useRef<HTMLInputElement>(null);
   const modelRef = useRef<HTMLDivElement | null>(null);
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefresh } = contextValues as iGlobalValues;
+  const { setRefetchCreatorData } = contextValues as iGlobalValues;
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -126,7 +126,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
     try {
       await onAddWish(formData);
-      setRefresh(true);
+      setRefetchCreatorData(true);
     } catch (error: any) {
       console.log(error);
       // Set an error state here to inform the user about the error

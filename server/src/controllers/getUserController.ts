@@ -11,7 +11,7 @@ interface DecodedToken {
   [key: string]: any; // for any other properties that might be in the token
 }
 
-const getCreators = async (req: Request, res: Response) => {
+const getCreator = async (req: Request, res: Response) => {
   const creator_username = req.query.username;
 
   try {
@@ -92,4 +92,4 @@ const onCreatorInfo = async (req: Request, res: Response) => {
 
 
 
-export { getCreators, onCreatorInfo };
+export { getCreator, onCreatorInfo };

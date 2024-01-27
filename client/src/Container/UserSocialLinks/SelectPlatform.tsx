@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
 import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
@@ -16,14 +16,19 @@ import Reddit from "../../Assets/UserIcons/Reddit.png";
 import Discord from "../../Assets/UserIcons/Discord.png";
 import Other from "../../Assets/UserIcons/Link.png";
 
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
+
 type SelectPlatformProps = {
   setLinksModule: (value: boolean) => void;
   linksModule: boolean;
+  setIsAdding: (value: boolean) => void;
 };
 
 const SelectPlatform = ({
   setLinksModule,
   linksModule,
+  setIsAdding,
 }: SelectPlatformProps) => {
   const [errMessage, setErrMessage] = useState("");
   const [fillingSocialInfo, setFillingSocialInfo] =
@@ -34,7 +39,7 @@ const SelectPlatform = ({
       platform_link: "",
     });
 
-  const { setCreatorSocialLinks } = useUserInfoCOntext();
+  // const { setCreatorSocialLinks } = useUserInfoCOntext();
 
   const socialMediaOptions = [
     { platform_icon: Insta, platform_name: "Instagram" },
@@ -49,6 +54,27 @@ const SelectPlatform = ({
     { platform_icon: Discord, platform_name: "Discord" },
     { platform_icon: Other, platform_name: "Other" },
   ];
+
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const {
+    // refresh,
+    // setRefresh,
+    setCreatorInfo,
+    setCreatorWishes,
+    setCreatorSocialLinks,
+    creatorWishes,
+    selectedFilter,
+    selectedCategories,
+    setSelectedCategories,
+    setRefetchCreatorData,
+    setCartItems,
+    isPublicDataLoading,
+    filteredAndSortedWishes,
+    creatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
+    refetchCreatorData,
+  } = contextValues as iGlobalValues;
 
   const handleLinkChange = (
     event:
@@ -86,12 +112,18 @@ const SelectPlatform = ({
       return;
     }
     setErrMessage("");
-    setCreatorSocialLinks((prevLinks) => [
+
+    setDisplayedSocialLinks((prevLinks) => [
       ...prevLinks,
       fillingSocialInfo as iCreatorSocialLinks,
     ]);
+    setIsAdding(true); // Set the isAdding state to true to know that the user has added a link
     setLinksModule(!linksModule); // Close the module
   };
+
+  // useEffect(() => {
+  //   setDisplayedSocialLinks(creatorSocialLinks || []);
+  // }, [creatorSocialLinks, setDisplayedSocialLinks]);
 
   return (
     <>

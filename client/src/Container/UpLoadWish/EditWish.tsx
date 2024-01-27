@@ -2,20 +2,20 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import "./upLoadWish.css";
 
 import { onEditWish } from "../../API/authApi";
-import { iWish } from "../../Types/wishListTypes";
+import { iWish, iCart } from "../../Types/wishListTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { MdClose } from "react-icons/md";
 import Loader from "../../utils/Loader";
 
 interface iEditWishProps {
-  wishToEdit: iWish;
-  setWishToEdit: React.Dispatch<React.SetStateAction<iWish | null>>;
+  wishToEdit: iCart | null;
+  setWishToEdit: React.Dispatch<React.SetStateAction<iCart | null>>;
 }
 
 const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
-  const [comparedWish, setComparedWish] = useState<iWish | null>(null);
+  const [comparedWish, setComparedWish] = useState<iCart | null>(null);
   const [disable_btn, setDisable_btn] = useState(false);
   const [isError, setIsError] = useState({
     invalidFileTypeErr: "",
@@ -26,7 +26,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
   const ImgInputRef = useRef<HTMLInputElement>(null);
   const modelRef = useRef<HTMLDivElement | null>(null);
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefresh } = contextValues as iGlobalValues; //Create a state for social links;
+  const { setRefetchCreatorData } = contextValues as iGlobalValues; //Create a state for social links;
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -50,7 +50,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imgFile: File | undefined = e.target?.files?.[0];
     setWishImage(imgFile);
-    setWishToEdit({ ...wishToEdit, wish_image: imgFile as File });
+    setWishToEdit({ ...wishToEdit, wish_image: imgFile as File } as iCart);
   };
 
   const handleEditInputs = (
@@ -58,11 +58,9 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
     filed: string
   ) => {
     let value = e.target.value;
+    let editedWish = { ...wishToEdit, [filed]: value };
 
-    setWishToEdit({
-      ...wishToEdit,
-      [filed]: value,
-    });
+    setWishToEdit(editedWish as iCart);
   };
 
   useEffect(() => {
@@ -83,7 +81,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
     e.preventDefault();
     let formData = new FormData();
 
-    if (!wishToEdit.wish_name || !wishToEdit.wish_price) {
+    if (!wishToEdit?.wish_name || !wishToEdit.wish_price) {
       setIsError((prev) => ({
         ...prev,
         emptyFieldsErr: "Please fill all the fields.",
@@ -93,7 +91,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
 
     formData.append("wish_id", wishToEdit.wish_id as string);
     formData.append("wish_name", wishToEdit.wish_name as string);
-    formData.append("wish_price", wishToEdit.wish_price as string);
+    formData.append("wish_price", wishToEdit?.wish_price as string);
     formData.append("wish_category", wishToEdit.wish_category as string);
     if (wishToEdit.wish_image !== comparedWish?.wish_image && wishImage)
       formData.append("wish_image", wishToEdit.wish_image as File);
@@ -114,7 +112,8 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
     setIsUpdating(true);
     try {
       await onEditWish(formData);
-      setRefresh(true);
+      // setRefresh(true);
+      setRefetchCreatorData(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -143,7 +142,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
                 type='text'
                 placeholder='Your wish name'
                 // autoComplete='off'
-                value={wishToEdit.wish_name ? wishToEdit.wish_name : ""}
+                value={wishToEdit?.wish_name ? wishToEdit.wish_name : ""}
                 id='wishName'
                 onChange={(e) => {
                   handleEditInputs(e, "wish_name");
@@ -157,7 +156,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
                 type='text'
                 placeholder='Enter Amount $:'
                 // autoComplete='off'
-                value={wishToEdit.wish_price ? wishToEdit.wish_price : ""}
+                value={wishToEdit?.wish_price ? wishToEdit.wish_price : ""}
                 id='thePrice'
                 onChange={(e) => {
                   handleEditInputs(e, "wish_price");
@@ -175,7 +174,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
               />
             ) : (
               <img
-                src={wishToEdit.wish_image as string}
+                src={wishToEdit?.wish_image as string}
                 alt='wishUploadImg'
                 className='wishUploadImg'
               />
@@ -207,7 +206,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
               <input
                 type='text'
                 placeholder='Add a category'
-                value={wishToEdit.wish_category || ""}
+                value={wishToEdit?.wish_category || ""}
                 onChange={(e) => {
                   handleEditInputs(e, "wish_category");
                   setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));

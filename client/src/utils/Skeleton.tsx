@@ -49,10 +49,9 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
         <Loader />
       ) : (
         <>
-          (
           {user_info?.role === "creator" ? <CreatorHeader /> : <PublicHeader />}
           {children}
-          <Footer />)
+          <Footer />
         </>
       )}
     </>

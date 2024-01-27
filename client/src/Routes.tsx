@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
   Route,
-  Outlet,
-  Navigate,
+  // Outlet,
+  // Navigate,
 } from "react-router-dom";
-import { useAuth } from "./Context/authCntextProvider";
+// import { useAuth } from "./Context/authCntextProvider";
 
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
@@ -15,7 +14,7 @@ import NotFound from "./Pages/NotFound";
 import WishList from "./Pages/WishList";
 import Verify from "./Pages/VerificationPage";
 import CheckEmail from "./Pages/CheckEmail";
-import PersistLogin from "./utils/persistLogin";
+// import PersistLogin from "./utils/persistLogin";
 import VerifyEmail from "./Components/Verification/verifyEmail";
 import Contact from "./Pages/Contact";
 import Help from "./Pages/Help";
@@ -24,21 +23,21 @@ import HowItWorks from "./Pages/HowItWorks";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsOfService from "./Pages/TermsOfService";
 
-import { iAuth } from "./Types/creatorStuffTypes";
-import CreatorPage from "./Pages/CreatorPublicPage";
+// import { iAuth } from "./Types/creatorStuffTypes";
+// import CreatorPage from "./Pages/CreatorPublicPage";
 import Cart from "./Pages/Cart";
 
-const FullPrivateRoutes = () => {
-  const { auth, setAuth } = useAuth();
+// const FullPrivateRoutes = () => {
+//   const { auth, setAuth } = useAuth();
 
-  useEffect(() => {
-    setAuth(auth as iAuth);
-  }, [auth, setAuth]);
+//   useEffect(() => {
+//     setAuth(auth as iAuth);
+//   }, [auth, setAuth]);
 
-  return (
-    <>{(auth as iAuth)?.accessToken ? <Outlet /> : <Navigate to='/login' />}</>
-  );
-};
+//   return (
+//     <>{(auth as iAuth)?.accessToken ? <Outlet /> : <Navigate to='/login' />}</>
+//   );
+// };
 
 const RoutesFile = () => {
   return (
@@ -64,7 +63,8 @@ const RoutesFile = () => {
 
         <Route path='/verify' element={<Verify />} />
         <Route path='/check-email' element={<CheckEmail />} />
-        <Route path='/wishlist/:username' element={<CreatorPage />} />
+        {/* <Route path='/wishlist/:username' element={<CreatorPage />} /> */}
+        <Route path='/wishlist/:username' element={<WishList />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

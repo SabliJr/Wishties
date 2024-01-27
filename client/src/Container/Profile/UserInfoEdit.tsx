@@ -13,7 +13,7 @@ import Loader from "../../utils/Loader";
 import CloseModules from "../../utils/CloseModules";
 
 interface iImages {
-  userInfo: iCreatorProfile | undefined;
+  creatorInfo: iCreatorProfile | undefined;
   editInfo: boolean;
   handleProfileInfoEdit: () => void;
   profileEditModal: boolean;
@@ -24,7 +24,7 @@ interface iImages {
 const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 const UserInfoEdit = ({
   handleProfileInfoEdit,
-  userInfo,
+  creatorInfo,
   editInfo,
   profileEditModal,
   creator_cover_photo,
@@ -36,16 +36,16 @@ const UserInfoEdit = ({
   const [isUsernameAvailable, setIsUsernameAvailable] =
     useState<boolean>(false);
   const [newUsername, setNewUsername] = useState<string>(
-    userInfo?.username as string
+    creatorInfo?.username as string
   );
   const [isLoading, setIsLoading] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [userProfileInfo, setUserProfileInfo] = useState<iUserInfo>({
-    profile_name: userInfo?.creator_name,
-    profile_username: userInfo?.username,
-    profile_bio: userInfo?.creator_bio ? userInfo.creator_bio : "",
-    profile_photo: undefined || userInfo?.profile_image,
-    cover_photo: undefined || userInfo?.cover_image,
+    profile_name: creatorInfo?.creator_name,
+    profile_username: creatorInfo?.username,
+    profile_bio: creatorInfo?.creator_bio ? creatorInfo.creator_bio : "",
+    profile_photo: undefined || creatorInfo?.profile_image,
+    cover_photo: undefined || creatorInfo?.cover_image,
   } as iUserInfo);
   const [isError, setIsError] = useState({
     invalidFileTypeErr: "",
@@ -206,7 +206,7 @@ const UserInfoEdit = ({
     formData.append("profile_bio", userProfileInfo.profile_bio);
     if (
       userProfileInfo.profile_photo &&
-      userProfileInfo.profile_photo !== userInfo?.profile_image
+      userProfileInfo.profile_photo !== creatorInfo?.profile_image
     ) {
       formData.append("profile_photo", userProfileInfo.profile_photo);
       console.log("Profile photo is added");
@@ -214,7 +214,7 @@ const UserInfoEdit = ({
 
     if (
       userProfileInfo.cover_photo &&
-      userProfileInfo.cover_photo !== userInfo?.cover_image
+      userProfileInfo.cover_photo !== creatorInfo?.cover_image
     ) {
       formData.append("cover_photo", userProfileInfo.cover_photo);
       console.log("Cover photo is added");
@@ -315,7 +315,7 @@ const UserInfoEdit = ({
                 }}
               />
             </label>
-            {isUsernameAvailable && userInfo?.username !== newUsername && (
+            {isUsernameAvailable && creatorInfo?.username !== newUsername && (
               <p className='error'>{isError.usernameErr}</p>
             )}
           </div>

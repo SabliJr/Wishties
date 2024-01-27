@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { iCreatorSocialLinks } from "../Types/creatorStuffTypes";
-import { onGetSocialLinks } from "../API/authApi";
+// import { onGetSocialLinks } from "../API/authApi";
 
 interface userInfoType {
   creatorSocialLinks?: iCreatorSocialLinks[] | undefined;
@@ -35,16 +35,16 @@ const UserProfileContextProvider = ({
   const [refetchIcons, setRefetchIcons] = useState(false);
   const [refetchCreatorData, setRefetchCreatorData] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await onGetSocialLinks();
-        setCreatorSocialLinks(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const res = await onGetSocialLinks();
+  //       setCreatorSocialLinks(res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, []);
 
   useEffect(() => {
     setDisplayedSocialLinks(creatorSocialLinks);
