@@ -56,14 +56,14 @@ const RoutesFile = () => {
         <Route path='/help' element={<Help />} />
         <Route path='/about' element={<About />} />
 
-        <Route element={<PersistLogin />}>
+        {/* <Route element={<PersistLogin />}>
           <Route element={<FullPrivateRoutes />}>
             <Route path='/edit-profile/:username' element={<WishList />} />
           </Route>
+        </Route> */}
 
-          <Route path='/verify' element={<Verify />} />
-          <Route path='/check-email' element={<CheckEmail />} />
-        </Route>
+        <Route path='/verify' element={<Verify />} />
+        <Route path='/check-email' element={<CheckEmail />} />
         <Route path='/wishlist/:username' element={<CreatorPage />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
