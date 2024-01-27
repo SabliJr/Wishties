@@ -58,41 +58,41 @@ const onAddWish = async (req: Request, res: Response) => {
   }
 }
 
-const onGetWishes = async (req: Request, res: Response) => {
-  const cookies = req.cookies;
-  if (!cookies?.refreshToken)
-    return res.sendStatus(401);
-  const refreshToken = cookies.refreshToken;
+// const onGetWishes = async (req: Request, res: Response) => {
+//   const cookies = req.cookies;
+//   if (!cookies?.refreshToken)
+//     return res.sendStatus(401);
+//   const refreshToken = cookies.refreshToken;
 
-  // Verify the user's refresh token and get the user's username and email before sending the wish to the database;
-  let decoded;
-  try {
-    decoded = verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
-  } catch (err) {
-    console.error(err);
-    return res.sendStatus(401);
-  }
+//   // Verify the user's refresh token and get the user's username and email before sending the wish to the database;
+//   let decoded;
+//   try {
+//     decoded = verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
+//   } catch (err) {
+//     console.error(err);
+//     return res.sendStatus(401);
+//   }
 
-  const { creator_id } = decoded;
-  try {
-    const creator = await query(
-      'SELECT * FROM creator WHERE creator_id = $1', [creator_id]
-    );
-    if (creator.rows.length === 0) {
-      return res.status(404).json({
-        error: 'unauthorized'
-      });
-    }
+//   const { creator_id } = decoded;
+//   try {
+//     const creator = await query(
+//       'SELECT * FROM creator WHERE creator_id = $1', [creator_id]
+//     );
+//     if (creator.rows.length === 0) {
+//       return res.status(404).json({
+//         error: 'unauthorized'
+//       });
+//     }
 
-    const wishes = await query(
-      'SELECT * FROM wishes WHERE creator_id = $1', [creator_id]
-    );
-    res.status(200).json({ wishes: wishes.rows });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'An error occurred while fetching the wishes.' });
-  }
-}
+//     const wishes = await query(
+//       'SELECT * FROM wishes WHERE creator_id = $1', [creator_id]
+//     );
+//     res.status(200).json({ wishes: wishes.rows });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'An error occurred while fetching the wishes.' });
+//   }
+// }
 
 const onDeleteWish = async (req: Request, res: Response) => {
   const { wish_id } = req.query;
@@ -242,4 +242,4 @@ const onUpdateWish = async (req: Request, res: Response) => {
 
 }
 
-export { onAddWish, onGetWishes, onDeleteWish, onUpdateWish };
+export { onAddWish, onDeleteWish, onUpdateWish };

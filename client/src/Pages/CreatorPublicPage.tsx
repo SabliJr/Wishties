@@ -68,49 +68,49 @@ const CreatorPublicPage = () => {
     setSelectedCategories,
   ]);
 
-  useEffect(() => {
-    if (userWishes && userWishes) {
-      const filteredItems = userWishes.filter(
-        (wish: iCart) =>
-          selectedCategories.includes(wish.wish_category as string) ||
-          selectedCategories.includes("All")
-      );
+  // useEffect(() => {
+  //   if (userWishes && userWishes) {
+  //     const filteredItems = userWishes.filter(
+  //       (wish: iCart) =>
+  //         selectedCategories.includes(wish.wish_category as string) ||
+  //         selectedCategories.includes("All")
+  //     );
 
-      selectedFilter === "Default"
-        ? setCreatorWishes(filteredItems)
-        : selectedFilter === "LowToHigh"
-        ? setCreatorWishes(
-            filteredItems.sort(
-              (a: iCart, b: iCart) => a.wish_price - b.wish_price
-            )
-          )
-        : selectedFilter === "HighToLow"
-        ? setCreatorWishes(
-            filteredItems.sort(
-              (a: iCart, b: iCart) => b.wish_price - a.wish_price
-            )
-          )
-        : selectedFilter === "MostRecent"
-        ? setCreatorWishes(
-            filteredItems.sort((a: iCart, b: iCart) =>
-              a.created_date && b.created_date
-                ? new Date(b.created_date).getTime() -
-                  new Date(a.created_date).getTime()
-                : 0
-            )
-          )
-        : selectedFilter === "Oldest"
-        ? setCreatorWishes(
-            filteredItems.sort((a: iCart, b: iCart) =>
-              a.created_date && b.created_date
-                ? new Date(a.created_date).getTime() -
-                  new Date(b.created_date).getTime()
-                : 0
-            )
-          )
-        : setCreatorWishes(filteredItems);
-    }
-  }, [selectedCategories, selectedFilter, userWishes]);
+  //     selectedFilter === "Default"
+  //       ? setCreatorWishes(filteredItems)
+  //       : selectedFilter === "LowToHigh"
+  //       ? setCreatorWishes(
+  //           filteredItems
+  //             .sort
+  //             (a: iCart, b: iCart) => a.wish_price - b.wish_price
+  //         )
+  //       : selectedFilter === "HighToLow"
+  //       ? setCreatorWishes(
+  //           filteredItems
+  //             .sort
+  //             (a: iCart, b: iCart) => b.wish_price - a.wish_price
+  //         )
+  //       : selectedFilter === "MostRecent"
+  //       ? setCreatorWishes(
+  //           filteredItems.sort((a: iCart, b: iCart) =>
+  //             a.created_date && b.created_date
+  //               ? new Date(b.created_date).getTime() -
+  //                 new Date(a.created_date).getTime()
+  //               : 0
+  //           )
+  //         )
+  //       : selectedFilter === "Oldest"
+  //       ? setCreatorWishes(
+  //           filteredItems.sort((a: iCart, b: iCart) =>
+  //             a.created_date && b.created_date
+  //               ? new Date(a.created_date).getTime() -
+  //                 new Date(b.created_date).getTime()
+  //               : 0
+  //           )
+  //         )
+  //       : setCreatorWishes(filteredItems);
+  //   }
+  // }, [selectedCategories, selectedFilter, userWishes]);
 
   return (
     <>

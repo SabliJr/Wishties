@@ -73,14 +73,14 @@ const onLogout = async () => {
   });
 };
 
-const onGetCreator = async () => {
-  return await axios.get(`${SERVER_URL}/get-creator`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
-};
+// const onGetCreator = async () => {
+//   return await axios.get(`${SERVER_URL}/get-creator`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     withCredentials: true,
+//   });
+// };
 
 const onAddWish = async (FormData: FormData) => {
   return await axios.post(`${SERVER_URL}/add-wish`, FormData, {
@@ -104,23 +104,23 @@ const onEditWish = async (wish: FormData) => {
   });
 };
 
-const onGetWish = async () => {
-  return await axios.get(`${SERVER_URL}/get-wish`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
-};
+// const onGetWish = async () => {
+//   return await axios.get(`${SERVER_URL}/get-wish`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     withCredentials: true,
+//   });
+// };
 
-const onGetWishes = async () => {
-  return await axios.get(`${SERVER_URL}/get-wishes`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
-};
+// const onGetWishes = async () => {
+//   return await axios.get(`${SERVER_URL}/get-wishes`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     withCredentials: true,
+//   });
+// };
 
 const onAddSocialLinks = async (creatorSocialLinks: iCreatorSocialLinks[]) => {
   return await axios.post(
@@ -135,8 +135,8 @@ const onAddSocialLinks = async (creatorSocialLinks: iCreatorSocialLinks[]) => {
   );
 };
 
-const onDeleteSocialLinks = async (link_id: string) => {
-  return await axios.get(`${SERVER_URL}/delete-social-links`, {
+const onDeleteSocialLink = async (link_id: string) => {
+  return await axios.get(`${SERVER_URL}/delete-social-link`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -145,14 +145,14 @@ const onDeleteSocialLinks = async (link_id: string) => {
   });
 };
 
-const onGetSocialLinks = async () => {
-  return await axios.get(`${SERVER_URL}/get-social-links`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    withCredentials: true,
-  });
-};
+// const onGetSocialLinks = async () => {
+//   return await axios.get(`${SERVER_URL}/get-social-links`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     withCredentials: true,
+//   });
+// };
 
 const onUpdateCreatorInfo = async (formData: FormData) => {
   return await axios.put(`${SERVER_URL}/update-user-profile`, formData, {
@@ -181,7 +181,7 @@ const onGetCreatorInfo = async (username: string) => {
 };
 
 export {
-  onGetCreator,
+  // onGetCreator,
   onLogout,
   onLogin,
   onRegistration,
@@ -190,11 +190,11 @@ export {
   onAddWish,
   onRemoveWish,
   onEditWish,
-  onGetWish,
-  onGetWishes,
+  // onGetWish,
+  // onGetWishes,
   onAddSocialLinks,
-  onDeleteSocialLinks,
-  onGetSocialLinks,
+  onDeleteSocialLink,
+  // onGetSocialLinks,
   onVerifyEmail,
   onUpdateCreatorInfo,
   onIsUsernameAvailable,

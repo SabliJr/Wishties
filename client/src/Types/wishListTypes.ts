@@ -14,15 +14,15 @@ export interface iWish {
 }
 
 export interface iCart {
-created_date: null | string | number;
-creator_id: string;
+created_date?: null | string | number;
+creator_id?: string;
 wish_category: string | null;
 wish_id: string;
-wish_image: string;
+wish_image: string | undefined | File;
 wish_name: string;
-wish_price: number;
-wish_type: string | null;
-quantity: number;
+wish_price: number | string;
+wish_type?: string | null;
+quantity?: number;
 }
 
 export type cartProps = {

@@ -8,8 +8,6 @@ export interface iGlobalValues {
   setReverificationSuccess: React.Dispatch<React.SetStateAction<string>>;
   serverErrMsg: string;
   setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
-  refresh: boolean;
-  setRefresh: (value: any) => boolean;
   cartItems: cartProps;
   setCartItems: React.Dispatch<React.SetStateAction<cartProps>>;
   cartTotalQuantity: number,
@@ -19,7 +17,7 @@ export interface iGlobalValues {
   creatorWishes: iCart[];
   setCreatorWishes: React.Dispatch<React.SetStateAction<iCart[]>>;
   creatorSocialLinks: iCreatorSocialLinks[];
-  setCreatorSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks>>;
+  setCreatorSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
   selectedFilter: string;
   setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
   displayFilters: boolean;
@@ -28,4 +26,12 @@ export interface iGlobalValues {
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
   displayCategories: boolean;
   setDisplayCategories: React.Dispatch<React.SetStateAction<boolean>>;
+  getCategories: string[];
+  setGetCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  filteredAndSortedWishes: iCart[];
+  isPublicDataLoading: boolean;
+  refetchCreatorData: boolean;
+  setRefetchCreatorData: React.Dispatch<React.SetStateAction<boolean>>;
+  displayedSocialLinks: iCreatorSocialLinks[];
+  setDisplayedSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
 }

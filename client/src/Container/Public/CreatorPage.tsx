@@ -41,18 +41,19 @@ const CreatorPage = ({ getCategories }: { getCategories: string[] | null }) => {
       );
 
       if (wishInCart) {
-        wishInCart.quantity++;
+        if (wishInCart.quantity) wishInCart.quantity++;
       } else {
         wish.quantity = 1;
         cart.push(wish);
       }
 
       const cartTotalQuantity = cart.reduce(
-        (total, item) => total + item.quantity,
+        (total, item) => total + (item.quantity as number),
         0
       );
       const cartTotalAmount = cart.reduce(
-        (total, item) => total + item.wish_price * item.quantity,
+        (total, item) =>
+          total + (item.wish_price as number) * (item?.quantity as number),
         0
       );
 
@@ -179,11 +180,15 @@ const CreatorPage = ({ getCategories }: { getCategories: string[] | null }) => {
         <main className='theWishesSection'>
           {creatorWishes?.map((wish: iCart) => (
             <div className='theWishDiv' key={wish.wish_id}>
-              <img src={wish.wish_image} alt='wishImage' className='wishImag' />
+              <img
+                src={wish.wish_image as string}
+                alt='wishImage'
+                className='wishImag'
+              />
               <div className='wish_details'>
                 <p className='_popUpWishName'>{wish.wish_name}</p>
                 <p className='_popUpPrice'>
-                  <FormatMoney price={wish.wish_price} />
+                  <FormatMoney price={wish.wish_price as number} />
                 </p>
               </div>
               <button
@@ -202,7 +207,7 @@ const CreatorPage = ({ getCategories }: { getCategories: string[] | null }) => {
                       <GrClose />
                     </span>
                     <img
-                      src={wish.wish_image}
+                      src={wish.wish_image as string}
                       alt='wish_image'
                       className='_popUpImg'
                     />
