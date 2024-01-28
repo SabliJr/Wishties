@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { hash } from 'bcryptjs';
 import { ACCESS_SECRET_KEY, REFRESH_TOKEN_SECRET, CLIENT_URL} from '../constants';
 import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
 
 import { generateUniqueUsername } from '../util/genUniqueUsername';
 import { generateVerificationToken, sendVerificationEmail } from '../util/verificationFunctions';
@@ -13,13 +14,14 @@ const userRegistration = async (req: Request, res: Response) => {
   const { creator_name, email, password } = req.body;
 
   try {
+    let  creator_id = uuidv4();
     const pwd = await hash(password, 12);
     const username = await generateUniqueUsername(creator_name);
-    const verificationToken = generateVerificationToken(username, email);
+    const verificationToken = generateVerificationToken(username, creator_id);
 
     await query(
-      'INSERT INTO creator (creator_name, email, pwd, username, verification_token) VALUES($1, $2, $3, $4, $5)',
-      [ creator_name, email, pwd, username, verificationToken ]);
+      'INSERT INTO creator (creator_id, creator_name, email, pwd, username, verification_token) VALUES($1, $2, $3, $4, $5, $6)',
+      [creator_id, creator_name, email, pwd, username, verificationToken ]);
 
     const laMailOption = sendVerificationEmail(email as string, verificationToken);
     await transporter.sendMail(laMailOption);
@@ -55,7 +57,7 @@ const emailVerification = async (req: Request, res: Response) => {
     const decoded = await jwt.verify(token as string, REFRESH_TOKEN_SECRET as string, {
       clockTimestamp: currentTime,
     });
-    const { email, exp } = decoded as { username: string, exp: number, email: string };
+    const { creator_id: id, exp } = decoded as { username: string, exp: number, creator_id: string };
 
     // Check if the token has expired
     if (exp && exp < currentTime) {
@@ -66,8 +68,8 @@ const emailVerification = async (req: Request, res: Response) => {
     }
 
     // update the verification status in the database
-    await query('UPDATE creator SET is_verified = TRUE WHERE email = $1', [email]);
-    const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    await query('UPDATE creator SET is_verified = TRUE WHERE creator_id = $1', [id]);
+    const la_creator = await query('SELECT * FROM creator WHERE creator_id = $1', [id]);
     const { creator_id, creator_name } = la_creator.rows[0];
 
       // Create an access token that expires in 30  minutes
@@ -89,7 +91,7 @@ const emailVerification = async (req: Request, res: Response) => {
       },
       accessToken: accessToken,
       role: 'creator',
-      redirectURL: `${CLIENT_URL}/edit-profile/${la_creator.rows[0].username}`
+      redirectURL: `${CLIENT_URL}/wishlist/${la_creator.rows[0].username}`
     });
   } catch (error: any) {
     console.error('Error during email verification:', error);
@@ -115,8 +117,9 @@ const reverifyEmail = async (req: Request, res: Response) => {
       });
     }
 
+    const creator_id = userResult.rows[0].creator_id;
     const username = userResult.rows[0].username; // Extract username from the result
-    const newVerificationToken = generateVerificationToken(username, email);  // Generate a new verification token
+    const newVerificationToken = generateVerificationToken(username, creator_id);  // Generate a new verification token
 
     // Update the existing token in the database (if you store it there)
     await query('UPDATE creator SET verification_token = $1 WHERE email = $2', [
@@ -151,7 +154,7 @@ const userLogin = async (req: Request, res: Response) => {
     // Check if the creator is verified, if not, send a new verification email.
     const is_verified = await query('SELECT is_verified FROM creator WHERE email = $1', [email]);
     if (!is_verified.rows[0].is_verified) {
-       const newVerificationToken = generateVerificationToken(username, email);
+       const newVerificationToken = generateVerificationToken(username, creator_id);
       // Check if the token was generated successfully
       if (!newVerificationToken) {
         return res.status(500).json({

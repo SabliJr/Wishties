@@ -73,15 +73,6 @@ const onLogout = async () => {
   });
 };
 
-// const onGetCreator = async () => {
-//   return await axios.get(`${SERVER_URL}/get-creator`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     withCredentials: true,
-//   });
-// };
-
 const onAddWish = async (FormData: FormData) => {
   return await axios.post(`${SERVER_URL}/add-wish`, FormData, {
     withCredentials: true,
@@ -103,24 +94,6 @@ const onEditWish = async (wish: FormData) => {
     withCredentials: true,
   });
 };
-
-// const onGetWish = async () => {
-//   return await axios.get(`${SERVER_URL}/get-wish`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     withCredentials: true,
-//   });
-// };
-
-// const onGetWishes = async () => {
-//   return await axios.get(`${SERVER_URL}/get-wishes`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     withCredentials: true,
-//   });
-// };
 
 const onAddSocialLinks = async (creatorSocialLinks: iCreatorSocialLinks[]) => {
   return await axios.post(
@@ -144,15 +117,6 @@ const onDeleteSocialLink = async (link_id: string) => {
     withCredentials: true,
   });
 };
-
-// const onGetSocialLinks = async () => {
-//   return await axios.get(`${SERVER_URL}/get-social-links`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     withCredentials: true,
-//   });
-// };
 
 const onUpdateCreatorInfo = async (formData: FormData) => {
   return await axios.put(`${SERVER_URL}/update-user-profile`, formData, {
@@ -181,7 +145,6 @@ const onGetCreatorInfo = async (username: string) => {
 };
 
 export {
-  // onGetCreator,
   onLogout,
   onLogin,
   onRegistration,
@@ -190,11 +153,8 @@ export {
   onAddWish,
   onRemoveWish,
   onEditWish,
-  // onGetWish,
-  // onGetWishes,
   onAddSocialLinks,
   onDeleteSocialLink,
-  // onGetSocialLinks,
   onVerifyEmail,
   onUpdateCreatorInfo,
   onIsUsernameAvailable,

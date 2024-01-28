@@ -16,7 +16,7 @@ const Index = () => {
 
   const handleGetStarted = () => {
     user_info?.role === "creator"
-      ? navigate(`/edit-profile/${user_info?.username}`)
+      ? navigate(`/wishlist/${user_info?.username}`)
       : navigate(`/signUp`);
   };
 

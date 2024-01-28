@@ -18,14 +18,9 @@ import UploadWish from "../UpLoadWish/index";
 import CategoriesFilters from "../../utils/Filtering/CategoriesFilters";
 import WishesFilters from "../../utils/Filtering/WishesFilters";
 import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user links component
-import Loader from "../../utils/Loader";
 
 import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
-// import { onGetSocialLinks, onGetCreator } from "../../API/authApi";
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
-
-import { iCreatorProfile, iLocalUser } from "../../Types/creatorStuffTypes";
-import { iErrors } from "../../Types/ErrorsTypes";
+import { iLocalUser } from "../../Types/creatorStuffTypes";
 
 import { useLocation } from "react-router-dom";
 
@@ -39,26 +34,11 @@ const Index = () => {
   const [profileEditModal, setProfileEditModal] = useState(false); // This is the edit profile module
   const [editInfo, setEditInfo] = useState(false);
   const [socialLinksModule, setSocialLinksModule] = useState(false);
-  // const [errors, setErrors] = useState<iErrors>({
-  //   links_error: "",
-  //   profile_info_error: "",
-  //   wishes_error: "",
-  // }); //Create a state for social links;
-  const [getCreatorSocialLinks, setGetCreatorSocialLinks] = useState<
-    iCreatorSocialLinks[]
-  >([]);
-  const [userInfo, setUserInfo] = useState<iCreatorProfile | undefined>(); //Create a state for social links;
   const [user_info, setUser_info] = useState<iLocalUser | null>({
     creator_id: "",
     username: "",
     role: "",
   });
-  // const {
-  //   setRefetchIcons,
-  //   refetchIcons,
-  //   refetchCreatorData,
-  //   setRefetchCreatorData,
-  // } = useUserInfoCOntext(); //Create a state for social links;
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const {
     creatorInfo,
@@ -68,7 +48,6 @@ const Index = () => {
     displayCategories,
     setDisplayCategories,
     getCategories,
-    isPublicDataLoading,
   } = contextValues as iGlobalValues;
 
   let { pathname } = useLocation();
@@ -77,42 +56,6 @@ const Index = () => {
     if (role) setUser_info(JSON.parse(role));
     else setUser_info(null);
   }, [pathname]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const res = await onGetCreator();
-  //       setUserInfo(res.data);
-  //     } catch (error) {
-  //       if (error) {
-  //         setErrors({
-  //           ...errors,
-  //           profile_info_error: "Something went wrong, please try again!",
-  //         });
-  //       }
-  //     }
-  //   })();
-
-  //   setRefetchCreatorData(false);
-  // }, [refetchCreatorData, setRefetchCreatorData]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const res = await onGetSocialLinks();
-  //       setGetCreatorSocialLinks(res.data);
-  //     } catch (error) {
-  //       if (error) {
-  //         setErrors({
-  //           ...errors,
-  //           links_error: "Something went wrong loading links!",
-  //         });
-  //       }
-  //     }
-  //   })();
-
-  //   setRefetchIcons(false);
-  // }, [refetchIcons, setRefetchIcons]);
 
   const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);

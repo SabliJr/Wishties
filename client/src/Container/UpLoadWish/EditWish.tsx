@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import "./upLoadWish.css";
 
 import { onEditWish } from "../../API/authApi";
-import { iWish, iCart } from "../../Types/wishListTypes";
+import { iCart } from "../../Types/wishListTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { MdClose } from "react-icons/md";
@@ -141,7 +141,6 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
               <input
                 type='text'
                 placeholder='Your wish name'
-                // autoComplete='off'
                 value={wishToEdit?.wish_name ? wishToEdit.wish_name : ""}
                 id='wishName'
                 onChange={(e) => {
@@ -155,7 +154,6 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
               <input
                 type='text'
                 placeholder='Enter Amount $:'
-                // autoComplete='off'
                 value={wishToEdit?.wish_price ? wishToEdit.wish_price : ""}
                 id='thePrice'
                 onChange={(e) => {

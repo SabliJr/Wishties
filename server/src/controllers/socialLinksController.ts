@@ -64,31 +64,6 @@ const onAddSocialLinks = async (req: Request, res: Response) => {
     }
 }
 
-// const onGetSocialLinks = async (req: Request, res: Response) => {
-//     const { refreshToken } = req.cookies;
-//     if (!refreshToken) {
-//         return res.status(401).json({ error: 'Unauthorized' });
-//     }
-
-//     let decoded;
-//     try {
-//         decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(401).json({ error: 'Unauthorized' });
-//     }
-
-//     let creator_id = decoded.creator_id;
-//     try {
-//         const links = await query('SELECT * FROM social_media_links WHERE creator_id = $1', [creator_id]);
-//         res.status(200).json(links.rows);
-//     }
-//     catch (err) {
-//         console.error(err);
-//         res.status(500).json({ error: 'An error occurred while getting the links.' });
-//     }
-// }
-
 const onDeleteSocialLink = async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
     if (!refreshToken) {

@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
 import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { v4 as uuidv4 } from "uuid";
 
 import Insta from "../../Assets/UserIcons/instagram.png";
@@ -39,8 +38,6 @@ const SelectPlatform = ({
       platform_link: "",
     });
 
-  // const { setCreatorSocialLinks } = useUserInfoCOntext();
-
   const socialMediaOptions = [
     { platform_icon: Insta, platform_name: "Instagram" },
     { platform_icon: xTwitter, platform_name: "Twitter" },
@@ -56,25 +53,7 @@ const SelectPlatform = ({
   ];
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const {
-    // refresh,
-    // setRefresh,
-    setCreatorInfo,
-    setCreatorWishes,
-    setCreatorSocialLinks,
-    creatorWishes,
-    selectedFilter,
-    selectedCategories,
-    setSelectedCategories,
-    setRefetchCreatorData,
-    setCartItems,
-    isPublicDataLoading,
-    filteredAndSortedWishes,
-    creatorSocialLinks,
-    displayedSocialLinks,
-    setDisplayedSocialLinks,
-    refetchCreatorData,
-  } = contextValues as iGlobalValues;
+  const { setDisplayedSocialLinks } = contextValues as iGlobalValues;
 
   const handleLinkChange = (
     event:
@@ -121,10 +100,6 @@ const SelectPlatform = ({
     setLinksModule(!linksModule); // Close the module
   };
 
-  // useEffect(() => {
-  //   setDisplayedSocialLinks(creatorSocialLinks || []);
-  // }, [creatorSocialLinks, setDisplayedSocialLinks]);
-
   return (
     <>
       <select
@@ -136,7 +111,6 @@ const SelectPlatform = ({
             {option.platform_name}
           </option>
         ))}
-        {/* <option value='custom'>Other</option> */}
       </select>
       <div>
         <p>Enter Link:</p>

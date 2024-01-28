@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import "./Profile.css";
 
 import { MdClose } from "react-icons/md";
 import { iCreatorProfile, iUserInfo } from "../../Types/creatorStuffTypes";
 import { onUpdateCreatorInfo, onIsUsernameAvailable } from "../../API/authApi";
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { debounce } from "lodash";
 
 import ProfilePlus from "../../Assets/camera.png";
 import CoverPlus from "../../Assets/Plus.png";
 import Loader from "../../utils/Loader";
 import CloseModules from "../../utils/CloseModules";
+
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
 
 interface iImages {
   creatorInfo: iCreatorProfile | undefined;
@@ -55,7 +57,8 @@ const UserInfoEdit = ({
   const coverImgRef = useRef<HTMLInputElement>(null);
   const profileImgRef = useRef<HTMLInputElement>(null);
 
-  const { setRefetchCreatorData } = useUserInfoCOntext(); //Create a state for social links;
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setRefetchCreatorData } = contextValues as iGlobalValues;
 
   const closeEditPopup = () => {
     if (editInfo === true) {
@@ -90,9 +93,6 @@ const UserInfoEdit = ({
           const response = await onIsUsernameAvailable(newUsername);
 
           if (response.data.isExists === false) {
-            // console.log(response.data);
-
-            // console.log("Username is available");
             setUserProfileInfo((prev) => ({
               ...prev,
               profile_username: newUsername,
@@ -101,10 +101,7 @@ const UserInfoEdit = ({
         }
       } catch (error: any) {
         if (error.response && error.response.data.isExists === true) {
-          // console.log(error.response.data);
-
           setIsUsernameAvailable(true);
-          // console.log("Username is not available");
           setIsError((prev) => ({
             ...prev,
             usernameErr: error.response.data.message,
