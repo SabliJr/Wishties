@@ -1,15 +1,18 @@
 import React, { useState, useContext } from "react";
 import "./Register.css";
 
+import UserImg from "./UserImg";
+
 import { FcGoogle } from "react-icons/fc";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import UserImg from "./UserImg";
+
 import { useNavigate } from "react-router-dom";
 import { onLogin } from "../../API/authApi";
+
 import Loader from "../../utils/Loader";
+
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { useAuth } from "../../Context/authCntextProvider";
 
 const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +25,6 @@ const Login = (): JSX.Element => {
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { setUserEmail, setServerErrMsg } = contextValues as iGlobalValues;
-  const { setAuth } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (
@@ -42,10 +44,8 @@ const Login = (): JSX.Element => {
       // If a user email is verified and logged in is successful
       if (response.status === 202) {
         // Save the user id and username in the context
-        const accessToken = response?.data?.accessToken;
         let user_role = response?.data?.role;
         const { creator_id, username } = response?.data.user;
-        setAuth({ creator_id, username, accessToken });
         setLogInData({ email: "", pwd: "" });
 
         let user_info = {
@@ -55,7 +55,7 @@ const Login = (): JSX.Element => {
         };
         localStorage.setItem("user_info", JSON.stringify(user_info));
 
-        navigate(`/edit-profile/${response.data.user.username}`);
+        navigate(`/wishlist/${response.data.user.username}`);
       }
     } catch (error: any) {
       if (error.response) {

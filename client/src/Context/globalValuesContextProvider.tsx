@@ -15,7 +15,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userEmail, setUserEmail] = useState("");
   const [reverificationSuccess, setReverificationSuccess] = useState("");
   const [serverErrMsg, setServerErrMsg] = useState("");
-  // const [refresh, setRefresh] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("Default");
   const [displayFilters, setDisplayFilters] = useState(false);
   const [displayCategories, setDisplayCategories] = useState(false);
@@ -42,7 +41,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   });
   const [refetchCreatorData, setRefetchCreatorData] = useState(false);
 
-  const [error, setError] = useState("");
+  const [globalError, setGlobalError] = useState("");
   const [creatorInfo, setCreatorInfo] = useState<iCreatorProfile>(
     {} as iCreatorProfile
   );
@@ -58,6 +57,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     useState<iCreatorSocialLinks[]>(creatorSocialLinks);
 
   let creator_username = window.location.pathname.split("/")[2];
+  // const Wishes: iWishInfo[] = [];
 
   useEffect(() => {
     (async () => {
@@ -84,11 +84,11 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch (error: any) {
         if (error?.response?.status === 404) {
-          setError(error?.response?.data);
+          setGlobalError(error?.response?.data);
         } else if (error?.message === "Network Error") {
-          setError("Network Error");
+          setGlobalError("Network Error");
         } else {
-          setError("Something went wrong!");
+          setGlobalError("Something went wrong!");
         }
         setIsPublicDataLoading(false);
         setRefetchCreatorData(false);
@@ -166,8 +166,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setReverificationSuccess,
         serverErrMsg,
         setServerErrMsg,
-        // refresh,
-        // setRefresh,
         cartItems,
         setCartItems,
         creatorInfo,
@@ -192,6 +190,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setRefetchCreatorData,
         displayedSocialLinks,
         setDisplayedSocialLinks,
+        globalError,
       }}>
       {children}
     </GlobalValuesContext.Provider>

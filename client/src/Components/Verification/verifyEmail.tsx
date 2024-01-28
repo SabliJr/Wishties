@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import "./verify.css";
 import "../../App.css";
 
-import { useAuth } from "../../Context/authCntextProvider";
 import { onVerifyEmail } from "../../API/authApi";
 
 import Navbar from "../../Components/TheHeader/index";
@@ -15,10 +14,8 @@ import ErrorImg from "../../Assets/error-message.png";
 const VerifyEmail = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [verificationSuccess, setVerificationSuccess] = useState(true);
-
-  const { setAuth } = useAuth();
 
   // Setting a dynamic timeout (e.g., 90 seconds)
   const timeoutDuration = 5 * 1000; // 90 seconds in milliseconds
@@ -34,11 +31,12 @@ const VerifyEmail = () => {
 
         if (res.status === 202) {
           // Save the user id and username in the context
-          const accessToken = res?.data?.accessToken;
-          const { creator_id, username } = res?.data.user;
+          const { creator_id, username, role } = res?.data.user;
 
-          setUserId(creator_id);
-          setAuth({ userId, username, accessToken });
+          localStorage.setItem(
+            "user_info",
+            JSON.stringify({ creator_id, username, role })
+          );
 
           // Set verification success state
           setVerificationSuccess(true);
@@ -64,7 +62,7 @@ const VerifyEmail = () => {
         setIsLoaded(false);
       }
     })();
-  }, [setAuth, userId]);
+  }, []);
 
   return (
     <>

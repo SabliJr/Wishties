@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./UserSocials.css";
 
-import { useUserInfoCOntext } from "../../Context/UserProfileContextProvider";
 import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
-import { onAddSocialLinks } from "../../API/authApi";
+import { onAddSocialLinks, onDeleteSocialLink } from "../../API/authApi";
 
 //React Icons
 import { CgClose } from "react-icons/cg";
@@ -15,11 +14,9 @@ import { MdDelete } from "react-icons/md";
 import SelectPlatform from "./SelectPlatform";
 import Loader from "../../utils/Loader";
 
+//Context
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
-
-import { onDeleteSocialLink } from "../../API/authApi";
-import { set } from "lodash";
 
 type SocialMediaLinkFormProps = {
   handleSocialLinksModule: () => void;
@@ -36,40 +33,23 @@ const SocialMediaLinkForm = ({
   const [isAdding, setIsAdding] = useState(false);
   const [isError, setIsError] = React.useState("");
   const [link_id, setLink_id] = useState("");
-
-  // const { creatorSocialLinks, setRefetchIcons } = useUserInfoCOntext(); //Create a state for social links;
-  const modelRef = useRef<HTMLDivElement | null>(null);
-
   const [initialSocialLinks, setInitialSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
 
+  const modelRef = useRef<HTMLDivElement | null>(null);
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const {
-    // refresh,
-    // setRefresh,
-    setCreatorInfo,
-    setCreatorWishes,
-    setCreatorSocialLinks,
-    creatorWishes,
-    selectedFilter,
-    selectedCategories,
-    setSelectedCategories,
     setRefetchCreatorData,
-    setCartItems,
-    isPublicDataLoading,
-    filteredAndSortedWishes,
     creatorSocialLinks,
     displayedSocialLinks,
     setDisplayedSocialLinks,
-    refetchCreatorData,
   } = contextValues as iGlobalValues;
 
-  // Remove the dependency on creatorSocialLinks from the first useEffect
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setInitialSocialLinks(displayedSocialLinks as iCreatorSocialLinks[]);
-  }, [displayedSocialLinks]); // This runs only once when the component mounts
+  }, [displayedSocialLinks]);
 
   useEffect(() => {
     if (
@@ -137,7 +117,6 @@ const SocialMediaLinkForm = ({
 
         {/* Display the icons if there are any links */}
         {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
-          // <DisplayIcons />
           <>
             {displayedSocialLinks?.map((x: iCreatorSocialLinks) => (
               <div key={x.link_id} className='socialMediaLinkDiv'>

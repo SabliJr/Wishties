@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
-// import { useAuth } from "../../Context/authCntextProvider";
 import { onLogout } from "../../API/authApi";
 
 //Icons
@@ -16,7 +15,6 @@ import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { iLocalUser } from "../../Types/creatorStuffTypes";
 import CloseModules from "../../utils/CloseModules";
-import { set } from "lodash";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +23,6 @@ const Index = () => {
     username: "",
     role: "",
   });
-  // const { setAuth } = useAuth();
   let navigate = useNavigate();
   let moduleRef = useRef<null | HTMLDivElement>(null);
   let path_username = window.location.pathname.split("/")[2];
@@ -49,7 +46,6 @@ const Index = () => {
       const res = await onLogout();
       localStorage.removeItem("user_info");
       if (res.status === 200) {
-        // setAuth({});
         if (path_username !== undefined) navigate(`/wishlist/${path_username}`);
         // Display the creator's wishlist as a guest
         else navigate("/"); // Display the homepage as a guest
@@ -69,8 +65,6 @@ const Index = () => {
     navigate(`/wishlist/${user_info?.username}`);
     setRefetchCreatorData(true);
     setIsOpen(false);
-    // localStorage.removeItem("user_info");
-    // setRerunLocal(!rerunLocal);
   };
 
   const goToAccountSettings = () => {
@@ -100,8 +94,6 @@ const Index = () => {
           <div
             className='itemsIcon'
             onClick={() => {
-              // setRerunLocal(!rerunLocal);
-              // window.location.href = `/wishlist/${user_info?.username}`;
               navigate(`/wishlist/${user_info?.username}`);
               setRefetchCreatorData(true);
             }}>

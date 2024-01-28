@@ -1,47 +1,44 @@
 import React, { useEffect, useState, useContext } from "react";
-import { iCart, iWish } from "../../Types/wishListTypes";
-import { onRemoveWish } from "../../API/authApi";
-import EditWish from "./EditWish";
 import "./upLoadWish.css";
 import "../Public/creator_page_style.css";
 
+import { onRemoveWish } from "../../API/authApi";
+
+//Icons
 import { FaCartPlus } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
 import { TbEdit } from "react-icons/tb";
 import { MdDeleteForever } from "react-icons/md";
 import { RiCloseLine } from "react-icons/ri";
+import { GrClose } from "react-icons/gr";
 
+//Context
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
+
+//Components
 import FormatMoney from "../../utils/FormatMoney";
-import { iErrors } from "../../Types/ErrorsTypes";
+import EditWish from "./EditWish";
+
 import { useLocation, useNavigate } from "react-router-dom";
+
+//Types
 import { iLocalUser } from "../../Types/creatorStuffTypes";
-import { GrClose } from "react-icons/gr";
+import { iCart } from "../../Types/wishListTypes";
 
 const TheWish = (): JSX.Element => {
   // const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
   const [editingWishId, setEditingWishId] = useState<null | string>(null);
   const [wishToEdit, setWishToEdit] = useState<iCart | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [user_info, setUser_info] = useState<null | iLocalUser>(null);
   const [addingToCartItemId, setAddingToCartItemId] = useState<null | string>(
     null
   );
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const {
-    // refresh,
-    // setRefresh,
-    setCreatorInfo,
-    setCreatorWishes,
-    setCreatorSocialLinks,
     creatorWishes,
-    selectedFilter,
-    selectedCategories,
-    setSelectedCategories,
     setRefetchCreatorData,
     setCartItems,
-    isPublicDataLoading,
     filteredAndSortedWishes,
   } = contextValues as iGlobalValues;
 
@@ -53,27 +50,6 @@ const TheWish = (): JSX.Element => {
     else setUser_info(null);
   }, [pathname]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       setIsLoaded(false);
-  //       const wishes = await onGetWishes();
-  //       setCreatorWishes(wishes.data.wishes as iWish[]);
-  //       setIsLoaded(true);
-  //     } catch (error) {
-  //       if (error) {
-  //         setErrors({
-  //           ...errors,
-  //           wishes_error:
-  //             "Something went wrong loading wishes, please try again!",
-  //         });
-  //       }
-  //       setIsLoaded(true);
-  //     }
-  //   })();
-  //   setRefresh(false);
-  // }, [refresh, setRefresh]);
-
   const handleEditWish = async (wish_id: string) => {
     const wish = creatorWishes?.filter((x) => x.wish_id === wish_id);
     setWishToEdit(wish[0]);
@@ -84,7 +60,6 @@ const TheWish = (): JSX.Element => {
     try {
       await onRemoveWish(wish_id);
       setRefetchCreatorData(true);
-      // setRefresh(true);
     } catch (error: any) {
       if (error?.response) {
         alert("Something went wrong, please try again.");

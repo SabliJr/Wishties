@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Create the User/Creator table
 CREATE TABLE creator (
-creator_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY, -- Creator's ID
+creator_id UUID PRIMARY KEY, -- Creator's ID
  creator_name VARCHAR(50) NOT NULL, -- Creator's name
  username VARCHAR(50) UNIQUE NOT NULL, -- Creator's username
  creator_bio VARCHAR(160), -- Creator's bio
@@ -12,21 +12,9 @@ email VARCHAR(256) UNIQUE NOT NULL, --  Creator's email
  profile_image TEXT, -- Creator's profile image
  cover_image TEXT, -- Creator's cover image
 created_at TIMESTAMP DEFAULT NOW(), -- Creator's account creation date
-verification_token VARCHAR(256), -- Creator's verification code
+verification_token VARCHAR(512), -- Creator's verification code
  is_verified BOOLEAN DEFAULT FALSE -- Creator's verification status
 );
-
--- -- Create the Wishlist table
--- CREATE TABLE wishlist (
---     wishlist_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
---     creator_id UUID REFERENCES creator(creator_id),
--- CONSTRAINT fk_creator_id
--- FOREIGN KEY (creator_id) REFERENCES creator(creator_id) ON
--- DELETE CASCADE
--- );
-
--- CREATE INDEX idx_creator_id ON wishlist (creator_id);
-
 
 -- Create the Wish table
 CREATE TABLE wishes (
@@ -35,16 +23,13 @@ creator_id UUID REFERENCES creator(creator_id), -- wishlist_id UUID REFERENCES w
     wish_name VARCHAR(256) NOT NULL,
 wish_price NUMERIC NOT NULL,
 wish_image TEXT NOT NULL,
--- wish_link TEXT,
 wish_category VARCHAR(150),
               wish_type VARCHAR(150), -- To check if it's a single buy or a subscription
     created_date TIMESTAMP DEFAULT NOW(),
     purchased BOOLEAN DEFAULT FALSE,
 deleted_at TIMESTAMP DEFAULT NULL
 );
-
 CREATE INDEX idx_wishlist_id ON wish (wishlist_id);
-
 
 -- Create the Creator's Social Media Links table
 CREATE TABLE social_media_links (

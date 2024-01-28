@@ -2,7 +2,6 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import passport from 'passport';
 
 import { PORT, CLIENT_URL } from './constants';
 import router from './routes/appRoutes';
