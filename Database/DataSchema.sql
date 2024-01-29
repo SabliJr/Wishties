@@ -13,7 +13,8 @@ email VARCHAR(256) UNIQUE NOT NULL, --  Creator's email
  cover_image TEXT, -- Creator's cover image
 created_at TIMESTAMP DEFAULT NOW(), -- Creator's account creation date
 verification_token VARCHAR(512), -- Creator's verification code
- is_verified BOOLEAN DEFAULT FALSE -- Creator's verification status
+is_verified BOOLEAN DEFAULT FALSE, -- Creator's verification status
+ is_stripe_connected BOOLEAN DEFAULT FALSE
 );
 
 -- Create the Wish table

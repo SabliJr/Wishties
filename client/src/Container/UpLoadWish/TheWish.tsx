@@ -27,7 +27,6 @@ import { iLocalUser } from "../../Types/creatorStuffTypes";
 import { iCart } from "../../Types/wishListTypes";
 
 const TheWish = (): JSX.Element => {
-  // const [creatorWishes, setCreatorWishes] = useState<iWish[]>([]);
   const [editingWishId, setEditingWishId] = useState<null | string>(null);
   const [wishToEdit, setWishToEdit] = useState<iCart | null>(null);
   const [user_info, setUser_info] = useState<null | iLocalUser>(null);
@@ -40,6 +39,7 @@ const TheWish = (): JSX.Element => {
     setRefetchCreatorData,
     setCartItems,
     filteredAndSortedWishes,
+    showProfile,
   } = contextValues as iGlobalValues;
 
   let { pathname } = useLocation();
@@ -129,7 +129,7 @@ const TheWish = (): JSX.Element => {
                   <FormatMoney price={Number(x.wish_price)} />
                 </p>
               </div>
-              {user_info?.role === "creator" ? (
+              {user_info?.role === "creator" && !showProfile ? (
                 <div
                   className='wishOptionBtn'
                   onClick={() => setEditingWishId(x.wish_id)}>

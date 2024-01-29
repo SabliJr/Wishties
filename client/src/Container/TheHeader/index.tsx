@@ -7,7 +7,7 @@ import { onLogout } from "../../API/authApi";
 //Icons
 import { TbClipboardList } from "react-icons/tb";
 import { FaUserGear } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
@@ -24,11 +24,13 @@ const Index = () => {
     role: "",
   });
   let navigate = useNavigate();
+  let { pathname } = useLocation();
   let moduleRef = useRef<null | HTMLDivElement>(null);
   let path_username = window.location.pathname.split("/")[2];
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { cartItems, setRefetchCreatorData } = contextValues as iGlobalValues;
+  const { cartItems, setRefetchCreatorData, setShowProfile } =
+    contextValues as iGlobalValues;
 
   const handleCloseNav = () => {
     setIsOpen(false);
@@ -39,7 +41,7 @@ const Index = () => {
     let role = localStorage.getItem("user_info");
     if (role) setUser_info(JSON.parse(role));
     else setUser_info(null);
-  }, []);
+  }, [pathname]);
 
   const handleLogout = async () => {
     try {
@@ -61,14 +63,20 @@ const Index = () => {
     }
   };
 
-  const showProfile = () => {
-    navigate(`/wishlist/${user_info?.username}`);
-    setRefetchCreatorData(true);
-    setIsOpen(false);
+  const goToAccountSettings = () => {
+    if (user_info?.creator_id) {
+      setShowProfile(false);
+      navigate("/account-settings");
+    }
   };
 
-  const goToAccountSettings = () => {
-    navigate("/profile/account-settings");
+  const handleShowProfile = () => {
+    if (user_info?.creator_id) {
+      setShowProfile(true);
+
+      navigate(`/wishlist/${user_info?.username}`);
+      setRefetchCreatorData(true);
+    }
   };
 
   return (
@@ -95,6 +103,7 @@ const Index = () => {
             className='itemsIcon'
             onClick={() => {
               navigate(`/wishlist/${user_info?.username}`);
+              setShowProfile(false);
               setRefetchCreatorData(true);
             }}>
             <TbClipboardList className='wishIcon' />
@@ -115,9 +124,7 @@ const Index = () => {
               <li onClick={goToAccountSettings}>
                 <p>Account Settings</p>
               </li>
-              <li onClick={showProfile}>
-                <p>View your profile</p>
-              </li>
+              <li onClick={handleShowProfile}>View Your Profile</li>
               <li onClick={handleLogout}>
                 <p>Logout</p>
               </li>

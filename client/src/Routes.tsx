@@ -1,11 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  // Outlet,
-  // Navigate,
-} from "react-router-dom";
-// import { useAuth } from "./Context/authCntextProvider";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
@@ -14,7 +7,6 @@ import NotFound from "./Pages/NotFound";
 import WishList from "./Pages/WishList";
 import Verify from "./Pages/VerificationPage";
 import CheckEmail from "./Pages/CheckEmail";
-// import PersistLogin from "./utils/persistLogin";
 import VerifyEmail from "./Components/Verification/verifyEmail";
 import Contact from "./Pages/Contact";
 import Help from "./Pages/Help";
@@ -22,26 +14,13 @@ import About from "./Pages/About";
 import HowItWorks from "./Pages/HowItWorks";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsOfService from "./Pages/TermsOfService";
-
-// import { iAuth } from "./Types/creatorStuffTypes";
-// import CreatorPage from "./Pages/CreatorPublicPage";
 import Cart from "./Pages/Cart";
-
-// const FullPrivateRoutes = () => {
-//   const { auth, setAuth } = useAuth();
-
-//   useEffect(() => {
-//     setAuth(auth as iAuth);
-//   }, [auth, setAuth]);
-
-//   return (
-//     <>{(auth as iAuth)?.accessToken ? <Outlet /> : <Navigate to='/login' />}</>
-//   );
-// };
+import AccountSettings from "./Pages/AccountSettings";
+import BeforeStripeConnect from "./utils/BeforeStripeConnect";
 
 const RoutesFile = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
@@ -54,20 +33,14 @@ const RoutesFile = () => {
         <Route path='/how-it-works' element={<HowItWorks />} />
         <Route path='/help' element={<Help />} />
         <Route path='/about' element={<About />} />
-
-        {/* <Route element={<PersistLogin />}>
-          <Route element={<FullPrivateRoutes />}>
-            <Route path='/edit-profile/:username' element={<WishList />} />
-          </Route>
-        </Route> */}
-
         <Route path='/verify' element={<Verify />} />
         <Route path='/check-email' element={<CheckEmail />} />
-        {/* <Route path='/wishlist/:username' element={<CreatorPage />} /> */}
+        <Route path='/account-settings' element={<AccountSettings />} />
+        <Route path='/stripe-notice' element={<BeforeStripeConnect />} />
         <Route path='/wishlist/:username' element={<WishList />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 };
 

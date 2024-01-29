@@ -20,6 +20,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [displayCategories, setDisplayCategories] = useState(false);
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
   const [getCategories, setGetCategories] = useState<string[] | null>([]);
+  const [showProfile, setShowProfile] = useState(false);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "All",
@@ -191,6 +192,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         displayedSocialLinks,
         setDisplayedSocialLinks,
         globalError,
+        showProfile,
+        setShowProfile,
       }}>
       {children}
     </GlobalValuesContext.Provider>
