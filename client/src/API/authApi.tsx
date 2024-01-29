@@ -144,6 +144,16 @@ const onGetCreatorInfo = async (username: string) => {
   });
 };
 
+const onGetUserInfos = async (creator_id: string) => {
+  return await axios.get(`${SERVER_URL}/creator-infos`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: { creator_id },
+    withCredentials: true,
+  });
+};
+
 export {
   onLogout,
   onLogin,
@@ -159,4 +169,5 @@ export {
   onUpdateCreatorInfo,
   onIsUsernameAvailable,
   onGetCreatorInfo,
+  onGetUserInfos,
 };

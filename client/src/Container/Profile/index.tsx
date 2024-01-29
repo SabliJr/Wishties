@@ -48,6 +48,7 @@ const Index = () => {
     displayCategories,
     setDisplayCategories,
     getCategories,
+    showProfile,
   } = contextValues as iGlobalValues;
 
   let { pathname } = useLocation();
@@ -110,12 +111,19 @@ const Index = () => {
             profileEditModal={profileEditModal}
           />
         ) : null}
-        {user_info?.role === "creator" ? (
+        {user_info?.role === "creator" && !showProfile ? (
           <div className='EditIconsDiv'>
             <button className='profileEdit' onClick={handleProfileInfoEdit}>
               Edit your profile{" "}
               <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
             </button>
+            <div className='_payment_setup_div'>
+              <p className='_payment_setup_p'>
+                Finish setting up your account to receive funds. You have more
+                steps to complete your payment setup.
+              </p>
+              <button className='_payment_setup_btn'>Finish Setting Up</button>
+            </div>
             <button className='editIconsBtn' onClick={handleSocialLinksModule}>
               Add social links <TbEdit />
             </button>
@@ -165,7 +173,7 @@ const Index = () => {
             )}
             {displayFilters && <WishesFilters />}
           </div>
-          {user_info?.role === "creator" ? (
+          {user_info?.role === "creator" && !showProfile ? (
             <div className='rightBtns'>
               <button
                 className='wishItemBtn'

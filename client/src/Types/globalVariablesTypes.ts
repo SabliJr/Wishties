@@ -34,4 +34,6 @@ export interface iGlobalValues {
   setRefetchCreatorData: React.Dispatch<React.SetStateAction<boolean>>;
   displayedSocialLinks: iCreatorSocialLinks[];
   setDisplayedSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
+  showProfile: boolean;
+  setShowProfile: React.Dispatch<React.SetStateAction<boolean>>;
 }
