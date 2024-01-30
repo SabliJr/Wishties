@@ -22,7 +22,11 @@ const sendVerificationEmail = (email: string, token: string) => {
     from: `Wishties 🎁` + EMAIL_HOST,
     to: email,
     subject: 'Email Verification',
-    html: `<p>Click the following link to verify your email:
+    html: `<p> 
+    Thanks for creating a Wishties account. Verify your email address so that you can get up and running quickly.
+    <br>
+    <br>
+    Click the following link to do so:
     <a href="${CLIENT_URL}/verify-email/${token}">Verify Email</a></p>`,
   };
   return mailOptions;

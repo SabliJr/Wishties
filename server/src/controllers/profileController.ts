@@ -156,4 +156,42 @@ const onCheckUsername = async (req: Request, res: Response) => {
   }
 }
 
-export { onUpdateProfile, onCheckUsername }; 
+const onGetCreatorInfo = async (req: Request, res: Response) => {
+  const cookie = req.cookies;
+  if (!cookie.refreshToken)
+    return res.status(401).send('Unauthorized');
+  let refreshToken = cookie.refreshToken;
+
+  let payload;
+  try {
+    payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
+  } catch (err) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  try {
+    const { creator_id } = payload;
+    const { rows } = await query('SELECT * FROM creator WHERE creator_id = $1', [creator_id]);
+
+    let creator_info = rows.map((creator: any) => {
+      return {
+        creator_id: creator.creator_id,
+        creator_name: creator.creator_name,
+        username: creator.username,
+        creator_bio: creator.creator_bio,
+        profile_image: creator.profile_image,
+        creator_email: creator.creator_email,
+      }
+    });
+
+    res.status(200).json({
+      message: 'Creator profile',
+      creator: creator_info
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
+  }
+}
+
+export { onUpdateProfile, onCheckUsername, onGetCreatorInfo }; 

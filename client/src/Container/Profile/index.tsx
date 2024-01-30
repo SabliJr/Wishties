@@ -22,7 +22,7 @@ import SocialMediaLinkForm from "../UserSocialLinks/index"; //This is the user l
 import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
 import { iLocalUser } from "../../Types/creatorStuffTypes";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
@@ -49,14 +49,19 @@ const Index = () => {
     setDisplayCategories,
     getCategories,
     showProfile,
+    // setRefetchCreatorData,
   } = contextValues as iGlobalValues;
 
   let { pathname } = useLocation();
+  let navigate = useNavigate();
+
   useEffect(() => {
     let role = localStorage.getItem("user_info");
+    // setRefetchCreatorData(true);
     if (role) setUser_info(JSON.parse(role));
     else setUser_info(null);
   }, [pathname]);
+  // console.log(pathname);
 
   const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);
@@ -122,7 +127,11 @@ const Index = () => {
                 Finish setting up your account to receive funds. You have more
                 steps to complete your payment setup.
               </p>
-              <button className='_payment_setup_btn'>Finish Setting Up</button>
+              <button
+                className='_payment_setup_btn'
+                onClick={() => navigate("/stripe-notice", { replace: true })}>
+                Finish Setting Up
+              </button>
             </div>
             <button className='editIconsBtn' onClick={handleSocialLinksModule}>
               Add social links <TbEdit />

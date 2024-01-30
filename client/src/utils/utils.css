@@ -1,0 +1,79 @@
+._stripe_notice_container {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  margin: 5rem auto;
+  width: 40%;
+  background-color: #FBFFFE;
+  padding: 2rem;
+  border-radius: 1rem;
+  min-height: 60vh;
+  gap: 2rem;
+}
+
+._notice_txt {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #1D3557;
+  line-height: 1.3;
+  letter-spacing: .42px;
+  font-family: sans-serif;
+}
+
+._notice_txt_spans {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: 'Archivo', sans-serif;
+  line-height: 1.3;
+  letter-spacing: .42px;
+  font-style: italic;
+}
+
+._go_to_stripe_btn,
+._back_to_app_btn {
+  background-color: #1D3557;
+  color: #FBFFFE;
+  border: none;
+  border-radius: .7rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+}
+
+._back_to_app_btn {
+  background-color: transparent;
+  color: #1547d2;
+  font-size: 1.2rem;
+  justify-content: flex-start !important;
+  padding: 0;
+}
+
+._notice_agree_checkbox {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  letter-spacing: .42px;
+  color: #d4145a;
+}
+
+._notice_agree_checkbox input {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+._error_txt {
+  color: red;
+  font-size: 1.2rem;
+  background-color: rgba(239, 209, 209, 0.693);
+  padding: .5rem .3rem;
+  border-radius: .42rem;
+  width: auto;
+  font-family: 'Archivo', sans-serif;
+}

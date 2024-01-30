@@ -191,14 +191,14 @@ const Cart = () => {
                 <div className='_cart_qnty_btns'>
                   <button
                     className='_cart_qnty_btn'
-                    onClick={() => handleIncreaseQuantity(item.wish_id)}>
-                    <AiOutlinePlus />
+                    onClick={() => handleDecreaseQuantity(item.wish_id)}>
+                    <AiOutlineMinus />
                   </button>
                   <p>{item.quantity}</p>
                   <button
                     className='_cart_qnty_btn'
-                    onClick={() => handleDecreaseQuantity(item.wish_id)}>
-                    <AiOutlineMinus />
+                    onClick={() => handleIncreaseQuantity(item.wish_id)}>
+                    <AiOutlinePlus />
                   </button>
                 </div>
                 <div style={{ textAlign: "center" }}>
