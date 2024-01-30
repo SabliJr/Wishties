@@ -5,7 +5,7 @@ import { check } from 'express-validator';
 import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
 import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishControllers';
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
-import { onUpdateProfile, onCheckUsername } from '../controllers/profileController';
+import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
 import { getCreator } from '../controllers/getUserController';
@@ -38,6 +38,7 @@ router.get('/refresh-token', handleRefreshToken); // refresh token
 // Profile routes
 router.get('/check-username', check('username').isString().trim().escape(), onCheckUsername) // get creator profile
 router.post('/update-profile', upload.array('profile_images'), authenticateCreator, validate(401), onUpdateProfile)
+router.get('/creator-infos', authenticateCreator, validate(401), onGetCreatorInfo) // get creator profile
 router.post('/reset-password',) // reset password
 
 // Wishes routes

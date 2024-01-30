@@ -58,7 +58,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     useState<iCreatorSocialLinks[]>(creatorSocialLinks);
 
   let creator_username = window.location.pathname.split("/")[2];
-  // const Wishes: iWishInfo[] = [];
 
   useEffect(() => {
     (async () => {
@@ -106,6 +105,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     setSelectedCategories,
     refetchCreatorData,
   ]);
+  console.log("creatorInfo", creatorInfo);
 
   useEffect(() => {
     if (creatorWishes && creatorWishes.length > 0) {

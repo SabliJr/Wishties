@@ -28,12 +28,13 @@ const AccountSettings = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const response = await onGetUserInfos(
-        //   user_local_info?.creator_id as string
-        // );
-        // if (response.status === 200) {
-        //   setUser_display_info(response.data);
-        // }
+        const response = await onGetUserInfos(
+          user_local_info?.creator_id as string
+        );
+        console.log(response);
+        if (response.status === 200) {
+          setUser_display_info(response.data);
+        }
       } catch (error) {
         if (error) {
           setError(
