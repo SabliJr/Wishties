@@ -5,7 +5,8 @@ const useLogout = () => {
     try {
       await onLogout();
       localStorage.removeItem("user_info");
-      console.log("Logged out");
+      window.location.href = "/";
+
     } catch (err) {
       console.error(err);
     }

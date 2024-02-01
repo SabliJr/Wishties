@@ -49,19 +49,16 @@ const Index = () => {
     setDisplayCategories,
     getCategories,
     showProfile,
-    // setRefetchCreatorData,
   } = contextValues as iGlobalValues;
 
-  let { pathname } = useLocation();
+  let location = useLocation();
   let navigate = useNavigate();
 
   useEffect(() => {
     let role = localStorage.getItem("user_info");
-    // setRefetchCreatorData(true);
     if (role) setUser_info(JSON.parse(role));
     else setUser_info(null);
-  }, [pathname]);
-  // console.log(pathname);
+  }, [location]);
 
   const handleCloseWishModule = () => {
     setUploadModule(!uploadModule);
@@ -129,7 +126,7 @@ const Index = () => {
               </p>
               <button
                 className='_payment_setup_btn'
-                onClick={() => navigate("/stripe-notice", { replace: true })}>
+                onClick={() => navigate("/stripe-notice")}>
                 Finish Setting Up
               </button>
             </div>

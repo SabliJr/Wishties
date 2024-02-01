@@ -30,7 +30,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     cart: (() => {
       const cart = localStorage.getItem("cart_items");
       return cart ? JSON.parse(cart) : [];
-    })(),
+    })() as iCart[],
     cartTotalQuantity: (() => {
       const cart_total_quantity = localStorage.getItem("cart_total_quantity");
       return cart_total_quantity ? JSON.parse(cart_total_quantity) : 0;
@@ -56,13 +56,12 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   >([]);
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState<iCreatorSocialLinks[]>(creatorSocialLinks);
-
-  let creator_username = window.location.pathname.split("/")[2];
+  const [creator_username, setCreator_username] = useState<string>("");
 
   useEffect(() => {
     (async () => {
       try {
-        if (creator_username !== "undefined") {
+        if (creator_username !== undefined) {
           const res = await onGetCreatorInfo(creator_username);
 
           setCreatorInfo(res.data.user_info);
@@ -95,7 +94,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     })();
   }, [
-    creator_username,
     isPublicDataLoading,
     setCreatorInfo,
     setCreatorSocialLinks,
@@ -104,8 +102,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedCategories,
     setSelectedCategories,
     refetchCreatorData,
+    creator_username,
   ]);
-  console.log("creatorInfo", creatorInfo);
 
   useEffect(() => {
     if (creatorWishes && creatorWishes.length > 0) {
@@ -194,6 +192,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         globalError,
         showProfile,
         setShowProfile,
+        setCreator_username,
+        creator_username,
       }}>
       {children}
     </GlobalValuesContext.Provider>

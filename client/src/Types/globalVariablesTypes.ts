@@ -36,4 +36,6 @@ export interface iGlobalValues {
   setDisplayedSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
   showProfile: boolean;
   setShowProfile: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreator_username: React.Dispatch<React.SetStateAction<string>>;
+  creator_username: string;
 }
