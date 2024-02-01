@@ -116,7 +116,7 @@ const SocialMediaLinkForm = ({
         <h3 className='UpdateLinks'>Add/Update Your Social Links</h3>
 
         {/* Display the icons if there are any links */}
-        {(creatorSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
+        {(displayedSocialLinks as iCreatorSocialLinks[])?.length > 0 ? (
           <>
             {displayedSocialLinks?.map((x: iCreatorSocialLinks) => (
               <div key={x.link_id} className='socialMediaLinkDiv'>

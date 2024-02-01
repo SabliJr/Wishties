@@ -21,7 +21,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
   const [getCategories, setGetCategories] = useState<string[] | null>([]);
   const [showProfile, setShowProfile] = useState(false);
-
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "All",
   ]);
@@ -81,6 +80,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
 
           setIsPublicDataLoading(false);
           setRefetchCreatorData(false);
+          setGlobalError("");
         }
       } catch (error: any) {
         if (error?.response?.status === 404) {

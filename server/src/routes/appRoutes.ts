@@ -19,7 +19,6 @@ const router = Router();
 const storage = memoryStorage(); // store the file in memory as a buffer and then upload it to the S3 bucket
 const upload = multer({ storage: storage })
 upload.single('wish_image');
-console.log(upload.single('wish_image'));
 
 // User routes
 router.get('/creator', getCreator);

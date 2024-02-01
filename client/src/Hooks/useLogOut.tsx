@@ -8,7 +8,7 @@ const useLogout = () => {
       window.location.href = "/";
 
     } catch (err) {
-      console.error(err);
+      localStorage.removeItem("user_info");
     }
   };
 
