@@ -9,13 +9,23 @@ import { useLocation } from "react-router-dom";
 import { onRefreshToken } from "../API/authApi";
 import Loader from "./Loader";
 
+import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
+import { useContext } from "react";
+import { iGlobalValues } from "../Types/globalVariablesTypes";
+
 const Skeleton = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = React.useState(true); // This is for the loader
   const [user_info, setUser_info] = React.useState<iLocalUser | null>(null);
 
-  let { pathname } = useLocation();
+  let location = useLocation();
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setRefetchCreatorData, setCreator_username } =
+    contextValues as iGlobalValues;
 
   useEffect(() => {
+    let creator_username = window.location.pathname.split("/")[2];
+    setCreator_username(creator_username);
+
     (async () => {
       try {
         const response = await onRefreshToken();
@@ -41,7 +51,12 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
         setIsLoading(false);
       }
     })();
-  }, [pathname]);
+
+    setRefetchCreatorData(true);
+    return () => {
+      setRefetchCreatorData(false);
+    };
+  }, [location]);
 
   return (
     <>

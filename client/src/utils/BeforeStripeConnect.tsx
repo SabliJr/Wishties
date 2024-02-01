@@ -26,17 +26,6 @@ const BeforeStripeConnect = () => {
   const goToStripe = () => {
     if (!isAgree) {
       setError("Please agree to this term to proceed.");
-      // toast.warn(" Please agree to the terms and conditions.", {
-      //   position: "top-center",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "dark",
-      //   transition: Bounce,
-      // });
       return;
     }
     window.open(
@@ -74,9 +63,15 @@ const BeforeStripeConnect = () => {
           collaboration.
         </p>
         <span className='_notice_agree_checkbox'>
-          <input type='checkbox' onClick={() => setIsAgree(true)} />I will only
-          use Wishties to receive gifts, tips and donations. I will not sell
-          services or goods on my wishlist.
+          <input
+            type='checkbox'
+            onClick={() => {
+              setIsAgree(!isAgree);
+              setError("");
+            }}
+          />
+          I will only use Wishties to receive gifts, tips and donations. I will
+          not sell services or goods on my wishlist.
         </span>
         {error && <p className='_error_txt'>{error}</p>}
         <button className='_go_to_stripe_btn' onClick={goToStripe}>

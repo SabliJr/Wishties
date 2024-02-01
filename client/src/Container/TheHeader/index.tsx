@@ -48,7 +48,10 @@ const Index = () => {
       const res = await onLogout();
       localStorage.removeItem("user_info");
       if (res.status === 200) {
-        if (path_username !== undefined) navigate(`/wishlist/${path_username}`);
+        if (path_username !== undefined) {
+          window.location.reload();
+          navigate(`/wishlist/${path_username}`, { replace: true });
+        }
         // Display the creator's wishlist as a guest
         else navigate("/"); // Display the homepage as a guest
       }

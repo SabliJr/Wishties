@@ -13,6 +13,7 @@
   border-radius: 1.42rem;
   border: 1px solid #cfcfcf;
   overflow-y: scroll;
+  z-index: 200;
 }
 
 .wishInfoInputsDiv,
@@ -66,6 +67,7 @@ body.modal-open .dropBack {
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: .5;
+  z-index: 100;
 }
 
 .wishInfoInputsDiv label input {

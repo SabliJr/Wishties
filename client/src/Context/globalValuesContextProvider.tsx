@@ -30,7 +30,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     cart: (() => {
       const cart = localStorage.getItem("cart_items");
       return cart ? JSON.parse(cart) : [];
-    })(),
+    })() as iCart[],
     cartTotalQuantity: (() => {
       const cart_total_quantity = localStorage.getItem("cart_total_quantity");
       return cart_total_quantity ? JSON.parse(cart_total_quantity) : 0;
@@ -50,20 +50,20 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [creatorSocialLinks, setCreatorSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
-  // Add a new state variable for the filtered and sorted wishes
   const [filteredAndSortedWishes, setFilteredAndSortedWishes] = useState<
     iCart[]
   >([]);
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState<iCreatorSocialLinks[]>(creatorSocialLinks);
-
-  let creator_username = window.location.pathname.split("/")[2];
+  const [creator_username, setCreator_username] = useState<string | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     (async () => {
       try {
-        if (creator_username !== "undefined") {
-          const res = await onGetCreatorInfo(creator_username);
+        if (creator_username !== undefined || creator_username !== "") {
+          const res = await onGetCreatorInfo(creator_username as string);
 
           setCreatorInfo(res.data.user_info);
           setCreatorSocialLinks(res.data.user_links);
@@ -95,7 +95,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     })();
   }, [
-    creator_username,
     isPublicDataLoading,
     setCreatorInfo,
     setCreatorSocialLinks,
@@ -104,8 +103,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedCategories,
     setSelectedCategories,
     refetchCreatorData,
+    creator_username,
   ]);
-  console.log("creatorInfo", creatorInfo);
 
   useEffect(() => {
     if (creatorWishes && creatorWishes.length > 0) {
@@ -194,6 +193,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         globalError,
         showProfile,
         setShowProfile,
+        setCreator_username,
+        creator_username,
       }}>
       {children}
     </GlobalValuesContext.Provider>

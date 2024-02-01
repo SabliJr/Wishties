@@ -10,6 +10,7 @@ interface DecodedToken {
 
 const getCreator = async (req: Request, res: Response) => {
   const creator_username = req.query.username;
+  if (!creator_username) return res.status(400).send('Bad Request');
 
   try {
     const  user_info  = await query('SELECT * FROM creator WHERE username=$1', [creator_username]);
