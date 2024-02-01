@@ -38,4 +38,5 @@ export interface iGlobalValues {
   setShowProfile: React.Dispatch<React.SetStateAction<boolean>>;
   setCreator_username: React.Dispatch<React.SetStateAction<string>>;
   creator_username: string;
+  globalError: string;
 }

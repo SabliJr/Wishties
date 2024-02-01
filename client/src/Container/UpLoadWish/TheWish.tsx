@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./upLoadWish.css";
-import "../Public/creator_page_style.css";
 
 import { onRemoveWish } from "../../API/authApi";
 

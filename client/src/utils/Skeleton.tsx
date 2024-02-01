@@ -23,8 +23,8 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
     contextValues as iGlobalValues;
 
   useEffect(() => {
-    let creator_username = window.location.pathname.split("/")[2];
-    setCreator_username(creator_username);
+    let username = window.location.pathname.split("/")[2];
+    setCreator_username(() => username);
 
     (async () => {
       try {
@@ -41,21 +41,18 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
           localStorage.setItem("user_info", JSON.stringify(user_info));
         }
         setIsLoading(false);
-      } catch (error) {
-        if (error) {
-          localStorage.removeItem("user_info");
-          setUser_info(null);
+      } catch (error: any) {
+        if (error.response.status !== 403) {
+          console.error(error);
         }
+        localStorage.removeItem("user_info");
+        setUser_info(null);
         setIsLoading(false);
-      } finally {
         setIsLoading(false);
       }
     })();
 
     setRefetchCreatorData(true);
-    return () => {
-      setRefetchCreatorData(false);
-    };
   }, [location]);
 
   return (

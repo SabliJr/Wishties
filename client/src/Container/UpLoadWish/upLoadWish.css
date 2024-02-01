@@ -286,6 +286,8 @@ body.modal-open .dropBack {
   .EditIconsDiv {
     align-items: flex-start;
     margin: 0.3rem 0.8rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .userSocialLinks {

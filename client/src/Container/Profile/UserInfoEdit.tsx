@@ -206,7 +206,6 @@ const UserInfoEdit = ({
       userProfileInfo.profile_photo !== creatorInfo?.profile_image
     ) {
       formData.append("profile_photo", userProfileInfo.profile_photo);
-      console.log("Profile photo is added");
     }
 
     if (
@@ -214,7 +213,6 @@ const UserInfoEdit = ({
       userProfileInfo.cover_photo !== creatorInfo?.cover_image
     ) {
       formData.append("cover_photo", userProfileInfo.cover_photo);
-      console.log("Cover photo is added");
     }
 
     try {
@@ -222,7 +220,6 @@ const UserInfoEdit = ({
       handleProfileInfoEdit();
       setRefetchCreatorData(true);
     } catch (err: any) {
-      console.log(err);
       setIsError((prev) => ({
         ...prev,
         invalidFileTypeErr: err.response.data.message,
