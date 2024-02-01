@@ -50,19 +50,20 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [creatorSocialLinks, setCreatorSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
-  // Add a new state variable for the filtered and sorted wishes
   const [filteredAndSortedWishes, setFilteredAndSortedWishes] = useState<
     iCart[]
   >([]);
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState<iCreatorSocialLinks[]>(creatorSocialLinks);
-  const [creator_username, setCreator_username] = useState<string>("");
+  const [creator_username, setCreator_username] = useState<string | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     (async () => {
       try {
-        if (creator_username !== undefined) {
-          const res = await onGetCreatorInfo(creator_username);
+        if (creator_username !== undefined || creator_username !== "") {
+          const res = await onGetCreatorInfo(creator_username as string);
 
           setCreatorInfo(res.data.user_info);
           setCreatorSocialLinks(res.data.user_links);

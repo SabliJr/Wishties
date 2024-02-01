@@ -51,7 +51,11 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
         setIsLoading(false);
       }
     })();
+
     setRefetchCreatorData(true);
+    return () => {
+      setRefetchCreatorData(false);
+    };
   }, [location]);
 
   return (
