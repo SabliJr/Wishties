@@ -71,12 +71,6 @@
   justify-content: center;
 }
 
-.fqa {
-  font-size: 1.1rem;
-  color: rgb(97, 97, 97);
-  cursor: pointer;
-}
-
 .accountDropDown {
   position: absolute;
   top: 2.5rem;
@@ -125,6 +119,19 @@
 
       .wishNav {
         margin: 1.2rem auto 0.5rem;
+      }
+
+      ._contact_help {
+        margin: 3rem auto 0;
+        width: 90%;
+      }
+
+      ._contact_title {
+        font-size: 1.3rem;
+      }
+
+      ._contact_p {
+        font-size: 1rem;
       }
     }
   }

@@ -54,7 +54,6 @@ const Index = () => {
           <div>
             <h3>General</h3>
             <p onClick={() => navigate("/contact")}>Contact</p>
-            <p onClick={() => navigate("/about")}>About</p>
           </div>
         </div>
       </main>

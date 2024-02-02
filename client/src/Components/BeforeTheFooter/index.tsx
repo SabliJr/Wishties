@@ -27,11 +27,11 @@ const Index = () => {
 
   return (
     <section className='bFooter'>
-      <h3 className='why'>At Wishties</h3>
+      <h3 className='why'>About Wishties</h3>
       <p className='whyText'>
-        We believe in the magic of connection and the power of wishes. We're the
-        platform where your dreams come to life, your fan’s desires are
-        fulfilled, and communities grow stronger through connections.
+        Wishties is a platform that allows you to create a wishlist and share it
+        with your fans. Your fans can then purchase items from your wishlist and
+        you get the cash to purchase the item.
       </p>
       <div className='emailDivDown'>
         <button onClick={handleGetStarted}>Get Started For Free</button>

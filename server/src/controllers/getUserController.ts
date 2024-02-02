@@ -28,6 +28,7 @@ const getCreator = async (req: Request, res: Response) => {
       creator_id: user_info.rows[0].creator_id,
       profile_image: user_info.rows[0].profile_image,
       cover_image: user_info.rows[0].cover_image,
+      is_stripe_connected: user_info.rows[0].is_stripe_connected,
     };
 
     let creator_wishes = user_wishes.rows.map((wish: any) => {

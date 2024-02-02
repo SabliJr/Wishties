@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Pages.css";
 
 import Skeleton from "../utils/Skeleton";
 
@@ -28,11 +29,6 @@ const HowItWorks = () => {
   return (
     <Skeleton>
       <div className='_how_it_works_title_div'>
-        {/* <p className='_how_it_works_p'>
-          OnlyFans Wishlist is a platform that allows you to create a wishlist
-          and share it with your fans. Your fans can then purchase items from
-          your wishlist and you get the cash to purchase the item.
-        </p> */}
         <button
           onClick={handleActive}
           className={

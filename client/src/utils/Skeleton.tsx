@@ -32,9 +32,9 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
 
         if (response.status === 200) {
           let user_info: iLocalUser = {
-            username: response.data.user.username,
-            creator_id: response.data.user.creator_id,
-            role: response.data.role,
+            username: response?.data?.user?.username,
+            creator_id: response?.data?.user?.creator_id,
+            role: response?.data?.role,
           };
           setUser_info(user_info);
 
@@ -42,7 +42,7 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
         }
         setIsLoading(false);
       } catch (error: any) {
-        if (error.response.status !== 403) {
+        if (error.response?.status !== 403) {
           console.error(error);
         }
         localStorage.removeItem("user_info");
