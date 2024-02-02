@@ -154,6 +154,15 @@ const onGetUserInfos = async (creator_id: string) => {
   });
 };
 
+const onCheckStripeConnection = async () => {
+  return await axios.get(`${SERVER_URL}/check-stripe-connection`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};
+
 export {
   onLogout,
   onLogin,
@@ -170,4 +179,5 @@ export {
   onIsUsernameAvailable,
   onGetCreatorInfo,
   onGetUserInfos,
+  onCheckStripeConnection,
 };

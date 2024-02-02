@@ -92,9 +92,6 @@ const Index = () => {
           onClick={() => navigate("/")}
         />
         <div className='iconsDiv'>
-          <p className='fqa' onClick={() => navigate("/how-it-works")}>
-            FAQ
-          </p>
           <div className='userDiv' onClick={() => navigate("/cart")}>
             <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
             <FiShoppingCart
