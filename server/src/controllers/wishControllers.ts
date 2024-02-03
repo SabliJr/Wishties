@@ -12,6 +12,53 @@ interface DecodedToken {
   [key: string]: any; // for any other properties that might be in the token
 }
 
+const onGetWishes = async (req: Request, res: Response) => {
+  const cookies = req.cookies;
+  if (!cookies?.refreshToken)
+    return res.sendStatus(401);
+  const refreshToken = cookies.refreshToken;
+
+  // Verify the user's refresh token and get the user's username and email before sending the wish to the database;
+  let decoded;
+  try {
+    decoded = verify(refreshToken, REFRESH_TOKEN_SECRET as string) as DecodedToken;
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(401);
+  }
+
+  const { creator_id } = decoded;
+  try {
+    const creator = await query(
+      'SELECT * FROM creator WHERE creator_id = $1', [creator_id]
+    );
+    if (creator.rows.length === 0) {
+      return res.status(404).json({
+        error: 'unauthorized'
+      });
+    }
+
+    const wishes = await query(
+      'SELECT * FROM wishes WHERE creator_id = $1', [creator_id]
+    );
+    const links = await query('SELECT * FROM social_media_links WHERE creator_id = $1', [creator_id]);
+    const la_info = await query('SELECT * FROM creator WHERE creator_id = $1', [creator_id]);
+
+    let creator_wishes = wishes.rows;
+    let creator_links = links.rows;
+    let creator_info = la_info.rows[0];
+    
+    res.status(200).json({
+      user_info: creator_info,
+      user_links: creator_links,
+      user_wishes: creator_wishes,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while fetching the wishes.' });
+  }
+}
+
 const onAddWish = async (req: Request, res: Response) => {
   const { wish_name, wish_price, wish_category } = req.body;
   const wish_image = req.file;
@@ -206,4 +253,4 @@ const onUpdateWish = async (req: Request, res: Response) => {
 
 }
 
-export { onAddWish, onDeleteWish, onUpdateWish };
+export { onAddWish, onDeleteWish, onUpdateWish, onGetWishes };

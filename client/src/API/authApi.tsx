@@ -154,8 +154,8 @@ const onGetUserInfos = async (creator_id: string) => {
   });
 };
 
-const onCheckStripeConnection = async () => {
-  return await axios.get(`${SERVER_URL}/check-stripe-connection`, {
+const onGetCreatorWishes = async () => {
+  return await axios.get(`${SERVER_URL}/get-wishes`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -179,5 +179,5 @@ export {
   onIsUsernameAvailable,
   onGetCreatorInfo,
   onGetUserInfos,
-  onCheckStripeConnection,
+  onGetCreatorWishes,
 };

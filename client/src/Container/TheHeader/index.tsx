@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
@@ -7,50 +7,37 @@ import { onLogout } from "../../API/authApi";
 //Icons
 import { TbClipboardList } from "react-icons/tb";
 import { FaUserGear } from "react-icons/fa6";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
-import { iLocalUser } from "../../Types/creatorStuffTypes";
 import CloseModules from "../../utils/CloseModules";
+import { useAuth } from "../../Context/AuthProvider";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user_info, setUser_info] = useState<iLocalUser | null>({
-    creator_id: "",
-    username: "",
-    role: "",
-  });
+  let { state } = useAuth();
   let navigate = useNavigate();
-  let { pathname } = useLocation();
   let moduleRef = useRef<null | HTMLDivElement>(null);
   let path_username = window.location.pathname.split("/")[2];
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { cartItems, setRefetchCreatorData, setShowProfile } =
-    contextValues as iGlobalValues;
+  const { cartItems } = contextValues as iGlobalValues;
 
   const handleCloseNav = () => {
     setIsOpen(false);
   };
   CloseModules({ module_ref: moduleRef, ft_close_module: handleCloseNav });
 
-  useEffect(() => {
-    let role = localStorage.getItem("user_info");
-    if (role) setUser_info(JSON.parse(role));
-    else setUser_info(null);
-  }, [pathname]);
-
   const handleLogout = async () => {
     try {
       const res = await onLogout();
-      localStorage.removeItem("user_info");
       if (res.status === 200) {
         if (path_username !== undefined) {
           window.location.reload();
-          navigate(`/wishlist/${path_username}`, { replace: true });
+          navigate(`/wishlist/${state?.creator_username}`, { replace: true });
         }
         // Display the creator's wishlist as a guest
         else navigate("/"); // Display the homepage as a guest
@@ -67,19 +54,11 @@ const Index = () => {
   };
 
   const goToAccountSettings = () => {
-    if (user_info?.creator_id) {
-      setShowProfile(false);
-      navigate("/account-settings");
-    }
+    navigate("/account-settings");
   };
 
   const handleShowProfile = () => {
-    if (user_info?.creator_id) {
-      setShowProfile(true);
-
-      navigate(`/wishlist/${user_info?.username}`);
-      setRefetchCreatorData(true);
-    }
+    navigate(`/wishlist/${state?.creator_username}`);
   };
 
   return (
@@ -102,9 +81,7 @@ const Index = () => {
           <div
             className='itemsIcon'
             onClick={() => {
-              navigate(`/wishlist/${user_info?.username}`);
-              setShowProfile(false);
-              setRefetchCreatorData(true);
+              navigate(`/edit-profile/${state?.creator_username}`);
             }}>
             <TbClipboardList className='wishIcon' />
             <span className='iconText'>Wishlist</span>

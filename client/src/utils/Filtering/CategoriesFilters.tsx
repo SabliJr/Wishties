@@ -1,20 +1,19 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import "./CategoriesStyling.css";
-
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import CloseModules from "../CloseModules";
 
-const CategoriesFilters = ({
-  getCategories,
-}: {
-  getCategories: string[] | null;
-}) => {
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { selectedCategories, setSelectedCategories, setDisplayCategories } =
-    contextValues as iGlobalValues;
+import { useCreatorData } from "../../Context/CreatorDataProvider";
+import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
 
+const CategoriesFilters = () => {
   let modelRef = useRef<HTMLDivElement | null>(null);
+
+  let {
+    getCategories,
+    setDisplayCategories,
+    setSelectedCategories,
+    selectedCategories,
+  } = useCreatorData() as iCreatorDataProvider;
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const category = event.target.value;
@@ -65,7 +64,7 @@ const CategoriesFilters = ({
         />
         All
       </label>
-      {getCategories?.map((category) => (
+      {getCategories?.map((category: string) => (
         <label key={category} className='_category_label'>
           <input
             type='checkbox'

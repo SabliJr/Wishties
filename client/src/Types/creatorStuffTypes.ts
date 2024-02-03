@@ -1,3 +1,4 @@
+import { iCart } from './wishListTypes';
 
 export interface iCreatorSocialLinks { 
   link_id: string;
@@ -25,12 +26,6 @@ export interface iUserInfo {
   profile_bio: string;
 }
 
-export interface iLocalUser {
-  creator_id: string;
-  username: string;
-  role: string;
-}
-
 export interface iCreatorProfile {
   creator_name: string;
   username: string;
@@ -39,4 +34,23 @@ export interface iCreatorProfile {
   profile_image: string;
   cover_image: string;
   is_stripe_connected: boolean;
+}
+
+export interface iCreatorDataProvider {
+  creatorInfo: iCreatorProfile;
+  creatorSocialLinks: iCreatorSocialLinks[];
+  creatorWishes: iCart[];
+  selectedFilter: string;
+  setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  getCategories: string[];
+  displayCategories: boolean;
+  setDisplayCategories: React.Dispatch<React.SetStateAction<boolean>>;
+  displayFilters: boolean;
+  setDisplayFilters: React.Dispatch<React.SetStateAction<boolean>>;
+  filteredAndSortedWishes: iCart[];
+  errLoadingWishes: string;
+  displayedSocialLinks: iCreatorSocialLinks[];
+  setDisplayedSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
 }

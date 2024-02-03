@@ -1,6 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
-import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
+import {
+  iCreatorDataProvider,
+  iCreatorSocialLinks,
+} from "../../Types/creatorStuffTypes";
 import { v4 as uuidv4 } from "uuid";
 
 import Insta from "../../Assets/UserIcons/instagram.png";
@@ -15,8 +18,7 @@ import Reddit from "../../Assets/UserIcons/Reddit.png";
 import Discord from "../../Assets/UserIcons/Discord.png";
 import Other from "../../Assets/UserIcons/Link.png";
 
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { useCreatorData } from "../../Context/CreatorDataProvider";
 
 type SelectPlatformProps = {
   setLinksModule: (value: boolean) => void;
@@ -52,8 +54,7 @@ const SelectPlatform = ({
     { platform_icon: Other, platform_name: "Other" },
   ];
 
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setDisplayedSocialLinks } = contextValues as iGlobalValues;
+  let { setDisplayedSocialLinks } = useCreatorData() as iCreatorDataProvider;
 
   const handleLinkChange = (
     event:

@@ -13,6 +13,7 @@ import Loader from "../../utils/Loader";
 
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { useAuth } from "../../Context/AuthProvider";
 
 const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,8 @@ const Login = (): JSX.Element => {
   });
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setUserEmail, setServerErrMsg } = contextValues as iGlobalValues;
+  const { setServerErrMsg } = contextValues as iGlobalValues;
+  const { dispatch, verificationEmail, setVerificationEmail } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (
@@ -44,16 +46,22 @@ const Login = (): JSX.Element => {
       // If a user email is verified and logged in is successful
       if (response.status === 202) {
         // Save the user id and username in the context
-        let user_role = response?.data?.role;
         const { creator_id, username } = response?.data.user;
         setLogInData({ email: "", pwd: "" });
 
-        let user_info = {
-          userId: creator_id as string,
-          username: username as string,
-          role: user_role,
-        };
-        localStorage.setItem("user_info", JSON.stringify(user_info));
+        // let user_info = {
+        //   userId: creator_id as string,
+        //   username: username as string,
+        // };
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            accessToken: response.data.token,
+            user_id: creator_id,
+            creator_username: username,
+          },
+        });
+        // localStorage.setItem("user_info", JSON.stringify(user_info));
 
         navigate(`/wishlist/${response.data.user.username}`);
       }
@@ -65,7 +73,7 @@ const Login = (): JSX.Element => {
 
           // If there are errors, update the state with the error message
           setServerErrMsg(theError);
-          setUserEmail && setUserEmail(logInData.email);
+          verificationEmail && setVerificationEmail(logInData?.email as string);
           navigate("/verify");
         } else if (
           error.response &&

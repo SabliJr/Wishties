@@ -6,6 +6,7 @@ import { onRequestVerificationAgain } from "../../API/authApi";
 import EmailImg from "../../Assets/completed.png";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { useAuth } from "../../Context/AuthProvider";
 
 const Verify = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,15 +14,16 @@ const Verify = (): JSX.Element => {
   const navigate = useNavigate();
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { userEmail, setUserEmail, setReverificationSuccess, serverErrMsg } =
+  const { setReverificationSuccess, serverErrMsg } =
     contextValues as iGlobalValues;
+  const { verificationEmail, setVerificationEmail } = useAuth();
 
   useEffect(() => {
-    if (!userEmail) {
+    if (!verificationEmail) {
       navigate("/signUp");
     }
-    setUserEmail && setUserEmail(userEmail as string);
-  }, [userEmail, navigate, setUserEmail]);
+    verificationEmail && setVerificationEmail(verificationEmail as string);
+  }, [verificationEmail, navigate, setVerificationEmail]);
 
   // Setting a dynamic timeout (e.g., 90 seconds)
   const timeoutDuration = 5 * 1000; // 90 seconds in milliseconds
@@ -30,7 +32,7 @@ const Verify = (): JSX.Element => {
   const handleResendVerification = async () => {
     try {
       setIsLoading(true);
-      const res = await onRequestVerificationAgain(userEmail as string);
+      const res = await onRequestVerificationAgain(verificationEmail as string);
       if (res.data.success === true) {
         navigate("/check-email");
       }
@@ -74,7 +76,7 @@ const Verify = (): JSX.Element => {
           <>
             <p>
               You're almost there! We have sent a verification email to{" "}
-              <span className='userEmailSpan'>{userEmail}</span>!
+              <span className='userEmailSpan'>{verificationEmail}</span>!
             </p>
 
             <br />

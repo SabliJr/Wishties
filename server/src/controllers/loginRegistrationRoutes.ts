@@ -91,7 +91,7 @@ const emailVerification = async (req: Request, res: Response) => {
       },
       accessToken: accessToken,
       role: 'creator',
-      redirectURL: `${CLIENT_URL}/wishlist/${la_creator.rows[0].username}`
+      redirectURL: `${CLIENT_URL}/edit-profile/${la_creator.rows[0].username}`
     });
   } catch (error: any) {
     console.error('Error during email verification:', error);
@@ -203,7 +203,6 @@ const userLogin = async (req: Request, res: Response) => {
         username: la_creator.rows[0].username,
       },
       accessToken: accessToken,
-      role: 'creator',
     });
   } catch (error) {
     console.error(error);

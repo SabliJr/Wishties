@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { iLocalUser } from "../../Types/creatorStuffTypes";
 
 import "./bFooter.css";
 import "../Hero/Hero.css";
@@ -9,20 +8,16 @@ import Img1 from "../../Assets/pexels-marcela-oliveira-3207694.jpg";
 import Img2 from "../../Assets/pexels-michelle-leman-6774998.jpg";
 import Img3 from "../../Assets/aiony-haust-3TLl_97HNJo-unsplash.jpg";
 
+import { useAuth } from "../../Context/AuthProvider";
+
 const Index = () => {
-  const [user_info, setUser_info] = React.useState<iLocalUser | null>(null);
+  let { state } = useAuth();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    let role = localStorage.getItem("user_info");
-    if (role) setUser_info(JSON.parse(role));
-    else setUser_info(null);
-  }, []);
-
   const handleGetStarted = () => {
-    user_info?.role === "creator"
-      ? navigate(`/wishlist/${user_info.username}`)
-      : navigate(`/signUp`);
+    state.isAuthenticated
+     ? navigate(`/wishlist/${state?.creator_username}`)
+     : navigate(`/signUp`);
   };
 
   return (

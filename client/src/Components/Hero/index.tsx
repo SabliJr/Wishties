@@ -1,22 +1,15 @@
-import React, { useEffect } from "react";
 import "./Hero.css";
 
 import { useNavigate } from "react-router-dom";
-import { iLocalUser } from "../../Types/creatorStuffTypes";
+import { useAuth } from "../../Context/AuthProvider";
 
 const Index = () => {
-  const [user_info, setUser_info] = React.useState<iLocalUser | null>(null);
+  const { state } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let role = localStorage.getItem("user_info");
-    if (role) setUser_info(JSON.parse(role));
-    else setUser_info(null);
-  }, [navigate]);
-
   const handleGetStarted = () => {
-    user_info?.role === "creator"
-      ? navigate(`/wishlist/${user_info?.username}`)
+    state.isAuthenticated
+      ? navigate(`/edit-profile/${state?.creator_username}`)
       : navigate(`/signUp`);
   };
 
