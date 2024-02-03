@@ -1,15 +1,16 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import "./CategoriesStyling.css";
 
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import CloseModules from "../CloseModules";
 
+import { useCreatorData } from "../../Context/CreatorDataProvider";
+import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
+
 const WishesFilters = () => {
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { selectedFilter, setSelectedFilter, setDisplayFilters } =
-    contextValues as iGlobalValues;
   let modelRef = useRef<HTMLDivElement | null>(null);
+
+  let { setDisplayFilters, setSelectedFilter, selectedFilter } =
+    useCreatorData() as iCreatorDataProvider;
 
   const handleCloseFilters = () => {
     setDisplayFilters(false);

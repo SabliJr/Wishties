@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./UserSocials.css";
 
-import { iCreatorSocialLinks } from "../../Types/creatorStuffTypes";
+import {
+  iCreatorDataProvider,
+  iCreatorSocialLinks,
+} from "../../Types/creatorStuffTypes";
 import { onAddSocialLinks, onDeleteSocialLink } from "../../API/authApi";
 
 //React Icons
@@ -17,6 +20,7 @@ import Loader from "../../utils/Loader";
 //Context
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { useCreatorData } from "../../Context/CreatorDataProvider";
 
 type SocialMediaLinkFormProps = {
   handleSocialLinksModule: () => void;
@@ -39,12 +43,9 @@ const SocialMediaLinkForm = ({
 
   const modelRef = useRef<HTMLDivElement | null>(null);
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const {
-    setRefetchCreatorData,
-    creatorSocialLinks,
-    displayedSocialLinks,
-    setDisplayedSocialLinks,
-  } = contextValues as iGlobalValues;
+  const { setRefetchCreatorData } = contextValues as iGlobalValues;
+  let { creatorSocialLinks, displayedSocialLinks, setDisplayedSocialLinks } =
+    useCreatorData() as iCreatorDataProvider;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {

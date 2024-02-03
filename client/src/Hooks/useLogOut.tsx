@@ -1,14 +1,20 @@
 import { onLogout } from "../API/authApi";
 
+import { useAuth } from "../Context/AuthProvider";
+
 const useLogout = () => {
+  const { dispatch } = useAuth();
+
   const logout = async () => {
     try {
       await onLogout();
-      localStorage.removeItem("user_info");
-      window.location.href = "/";
 
-    } catch (err) {
-      localStorage.removeItem("user_info");
+      dispatch({ type: "LOGOUT" });
+    } catch (err: any) {
+      if (err.response) {
+        console.log(err.response.data);
+      }
+      dispatch({ type: "LOGOUT" });
     }
   };
 

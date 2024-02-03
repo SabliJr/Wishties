@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./Register.css";
 
 import { FcGoogle } from "react-icons/fc";
@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { onRegistration } from "../../API/authApi";
 import { registrationInfo } from "../../Types/creatorStuffTypes";
 import { iErrorMsgs } from "../../Types/ErrorsTypes";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { useAuth } from "../../Context/AuthProvider";
 import Loader from "../../utils/Loader";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -34,8 +33,7 @@ const SignUp: React.FC = () => {
     password: "",
   });
 
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setUserEmail } = contextValues as iGlobalValues;
+  const { setVerificationEmail } = useAuth();
   const navigate = useNavigate();
 
   const onValueChange = (e: any, field: string) => {
@@ -105,7 +103,7 @@ const SignUp: React.FC = () => {
       if (res.status === 201) {
         navigate("/verify");
       }
-      setUserEmail(registerValues.email);
+      setVerificationEmail(registerValues.email);
     } catch (err: any) {
       if (err.response && err.response.status === 409) {
         setErrMsg((prevValue) => ({

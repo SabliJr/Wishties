@@ -50,7 +50,6 @@ const handleRefreshToken = async (req: Request, res: Response) => {
               username,
               creator_id
             },
-            role: 'creator',
           });
       })
       .catch(err => {

@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./Pages/Login";
@@ -17,6 +18,8 @@ import TermsOfService from "./Pages/TermsOfService";
 import Cart from "./Pages/Cart";
 import AccountSettings from "./Pages/AccountSettings";
 import BeforeStripeConnect from "./utils/BeforeStripeConnect";
+import ProtectedRoute from "./ProtectedRoutes";
+import CreatorWishlist from "./Pages/CreatorWishlist";
 
 const RoutesFile = () => {
   return (
@@ -35,9 +38,14 @@ const RoutesFile = () => {
         <Route path='/about' element={<About />} />
         <Route path='/verify' element={<Verify />} />
         <Route path='/check-email' element={<CheckEmail />} />
-        <Route path='/account-settings' element={<AccountSettings />} />
-        <Route path='/stripe-notice' element={<BeforeStripeConnect />} />
-        <Route path='/wishlist/:username' element={<WishList />} />
+        <Route path='/:username' element={<CreatorWishlist />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path='/account-settings' element={<AccountSettings />} />
+          <Route path='/stripe-notice' element={<BeforeStripeConnect />} />
+          <Route path='/edit-profile/:username' element={<WishList />} />
+        </Route>
+
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </Router>
