@@ -154,8 +154,8 @@ const onGetUserInfos = async (creator_id: string) => {
   });
 };
 
-const onGetCreatorWishes = async () => {
-  return await axios.get(`${SERVER_URL}/get-wishes`, {
+const onGetCreatorData = async () => {
+  return await axios.get(`${SERVER_URL}/get-creator-data`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -179,5 +179,5 @@ export {
   onIsUsernameAvailable,
   onGetCreatorInfo,
   onGetUserInfos,
-  onGetCreatorWishes,
+  onGetCreatorData,
 };

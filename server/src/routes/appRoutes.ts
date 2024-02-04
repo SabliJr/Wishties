@@ -3,12 +3,12 @@ import { check } from 'express-validator';
 
 // Controllers
 import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
-import { onAddWish, onDeleteWish, onUpdateWish, onGetWishes } from '../controllers/wishControllers';
+import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishControllers';
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
 import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
-import { getCreator } from '../controllers/getUserController';
+import { getCreator, onGetCreatorData } from '../controllers/getUserController';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
 import { validate } from '../middlewares/authMiddleware';
 
@@ -22,6 +22,7 @@ upload.single('wish_image');
 
 // User routes
 router.get('/creator', getCreator);
+router.get('/get-creator-data', authenticateCreator, validate(401), onGetCreatorData) // get all the wishes of the creator
 router.put('/update-user-profile', upload.fields([
   { name: 'profile_photo', maxCount: 1 }, { name: 'cover_photo', maxCount: 1 }]
 ), authenticateCreator, validate(401), onUpdateProfile);
@@ -44,7 +45,6 @@ router.post('/reset-password',) // reset password
 router.post('/add-wish', upload.single('wish_image'), authenticateCreator, validate(401), onAddWish); // add wish
 router.put('/update-wish', upload.single('wish_image'), authenticateCreator, onUpdateWish) // update the wish
 router.get('/delete-wish?:wish_id', authenticateCreator, validate(401), onDeleteWish) // delete the wish by the creator
-router.get('/get-wishes', authenticateCreator, validate(401), onGetWishes) // get all the wishes of the creator
 
 // Social links routes
 router.post('/add-social-links', authenticateCreator, onAddSocialLinks) // add social links at the creation of the profile
