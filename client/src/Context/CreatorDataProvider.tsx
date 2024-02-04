@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { onGetCreatorWishes } from "../API/authApi";
+import { onGetCreatorData } from "../API/authApi";
 import useFilteredSortedArray from "../Hooks/useFilteredSortedArray";
 import {
   iCreatorProfile,
@@ -41,7 +41,7 @@ const CreatorDataProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await onGetCreatorWishes();
+        const res = await onGetCreatorData();
         setCreatorWishes(res.data.user_wishes);
         setCreatorInfo(res.data.user_info);
         setCreatorSocialLinks(res.data.user_links);
