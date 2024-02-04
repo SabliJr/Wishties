@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 
 import PublicHeader from "../Components/TheHeader/index";
 import Footer from "../Components/Footer/index";
@@ -7,18 +7,13 @@ import CreatorHeader from "../Container/TheHeader/index";
 import { useLocation } from "react-router-dom";
 import { onRefreshToken } from "../API/authApi";
 import Loader from "./Loader";
-
-import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../Types/globalVariablesTypes";
 import { useAuth } from "../Context/AuthProvider";
 
 const Skeleton = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = React.useState(true); // This is for the loader
 
   let location = useLocation();
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues;
-  const { dispatch, state } = useAuth();
+  let { dispatch, state } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -45,8 +40,6 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
         }
       }
     })();
-
-    setRefetchCreatorData(true);
   }, [location]);
 
   return (

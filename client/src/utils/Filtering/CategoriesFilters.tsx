@@ -5,15 +5,11 @@ import CloseModules from "../CloseModules";
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
 
-const CategoriesFilters = () => {
+const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
   let modelRef = useRef<HTMLDivElement | null>(null);
 
-  let {
-    getCategories,
-    setDisplayCategories,
-    setSelectedCategories,
-    selectedCategories,
-  } = useCreatorData() as iCreatorDataProvider;
+  let { setDisplayCategories, setSelectedCategories, selectedCategories } =
+    useCreatorData() as iCreatorDataProvider;
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const category = event.target.value;

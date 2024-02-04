@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./upLoadWish.css";
 
 import { onRemoveWish } from "../../API/authApi";
@@ -11,8 +11,6 @@ import { MdDeleteForever } from "react-icons/md";
 import { RiCloseLine } from "react-icons/ri";
 
 //Context
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 
 //Components
@@ -27,10 +25,7 @@ const TheWish = (): JSX.Element => {
   const [editingWishId, setEditingWishId] = useState<null | string>(null);
   const [wishToEdit, setWishToEdit] = useState<iCart | null>(null);
 
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues;
-
-  let { creatorWishes, filteredAndSortedWishes } =
+  let { creatorWishes, filteredAndSortedWishes, setRefreshCreatorData } =
     useCreatorData() as iCreatorDataProvider;
 
   const handleEditWish = async (wish_id: string) => {
@@ -44,7 +39,7 @@ const TheWish = (): JSX.Element => {
   const handleDeleteWish = async (wish_id: string) => {
     try {
       await onRemoveWish(wish_id);
-      setRefetchCreatorData(true);
+      setRefreshCreatorData(true);
     } catch (error: any) {
       if (error?.response) {
         alert("Something went wrong, please try again.");
@@ -105,7 +100,11 @@ const TheWish = (): JSX.Element => {
               </div>
             )}
 
-            <button className='addToCartBtn' disabled>
+            <button
+              className='addToCartBtn'
+              style={{
+                cursor: "not-allowed",
+              }}>
               <FaCartPlus className='addToCartBtnIcon' />
               Add To Cart
             </button>

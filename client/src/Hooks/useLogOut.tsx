@@ -12,7 +12,7 @@ const useLogout = () => {
       dispatch({ type: "LOGOUT" });
     } catch (err: any) {
       if (err.response) {
-        console.log(err.response.data);
+        alert(err.response.data);
       }
       dispatch({ type: "LOGOUT" });
     }

@@ -4,8 +4,8 @@ import { iCreatorProfile, iCreatorSocialLinks } from "./creatorStuffTypes";
 export interface iGlobalValues { 
   reverificationSuccess: string;
   setReverificationSuccess: React.Dispatch<React.SetStateAction<string>>;
-  // serverErrMsg: string;
-  // setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
+  serverErrMsg: string;
+  setServerErrMsg: React.Dispatch<React.SetStateAction<string>>;
   cartItems: cartProps;
   setCartItems: React.Dispatch<React.SetStateAction<cartProps>>;
   cartTotalQuantity: number,
@@ -26,8 +26,6 @@ export interface iGlobalValues {
   isPublicDataLoading: boolean;
   refetchCreatorData: boolean;
   setRefetchCreatorData: React.Dispatch<React.SetStateAction<boolean>>;
-  // displayedSocialLinks: iCreatorSocialLinks[];
-  // setDisplayedSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
   globalError: string;
   displayFilters: boolean,
   setDisplayFilters: React.Dispatch<React.SetStateAction<boolean>>;

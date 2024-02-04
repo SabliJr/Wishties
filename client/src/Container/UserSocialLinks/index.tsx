@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./UserSocials.css";
 
 import {
@@ -18,8 +18,6 @@ import SelectPlatform from "./SelectPlatform";
 import Loader from "../../utils/Loader";
 
 //Context
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 
 type SocialMediaLinkFormProps = {
@@ -42,10 +40,12 @@ const SocialMediaLinkForm = ({
   >([]);
 
   const modelRef = useRef<HTMLDivElement | null>(null);
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues;
-  let { creatorSocialLinks, displayedSocialLinks, setDisplayedSocialLinks } =
-    useCreatorData() as iCreatorDataProvider;
+  let {
+    creatorSocialLinks,
+    displayedSocialLinks,
+    setDisplayedSocialLinks,
+    setRefreshCreatorData,
+  } = useCreatorData() as iCreatorDataProvider;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -93,9 +93,8 @@ const SocialMediaLinkForm = ({
       if (isAdding)
         await onAddSocialLinks(displayedSocialLinks as iCreatorSocialLinks[]);
       await onDeleteSocialLink(link_id);
-      setRefetchCreatorData(true);
+      setRefreshCreatorData(true);
     } catch (error) {
-      console.log(error);
       if (error) {
         setIsError("Something went wrong deleting link, please try again!");
       }

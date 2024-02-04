@@ -44,6 +44,7 @@ const Index = () => {
     displayCategories,
     displayFilters,
     errLoadingWishes,
+    getCategories,
   } = useCreatorData() as iCreatorDataProvider;
   let navigate = useNavigate();
 
@@ -175,7 +176,9 @@ const Index = () => {
                   className='orderbyIcon'
                   onClick={handleDisplayFilters}
                 />
-                {displayCategories ? <CategoriesFilters /> : null}
+                {displayCategories ? (
+                  <CategoriesFilters getCategories={getCategories} />
+                ) : null}
                 {displayFilters ? <WishesFilters /> : null}
               </div>
               <div className='rightBtns'>

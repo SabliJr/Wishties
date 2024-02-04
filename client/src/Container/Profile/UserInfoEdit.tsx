@@ -1,8 +1,12 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Profile.css";
 
 import { MdClose } from "react-icons/md";
-import { iCreatorProfile, iUserInfo } from "../../Types/creatorStuffTypes";
+import {
+  iCreatorProfile,
+  iUserInfo,
+  iCreatorDataProvider,
+} from "../../Types/creatorStuffTypes";
 import { onUpdateCreatorInfo, onIsUsernameAvailable } from "../../API/authApi";
 import { debounce } from "lodash";
 
@@ -11,8 +15,7 @@ import CoverPlus from "../../Assets/Plus.png";
 import Loader from "../../utils/Loader";
 import CloseModules from "../../utils/CloseModules";
 
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { useCreatorData } from "../../Context/CreatorDataProvider";
 
 interface iImages {
   creatorInfo: iCreatorProfile | undefined;
@@ -57,8 +60,7 @@ const UserInfoEdit = ({
   const coverImgRef = useRef<HTMLInputElement>(null);
   const profileImgRef = useRef<HTMLInputElement>(null);
 
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues;
+  let { setRefreshCreatorData } = useCreatorData() as iCreatorDataProvider;
 
   const closeEditPopup = () => {
     if (editInfo === true) {
@@ -218,7 +220,7 @@ const UserInfoEdit = ({
     try {
       await onUpdateCreatorInfo(formData);
       handleProfileInfoEdit();
-      setRefetchCreatorData(true);
+      setRefreshCreatorData(true);
     } catch (err: any) {
       setIsError((prev) => ({
         ...prev,

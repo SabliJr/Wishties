@@ -1,15 +1,9 @@
-import React, {
-  useState,
-  useRef,
-  ChangeEvent,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import "./upLoadWish.css";
 
 import WishUploadImg from "../../Assets/WishImg.png";
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { useCreatorData } from "../../Context/CreatorDataProvider";
+import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
 
 import { iWishInfo } from "../../Types/wishListTypes";
 import { MdClose } from "react-icons/md";
@@ -35,8 +29,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
   const [wishInputs, setWishInputs] = useState<iWishInfo>({} as iWishInfo);
   const ImgInputRef = useRef<HTMLInputElement>(null);
   const modelRef = useRef<HTMLDivElement | null>(null);
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues;
+  let { setRefreshCreatorData } = useCreatorData() as iCreatorDataProvider;
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -126,9 +119,8 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
     try {
       await onAddWish(formData);
-      setRefetchCreatorData(true);
+      setRefreshCreatorData(true);
     } catch (error: any) {
-      console.log(error);
       // Set an error state here to inform the user about the error
       setIsError((prev) => ({
         ...prev,

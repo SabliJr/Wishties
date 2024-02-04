@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./upLoadWish.css";
 
 import { onEditWish } from "../../API/authApi";
 import { iCart } from "../../Types/wishListTypes";
-import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { MdClose } from "react-icons/md";
 import Loader from "../../utils/Loader";
 
+import { useCreatorData } from "../../Context/CreatorDataProvider";
+import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
 interface iEditWishProps {
   wishToEdit: iCart | null;
   setWishToEdit: React.Dispatch<React.SetStateAction<iCart | null>>;
@@ -25,8 +25,8 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
   const [wishImage, setWishImage] = useState<File | undefined>();
   const ImgInputRef = useRef<HTMLInputElement>(null);
   const modelRef = useRef<HTMLDivElement | null>(null);
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues; //Create a state for social links;
+
+  let { setRefreshCreatorData } = useCreatorData() as iCreatorDataProvider;
 
   const handleImgUpload = () => {
     ImgInputRef?.current?.click();
@@ -112,8 +112,7 @@ const EditWish = ({ wishToEdit, setWishToEdit }: iEditWishProps) => {
     setIsUpdating(true);
     try {
       await onEditWish(formData);
-      // setRefresh(true);
-      setRefetchCreatorData(true);
+      setRefreshCreatorData(true);
     } catch (error) {
       console.log(error);
     } finally {

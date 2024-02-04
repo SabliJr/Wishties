@@ -14,9 +14,9 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [reverificationSuccess, setReverificationSuccess] = useState("");
+  const [serverErrMsg, setServerErrMsg] = useState("");
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
   const [getCategories, setGetCategories] = useState<string[] | null>([]);
-  // const [showProfile, setShowProfile] = useState(false);
 
   const [cartItems, setCartItems] = useState<cartProps>({
     cart: (() => {
@@ -87,17 +87,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         setRefetchCreatorData(false);
       }
     })();
-  }, [
-    isPublicDataLoading,
-    setCreatorInfo,
-    setCreatorSocialLinks,
-    setCreatorWishes,
-    selectedFilter,
-    selectedCategories,
-    setSelectedCategories,
-    refetchCreatorData,
-    creator_username,
-  ]);
+  }, [isPublicDataLoading, refetchCreatorData, creator_username]);
 
   const filteredAndSortedWishes = useFilteredSortedArray(
     creatorWishes,
@@ -110,8 +100,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         reverificationSuccess,
         setReverificationSuccess,
-        // serverErrMsg,
-        // setServerErrMsg,
+        serverErrMsg,
+        setServerErrMsg,
         cartItems,
         setCartItems,
         creatorInfo,
@@ -130,8 +120,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         isPublicDataLoading,
         refetchCreatorData,
         setRefetchCreatorData,
-        // displayedSocialLinks,
-        // setDisplayedSocialLinks,
         globalError,
         displayFilters,
         setDisplayFilters,

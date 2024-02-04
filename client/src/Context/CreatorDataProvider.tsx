@@ -30,6 +30,7 @@ const CreatorDataProvider = ({ children }: { children: React.ReactNode }) => {
   const [displayedSocialLinks, setDisplayedSocialLinks] =
     useState<iCreatorSocialLinks[]>(creatorSocialLinks);
   const [errLoadingWishes, setErrLoadingWishes] = useState("");
+  const [refreshCreatorData, setRefreshCreatorData] = useState(false);
 
   const filteredAndSortedWishes = useFilteredSortedArray(
     creatorWishes,
@@ -53,13 +54,19 @@ const CreatorDataProvider = ({ children }: { children: React.ReactNode }) => {
           )
         );
         setGetCategories(categories as string[]);
+        setRefreshCreatorData(false);
       } catch (error: any) {
         if (error?.response) {
           setErrLoadingWishes(error?.response?.massage);
+          setRefreshCreatorData(false);
         }
       }
     })();
-  }, []);
+  }, [refreshCreatorData]);
+
+  useEffect(() => {
+    setDisplayedSocialLinks(creatorSocialLinks);
+  }, [creatorSocialLinks]);
 
   return (
     <CreatorDataContext.Provider
@@ -80,6 +87,8 @@ const CreatorDataProvider = ({ children }: { children: React.ReactNode }) => {
         errLoadingWishes,
         displayedSocialLinks,
         setDisplayedSocialLinks,
+        refreshCreatorData,
+        setRefreshCreatorData,
       }}>
       {children}
     </CreatorDataContext.Provider>
