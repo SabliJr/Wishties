@@ -53,4 +53,6 @@ export interface iCreatorDataProvider {
   errLoadingWishes: string;
   displayedSocialLinks: iCreatorSocialLinks[];
   setDisplayedSocialLinks: React.Dispatch<React.SetStateAction<iCreatorSocialLinks[]>>;
+  refreshCreatorData: boolean;
+  setRefreshCreatorData: React.Dispatch<React.SetStateAction<boolean>>;
 }

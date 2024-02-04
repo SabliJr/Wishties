@@ -1,27 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./utils.css";
 
 import Skeleton from "./Skeleton";
+import { useAuth } from "../Context/AuthProvider";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const BeforeStripeConnect = () => {
-  const [username, setUsername] = React.useState("");
   const [isAgree, setIsAgree] = React.useState(false);
-  const [isStripeConnected, setIsStripeConnected] = React.useState(false); // [1]
   const [error, setError] = React.useState(""); // [3]
   let navigate = useNavigate();
-
-  useEffect(() => {
-    let user_info = localStorage.getItem("user_info");
-    const parsedRole = JSON.parse(user_info as string);
-    setUsername(parsedRole?.username);
-
-    if (!user_info && !parsedRole?.creator_id) {
-      navigate("/login", { replace: true });
-    }
-  }, []);
+  let { state } = useAuth();
 
   const goToStripe = () => {
     if (!isAgree) {
@@ -39,7 +29,7 @@ const BeforeStripeConnect = () => {
       <div className='_stripe_notice_container'>
         <button
           className='_back_to_app_btn'
-          onClick={() => navigate(`/wishlist/${username}`)}>
+          onClick={() => navigate(`/edit-profile/${state?.creator_username}`)}>
           <IoIosArrowBack />
           Back To Wishties
         </button>

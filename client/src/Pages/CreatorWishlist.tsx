@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Skeleton from "../utils/Skeleton";
 import CreatorPage from "../Container/Public/CreatorPage";
 
+import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
+import { iGlobalValues } from "../Types/globalVariablesTypes";
+import Loader from "../utils/Loader";
+
 const CreatorWishlist = () => {
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { refetchCreatorData } = contextValues as iGlobalValues;
+
   return (
-    <Skeleton>
-      <CreatorPage />
-    </Skeleton>
+    <>
+      {!refetchCreatorData ? (
+        <Skeleton>
+          <CreatorPage />
+        </Skeleton>
+      ) : (
+        <Loader />
+      )}
+    </>
   );
 };
 

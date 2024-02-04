@@ -21,10 +21,10 @@ const Index = () => {
   let { state } = useAuth();
   let navigate = useNavigate();
   let moduleRef = useRef<null | HTMLDivElement>(null);
-  let path_username = window.location.pathname.split("/")[2];
+  // let path_username = window.location.pathname.split("/")[2];
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { cartItems } = contextValues as iGlobalValues;
+  const { cartItems, setRefetchCreatorData } = contextValues as iGlobalValues;
 
   const handleCloseNav = () => {
     setIsOpen(false);
@@ -35,7 +35,7 @@ const Index = () => {
     try {
       const res = await onLogout();
       if (res.status === 200) {
-        if (path_username !== undefined) {
+        if (state?.creator_username !== undefined) {
           window.location.reload();
           navigate(`/wishlist/${state?.creator_username}`, { replace: true });
         }
@@ -58,7 +58,8 @@ const Index = () => {
   };
 
   const handleShowProfile = () => {
-    navigate(`/wishlist/${state?.creator_username}`);
+    setRefetchCreatorData(true);
+    navigate(`/${state?.creator_username}`);
   };
 
   return (
@@ -82,6 +83,7 @@ const Index = () => {
             className='itemsIcon'
             onClick={() => {
               navigate(`/edit-profile/${state?.creator_username}`);
+              console.log(state?.creator_username);
             }}>
             <TbClipboardList className='wishIcon' />
             <span className='iconText'>Wishlist</span>

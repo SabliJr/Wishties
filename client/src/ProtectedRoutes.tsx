@@ -1,7 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 
-import { GlobalValuesContext } from "./Context/globalValuesContextProvider";
-import { iGlobalValues } from "./Types/globalVariablesTypes";
 import Loader from "./utils/Loader";
 import { useAuth } from "./Context/AuthProvider";
 import { onRefreshToken } from "./API/authApi";
@@ -11,12 +9,7 @@ const ProtectedRoute = () => {
   const [isLoading, setIsLoading] = useState(true); // This is for the loader
   const { state, dispatch } = useAuth();
 
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { setRefetchCreatorData } = contextValues as iGlobalValues;
-
   let location = useLocation();
-  let path_username = window.location.pathname.split("/")[1];
-
   useEffect(() => {
     (async () => {
       try {
@@ -42,20 +35,12 @@ const ProtectedRoute = () => {
         }
       }
     })();
-
-    setRefetchCreatorData(true);
   }, [location]);
 
   return isLoading ? (
     <Loader />
   ) : (
-    <>
-      {state.accessToken && path_username === state?.creator_username ? (
-        <Outlet />
-      ) : (
-        <Navigate to='/' />
-      )}
-    </>
+    <>{state.accessToken ? <Outlet /> : <Navigate to='/' />}</>
   );
 };
 

@@ -1,5 +1,12 @@
 // AuthContext.js
-import { createContext, useContext, useReducer, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useEffect,
+} from "react";
+import { onRefreshToken } from "../API/authApi";
 
 type AuthContextType = {
   state: iState;
@@ -53,6 +60,30 @@ const authReducer = (state: iState, action: iAction) => {
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [verificationEmail, setVerificationEmail] = useState("");
+
+    useEffect(() => {
+      (async () => {
+        try {
+          const response = await onRefreshToken();
+
+          if (response.status === 200) {
+            dispatch({
+              type: "LOGIN",
+              payload: {
+                accessToken: response.data.accessToken,
+                user_id: response.data.user.creator_id,
+                creator_username: response.data.user.username,
+              },
+            });
+          }
+        } catch (error: any) {
+          if (error.response?.status !== 403) {
+          } else {
+            dispatch({ type: "LOGOUT" });
+          }
+        }
+      })();
+    }, []);
 
   return (
     <AuthContext.Provider

@@ -15,6 +15,7 @@
   position: sticky;
   top: 10rem;
   display: inline-block;
+  min-height: 20vh;
   z-index: 99;
 }
 
@@ -31,6 +32,7 @@
   grid-column: 2/5;
   margin: 1rem auto;
   width: 98%;
+  min-height: 40vh;
 }
 
 .wishBtns {
@@ -404,6 +406,7 @@ body.modal-open .dorpBackModel {
   margin: 3rem auto 0;
   text-align: center;
   grid-column: 2/5;
+  min-height: 30vh;
   width: 98%;
 }
 
@@ -432,11 +435,13 @@ body.modal-open .dorpBackModel {
     }
 
     ._not_connected_msg_title {
-      font-size: 1rem;
+      font-size: .8rem;
+      margin: 0;
     }
 
     ._not_connected_msg_p {
       font-size: .8rem;
+      margin: .6rem;
     }
 
     @media screen and (max-width: 820px) {
@@ -530,6 +535,7 @@ body.modal-open .dorpBackModel {
             position: relative;
             top: 0;
             padding: 0.5rem 0.8rem;
+            min-height: 5rem;
           }
 
           .wishItemsDiv {
@@ -630,6 +636,7 @@ body.modal-open .dorpBackModel {
             grid-column: 1/5;
             width: 90%;
             text-align: left;
+            min-height: 5rem;
           }
 
           @media screen and (max-width: 374px) {

@@ -1,24 +1,20 @@
-import { useContext } from "react";
 import UserProfile from "../Container/Profile/index";
-
-import { GlobalValuesContext } from "../Context/globalValuesContextProvider";
-import { iGlobalValues } from "../Types/globalVariablesTypes";
 
 import Skeleton from "../utils/Skeleton";
 import Loader from "../utils/Loader";
 
+import { useCreatorData } from "../Context/CreatorDataProvider";
+import { iCreatorDataProvider } from "../Types/creatorStuffTypes";
+
 const WishList = () => {
-  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
-  const { isPublicDataLoading, refetchCreatorData } =
-    contextValues as iGlobalValues;
+  let { refreshCreatorData } = useCreatorData() as iCreatorDataProvider;
 
   return (
     <>
-      {isPublicDataLoading ? (
+      {refreshCreatorData ? (
         <Loader />
       ) : (
-        !isPublicDataLoading &&
-        !refetchCreatorData && (
+        !refreshCreatorData && (
           <Skeleton>
             <UserProfile />
           </Skeleton>

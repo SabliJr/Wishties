@@ -7,7 +7,7 @@
   background-color: #FBFFFE;
   padding: 2rem;
   border-radius: 1rem;
-  min-height: 60vh;
+  min-height: 40vh;
   gap: 2rem;
 }
 
@@ -76,4 +76,50 @@
   border-radius: .42rem;
   width: auto;
   font-family: 'Archivo', sans-serif;
+}
+
+@media screen and (max-width: 1024px) {
+  ._stripe_notice_container {
+    width: 80%;
+    margin: 3rem auto;
+    padding: 1.5rem 1rem;
+  }
+
+  ._notice_txt_spans {
+    font-size: 1rem;
+  }
+
+  ._notice_txt {
+    font-size: 1rem;
+    letter-spacing: .3px;
+  }
+
+  ._notice_agree_checkbox {
+    font-size: .8rem;
+  }
+
+  ._error_txt {
+    font-size: 1rem;
+  }
+
+  ._back_to_app_btn,
+  ._go_to_stripe_btn {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 800px) {
+    @media screen and (max-width: 600px) {
+      ._stripe_notice_container {
+        width: 95%;
+      }
+
+      ._notice_txt {
+        font-size: .8rem;
+      }
+
+      ._notice_txt_spans {
+        font-size: .8rem;
+      }
+    }
+  }
 }
