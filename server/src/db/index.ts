@@ -12,4 +12,4 @@ const query = async (text: string, params: any[] | undefined): Promise<QueryResu
   return await pool.query(text, params);
 };
 
-export { query };
+export { query, pool };

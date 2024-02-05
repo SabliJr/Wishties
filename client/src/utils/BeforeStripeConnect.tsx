@@ -4,6 +4,7 @@ import "./utils.css";
 
 import Skeleton from "./Skeleton";
 import { useAuth } from "../Context/AuthProvider";
+import { onPaymentSetup } from "../API/authApi";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
@@ -13,15 +14,19 @@ const BeforeStripeConnect = () => {
   let navigate = useNavigate();
   let { state } = useAuth();
 
-  const goToStripe = () => {
+  const goToStripe = async () => {
     if (!isAgree) {
       setError("Please agree to this term to proceed.");
       return;
     }
-    window.open(
-      "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_Hr4TlXeQ4wzUZ3ZU8o0q5hJQr9KXsYQK&scope=read_write",
-      "_blank"
-    );
+
+    try {
+      const res = await onPaymentSetup();
+      window.location.href = res.data.URL;
+    } catch (error) {
+      console.log(error);
+      throw error; // Ensure that the error is propagated to the calling function
+    }
   };
 
   return (

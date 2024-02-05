@@ -33,7 +33,7 @@ export interface iCreatorProfile {
   creator_id: string;
   profile_image: string;
   cover_image: string;
-  is_stripe_connected: boolean;
+  is_stripe_connected: string;
 }
 
 export interface iCreatorDataProvider {

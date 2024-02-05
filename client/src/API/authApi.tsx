@@ -163,6 +163,19 @@ const onGetCreatorData = async () => {
   });
 };
 
+const onPaymentSetup = async () => {
+  return await axios.post(
+    `${SERVER_URL}/payment-setup`,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
+};
+
 export {
   onLogout,
   onLogin,
@@ -180,4 +193,5 @@ export {
   onGetCreatorInfo,
   onGetUserInfos,
   onGetCreatorData,
+  onPaymentSetup,
 };

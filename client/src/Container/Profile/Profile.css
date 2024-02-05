@@ -304,7 +304,7 @@ body.modal-open .dorpBackModel {
   display: flex;
   gap: .8rem;
   flex-wrap: wrap;
-  margin: 1rem auto;
+  margin: 3rem auto;
   width: 70%;
 }
 
