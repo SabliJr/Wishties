@@ -128,7 +128,7 @@ const CreatorPage = () => {
           ))}
         </div>
       </div>
-      {creatorInfo?.is_stripe_connected === false ? (
+      {creatorInfo?.is_stripe_connected === "INACTIVE" ? (
         <div className='_not_connected_div'>
           <h4 className='_not_connected_msg_title'>
             <span>@{creatorInfo.username}</span> has not activated their

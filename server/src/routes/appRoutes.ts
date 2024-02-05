@@ -6,9 +6,10 @@ import { userRegistration, userLogin, userLogout, emailVerification, reverifyEma
 import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishControllers';
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
 import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
+import { getCreator, onGetCreatorData } from '../controllers/getUserController';
+import {	onStripeConnectInit, onConnectRedirect} from '../controllers/paymentController';
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
-import { getCreator, onGetCreatorData } from '../controllers/getUserController';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
 import { validate } from '../middlewares/authMiddleware';
 
@@ -49,5 +50,9 @@ router.get('/delete-wish?:wish_id', authenticateCreator, validate(401), onDelete
 // Social links routes
 router.post('/add-social-links', authenticateCreator, onAddSocialLinks) // add social links at the creation of the profile
 router.get('/delete-social-link?:link_id', authenticateCreator, onDeleteSocialLink) // delete social links
+
+// PAYMENT ROUTES
+router.post('/payment-setup', authenticateCreator, onStripeConnectInit) // Stripe connect initial route
+router.get('/connect-redirect', authenticateCreator, onConnectRedirect) // redirect to stripe connect page
 
 export default router;

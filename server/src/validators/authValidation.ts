@@ -42,8 +42,12 @@ const loginCheck = check('email').custom(
 });
 
 const authenticateCreator =  (req: Request, res: Response, next: NextFunction) => {
-  const { refreshToken } = req.cookies;
-   if (!refreshToken || !isValidAuthToken(refreshToken)) {
+  const cookies = req.cookies;
+  if (!cookies?.refreshToken)
+    return res.sendStatus(401);
+  const refreshToken = cookies.refreshToken;
+
+  if (!refreshToken || !isValidAuthToken(refreshToken)) {
     return res.status(401).json({ error: 'Unauthorized' });
    }
 
