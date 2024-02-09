@@ -165,7 +165,7 @@ const onGetCreatorData = async () => {
 
 const onPaymentSetup = async () => {
   return await axios.post(
-    `${SERVER_URL}/payment-setup`,
+    `${SERVER_URL}/stripe/authorize`,
     {},
     {
       headers: {

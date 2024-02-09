@@ -30,10 +30,10 @@ CREATE TABLE payout (
 );
 
 CREATE TABLE stripe_account (
-  stripe_account_id UUID DEFAULT uuid_generate_v4 PRIMARY KEY,
+  stripe_account_id VARCHAR(255) PRIMARY KEY,
   creator_id UUID REFERENCES creator(creator_id),
   stripe_user_id VARCHAR(255) NOT NULL UNIQUE,
-  email VARCHAR(255) NOT NULL,
+  email VARCHAR(255), -- Set not null & unique in production
   business_profile JSONB,
   capabilities JSONB,
   country VARCHAR(2),

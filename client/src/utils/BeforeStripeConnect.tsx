@@ -7,9 +7,11 @@ import { useAuth } from "../Context/AuthProvider";
 import { onPaymentSetup } from "../API/authApi";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Loader from "./Loader";
 
 const BeforeStripeConnect = () => {
   const [isAgree, setIsAgree] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState(""); // [3]
   let navigate = useNavigate();
   let { state } = useAuth();
@@ -19,15 +21,24 @@ const BeforeStripeConnect = () => {
       setError("Please agree to this term to proceed.");
       return;
     }
+    setIsLoading(true);
 
     try {
       const res = await onPaymentSetup();
+      setIsAgree(false);
+
       window.location.href = res.data.URL;
     } catch (error) {
       console.log(error);
-      throw error; // Ensure that the error is propagated to the calling function
+      // throw error; // Ensure that the error is propagated to the calling function
+      setIsLoading(false);
+      setIsAgree(false);
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Skeleton>
