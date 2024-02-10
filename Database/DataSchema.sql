@@ -15,7 +15,6 @@ CREATE TABLE creator (
     verification_token VARCHAR(512), -- Creator's verification code
     is_verified BOOLEAN DEFAULT FALSE, -- Creator's verification status
     stripe_account_id VARCHAR(50), -- Store the connected Stripe account ID
-    stripe_customer_id VARCHAR(50), -- Store the Stripe Customer ID for managing payments
     is_stripe_connected VARCHAR(10) DEFAULT 'INACTIVE' -- Store the Stripe connection status
 );
 
@@ -30,9 +29,8 @@ CREATE TABLE payout (
 );
 
 CREATE TABLE stripe_account (
-  stripe_account_id VARCHAR(255) PRIMARY KEY,
+  stripe_account_id VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
   creator_id UUID REFERENCES creator(creator_id),
-  stripe_user_id VARCHAR(255) NOT NULL UNIQUE,
   email VARCHAR(255), -- Set not null & unique in production
   business_profile JSONB,
   capabilities JSONB,

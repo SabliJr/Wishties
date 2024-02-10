@@ -83,7 +83,6 @@ const Index = () => {
             className='itemsIcon'
             onClick={() => {
               navigate(`/edit-profile/${state?.creator_username}`);
-              console.log(state?.creator_username);
             }}>
             <TbClipboardList className='wishIcon' />
             <span className='iconText'>Wishlist</span>

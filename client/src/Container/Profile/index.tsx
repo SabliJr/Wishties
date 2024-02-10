@@ -115,19 +115,19 @@ const Index = () => {
                 Edit your profile{" "}
                 <LiaUserEditSolid style={{ fontSize: "1.3rem" }} />
               </button>
-              {/* {creatorInfo?.is_stripe_connected !== "ACTIVE" ? ( */}
-              <div className='_payment_setup_div'>
-                <p className='_payment_setup_p'>
-                  Finish setting up your account to receive funds. You have more
-                  steps to complete your payment setup.
-                </p>
-                <button
-                  className='_payment_setup_btn'
-                  onClick={() => navigate("/stripe-notice")}>
-                  Finish Setting Up
-                </button>
-              </div>
-              {/* ) : null} */}
+              {creatorInfo?.is_stripe_connected !== "ACTIVE" ? (
+                <div className='_payment_setup_div'>
+                  <p className='_payment_setup_p'>
+                    Finish setting up your account to receive funds. You have
+                    more steps to complete your payment setup.
+                  </p>
+                  <button
+                    className='_payment_setup_btn'
+                    onClick={() => navigate("/stripe-notice")}>
+                    Finish Setting Up
+                  </button>
+                </div>
+              ) : null}
               <button
                 className='editIconsBtn'
                 onClick={handleSocialLinksModule}>

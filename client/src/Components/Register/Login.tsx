@@ -11,8 +11,11 @@ import { onLogin } from "../../API/authApi";
 
 import Loader from "../../utils/Loader";
 
+import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
+
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
+import { useCreatorData } from "../../Context/CreatorDataProvider";
 import { useAuth } from "../../Context/AuthProvider";
 
 const Login = (): JSX.Element => {
@@ -26,6 +29,7 @@ const Login = (): JSX.Element => {
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { setServerErrMsg } = contextValues as iGlobalValues;
+  const { setRefreshCreatorData } = useCreatorData() as iCreatorDataProvider;
   const { dispatch, verificationEmail, setVerificationEmail } = useAuth();
   const navigate = useNavigate();
 
@@ -49,10 +53,6 @@ const Login = (): JSX.Element => {
         const { creator_id, username } = response?.data.user;
         setLogInData({ email: "", pwd: "" });
 
-        // let user_info = {
-        //   userId: creator_id as string,
-        //   username: username as string,
-        // };
         dispatch({
           type: "LOGIN",
           payload: {
@@ -61,9 +61,8 @@ const Login = (): JSX.Element => {
             creator_username: username,
           },
         });
-        // localStorage.setItem("user_info", JSON.stringify(user_info));
-
-        navigate(`/wishlist/${response.data.user.username}`);
+        setRefreshCreatorData(true);
+        navigate(`/edit-profile/${response.data.user.username}`);
       }
     } catch (error: any) {
       if (error.response) {
