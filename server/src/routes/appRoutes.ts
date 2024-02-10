@@ -7,10 +7,8 @@ import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishContro
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
 import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
 import { getCreator, onGetCreatorData } from '../controllers/getUserController';
-// import { onStripeConnectInit, onConnectRedirect } from '../controllers/paymentController';
-// import { onConnectRedirect } from '../controllers/paymentController';
-// import { onPaymentSetup, onStripeConnectInit } from '../controllers/paymentController';
-import {onPaymentSetup, onStripeConnectInit, onPaymentSetupRefresh} from '../controllers/stripeController'
+import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh} from '../controllers/stripeController'
+// import {onPaymentSetup, onPaymentSetupRefresh} from '../controllers/paymentController'
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
@@ -57,8 +55,8 @@ router.get('/delete-social-link?:link_id', authenticateCreator, onDeleteSocialLi
 // PAYMENT ROUTES
 router.post('/stripe/authorize', authenticateCreator, onPaymentSetup) // Stripe connect initial route
 router.post('/stripe/reauth', authenticateCreator, onPaymentSetupRefresh) // Stripe connect initial route
+router.post('/stripe/return?:creator_id', onStripeReturn, ) // Stripe connect return route
 // router.post('/creator/stripe/authorize', authenticateCreator, onPaymentSetup) // Stripe connect initial route
-// router.post('/creator/stripe/onboarded', authenticateCreator, ) // Stripe connect initial route
 // router.get('/stripe/callback', onPaymentSetup) // redirect to stripe connect page
 
 export default router;

@@ -30,6 +30,7 @@ const BeforeStripeConnect = () => {
       window.location.href = res.data.URL;
     } catch (error) {
       console.log(error);
+      alert("An error occurred. Please try again.");
       // throw error; // Ensure that the error is propagated to the calling function
       setIsLoading(false);
       setIsAgree(false);
