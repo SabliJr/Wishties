@@ -72,27 +72,11 @@ const onPaymentSetup = async (req: Request, res: Response) => {
         // Here to add any other fields that might have changed
       });
 
-       const accountResponse = await getAccount(stripeAccountId);
-      if (accountResponse.error) {
-        return res.status(400).json({ error: accountResponse.error });
-      }
-
-      if (
-        accountResponse.is_charges_enabled &&
-        accountResponse.is_payout_enabled
-      ) {
-        const client = await pool.connect();
-        await client.query(
-          "UPDATE creator SET stripe_account_id = $1, is_stripe_connected = $2 WHERE creator_id = $3",
-          [stripeAccountId, "ACTIVE", creator_id]
-        );
-      }
-
       // Create a new account link for the existing account
       const accountLink = await stripe.accountLinks.create({
         account: stripeAccountId,
-        refresh_url: window.location.href,
-        return_url: `${CLIENT_URL}/edit-profile/${creator_username}`,
+        refresh_url: `${SERVER_URL}/reauth`,
+        return_url: `${SERVER_URL}/stripe/return?creator_id=${creator_id}`,
         type: 'account_onboarding',
       });
 
@@ -136,7 +120,7 @@ const onPaymentSetup = async (req: Request, res: Response) => {
       try {
         await client.query("BEGIN");
          await client.query(
-            "UPDATE creator SET stripe_account_id = $1, WHERE creator_id = $2",
+            "UPDATE creator SET stripe_account_id = $1 WHERE creator_id = $2",
             [accountId, creator_id]
           );
 
@@ -207,7 +191,7 @@ const getAccount = async (connectedAccountId: string): Promise<AccountResponse> 
 // Catch the return URL from Stripe
 const onStripeReturn = async (req: Request, res: Response) => {
   const { creator_id } = req.query;
-  console.log('creator_id', creator_id);
+  console.log('creator_id: ', creator_id);
 
   try {
     const { rows } = await query('SELECT * FROM creator WHERE creator_id = $1', [creator_id]);
@@ -216,10 +200,14 @@ const onStripeReturn = async (req: Request, res: Response) => {
     }
 
     let creator_stripe_account_id = rows[0].stripe_account_id;
+    console.log('creator_stripe_account_id: ', creator_stripe_account_id);
     const accountResponse = await getAccount(creator_stripe_account_id as string) as AccountResponse; 
     if (accountResponse.error) {
       return res.status(400).json({ error: accountResponse.error });
     }
+
+    console.log(`accountResponse.is_charges_enabled: ${accountResponse.is_charges_enabled}`);
+    console.log(`accountResponse.is_payout_enabled: ${accountResponse.is_payout_enabled}`);
 
     const client = await pool.connect();
     if (
@@ -228,13 +216,15 @@ const onStripeReturn = async (req: Request, res: Response) => {
     ) {
       console.log('we are in the if statement');
       await client.query(
-        "UPDATE creator SET stripe_account_id = $1, is_stripe_connected = $2 WHERE creator_id = $3",
-        [creator_stripe_account_id, "ACTIVE", creator_id]
+        "UPDATE creator SET is_stripe_connected = $1 WHERE creator_id = $2",
+        ["ACTIVE", creator_id]
       );
     } 
-    
+
+    res.redirect(`${CLIENT_URL}/edit-profile/${rows[0].username}`);
   } catch (error) {
-    
+    console.error(error);
+    res.status(500).send('An error occurred');
   }
 
 }
