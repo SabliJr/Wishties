@@ -114,4 +114,28 @@ const onGetCreatorData = async (req: Request, res: Response) => {
   }
 }
 
-export { getCreator, onGetCreatorData };
+const onGetCreatorInfoCart = async (req: Request, res: Response) => {
+  let creator_id = req.query.creator_id;
+  if (!creator_id) return res.status(400).send('Bad Request');
+
+  try {
+    const creator = await query('SELECT * FROM creator WHERE creator_id = $1', [creator_id]);
+    if (creator.rows.length === 0) {
+      return res.status(404).json({ error: 'Creator not found' });
+    }
+
+    let creator_info = {
+      creator_name: creator.rows[0].creator_name,
+      username: creator.rows[0].username,
+      creator_id: creator.rows[0].creator_id,
+      stripe_account_id: creator.rows[0].stripe_account_id,
+    };
+
+    res.status(200).json({ creator: creator_info });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while getting creator info.' });
+  }
+}
+
+export { getCreator, onGetCreatorData, onGetCreatorInfoCart };

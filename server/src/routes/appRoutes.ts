@@ -6,7 +6,7 @@ import { userRegistration, userLogin, userLogout, emailVerification, reverifyEma
 import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishControllers';
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
 import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
-import { getCreator, onGetCreatorData } from '../controllers/getUserController';
+import { getCreator, onGetCreatorData, onGetCreatorInfoCart } from '../controllers/getUserController';
 // import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh} from '../controllers/stripeController'
 import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh} from '../controllers/paymentController'
 
@@ -24,6 +24,7 @@ upload.single('wish_image');
 
 // User routes
 router.get('/creator', getCreator);
+router.get('/get-creator-info-cart', onGetCreatorInfoCart) // get creator info for the cart
 router.get('/get-creator-data', authenticateCreator, validate(401), onGetCreatorData) // get all the wishes of the creator
 router.put('/update-user-profile', upload.fields([
   { name: 'profile_photo', maxCount: 1 }, { name: 'cover_photo', maxCount: 1 }]

@@ -102,9 +102,10 @@ const TheWish = (): JSX.Element => {
 
             <button
               className='addToCartBtn'
-              style={{
-                cursor: "not-allowed",
-              }}>
+              // style={{
+              //   cursor: "not-allowed",
+              // }}
+            >
               <FaCartPlus className='addToCartBtnIcon' />
               Add To Cart
             </button>
