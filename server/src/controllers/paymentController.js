@@ -251,4 +251,87 @@ const onPaymentSetupRefresh = async (req, res) => {
   }
 };
 
-export { onPaymentSetup, onPaymentSetupRefresh, onStripeReturn };
+
+// This function is to create a customer to do subscription,
+// which the person who is subscripting to pay the creator, AKA Simp;
+const onCreateCustomer = async (email, accountId) => {
+  try {
+    const customer = await stripe.customers.create(
+      {
+        email: email,
+      },
+      {
+        stripeAccount: accountId,
+      }
+    );
+
+    return { id: customer.id };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
+// This is to do the subscription functionality;
+// What are the priceId and AccountId?
+const onCreateSubscription = async (customerId, priceId, accountId) => {
+  try {
+    const subscription = await stripe.subscriptions.create(
+      {
+        customer: customerId,
+        items: [{ price: priceId }],
+        expand: ["latest_invoice.payment_intent"],
+      },
+      {
+        stripeAccount: accountId,
+      }
+    );
+
+    return { id: subscription.id };
+  } catch (error) {
+    console.error(
+      `Failed to create subscription for customer ${customerId} on account ${accountId}: ${error.message}`
+    );
+    // You might want to send an email to your support team, log the error to an error tracking service, etc.
+    return { error: error.message };
+  }
+};
+
+const onFanPurchase = async (req, res) => {
+  const { stripeAccountId } = req.body;
+
+  const session = await stripe.checkout.sessions?.create({
+    payment_method_types: ["card"],
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Fan Purchase",
+          },
+          unit_amount: 2000, // 20.00 USD
+        },
+        quantity: 1,
+      },
+    ],
+    payment_intent_data: {
+      application_fee_amount: 200, // 2.00 USD
+      transfer_data: {
+        destination: stripeAccountId,
+      },
+    },
+    mode: "payment",
+    success_url: "https://example.com/success",
+    cancel_url: "https://example.com/cancel",
+  });
+
+  res.json({ id: session.id });
+};
+
+export {
+  onPaymentSetup,
+  onPaymentSetupRefresh,
+  onStripeReturn,
+  onCreateSubscription,
+  onCreateCustomer,
+  onFanPurchase,
+};

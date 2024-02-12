@@ -176,6 +176,16 @@ const onPaymentSetup = async () => {
   );
 };
 
+const onGetCreatorForCart = async (creator_id: string) => {
+  return await axios.get(`${SERVER_URL}/get-creator-info-cart`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: { creator_id },
+    withCredentials: true,
+  });
+};
+
 export {
   onLogout,
   onLogin,
@@ -194,4 +204,5 @@ export {
   onGetUserInfos,
   onGetCreatorData,
   onPaymentSetup,
+  onGetCreatorForCart,
 };

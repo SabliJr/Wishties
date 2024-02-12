@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./cart.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
@@ -12,13 +12,62 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { AiFillQuestionCircle } from "react-icons/ai";
 
 import FormatMoney from "../../utils/FormatMoney";
+import { onGetCreatorForCart } from "../../API/authApi";
+import { set } from "lodash";
 
 const Cart = () => {
   const [remainingChars, setRemainingChars] = useState(256);
+  const [creator_name, setCreatorName] = useState({
+    creator_name: "",
+    username: "",
+  });
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [purchaseDetails, setPurchaseDetails] = useState({
+    creator_id: "",
+    message: "",
+    from: "",
+    email: "",
+    amount: 0,
+    is_to_publish: false,
+    stripe_account_id: "",
+    quantity: 0,
+    wish_id: {},
+    wish_name: {},
+  });
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
   let navigate = useNavigate();
+
+  let creator_id = cartItems?.cart.map((x: iCart) => x.creator_id);
+  console.log(creator_id[0]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const creator_info = await onGetCreatorForCart(creator_id[0] as string);
+        if (creator_info.status === 200) {
+          setPurchaseDetails((prev) => {
+            return {
+              ...prev,
+              creator_id: creator_info?.data?.creator.creator_id,
+              stripe_account_id: creator_info?.data?.creator.stripe_account_id,
+            };
+          });
+          setCreatorName((prev) => {
+            return {
+              ...prev,
+              creator_name: creator_info?.data?.creator.creator_name,
+              username: creator_info?.data?.creator.username,
+            };
+          });
+        }
+        console.log(creator_info);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   const handleIncreaseQuantity = (wish_id: string) => {
     const newCart = cartItems?.cart.map((x: iCart) =>
@@ -120,12 +169,12 @@ const Cart = () => {
         <section>
           <div className='_cart_titles'>
             <h5>
-              Wish Basket for "creator_name"{" "}
-              <span className='_cart_username'>@"creator_username"</span>
+              Wish Basket for{" "}
+              <span className='_cart_username'>@{creator_name.username}</span>
             </h5>
             <p>
-              You are about to send a payout to "creator_name" to fund their
-              wishes.
+              You are about to send a payout to {creator_name.creator_name} to
+              fund their wishes.
             </p>
             <p></p>
           </div>
@@ -232,6 +281,13 @@ const Cart = () => {
               <h5>
                 Total: <FormatMoney price={cartItems?.cartTotalAmount} />
               </h5>
+              {setPurchaseDetails((prev) => {
+                return {
+                  ...prev,
+                  amount: cartItems?.cartTotalAmount,
+                  quantity: cartItems?.cartTotalQuantity,
+                };
+              })}
               <button className='_add_more_wishes_btn'>
                 <BsArrowLeft />
                 Add More Wishes
