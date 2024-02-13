@@ -67,20 +67,31 @@ CREATE INDEX idx_creator_id ON creator (creator_id);
 -- Create the Fan/Gift Sender table
 CREATE TABLE fan (
     fan_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
-    fan_name VARCHAR(50) NOT NULL,
+    fan_name VARCHAR(50),
     fan_email VARCHAR(256) UNIQUE NOT NULL,
-    message_to_creator VARCHAR(256),
     supported_creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
     purchased_gifts INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT NOW(), 
+    wish_names VARCHAR(256)ARRAY,
+    amount_spent DECIMAL(10, 2) DEFAULT 0.00,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Create the Fan's Messages table
+CREATE TABLE messages (
+    message_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
+    fan_id UUID REFERENCES fan(fan_id) ON DELETE CASCADE,
+    creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
+    message_text TEXT,
+    sent_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Leave this for now, I will come back to it later. May be useful for the future, they are not necessary for now.
 -- Create the Fan's Gift Purchases table
 CREATE TABLE purchases (
     purchase_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     fan_id UUID REFERENCES fan(fan_id) ON DELETE CASCADE,
     wish_id UUID REFERENCES wish(wish_id) ON DELETE CASCADE,
-    purchased_for UUID REFERENCES creator(creator_id) ON DELETE CASCADE, -- Changed data type
+    purchased_for UUID REFERENCES creator(creator_id) ON DELETE CASCADE, -- The creator the gift is purchased for
     purchase_date TIMESTAMP DEFAULT NOW(),
     CONSTRAINT fk_fan_id
     FOREIGN KEY (fan_id) REFERENCES fan(fan_id) ON DELETE CASCADE,

@@ -30,3 +30,11 @@ export type cartProps = {
   cartTotalQuantity: number;
   cartTotalAmount: number;
 };
+
+export interface iPurchaseDetails {
+  message: string;
+  simp_name: string;
+  simp_email: string;
+  is_to_publish: boolean;
+  cart: iCart[];
+}

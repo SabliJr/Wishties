@@ -8,7 +8,7 @@ import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinks
 import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
 import { getCreator, onGetCreatorData, onGetCreatorInfoCart } from '../controllers/getUserController';
 // import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh} from '../controllers/stripeController'
-import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh} from '../controllers/paymentController'
+import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh, onPurchase } from '../controllers/paymentController'
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
@@ -57,6 +57,8 @@ router.get('/delete-social-link?:link_id', authenticateCreator, onDeleteSocialLi
 router.post('/stripe/authorize', authenticateCreator, onPaymentSetup) // Stripe connect initial route
 router.post('/stripe/reauth', authenticateCreator, onPaymentSetupRefresh) // Stripe connect initial route
 router.get('/stripe/return?:creator_id', onStripeReturn) // Stripe connect return route
+router.post('/create-checkout-session', onPurchase)
+// router.get('/stripe/success', onPaymentComplete)
 // router.post('/creator/stripe/authorize', authenticateCreator, onPaymentSetup) // Stripe connect initial route
 // router.get('/stripe/callback', onPaymentSetup) // redirect to stripe connect page
 

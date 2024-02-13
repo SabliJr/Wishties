@@ -4,6 +4,7 @@ import {
   loginInfo,
   iCreatorSocialLinks,
 } from "../Types/creatorStuffTypes";
+import { iPurchaseDetails } from "../Types/wishListTypes";
 
 const SERVER_URL = "http://localhost:8000/api";
 
@@ -186,6 +187,19 @@ const onGetCreatorForCart = async (creator_id: string) => {
   });
 };
 
+const onCheckOut = async (purchaseDetails: iPurchaseDetails) => {
+  return await axios.post(
+    `${SERVER_URL}/create-checkout-session`,
+    purchaseDetails,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
+};
+
 export {
   onLogout,
   onLogin,
@@ -205,4 +219,5 @@ export {
   onGetCreatorData,
   onPaymentSetup,
   onGetCreatorForCart,
+  onCheckOut,
 };
