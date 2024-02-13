@@ -20,6 +20,7 @@ import AccountSettings from "./Pages/AccountSettings";
 import BeforeStripeConnect from "./utils/BeforeStripeConnect";
 import ProtectedRoute from "./ProtectedRoutes";
 import CreatorWishlist from "./Pages/CreatorWishlist";
+import StripeSuccess from "./Pages/StripeSuccess";
 
 const RoutesFile = () => {
   return (
@@ -39,6 +40,7 @@ const RoutesFile = () => {
         <Route path='/verify' element={<Verify />} />
         <Route path='/check-email' element={<CheckEmail />} />
         <Route path='/:username' element={<CreatorWishlist />} />
+        <Route path='/stripe/success' element={<StripeSuccess />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path='/account-settings' element={<AccountSettings />} />

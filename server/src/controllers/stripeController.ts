@@ -271,33 +271,33 @@ const onPaymentSetupRefresh = async (req: Request, res: Response) => {
   }
 };
 
-const onFanPurchase = async (req: Request, res: Response) => {
-  const { stripeAccountId } = req.body;
+// const onFanPurchase = async (req: Request, res: Response) => {
+//   const { stripeAccountId } = req.body;
 
-  const session = await stripe.checkout.sessions?.create({
-    payment_method_types: ['card'],
-    line_items: [{
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: 'Fan Purchase',
-        },
-        unit_amount: 2000, // 20.00 USD
-      },
-      quantity: 1,
-    }],
-    payment_intent_data: {
-      application_fee_amount: 200, // 2.00 USD
-      transfer_data: {
-        destination: stripeAccountId,
-      },
-    },
-    mode: 'payment',
-    success_url: 'https://example.com/success',
-    cancel_url: 'https://example.com/cancel',
-  });
+//   const session = await stripe.checkout.sessions?.create({
+//     payment_method_types: ['card'],
+//     line_items: [{
+//       price_data: {
+//         currency: 'usd',
+//         product_data: {
+//           name: 'Fan Purchase',
+//         },
+//         unit_amount: 2000, // 20.00 USD
+//       },
+//       quantity: 1,
+//     }],
+//     payment_intent_data: {
+//       application_fee_amount: 200, // 2.00 USD
+//       transfer_data: {
+//         destination: stripeAccountId,
+//       },
+//     },
+//     mode: 'payment',
+//     success_url: 'https://example.com/success',
+//     cancel_url: 'https://example.com/cancel',
+//   });
 
-  res.json({ id: session.id });
-}
+//   res.json({ id: session.id });
+// }
 
-export { onPaymentSetup, onPaymentSetupRefresh, onStripeReturn, onFanPurchase };
+export { onPaymentSetup, onPaymentSetupRefresh, onStripeReturn };

@@ -3,6 +3,7 @@ import {
   REFRESH_TOKEN_SECRET,
   SERVER_URL,
   CLIENT_URL,
+  WEBHOOK_SIGNING_SECRET,
 } from "../constants/index";
 import jwt from "jsonwebtoken";
 import { query, pool } from "../db";
@@ -251,7 +252,6 @@ const onPaymentSetupRefresh = async (req, res) => {
   }
 };
 
-
 // This function is to create a customer to do subscription,
 // which the person who is subscripting to pay the creator, AKA Simp;
 const onCreateCustomer = async (email, accountId) => {
@@ -296,35 +296,109 @@ const onCreateSubscription = async (customerId, priceId, accountId) => {
   }
 };
 
-const onFanPurchase = async (req, res) => {
-  const { stripeAccountId } = req.body;
+const onPurchase = async (req, res) => {
+  const { simp_email, message, is_to_publish, cart } = req.body;
+  let creator_id = cart[0].creator_id;
 
-  const session = await stripe.checkout.sessions?.create({
-    payment_method_types: ["card"],
-    line_items: [
-      {
+  try {
+    let { rows } = await query("SELECT * FROM creator WHERE creator_id = $1", [
+      creator_id,
+    ]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Creator not found" });
+    }
+    if (rows[0].is_stripe_connected !== "ACTIVE") {
+      return res
+        .status(400)
+        .json({ error: "Creator is not connected to Stripe" });
+    }
+    let stripe_account_id = rows[0].stripe_account_id;
+
+    // Adjust the amount that the fan pays and the creator receives
+    let totalAmount = cart.reduce((acc, item) => {
+      return acc + Number(item.wish_price) * Number(item.quantity);
+    }, 0);
+
+    // Calculate the total fee
+    const totalFee = Math.round(totalAmount * 0.1);
+    const fanAmount = Math.round(totalAmount * 1.1); // Fan pays 10% less
+    const creatorAmount = Math.round(totalAmount * 0.9); // Creator receives 10% less
+
+    let lineItems = cart.map((item) => {
+      return {
         price_data: {
           currency: "usd",
           product_data: {
-            name: "Fan Purchase",
+            name: `Gift donation funds for ${item.wish_name}.`,
+            images: [
+              "https://paymenticons.s3.us-east-1.amazonaws.com/giftbox.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIQCQwGZBnzu8MQ4W7WvQDHXXXvrX7RxM7cV8gmJS40PERgIgIdbW0ldvJXZIrywxWA92O%2BrxS5TpjaqSdpj%2BivR%2Baikq5AIIfBAAGgwyNjcxODkzMzAzMDUiDArRlSorocYMDnKcjirBAozqGTAQOfwgUfqiDCtQckgKguaLUao9vm9GdwJSTSYEMkPns%2F1SUVqDZDCcT1SSb%2BhTx1Pb4WyjDpZD%2BjLpdGpxrrTj7IGXkVkyYwviFoXMzX90Mn9cLmSggj6QAH5WHs%2FIvw6lw1jOj813qkP9Cf56vP3fPt1yYAS78U3wahX5VimkFmS3mu6RroGidz82sUVF3NAPWJf8jSWBfxkhMSQRkEHfBGJZ7Af0aoBrSa5HGBKXcg0%2FA1Y8fUl8tQ4I%2BmpyXkxzQm2vOv3c0ojTja9IcqT9k0ywPdzFtms%2FpKBHOuERgvnAeb4RQ8uOZ0bpNU3YPd1aajEuLufEzpD52llxcZ7qwUKq0lKj9iZTdHW9Iej5ZCQ1mdysQzQlFo2AqM908Uq0lv5JnznyMHaGux3v4EUhy9YqipoRP%2BYULyBKPjCf566uBjqzAruVgY1iN14im6dSeI%2F%2FAdeP1bjwF5Y2ODEd%2BeGXuNS6cwMyarNnle3ERbS2jpGQRUTlcTpchhVa4Xb%2BFrS5MFGinkb59wi1vUsAaJ%2FMBnB8lCY0BAyeAeQBBnRvxquweHHfrjYx6VG4PNA%2BdubetREmYSLNTGe1dWX8KzqDsIidYEbYvfoAzapU8Hlm4G2wKbX0CZl8M0VKFKyxtj04SfdO%2BtWvu%2BYML18Sw%2BWynv6bl8G5Feh1ncqcEdlBo%2BUshxbEQj6Iz26Y%2F27z3594Fp4KiLmPJS7nC7ePVZH2CcAOlXqKHf31Ji4%2FehevOIcfAXSYYkeh20KrU78mFI3FQrcpc%2F30gNydj1wpuh7ZUuGF3ieFLiSOaqKpAjjpY3SK7S6DMCjd70TE45tY1kaxBWNpHQM%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240213T193139Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAT4NNZUGAUFQX4KHM%2F20240213%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=21e3ed80b8758a7a601a37c04fc49abe141bea93551781602a4772b60544533d",
+            ],
           },
-          unit_amount: 2000, // 20.00 USD
+          unit_amount: item.wish_price * 100,
         },
-        quantity: 1,
-      },
-    ],
-    payment_intent_data: {
-      application_fee_amount: 200, // 2.00 USD
-      transfer_data: {
-        destination: stripeAccountId,
-      },
-    },
-    mode: "payment",
-    success_url: "https://example.com/success",
-    cancel_url: "https://example.com/cancel",
-  });
+        quantity: item.quantity,
+      };
+    });
 
-  res.json({ id: session.id });
+    // Add the fee as a separate line item
+    lineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: "Wishties Fee",
+          images: [
+            "https://paymenticons.s3.us-east-1.amazonaws.com/fav.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIQCQwGZBnzu8MQ4W7WvQDHXXXvrX7RxM7cV8gmJS40PERgIgIdbW0ldvJXZIrywxWA92O%2BrxS5TpjaqSdpj%2BivR%2Baikq5AIIfBAAGgwyNjcxODkzMzAzMDUiDArRlSorocYMDnKcjirBAozqGTAQOfwgUfqiDCtQckgKguaLUao9vm9GdwJSTSYEMkPns%2F1SUVqDZDCcT1SSb%2BhTx1Pb4WyjDpZD%2BjLpdGpxrrTj7IGXkVkyYwviFoXMzX90Mn9cLmSggj6QAH5WHs%2FIvw6lw1jOj813qkP9Cf56vP3fPt1yYAS78U3wahX5VimkFmS3mu6RroGidz82sUVF3NAPWJf8jSWBfxkhMSQRkEHfBGJZ7Af0aoBrSa5HGBKXcg0%2FA1Y8fUl8tQ4I%2BmpyXkxzQm2vOv3c0ojTja9IcqT9k0ywPdzFtms%2FpKBHOuERgvnAeb4RQ8uOZ0bpNU3YPd1aajEuLufEzpD52llxcZ7qwUKq0lKj9iZTdHW9Iej5ZCQ1mdysQzQlFo2AqM908Uq0lv5JnznyMHaGux3v4EUhy9YqipoRP%2BYULyBKPjCf566uBjqzAruVgY1iN14im6dSeI%2F%2FAdeP1bjwF5Y2ODEd%2BeGXuNS6cwMyarNnle3ERbS2jpGQRUTlcTpchhVa4Xb%2BFrS5MFGinkb59wi1vUsAaJ%2FMBnB8lCY0BAyeAeQBBnRvxquweHHfrjYx6VG4PNA%2BdubetREmYSLNTGe1dWX8KzqDsIidYEbYvfoAzapU8Hlm4G2wKbX0CZl8M0VKFKyxtj04SfdO%2BtWvu%2BYML18Sw%2BWynv6bl8G5Feh1ncqcEdlBo%2BUshxbEQj6Iz26Y%2F27z3594Fp4KiLmPJS7nC7ePVZH2CcAOlXqKHf31Ji4%2FehevOIcfAXSYYkeh20KrU78mFI3FQrcpc%2F30gNydj1wpuh7ZUuGF3ieFLiSOaqKpAjjpY3SK7S6DMCjd70TE45tY1kaxBWNpHQM%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240213T193105Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAT4NNZUGAUFQX4KHM%2F20240213%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=5981ef3327cfa5a96924a004524819017a2e28a699d97a8fdaa265673e9133a6",
+          ],
+        },
+        unit_amount: totalFee * 100, // Convert to cents
+      },
+      quantity: 1,
+    });
+
+    const session = await stripe.checkout.sessions?.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      payment_intent_data: {
+        application_fee_amount: (fanAmount - creatorAmount) * 100, // This is the total application fee
+        transfer_data: {
+          destination: stripe_account_id,
+        },
+      },
+      mode: "payment",
+      success_url: `${CLIENT_URL}/payment/success`,
+      cancel_url: `${CLIENT_URL}/cart`,
+    });
+
+    res.json({ session_id: session.id });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const onPaymentComplete = async (req, res) => {
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      req.headers["stripe-signature"],
+      `${WEBHOOK_SIGNING_SECRET}`
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    console.log(session);
+
+    // Payment is successful and the order is created.
+    // You can add your business logic here (e.g. update your database, send a confirmation email, etc.)
+    console.log(`Payment was successful for session id ${session.id}`);
+  }
+
+  // Return a response to acknowledge receipt of the event
+  res.json({ received: true });
 };
 
 export {
@@ -333,5 +407,6 @@ export {
   onStripeReturn,
   onCreateSubscription,
   onCreateCustomer,
-  onFanPurchase,
+  onPurchase,
+  onPaymentComplete,
 };

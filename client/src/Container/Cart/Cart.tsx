@@ -3,18 +3,22 @@ import "./cart.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
-import { iCart } from "../../Types/wishListTypes";
+import { iCart, iPurchaseDetails } from "../../Types/wishListTypes";
 import { useNavigate } from "react-router-dom";
 
 //Icons
 import { BsArrowLeft } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { AiFillQuestionCircle } from "react-icons/ai";
+import { loadStripe } from "@stripe/stripe-js";
 
 import FormatMoney from "../../utils/FormatMoney";
-import { onGetCreatorForCart } from "../../API/authApi";
-import { set } from "lodash";
+import { onGetCreatorForCart, onCheckOut } from "../../API/authApi";
 
+// Load Stripe with your public key
+const stripePromise = loadStripe(
+  "pk_test_51OeFBJF5gG8V1TpI9NJlnrMzlqo8wPlTapW4SEDwU7JztmIPZLMY5YICwwNQkLfaY3Fmqs9qjV5OxXt8PBY5oUSG00eELdhjHB"
+);
 const Cart = () => {
   const [remainingChars, setRemainingChars] = useState(256);
   const [creator_name, setCreatorName] = useState({
@@ -23,37 +27,24 @@ const Cart = () => {
   });
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [purchaseDetails, setPurchaseDetails] = useState({
-    creator_id: "",
+  const [purchaseDetails, setPurchaseDetails] = useState<iPurchaseDetails>({
     message: "",
-    from: "",
-    email: "",
-    amount: 0,
+    simp_name: "",
+    simp_email: "",
     is_to_publish: false,
-    stripe_account_id: "",
-    quantity: 0,
-    wish_id: {},
-    wish_name: {},
+    cart: [],
   });
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
-  let navigate = useNavigate();
 
+  let navigate = useNavigate();
   let creator_id = cartItems?.cart.map((x: iCart) => x.creator_id);
-  console.log(creator_id[0]);
   useEffect(() => {
     (async () => {
       try {
         const creator_info = await onGetCreatorForCart(creator_id[0] as string);
         if (creator_info.status === 200) {
-          setPurchaseDetails((prev) => {
-            return {
-              ...prev,
-              creator_id: creator_info?.data?.creator.creator_id,
-              stripe_account_id: creator_info?.data?.creator.stripe_account_id,
-            };
-          });
           setCreatorName((prev) => {
             return {
               ...prev,
@@ -143,13 +134,66 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     console.log("Checkout");
+    console.log(purchaseDetails);
+
+    if (!agreeTerms) {
+      alert("Please agree to the terms and policy to proceed.");
+      return;
+    }
+
+    // if (purchaseDetails.simp_email === "") {
+    //   alert("Please provide your email to proceed.");
+    //   return;
+    // }
+
+    try {
+      const response = await onCheckOut(purchaseDetails as iPurchaseDetails);
+      if (response.status === 200) {
+        console.log(response.data);
+        redirectToCheckout(response.data.session_id);
+        // navigate("/checkout-success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Later, when you want to redirect to checkout
+  const redirectToCheckout = async (sessionId: string) => {
+    const stripe = await stripePromise;
+    const result = await stripe?.redirectToCheckout({
+      sessionId,
+    });
+    console.log(result);
+
+    // Handle any errors
+    if (result && result.error) {
+      console.log(result.error);
+    }
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
     const remaining = 256 - text.length;
     setRemainingChars(remaining);
+    setPurchaseDetails((prev) => {
+      return {
+        ...prev,
+        message: text,
+      };
+    });
   };
+
+  // // Update state when cartItems changes
+  useEffect(() => {
+    setPurchaseDetails((prev) => {
+      return {
+        ...prev,
+        cart: cartItems?.cart,
+      };
+    });
+  }, [cartItems]); // Dependency array
+  console.log(purchaseDetails);
 
   return (
     <main className='_cart_container'>
@@ -281,13 +325,6 @@ const Cart = () => {
               <h5>
                 Total: <FormatMoney price={cartItems?.cartTotalAmount} />
               </h5>
-              {setPurchaseDetails((prev) => {
-                return {
-                  ...prev,
-                  amount: cartItems?.cartTotalAmount,
-                  quantity: cartItems?.cartTotalQuantity,
-                };
-              })}
               <button className='_add_more_wishes_btn'>
                 <BsArrowLeft />
                 Add More Wishes
@@ -314,14 +351,28 @@ const Cart = () => {
             </div>
             <div className='_cart_inputs_div'>
               <div className='form__div'>
-                <input type='text' className='form__input' placeholder=' ' />
+                <input
+                  type='text'
+                  className='form__input'
+                  placeholder=' '
+                  onChange={(e) =>
+                    setPurchaseDetails((prev) => {
+                      return {
+                        ...prev,
+                        simp_name: e.target.value,
+                      };
+                    })
+                  }
+                />
                 <label htmlFor='' className='form__label'>
                   From:
                 </label>
                 <span className='_fan_name_notice'>
                   <AiFillQuestionCircle />
                 </span>
-                <p className='_name_notice_msg'>Visible to "@creator_name"</p>
+                <p className='_name_notice_msg'>
+                  Visible to {creator_name.creator_name}
+                </p>
               </div>
 
               <div className='form__div'>
@@ -330,6 +381,14 @@ const Cart = () => {
                   className='form__input'
                   placeholder=' '
                   required
+                  onChange={(e) => {
+                    setPurchaseDetails((prev) => {
+                      return {
+                        ...prev,
+                        simp_email: e.target.value,
+                      };
+                    });
+                  }}
                 />
                 <label htmlFor='' className='form__label'>
                   Email*: private
@@ -338,9 +397,9 @@ const Cart = () => {
                   <AiFillQuestionCircle />
                 </span>
                 <p className='_email_notice_msg'>
-                  Your email is private and will not be seen by Sabli Jr.
-                  Receipts and messages from Sabli Jr will be relayed to this
-                  email.
+                  Your email is private and will not be seen by{" "}
+                  {creator_name.creator_name}. Receipts and messages from{" "}
+                  {creator_name.creator_name} will be relayed to this email.
                 </p>
               </div>
             </div>
@@ -349,7 +408,18 @@ const Cart = () => {
           <div className='_cart_terms_div'>
             <div>
               <p className='_cart_publish_btn'>
-                <input type='checkbox' className='_cart_publish_checkbox' />{" "}
+                <input
+                  type='checkbox'
+                  className='_cart_publish_checkbox'
+                  onChange={(e) =>
+                    setPurchaseDetails((prev) => {
+                      return {
+                        ...prev,
+                        is_to_publish: e.target.checked,
+                      };
+                    })
+                  }
+                />{" "}
                 Don't publish
               </p>
               <p className='_publishing_notice'>
@@ -364,6 +434,7 @@ const Cart = () => {
                 <input
                   type='checkbox'
                   className='_cart_terms_policy_checkbox'
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
                 />{" "}
                 I agree to the{" "}
                 <span
