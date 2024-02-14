@@ -34,7 +34,7 @@ export type cartProps = {
 export interface iPurchaseDetails {
   message: string;
   simp_name: string;
-  simp_email: string;
+  fan_email: string;
   is_to_publish: boolean;
   cart: iCart[];
 }

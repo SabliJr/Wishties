@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
+import bodyParser from 'body-parser';
 
 // Controllers
 import { userRegistration, userLogin, userLogout, emailVerification, reverifyEmail } from '../controllers/loginRegistrationRoutes';
@@ -7,8 +8,7 @@ import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishContro
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
 import { onUpdateProfile, onCheckUsername, onGetCreatorInfo } from '../controllers/profileController';
 import { getCreator, onGetCreatorData, onGetCreatorInfoCart } from '../controllers/getUserController';
-// import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh} from '../controllers/stripeController'
-import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh, onPurchase } from '../controllers/paymentController'
+import {onPaymentSetup, onStripeReturn, onPaymentSetupRefresh, onPurchase, onPaymentComplete } from '../controllers/paymentController'
 
 import { registerValidation, loginValidation, authenticateCreator } from '../validators/authValidation';
 import  {handleRefreshToken} from '../controllers/refreshTokenController';
@@ -57,9 +57,7 @@ router.get('/delete-social-link?:link_id', authenticateCreator, onDeleteSocialLi
 router.post('/stripe/authorize', authenticateCreator, onPaymentSetup) // Stripe connect initial route
 router.post('/stripe/reauth', authenticateCreator, onPaymentSetupRefresh) // Stripe connect initial route
 router.get('/stripe/return?:creator_id', onStripeReturn) // Stripe connect return route
-router.post('/create-checkout-session', onPurchase)
-// router.get('/stripe/success', onPaymentComplete)
-// router.post('/creator/stripe/authorize', authenticateCreator, onPaymentSetup) // Stripe connect initial route
-// router.get('/stripe/callback', onPaymentSetup) // redirect to stripe connect page
+router.post('/create-checkout-session', onPurchase);
+router.post('/payment-completed/webhook', bodyParser.raw({type: 'application/json'}), onPaymentComplete) // Stripe webhook route;
 
 export default router;

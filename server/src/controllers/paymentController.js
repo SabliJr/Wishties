@@ -7,6 +7,8 @@ import {
 } from "../constants/index";
 import jwt from "jsonwebtoken";
 import { query, pool } from "../db";
+import crypto from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
 // Onboarding route
 const onPaymentSetup = async (req, res) => {
@@ -29,7 +31,6 @@ const onPaymentSetup = async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).json({ error: "Creator not found" });
     }
-    let creator_username = rows[0].username;
 
     if (req.query.error) {
       const error = req.query.error;
@@ -297,8 +298,15 @@ const onCreateSubscription = async (customerId, priceId, accountId) => {
 };
 
 const onPurchase = async (req, res) => {
-  const { simp_email, message, is_to_publish, cart } = req.body;
-  let creator_id = cart[0].creator_id;
+  const { fan_email, message, is_to_publish, cart, simp_name } = req.body;
+  let creator_id = cart[0]?.creator_id;
+
+  const uuid = uuidv4();
+  const purchasing_identifier = crypto
+    .createHash("sha256")
+    .update(uuid)
+    .digest("hex")
+    .substring(0, 8);
 
   try {
     let { rows } = await query("SELECT * FROM creator WHERE creator_id = $1", [
@@ -312,7 +320,19 @@ const onPurchase = async (req, res) => {
         .status(400)
         .json({ error: "Creator is not connected to Stripe" });
     }
+
     let stripe_account_id = rows[0].stripe_account_id;
+    let wish_count = cart.length;
+    const fan_message_to_creator = message ? message : null;
+    const fan_name = simp_name ? simp_name : null;
+    let wish_info = cart.map((item) => {
+      return {
+        wish_id: item.wish_id,
+        wish_name: item.wish_name,
+        wish_price: item.wish_price,
+        quantity: item.quantity,
+      };
+    });
 
     // Adjust the amount that the fan pays and the creator receives
     let totalAmount = cart.reduce((acc, item) => {
@@ -321,8 +341,57 @@ const onPurchase = async (req, res) => {
 
     // Calculate the total fee
     const totalFee = Math.round(totalAmount * 0.1);
-    const fanAmount = Math.round(totalAmount * 1.1); // Fan pays 10% less
+    const fanAmount = Math.round(totalAmount * 1.1); // Fan pays 10% more
     const creatorAmount = Math.round(totalAmount * 0.9); // Creator receives 10% less
+    let amount_spent = fanAmount;
+
+    // Check if the fan already exists in the database, if not, create their id and add them to the fan table;
+    let is_fan_exists = await query("SELECT * FROM fan WHERE fan_email = $1", [
+      fan_email,
+    ]);
+    if (is_fan_exists.rows.length === 0) {
+      let fan_id = uuidv4();
+
+      await query(
+        "INSERT INTO fan (fan_id, fan_email, fan_name) VALUES ($1, $2, $3) ON CONFLICT (fan_email) DO NOTHING",
+        [fan_id, fan_email, fan_name]
+      );
+    }
+
+    // Then, get the fan_id from the fan table, and add their id to the relative tables;
+    let fan = await query("SELECT * FROM fan WHERE fan_email = $1", [
+      fan_email,
+    ]);
+    let fan_id = fan.rows[0].fan_id;
+
+    // CREATE A PURCHASE INFO TABLE;
+    await query(
+      "INSERT INTO purchases_info (fan_id, purchased_gifts, wish_info, amount_spent, purchase_identifier) VALUES ($1, $2, $3, $4, $5)",
+      [
+        fan_id,
+        wish_count,
+        JSON.stringify(wish_info),
+        amount_spent,
+        purchasing_identifier,
+      ]
+    );
+
+    await query(
+      "INSERT INTO fan_messages (fan_id, creator_id, message_text, purchase_identifier, is_to_publish) VALUES ($1, $2, $3, $4, $5)",
+      [
+        fan_id,
+        creator_id,
+        fan_message_to_creator,
+        purchasing_identifier,
+        is_to_publish,
+      ]
+    );
+
+    // Add the fan to the creator's fan_supported table
+    await query(
+      "INSERT INTO creators_fan_supported (fan_id, creator_id) VALUES ($1, $2)",
+      [fan_id, creator_id]
+    );
 
     let lineItems = cart.map((item) => {
       return {
@@ -363,6 +432,11 @@ const onPurchase = async (req, res) => {
         transfer_data: {
           destination: stripe_account_id,
         },
+        metadata: {
+          fan_id: fan_id,
+          creator_id: creator_id,
+          purchasing_identifier: purchasing_identifier,
+        },
       },
       mode: "payment",
       success_url: `${CLIENT_URL}/payment/success`,
@@ -376,28 +450,49 @@ const onPurchase = async (req, res) => {
 };
 
 const onPaymentComplete = async (req, res) => {
-  let event;
+  let event = null;
+  let sig = req.headers["stripe-signature"];
+  if (!sig) {
+    return res.status(400).send("Stripe Signature is missing");
+  }
 
   try {
     event = stripe.webhooks.constructEvent(
-      req.body,
-      req.headers["stripe-signature"],
-      `${WEBHOOK_SIGNING_SECRET}`
+      req.rawBody,
+      sig,
+      WEBHOOK_SIGNING_SECRET
     );
   } catch (err) {
+    console.log("Webhook Error:", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    console.log(session);
+  // Handle the event
+  switch (event.type) {
+    case "payment_intent.succeeded":
+      const paymentIntentSucceeded = event.data.object;
 
-    // Payment is successful and the order is created.
-    // You can add your business logic here (e.g. update your database, send a confirmation email, etc.)
-    console.log(`Payment was successful for session id ${session.id}`);
+      // Access the metadata
+      const fan_id = paymentIntentSucceeded.metadata.fan_id;
+      const creator_id = paymentIntentSucceeded.metadata.creator_id;
+      const purchasing_identifier =
+        paymentIntentSucceeded.metadata.purchasing_identifier;
+
+      // Update the purchase info table
+      await query(
+        "UPDATE purchases_info SET is_purchase_completed = $1 WHERE purchase_identifier = $2",
+        [true, purchasing_identifier]
+      );
+
+      // Update the fan_supported table to indicate that the fan has bought the wish/es and supported the creator
+      await query(
+        "UPDATE creators_fan_supported SET is_fan_supported = $1 WHERE fan_id = $2 AND creator_id = $3",
+        [true, fan_id, creator_id]
+      );
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
-
-  // Return a response to acknowledge receipt of the event
   res.json({ received: true });
 };
 

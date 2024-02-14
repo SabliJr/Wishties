@@ -49,8 +49,8 @@ CREATE TABLE wishes (
     wish_category VARCHAR(150),
     wish_type VARCHAR(150), -- To check if it's a single buy or a subscription
     created_date TIMESTAMP DEFAULT NOW(),
-    purchased BOOLEAN DEFAULT FALSE,
-    deleted_at TIMESTAMP DEFAULT NULL
+    -- purchased BOOLEAN DEFAULT FALSE, -- To check if the wish has been purchased or not but I will implement this later
+    -- deleted_at TIMESTAMP DEFAULT NULL -- To check if the wish has been purchased then delete it but I will implement this later as well
 );
 
 -- Create the Creator's Social Media Links table
@@ -66,22 +66,42 @@ CREATE INDEX idx_creator_id ON creator (creator_id);
 
 -- Create the Fan/Gift Sender table
 CREATE TABLE fan (
-    fan_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
+    fan_id UUID PRIMARY KEY,
     fan_name VARCHAR(50),
     fan_email VARCHAR(256) UNIQUE NOT NULL,
-    supported_creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
-    purchased_gifts INT DEFAULT 0,
-    wish_names VARCHAR(256)ARRAY,
-    amount_spent DECIMAL(10, 2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- This table to store the creators that the fan has supported and bought gifts for.
+CREATE TABLE creators_fan_supported (
+    fan_id UUID REFERENCES fan(fan_id) ON DELETE CASCADE,
+    creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
+    PRIMARY KEY (fan_id, creator_id),
+    is_fan_supported BOOLEAN DEFAULT FALSE, -- To check if the fan has actually bought the wishes and supported the creator
+    supported_number_of_time INT DEFAULT 0, -- The number of times the fan has supported the creator
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Create the Fan's Gift Purchases table
+CREATE TABLE purchases_info (
+    purchase_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
+    fan_id UUID REFERENCES fan(fan_id) ON DELETE CASCADE,
+    purchased_gifts INT DEFAULT 0,
+    wish_info JSONB,
+    amount_spent DECIMAL(10, 2) DEFAULT 0.00,
+    purchase_identifier VARCHAR(50) UNIQUE NOT NULL,
+    is_purchase_completed BOOLEAN DEFAULT FALSE,
+    purchase_date TIMESTAMP DEFAULT NOW()
+);
+
 -- Create the Fan's Messages table
-CREATE TABLE messages (
+CREATE TABLE fan_messages (
     message_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
     fan_id UUID REFERENCES fan(fan_id) ON DELETE CASCADE,
     creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
     message_text TEXT,
+    purchase_identifier VARCHAR(50) UNIQUE NOT NULL,
+    is_to_publish BOOLEAN DEFAULT FALSE, -- If this is set to true, the message will not be published to the creator
     sent_at TIMESTAMP DEFAULT NOW()
 );
 
