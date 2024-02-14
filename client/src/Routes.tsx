@@ -40,7 +40,7 @@ const RoutesFile = () => {
         <Route path='/verify' element={<Verify />} />
         <Route path='/check-email' element={<CheckEmail />} />
         <Route path='/:username' element={<CreatorWishlist />} />
-        <Route path='/stripe/success' element={<StripeSuccess />} />
+        <Route path='/payment/success' element={<StripeSuccess />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path='/account-settings' element={<AccountSettings />} />
