@@ -73,9 +73,11 @@ const Index = () => {
         />
         <div className='iconsDiv'>
           <div className='userDiv' onClick={() => navigate("/cart")}>
-            <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
+            {cartItems.cart.length > 0 ? (
+              <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
+            ) : null}
             <FiShoppingCart
-              className='wishIcon'
+              className='wishIcon _creator_header_icons'
               style={{ fontSize: "1.2rem" }}
             />
           </div>
@@ -84,16 +86,16 @@ const Index = () => {
             onClick={() => {
               navigate(`/edit-profile/${state?.creator_username}`);
             }}>
-            <TbClipboardList className='wishIcon' />
+            <TbClipboardList className='wishIcon _creator_header_icons' />
             <span className='iconText'>Wishlist</span>
           </div>
           <div ref={moduleRef}>
             <div
               className='itemsIcon'
               onClick={() => setIsOpen((prev) => !prev)}>
-              <FaUserGear className='wishIcon' />
+              <FaUserGear className='wishIcon _creator_header_icons' />
               <span className='iconText'>Account</span>
-              <RiArrowDropDownLine className='wishIcon' />
+              <RiArrowDropDownLine className='wishIcon _creator_header_icons' />
             </div>
             <ul
               className={

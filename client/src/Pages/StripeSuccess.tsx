@@ -1,16 +1,34 @@
 import React, { useEffect } from "react";
+import Skeleton from "../utils/Skeleton";
+
+import { useNavigate, useLocation } from "react-router-dom";
+
+import "./Pages.css";
 
 const StripeSuccess = () => {
+  let navigate = useNavigate();
+  let location = useLocation();
+
+  const cleanup = () => {
+    localStorage.removeItem("cart_items");
+    localStorage.removeItem("cart_total_quantity");
+    localStorage.removeItem("cart_total_amount");
+  };
+
   useEffect(() => {
-    localStorage.removeItem("cart");
-    localStorage.removeItem("cartTotalQuantity");
-    localStorage.removeItem("cartTotalAmount");
+    cleanup();
+    navigate(location.pathname);
   }, []);
 
   return (
-    <div>
-      <h1>Thank you for your support!</h1>
-    </div>
+    <Skeleton>
+      <div className='_success_page'>
+        <h1 className='_success_page_title'>Thank you for your support!</h1>
+        <button className='_success_page_btn' onClick={() => navigate("/")}>
+          Go Back Home
+        </button>
+      </div>
+    </Skeleton>
   );
 };
 

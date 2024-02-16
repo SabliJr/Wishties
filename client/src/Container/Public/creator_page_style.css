@@ -21,6 +21,68 @@
   font-family: 'Archivo', sans-serif;
 }
 
+.localBackdrop {
+  background-color: #5353537a;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: .5;
+  z-index: 100;
+}
+
+._surprise_inputs_div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1.3rem 0;
+  width: 80%;
+}
+
+._surprise_inputs_div label {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  color: #7f7e7e;
+  /* width: 100%; */
+}
+
+._surprise_inputs_div input {
+  padding: .5rem .8rem;
+  border-radius: .5rem;
+  border: 1px solid #d4145a;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  width: 100%;
+  font-family: 'Archivo', sans-serif;
+}
+
+._surprise_btn {
+  padding: .8rem 1rem;
+  border-radius: .5rem;
+  border: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: aliceblue;
+  background-color: #d4145a;
+  cursor: pointer;
+}
+
+._surprise_btn:hover {
+  background-color: #1547d2;
+  color: aliceblue;
+}
+
+._surprise_amount_error {
+  color: red;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: 'Archivo', sans-serif;
+}
+
 #SurpriseIcon_222_16960 {
   display: flex;
   align-items: center;

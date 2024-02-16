@@ -1,35 +1,33 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext, useState } from "react";
 import "./CategoriesStyling.css";
-
-import CloseModules from "../CloseModules";
 
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const WishesFilters = () => {
+  const [filter, setFilter] = useState("Default");
   let modelRef = useRef<HTMLDivElement | null>(null);
 
-  let { setDisplayFilters, setSelectedFilter, selectedFilter } =
-    useCreatorData() as iCreatorDataProvider;
-
-  const handleCloseFilters = () => {
-    setDisplayFilters(false);
-  };
+  let { setSelectedFilter } = useCreatorData() as iCreatorDataProvider;
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setSelectedFilter: setGlobalSelectedFilter } =
+    contextValues as iGlobalValues;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFilter(event.target.value);
-    handleCloseFilters();
+    setFilter(event.target.value);
   };
 
-  CloseModules({ module_ref: modelRef, ft_close_module: handleCloseFilters });
-
+  setSelectedFilter(filter);
+  setGlobalSelectedFilter(filter);
   return (
     <div className='_filters_container' ref={modelRef}>
       <label className='_filters_labels'>
         <input
           type='radio'
           value='Default'
-          checked={selectedFilter === "Default"}
+          checked={filter === "Default"}
           onChange={handleFilterChange}
         />
         Default
@@ -38,7 +36,7 @@ const WishesFilters = () => {
         <input
           type='radio'
           value='LowToHigh'
-          checked={selectedFilter === "LowToHigh"}
+          checked={filter === "LowToHigh"}
           onChange={handleFilterChange}
         />
         Price: Low to High
@@ -47,7 +45,7 @@ const WishesFilters = () => {
         <input
           type='radio'
           value='HighToLow'
-          checked={selectedFilter === "HighToLow"}
+          checked={filter === "HighToLow"}
           onChange={handleFilterChange}
         />
         Price: High to Low
@@ -56,7 +54,7 @@ const WishesFilters = () => {
         <input
           type='radio'
           value='MostRecent'
-          checked={selectedFilter === "MostRecent"}
+          checked={filter === "MostRecent"}
           onChange={handleFilterChange}
         />
         Most Recent
@@ -65,7 +63,7 @@ const WishesFilters = () => {
         <input
           type='radio'
           value='Oldest'
-          checked={selectedFilter === "Oldest"}
+          checked={filter === "Oldest"}
           onChange={handleFilterChange}
         />
         Oldest

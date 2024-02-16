@@ -34,9 +34,16 @@
 }
 
 ._nav li {
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-family: sans-serif;
   font-weight: 500;
+}
+
+._login_text {
+  font-size: 1.3rem;
+  font-weight: 500;
+  font-family: 'Archivo', sans-serif;
+  cursor: pointer;
 }
 
 ._faq {
@@ -52,8 +59,8 @@
 
 .navButtons button {
   font-family: 'Archivo', sans-serif;
-  font-weight: 600;
-  font-size: 1.5rem;
+  font-weight: 500;
+  font-size: 1.125rem;
   padding: 0.3rem 0.7rem;
   border-radius: 0.6rem;
   background: #1547d2;

@@ -1,23 +1,30 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useContext } from "react";
 import "./CategoriesStyling.css";
-import CloseModules from "../CloseModules";
 
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 import { iCreatorDataProvider } from "../../Types/creatorStuffTypes";
+import { iGlobalValues } from "../../Types/globalVariablesTypes";
+import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
+  const [localSelectedCategories, setLocalSelectedCategories] = useState<
+    string[]
+  >(["All"]);
   let modelRef = useRef<HTMLDivElement | null>(null);
 
-  let { setDisplayCategories, setSelectedCategories, selectedCategories } =
-    useCreatorData() as iCreatorDataProvider;
+  let { setSelectedCategories } = useCreatorData() as iCreatorDataProvider;
+  const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
+  const { setSelectedCategories: setGlobalSelectedCategories } =
+    contextValues as iGlobalValues;
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const category = event.target.value;
+    console.log("category", category);
     if (event.target.checked) {
       if (category === "All") {
-        setSelectedCategories(["All"]);
+        setLocalSelectedCategories(["All"]);
       } else {
-        setSelectedCategories((prevCategories) => {
+        setLocalSelectedCategories((prevCategories) => {
           // If "All" is currently selected, remove it.
           const newCategories = prevCategories.includes("All")
             ? [category]
@@ -26,7 +33,7 @@ const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
         });
       }
     } else {
-      setSelectedCategories((prevCategories) => {
+      setLocalSelectedCategories((prevCategories) => {
         const newCategories = prevCategories.filter((c) => c !== category);
         // If "All" is deselected, select all other categories.
         // If no categories are selected after removing, add "All" back.
@@ -40,14 +47,8 @@ const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
     }
   };
 
-  const handleCloseCategories = () => {
-    setDisplayCategories(false);
-  };
-
-  CloseModules({
-    module_ref: modelRef,
-    ft_close_module: handleCloseCategories,
-  });
+  setSelectedCategories(localSelectedCategories);
+  setGlobalSelectedCategories(localSelectedCategories);
 
   return (
     <div className='_categories_container' ref={modelRef}>
@@ -55,7 +56,7 @@ const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
         <input
           type='checkbox'
           value='All'
-          checked={selectedCategories.includes("All")}
+          checked={localSelectedCategories.includes("All")}
           onChange={handleCategoryChange}
         />
         All
@@ -65,7 +66,7 @@ const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
           <input
             type='checkbox'
             value={category}
-            checked={selectedCategories.includes(category)}
+            checked={localSelectedCategories.includes(category)}
             onChange={handleCategoryChange}
           />
           {category}

@@ -55,7 +55,7 @@ const Cart = () => {
           });
         }
       } catch (error) {
-        alert("An error occurred. Please refresh the page.");
+        // alert("An error occurred. Please refresh the page.");
       }
     })();
   }, []);
@@ -150,9 +150,11 @@ const Cart = () => {
       if (response.status === 200) {
         redirectToCheckout(response.data.session_id);
       }
-    } catch (error) {
-      alert("An error occurred. Please try again.");
-      setIsLoaded(false);
+    } catch (error: any) {
+      if (error) {
+        alert("An error occurred. Please try again.");
+        setIsLoaded(false);
+      }
     }
   };
 
