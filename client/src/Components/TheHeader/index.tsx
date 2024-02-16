@@ -26,7 +26,9 @@ const Index = () => {
 
       <div className='_cart_menu_div'>
         <div className='userDiv' onClick={() => navigate("/cart")}>
-          <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
+          {cartItems.cart.length > 0 ? (
+            <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
+          ) : null}
           <FiShoppingCart className='wishIcon _cart' />
         </div>
         <div className={`navStuff ${isOpen ? "navStaff expand" : ""}`}>
@@ -37,7 +39,9 @@ const Index = () => {
               </Link>
 
               <li>
-                <Link to='/login'>Login</Link>
+                <Link to='/login' className='_login_text'>
+                  Login
+                </Link>
               </li>
               <button onClick={() => navigate("/signUp")}>
                 Create Wishlist

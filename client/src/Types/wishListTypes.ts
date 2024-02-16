@@ -38,3 +38,9 @@ export interface iPurchaseDetails {
   is_to_publish: boolean;
   cart: iCart[];
 }
+
+export interface iSurpriseGift {
+  amount: string | number ,
+  suggestedUse: string,
+  image: string,
+}

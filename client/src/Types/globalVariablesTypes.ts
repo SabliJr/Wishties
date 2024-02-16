@@ -1,4 +1,4 @@
-import { cartProps, iCart } from "./wishListTypes";
+import { cartProps, iCart, iSurpriseGift } from "./wishListTypes";
 import { iCreatorProfile, iCreatorSocialLinks } from "./creatorStuffTypes";
 
 export interface iGlobalValues { 
@@ -31,4 +31,6 @@ export interface iGlobalValues {
   setDisplayFilters: React.Dispatch<React.SetStateAction<boolean>>;
   displayCategories: boolean;
   setDisplayCategories: React.Dispatch<React.SetStateAction<boolean>>;
+  surpriseGift: iSurpriseGift;
+  setSurpriseGift: React.Dispatch<React.SetStateAction<iSurpriseGift>>;
 }

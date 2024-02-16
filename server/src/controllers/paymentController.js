@@ -383,15 +383,26 @@ const onPurchase = async (req, res) => {
         creator_id,
         fan_message_to_creator,
         purchasing_identifier,
-        is_to_publish,
+        is_to_publish, // If this is false, the message will be published on the creator's profile if it's true don't publish it
       ]
     );
 
     // Add the fan to the creator's fan_supported table
-    await query(
-      "INSERT INTO creators_fan_supported (fan_id, creator_id) VALUES ($1, $2)",
+    let is_fan_supported = await query(
+      "SELECT * FROM creators_fan_supported WHERE fan_id = $1 AND creator_id = $2",
       [fan_id, creator_id]
     );
+    if (is_fan_supported.rows.length === 0) {
+      await query(
+        "INSERT INTO creators_fan_supported (fan_id, creator_id, is_fan_supported, supported_number_of_time) VALUES ($1, $2, TRUE, 1)",
+        [fan_id, creator_id]
+      );
+    } else {
+      await query(
+        "UPDATE creators_fan_supported SET supported_number_of_time = supported_number_of_time + 1 WHERE fan_id = $1 AND creator_id = $2",
+        [fan_id, creator_id]
+      );
+    }
 
     let lineItems = cart.map((item) => {
       return {
@@ -399,9 +410,7 @@ const onPurchase = async (req, res) => {
           currency: "usd",
           product_data: {
             name: `Gift donation funds for ${item.wish_name}.`,
-            images: [
-              "https://paymenticons.s3.us-east-1.amazonaws.com/giftbox.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIQCQwGZBnzu8MQ4W7WvQDHXXXvrX7RxM7cV8gmJS40PERgIgIdbW0ldvJXZIrywxWA92O%2BrxS5TpjaqSdpj%2BivR%2Baikq5AIIfBAAGgwyNjcxODkzMzAzMDUiDArRlSorocYMDnKcjirBAozqGTAQOfwgUfqiDCtQckgKguaLUao9vm9GdwJSTSYEMkPns%2F1SUVqDZDCcT1SSb%2BhTx1Pb4WyjDpZD%2BjLpdGpxrrTj7IGXkVkyYwviFoXMzX90Mn9cLmSggj6QAH5WHs%2FIvw6lw1jOj813qkP9Cf56vP3fPt1yYAS78U3wahX5VimkFmS3mu6RroGidz82sUVF3NAPWJf8jSWBfxkhMSQRkEHfBGJZ7Af0aoBrSa5HGBKXcg0%2FA1Y8fUl8tQ4I%2BmpyXkxzQm2vOv3c0ojTja9IcqT9k0ywPdzFtms%2FpKBHOuERgvnAeb4RQ8uOZ0bpNU3YPd1aajEuLufEzpD52llxcZ7qwUKq0lKj9iZTdHW9Iej5ZCQ1mdysQzQlFo2AqM908Uq0lv5JnznyMHaGux3v4EUhy9YqipoRP%2BYULyBKPjCf566uBjqzAruVgY1iN14im6dSeI%2F%2FAdeP1bjwF5Y2ODEd%2BeGXuNS6cwMyarNnle3ERbS2jpGQRUTlcTpchhVa4Xb%2BFrS5MFGinkb59wi1vUsAaJ%2FMBnB8lCY0BAyeAeQBBnRvxquweHHfrjYx6VG4PNA%2BdubetREmYSLNTGe1dWX8KzqDsIidYEbYvfoAzapU8Hlm4G2wKbX0CZl8M0VKFKyxtj04SfdO%2BtWvu%2BYML18Sw%2BWynv6bl8G5Feh1ncqcEdlBo%2BUshxbEQj6Iz26Y%2F27z3594Fp4KiLmPJS7nC7ePVZH2CcAOlXqKHf31Ji4%2FehevOIcfAXSYYkeh20KrU78mFI3FQrcpc%2F30gNydj1wpuh7ZUuGF3ieFLiSOaqKpAjjpY3SK7S6DMCjd70TE45tY1kaxBWNpHQM%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240213T193139Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAT4NNZUGAUFQX4KHM%2F20240213%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=21e3ed80b8758a7a601a37c04fc49abe141bea93551781602a4772b60544533d",
-            ],
+            images: ["https://paymenticons.s3.amazonaws.com/giftbox.png"],
           },
           unit_amount: item.wish_price * 100,
         },
@@ -415,9 +424,7 @@ const onPurchase = async (req, res) => {
         currency: "usd",
         product_data: {
           name: "Wishties Fee",
-          images: [
-            "https://paymenticons.s3.us-east-1.amazonaws.com/fav.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEKP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIQCQwGZBnzu8MQ4W7WvQDHXXXvrX7RxM7cV8gmJS40PERgIgIdbW0ldvJXZIrywxWA92O%2BrxS5TpjaqSdpj%2BivR%2Baikq5AIIfBAAGgwyNjcxODkzMzAzMDUiDArRlSorocYMDnKcjirBAozqGTAQOfwgUfqiDCtQckgKguaLUao9vm9GdwJSTSYEMkPns%2F1SUVqDZDCcT1SSb%2BhTx1Pb4WyjDpZD%2BjLpdGpxrrTj7IGXkVkyYwviFoXMzX90Mn9cLmSggj6QAH5WHs%2FIvw6lw1jOj813qkP9Cf56vP3fPt1yYAS78U3wahX5VimkFmS3mu6RroGidz82sUVF3NAPWJf8jSWBfxkhMSQRkEHfBGJZ7Af0aoBrSa5HGBKXcg0%2FA1Y8fUl8tQ4I%2BmpyXkxzQm2vOv3c0ojTja9IcqT9k0ywPdzFtms%2FpKBHOuERgvnAeb4RQ8uOZ0bpNU3YPd1aajEuLufEzpD52llxcZ7qwUKq0lKj9iZTdHW9Iej5ZCQ1mdysQzQlFo2AqM908Uq0lv5JnznyMHaGux3v4EUhy9YqipoRP%2BYULyBKPjCf566uBjqzAruVgY1iN14im6dSeI%2F%2FAdeP1bjwF5Y2ODEd%2BeGXuNS6cwMyarNnle3ERbS2jpGQRUTlcTpchhVa4Xb%2BFrS5MFGinkb59wi1vUsAaJ%2FMBnB8lCY0BAyeAeQBBnRvxquweHHfrjYx6VG4PNA%2BdubetREmYSLNTGe1dWX8KzqDsIidYEbYvfoAzapU8Hlm4G2wKbX0CZl8M0VKFKyxtj04SfdO%2BtWvu%2BYML18Sw%2BWynv6bl8G5Feh1ncqcEdlBo%2BUshxbEQj6Iz26Y%2F27z3594Fp4KiLmPJS7nC7ePVZH2CcAOlXqKHf31Ji4%2FehevOIcfAXSYYkeh20KrU78mFI3FQrcpc%2F30gNydj1wpuh7ZUuGF3ieFLiSOaqKpAjjpY3SK7S6DMCjd70TE45tY1kaxBWNpHQM%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240213T193105Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAT4NNZUGAUFQX4KHM%2F20240213%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=5981ef3327cfa5a96924a004524819017a2e28a699d97a8fdaa265673e9133a6",
-          ],
+          images: ["https://paymenticons.s3.amazonaws.com/fav.png"],
         },
         unit_amount: totalFee * 100, // Convert to cents
       },
@@ -446,6 +453,7 @@ const onPurchase = async (req, res) => {
     res.json({ session_id: session.id });
   } catch (error) {
     console.error(error);
+    res.status(500).send("An error occurred");
   }
 };
 

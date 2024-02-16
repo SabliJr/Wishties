@@ -10,7 +10,6 @@ import { MdClose } from "react-icons/md";
 
 import { onAddWish } from "../../API/authApi";
 import Loader from "../../utils/Loader";
-import CloseModules from "../../utils/CloseModules";
 
 const ALLOWED_EXTENSIONS = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
 interface iProps {
@@ -41,12 +40,6 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
 
     setWishInputs({ ...wishInputs, wish_image: imgFile });
   };
-
-  // This function is to close the module of adding wish when the user clicks outside the module
-  CloseModules({
-    module_ref: modelRef,
-    ft_close_module: closeUploadModule,
-  });
 
   useEffect(() => {
     // Add the 'modal-open' class to the body when the modal is open

@@ -18,6 +18,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
   const [getCategories, setGetCategories] = useState<string[] | null>([]);
 
+  // let pathname = window.location.pathname;
+
   const [cartItems, setCartItems] = useState<cartProps>({
     cart: (() => {
       const cart = localStorage.getItem("cart_items");
@@ -31,6 +33,11 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
       const cart_total_amount = localStorage.getItem("cart_total_amount");
       return cart_total_amount ? JSON.parse(cart_total_amount) : 0;
     })(),
+  });
+  const [surpriseGift, setSurpriseGift] = useState({
+    amount: localStorage.getItem("surprise_gift_amount") || "",
+    suggestedUse: localStorage.getItem("surprise_gift_suggested_use") || "",
+    image: localStorage.getItem("surprise_gift_image") || "",
   });
   const [refetchCreatorData, setRefetchCreatorData] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
@@ -54,6 +61,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     (async () => {
       try {
+        // console.log("this useEffect is running");
         if (creator_username !== undefined && creator_username !== "") {
           const res = await onGetCreatorInfo(creator_username as string);
 
@@ -77,7 +85,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch (error: any) {
         if (error?.response?.status === 404) {
-          setGlobalError(error?.response?.data);
+          setGlobalError("404");
         } else if (error?.message === "Network Error") {
           setGlobalError("Network Error");
         } else {
@@ -120,6 +128,8 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         isPublicDataLoading,
         refetchCreatorData,
         setRefetchCreatorData,
+        surpriseGift,
+        setSurpriseGift,
         globalError,
         displayFilters,
         setDisplayFilters,
