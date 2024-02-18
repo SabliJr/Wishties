@@ -26,7 +26,8 @@ const Index = () => {
 
       <div className='_cart_menu_div'>
         <div className='userDiv' onClick={() => navigate("/cart")}>
-          {cartItems.cart.length > 0 ? (
+          {cartItems.cart.length > 0 ||
+          (cartItems.surpriseGift && cartItems.surpriseGift.length > 0) ? (
             <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
           ) : null}
           <FiShoppingCart className='wishIcon _cart' />

@@ -298,8 +298,9 @@ const onCreateSubscription = async (customerId, priceId, accountId) => {
 };
 
 const onPurchase = async (req, res) => {
-  const { fan_email, message, is_to_publish, cart, simp_name } = req.body;
-  let creator_id = cart[0]?.creator_id;
+  const { fan_email, message, is_to_publish, cart, simp_name, surpriseGift } =
+    req.body;
+  let creator_id = cart[0]?.creator_id || surpriseGift[0]?.creator_id;
 
   const uuid = uuidv4();
   const purchasing_identifier = crypto
@@ -309,22 +310,16 @@ const onPurchase = async (req, res) => {
     .substring(0, 8);
 
   try {
-    let { rows } = await query("SELECT * FROM creator WHERE creator_id = $1", [
-      creator_id,
-    ]);
-    if (rows.length === 0) {
-      return res.status(404).json({ error: "Creator not found" });
-    }
-    if (rows[0].is_stripe_connected !== "ACTIVE") {
-      return res
-        .status(400)
-        .json({ error: "Creator is not connected to Stripe" });
-    }
+    let lineItems = [];
+    // let totalFee = 0;
+    let creatorAmount = 0;
+    let amount_spent = 0;
+    let fanAmount = 0;
 
-    let stripe_account_id = rows[0].stripe_account_id;
     let wish_count = cart.length;
     const fan_message_to_creator = message ? message : null;
     const fan_name = simp_name ? simp_name : null;
+
     let wish_info = cart.map((item) => {
       return {
         wish_id: item.wish_id,
@@ -339,11 +334,78 @@ const onPurchase = async (req, res) => {
       return acc + Number(item.wish_price) * Number(item.quantity);
     }, 0);
 
+    let { rows } = await query("SELECT * FROM creator WHERE creator_id = $1", [
+      creator_id,
+    ]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Creator not found" });
+    }
+    if (rows[0].is_stripe_connected !== "ACTIVE") {
+      return res
+        .status(400)
+        .json({ error: "Creator is not connected to Stripe" });
+    }
+
+    let stripe_account_id = rows[0].stripe_account_id;
+
+    if (cart.length > 0) {
+      cart.map((item) => {
+        lineItems.push({
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `Gift donation funds for ${item.wish_name}.`,
+              images: ["https://paymenticons.s3.amazonaws.com/giftbox.png"],
+            },
+            unit_amount: item.wish_price * 100,
+          },
+          quantity: item.quantity,
+        });
+      });
+    }
+
+    // Add the surprise gift to the total amount
+    if (surpriseGift.length > 0) {
+      totalAmount += surpriseGift.reduce((acc, item) => {
+        return acc + Number(item.amount);
+      }, 0);
+    }
+
+    // Add the surprise gift as a separate line item
+    if (surpriseGift.length > 0) {
+      surpriseGift.map((item, i) => {
+        lineItems.push({
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Surprise Gift Donation",
+              images: ["https://paymenticons.s3.amazonaws.com/giftbox.png"],
+            },
+            unit_amount: item.amount * 100,
+          },
+          quantity: i + 1,
+        });
+      });
+    }
+
     // Calculate the total fee
-    const totalFee = Math.round(totalAmount * 0.1);
-    const fanAmount = Math.round(totalAmount * 1.1); // Fan pays 10% more
-    const creatorAmount = Math.round(totalAmount * 0.9); // Creator receives 10% less
-    let amount_spent = fanAmount;
+    let totalFee = Math.floor(totalAmount * 0.1);
+    creatorAmount = Math.round(totalAmount * 0.9); // Creator receives 10% less
+    fanAmount = Math.round(totalAmount * 1.1); // Fan pays 10% more
+    amount_spent = fanAmount;
+
+    // Add the fee as a separate line item
+    lineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: "Wishties Fee",
+          images: ["https://paymenticons.s3.amazonaws.com/fav.png"],
+        },
+        unit_amount: totalFee * 100, // Convert to cents
+      },
+      quantity: 1,
+    });
 
     // Check if the fan already exists in the database, if not, create their id and add them to the fan table;
     let is_fan_exists = await query("SELECT * FROM fan WHERE fan_email = $1", [
@@ -403,33 +465,6 @@ const onPurchase = async (req, res) => {
         [fan_id, creator_id]
       );
     }
-
-    let lineItems = cart.map((item) => {
-      return {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: `Gift donation funds for ${item.wish_name}.`,
-            images: ["https://paymenticons.s3.amazonaws.com/giftbox.png"],
-          },
-          unit_amount: item.wish_price * 100,
-        },
-        quantity: item.quantity,
-      };
-    });
-
-    // Add the fee as a separate line item
-    lineItems.push({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: "Wishties Fee",
-          images: ["https://paymenticons.s3.amazonaws.com/fav.png"],
-        },
-        unit_amount: totalFee * 100, // Convert to cents
-      },
-      quantity: 1,
-    });
 
     const session = await stripe.checkout.sessions?.create({
       payment_method_types: ["card"],

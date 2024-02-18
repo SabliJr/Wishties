@@ -73,7 +73,8 @@ const Index = () => {
         />
         <div className='iconsDiv'>
           <div className='userDiv' onClick={() => navigate("/cart")}>
-            {cartItems.cart.length > 0 ? (
+            {cartItems.cart.length > 0 ||
+            (cartItems.surpriseGift && cartItems.surpriseGift.length > 0) ? (
               <p className='wishItems'>{cartItems.cartTotalQuantity}</p>
             ) : null}
             <FiShoppingCart
