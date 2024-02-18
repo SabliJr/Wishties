@@ -48,7 +48,7 @@ CREATE TABLE wishes (
     wish_image TEXT NOT NULL,
     wish_category VARCHAR(150),
     wish_type VARCHAR(150), -- To check if it's a single buy or a subscription
-    created_date TIMESTAMP DEFAULT NOW(),
+    created_date TIMESTAMP DEFAULT NOW()
     -- purchased BOOLEAN DEFAULT FALSE, -- To check if the wish has been purchased or not but I will implement this later
     -- deleted_at TIMESTAMP DEFAULT NULL -- To check if the wish has been purchased then delete it but I will implement this later as well
 );

@@ -33,12 +33,12 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
       const cart_total_amount = localStorage.getItem("cart_total_amount");
       return cart_total_amount ? JSON.parse(cart_total_amount) : 0;
     })(),
+    surpriseGift: (() => {
+      const surprise_gift = localStorage.getItem("surprise_gift");
+      return surprise_gift ? JSON.parse(surprise_gift) : [];
+    })(),
   });
-  const [surpriseGift, setSurpriseGift] = useState({
-    amount: localStorage.getItem("surprise_gift_amount") || "",
-    suggestedUse: localStorage.getItem("surprise_gift_suggested_use") || "",
-    image: localStorage.getItem("surprise_gift_image") || "",
-  });
+
   const [refetchCreatorData, setRefetchCreatorData] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [displayCategories, setDisplayCategories] = useState(false);
@@ -61,7 +61,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     (async () => {
       try {
-        // console.log("this useEffect is running");
         if (creator_username !== undefined && creator_username !== "") {
           const res = await onGetCreatorInfo(creator_username as string);
 
@@ -128,8 +127,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
         isPublicDataLoading,
         refetchCreatorData,
         setRefetchCreatorData,
-        surpriseGift,
-        setSurpriseGift,
         globalError,
         displayFilters,
         setDisplayFilters,

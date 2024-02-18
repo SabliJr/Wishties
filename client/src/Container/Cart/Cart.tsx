@@ -3,7 +3,11 @@ import "./cart.css";
 
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
-import { iCart, iPurchaseDetails } from "../../Types/wishListTypes";
+import {
+  iCart,
+  iPurchaseDetails,
+  iSurpriseGift,
+} from "../../Types/wishListTypes";
 import { useNavigate } from "react-router-dom";
 
 //Icons
@@ -34,17 +38,24 @@ const Cart = () => {
     fan_email: "",
     is_to_publish: false,
     cart: [],
+    surpriseGift: [],
   });
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setCartItems } = contextValues as iGlobalValues;
 
   let navigate = useNavigate();
-  let creator_id = cartItems?.cart.map((x: iCart) => x.creator_id);
+  let creator_id =
+    cartItems?.cart.length !== 0
+      ? cartItems?.cart?.map((x: iCart) => x.creator_id)
+      : cartItems?.surpriseGift?.map((x: iSurpriseGift) => x.creator_id);
+
   useEffect(() => {
     (async () => {
       try {
-        const creator_info = await onGetCreatorForCart(creator_id[0] as string);
+        const creator_info = await onGetCreatorForCart(
+          creator_id?.[0] as string
+        );
         if (creator_info.status === 200) {
           setCreatorName((prev) => {
             return {
@@ -133,8 +144,6 @@ const Cart = () => {
   };
 
   const handleCheckout = async () => {
-    setIsLoaded(true);
-
     if (!agreeTerms) {
       alert("Please agree to the terms and policy to proceed.");
       return;
@@ -146,6 +155,8 @@ const Cart = () => {
     }
 
     try {
+      setIsLoaded(true);
+
       const response = await onCheckOut(purchaseDetails as iPurchaseDetails);
       if (response.status === 200) {
         redirectToCheckout(response.data.session_id);
@@ -190,6 +201,7 @@ const Cart = () => {
       return {
         ...prev,
         cart: cartItems?.cart,
+        surpriseGift: (cartItems?.surpriseGift as iSurpriseGift[]),
       };
     });
   }, [cartItems]); // Dependency array
@@ -200,7 +212,8 @@ const Cart = () => {
       <main className='_cart_container'>
         <h2
           style={
-            cartItems?.cart.length === 0
+            cartItems?.cart.length === 0 &&
+            cartItems?.surpriseGift?.length === 0
               ? { textAlign: "center" }
               : {
                   textAlign: "left",
@@ -208,7 +221,8 @@ const Cart = () => {
           }>
           Wishes Shopping.
         </h2>
-        {cartItems?.cart.length === 0 ? (
+        {cartItems?.cart.length === 0 &&
+        cartItems?.surpriseGift?.length === 0 ? (
           <p className='_empty_cart'>Your Cart is empty!</p>
         ) : (
           <section>
@@ -249,14 +263,24 @@ const Cart = () => {
                         className='_cart_remove_btn'
                         onClick={() => {
                           setCartItems?.((prev) => {
+                            let surpriseGift = prev?.surpriseGift;
                             const newCart = prev?.cart.filter(
                               (x: iCart) => x.wish_id !== item.wish_id
                             );
-                            const newTotalQuantity = newCart.length;
-                            const newTotalAmount = newCart.reduce(
-                              (total, item) => total + Number(item.wish_price),
-                              0
-                            );
+
+                            const newTotalQuantity =
+                              newCart.length + (surpriseGift?.length || 0);
+
+                            const newTotalAmount =
+                              newCart.reduce(
+                                (total, item) =>
+                                  total + Number(item.wish_price),
+                                0
+                              ) +
+                              (prev?.surpriseGift || []).reduce(
+                                (total, item) => total + Number(item.amount),
+                                0
+                              );
 
                             localStorage.setItem(
                               "cart_items",
@@ -275,6 +299,7 @@ const Cart = () => {
                               cart: newCart,
                               cartTotalQuantity: newTotalQuantity,
                               cartTotalAmount: newTotalAmount,
+                              surpriseGift: surpriseGift,
                             };
                           });
                         }}>
@@ -306,15 +331,102 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
+              {cartItems?.surpriseGift?.map((item: iSurpriseGift) => (
+                <div key={item.creator_id} className='_cart_item'>
+                  <div className='_wish_rapper'>
+                    <img
+                      src={item.image as string}
+                      alt='Surprise Gift'
+                      className='_cart_wish_img'
+                    />
+                    <div className='_cart_wish_details'>
+                      <span>
+                        <p>Surprise Gift</p>
+                        <p className='_cart_wish_name'>{item.suggestedUse}</p>
+                        <p className='price _cart_wish_price'>
+                          <FormatMoney price={item.amount as number} />
+                        </p>
+                      </span>
+                      <button
+                        className='_cart_remove_btn'
+                        onClick={() => {
+                          setCartItems?.((prev) => {
+                            let cart = prev?.cart;
+                            const newCart = prev?.surpriseGift?.filter(
+                              (x: iSurpriseGift) =>
+                                x.creator_id !== item.creator_id
+                            );
+
+                            const newTotalAmount =
+                              (newCart || [])?.reduce(
+                                (total, item) => total + Number(item.amount),
+                                0
+                              ) +
+                              (cart?.reduce(
+                                (total, item) =>
+                                  total + Number(item.wish_price),
+                                0
+                              ) || 0);
+
+                            const newTotalQuantity =
+                              (newCart?.length || 0) + cartItems?.cart?.length;
+
+                            localStorage.setItem(
+                              "surprise_gift",
+                              JSON.stringify(newCart)
+                            );
+
+                            localStorage.setItem(
+                              "cart_total_amount",
+                              JSON.stringify(newTotalAmount)
+                            );
+
+                            localStorage.setItem(
+                              "cart_total_quantity",
+                              JSON.stringify(newTotalQuantity)
+                            );
+
+                            return {
+                              cart: cart,
+                              surpriseGift: newCart,
+                              cartTotalQuantity: newTotalQuantity,
+                              cartTotalAmount:
+                                (newTotalAmount || 0) +
+                                (cartItems?.cartTotalAmount || 0),
+                            };
+                          });
+                        }}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <p>-</p>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <p className='_cart_subtotal'>
+                      <FormatMoney price={Number(item.amount)} />
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className='_cart_bottom_details'>
               <button
                 className='_clear_cart_btn'
                 onClick={() =>
-                  setCartItems({
-                    cart: [],
-                    cartTotalAmount: 0,
-                    cartTotalQuantity: 0,
+                  setCartItems(() => {
+                    localStorage.removeItem("cart_items");
+                    localStorage.removeItem("cart_total_amount");
+                    localStorage.removeItem("cart_total_quantity");
+                    localStorage.removeItem("surprise_gift");
+
+                    return {
+                      cart: [],
+                      cartTotalAmount: 0,
+                      cartTotalQuantity: 0,
+                      surpriseGift: [],
+                    };
                   })
                 }>
                 Clear Cart

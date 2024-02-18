@@ -29,6 +29,7 @@ export type cartProps = {
   cart: iCart[];
   cartTotalQuantity: number;
   cartTotalAmount: number;
+  surpriseGift?: iSurpriseGift[];
 };
 
 export interface iPurchaseDetails {
@@ -37,10 +38,12 @@ export interface iPurchaseDetails {
   fan_email: string;
   is_to_publish: boolean;
   cart: iCart[];
+  surpriseGift: iSurpriseGift[];
 }
 
 export interface iSurpriseGift {
   amount: string | number ,
   suggestedUse: string,
   image: string,
+  creator_id: string,
 }

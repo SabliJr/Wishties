@@ -16,6 +16,7 @@ import LoyalFans from "../../Assets/UserIcons/LoyalFans.png";
 import Fansly from "../../Assets/UserIcons/Fansly.png";
 import Reddit from "../../Assets/UserIcons/Reddit.png";
 import Discord from "../../Assets/UserIcons/Discord.png";
+import Youtube from "../../Assets/UserIcons/icone-youtube-player.png";
 import Other from "../../Assets/UserIcons/Link.png";
 
 import { useCreatorData } from "../../Context/CreatorDataProvider";
@@ -45,6 +46,7 @@ const SelectPlatform = ({
     { platform_icon: xTwitter, platform_name: "Twitter" },
     { platform_icon: Tiktok, platform_name: "Tiktok" },
     { platform_icon: OnlyFans, platform_name: "OnlyFans" },
+    { platform_icon: Youtube, platform_name: "Youtube" },
     { platform_icon: ManyVids, platform_name: "ManyVids" },
     { platform_icon: Twitch, platform_name: "Twitch" },
     { platform_icon: LoyalFans, platform_name: "LoyalFans" },
