@@ -37,7 +37,7 @@ const Index = () => {
       if (res.status === 200) {
         if (state?.creator_username !== undefined) {
           window.location.reload();
-          navigate(`/wishlist/${state?.creator_username}`, { replace: true });
+          navigate(`/${state?.creator_username}`, { replace: true });
         }
         // Display the creator's wishlist as a guest
         else navigate("/"); // Display the homepage as a guest

@@ -311,7 +311,6 @@ const onPurchase = async (req, res) => {
 
   try {
     let lineItems = [];
-    // let totalFee = 0;
     let creatorAmount = 0;
     let amount_spent = 0;
     let fanAmount = 0;
@@ -389,10 +388,19 @@ const onPurchase = async (req, res) => {
     }
 
     // Calculate the total fee
-    let totalFee = Math.floor(totalAmount * 0.1);
-    creatorAmount = Math.round(totalAmount * 0.9); // Creator receives 10% less
-    fanAmount = Math.round(totalAmount * 1.1); // Fan pays 10% more
+    let totalFee = totalAmount * 0.1;
+    creatorAmount = totalAmount * 0.9; // Creator receives 10% less
+    fanAmount = totalAmount * 1.1; // Fan pays 10% more
     amount_spent = fanAmount;
+
+    let format = Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+
+    format.format(parseFloat(totalFee) / 100);
+    format.format(parseFloat(creatorAmount) / 100);
+    format.format(parseFloat(fanAmount) / 100);
 
     // Add the fee as a separate line item
     lineItems.push({

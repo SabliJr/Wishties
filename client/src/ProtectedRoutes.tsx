@@ -10,6 +10,8 @@ const ProtectedRoute = () => {
   const { state, dispatch } = useAuth();
 
   let location = useLocation();
+  let username = location.pathname.split("/")[2];
+
   useEffect(() => {
     (async () => {
       try {
@@ -40,7 +42,13 @@ const ProtectedRoute = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <>{state.accessToken ? <Outlet /> : <Navigate to='/' />}</>
+    <>
+      {state.accessToken ? ( //&& username === state.creator_username
+        <Outlet />
+      ) : (
+        <Navigate to='/' />
+      )}
+    </>
   );
 };
 
