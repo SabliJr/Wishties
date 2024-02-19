@@ -244,6 +244,7 @@
 }
 
 /* ----------------------------------------------------------------------------------------------------------- */
+/* Policy Page */
 
 ._policy_container {
   display: flex;
@@ -293,6 +294,80 @@
   font-family: 'Archivo', sans-serif;
 }
 
+/* ----------------------------------------------------------------------------------------------------------- */
+/* Account settings page */
+
+._account_settings_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+  gap: 1.5rem;
+  min-height: 60vh;
+  width: 60%;
+  max-width: 1200px;
+}
+
+._account_setting_title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #182C61;
+}
+
+._setting_items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.3rem;
+  background-color: #FBFFFE;
+  padding: 1.8rem;
+  border-radius: .6rem;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+._setting_items>p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  line-height: 1.5;
+  letter-spacing: .42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d4145a;
+  width: 100%;
+}
+
+._setting_arrow {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+._coming_soon {
+  font-size: .8rem;
+  color: rgb(70, 69, 69);
+  font-style: italic;
+  padding: .1rem .2rem;
+  border-radius: .3rem;
+  margin: .2rem 0;
+}
+
+._auto_tweet {
+  background-color: #151515;
+  color: #fff;
+  padding: .2rem .5rem;
+  border-radius: .3rem;
+  font-size: .8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1024px) {
   ._how_it_works_container {
     width: 90%;
@@ -317,6 +392,10 @@
   }
 
   @media screen and (max-width: 800px) {
+    ._account_settings_container {
+      width: 80%;
+    }
+
     @media screen and (max-width: 600px) {
       ._how_it_works_title_div {
         width: 80%;
@@ -405,6 +484,29 @@
 
       ._policy_polit_points {
         margin: 1.2rem 0 1.2rem 1.6rem;
+      }
+
+      ._account_settings_container {
+        width: 98%;
+        margin: 1.2rem auto;
+        gap: 0.6rem;
+      }
+
+      ._account_setting_title {
+        font-size: 1.6rem;
+      }
+
+      ._setting_items {
+        padding: .6rem;
+      }
+
+      ._setting_items>p {
+        font-size: .8rem;
+      }
+
+      ._coming_soon,
+      ._auto_tweet {
+        font-size: .7rem;
       }
     }
   }
