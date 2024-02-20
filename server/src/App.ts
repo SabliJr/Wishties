@@ -29,6 +29,7 @@ const corsOptions = {
     'https://wishties-backend.onrender.com/api/*',
     'https://wishties-backend.onrender.com/*',
     'https://wishties.com',
+    'https://www.wishties.com',
     'https://wishties.com/api',
     'https://wishties.com/api/',
     'https://wishties.com/api/*',
