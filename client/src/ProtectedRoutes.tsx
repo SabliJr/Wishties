@@ -10,7 +10,7 @@ const ProtectedRoute = () => {
   const { state, dispatch } = useAuth();
 
   let location = useLocation();
-  let username = location.pathname.split("/")[2];
+  // let username = location.pathname.split("/")[2];
 
   useEffect(() => {
     (async () => {

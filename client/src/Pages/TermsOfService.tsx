@@ -1,6 +1,7 @@
 import React from "react";
 
 import Skeleton from "../utils/Skeleton";
+import "./Pages.css";
 
 const TermsOfService = () => {
   return (
@@ -180,7 +181,7 @@ const TermsOfService = () => {
           <div>
             <h4>Prohibited Activity:</h4>
             <p>
-              Users of Wishties, including both Wishers and Tenders, agree not
+              Users of Wishties, including both Wishers and Gifters, agree not
               to use the Site in any manner contrary to our list of Prohibited
               Activities, and acknowledge that this list is not exhaustive, and
               at any time, Wishties, at its sole discretion may require a user
@@ -209,10 +210,10 @@ const TermsOfService = () => {
               services such as prostitution.
             </p>
             <p>
-              By using the Site both Wishers and Tenders acknowledge that they
+              By using the Site both Wishers and Gifters acknowledge that they
               will not use the Site to exchange any services or goods or access
               to services or goods in reciprocation for funds provided by
-              Tenders. Users acknowledge and agree that if they are using
+              Gifters. Users acknowledge and agree that if they are using
               Wishties as a means to exchange gift funds for goods or services
               that Wishties reserves sole discretion to immediately deactivate
               their account.
@@ -436,7 +437,7 @@ const TermsOfService = () => {
           <div>
             <h4>Return, Cancellation & Refund Policy:</h4>
             <p>
-              All Users (Wishers and Tenders) understand and agree that it is
+              All Users (Wishers and Gifters) understand and agree that it is
               our standard policy that purchases and/or fees associated with
               your account are final and nonrefundable at this time. We reserve
               the right to address any refund request at our sole discretion.
@@ -487,7 +488,7 @@ const TermsOfService = () => {
           <div>
             <h4>Thank You Note:</h4>
             <p>
-              After funding a gift, Tenders will receive a Thank You note either
+              After funding a gift, Gifters will receive a Thank You note either
               from the Wisher or from Wishties on behalf of the Wisher or from
               Wishties. “Thank You” note refers to any video, image, or text
               message displayed to the Tender after purchase. The Thank You note
@@ -495,11 +496,11 @@ const TermsOfService = () => {
               receipt or in an email or in a page on Wishties or elsewhere. The
               Thank You note may be automated by Wishties on behalf of the
               Wisher, automated by the Wisher themselves, or manually created by
-              the Wisher and sent to the Tender through Wishties. If Tenders
+              the Wisher and sent to the Tender through Wishties. If Gifters
               don’t provide a valid email address we cannot guarantee Thank You
               note delivery. Likewise, if there are any issues with email
               delivery we cannot be held responsible as email issues involve
-              third parties, such as the Tenders email provider. We can not
+              third parties, such as the Gifters email provider. We can not
               guarantee the delivery of the Thank You note if the Tender exits
               Wishties before the note is displayed. Thank you notes have no
               minimum length or required sentiment or text.
@@ -736,7 +737,7 @@ const TermsOfService = () => {
             <p>
               The Service is controlled, operated and administered by Wishties
               from our offices within the France. If you access the Service from
-              a location outside the USA, you are responsible for compliance
+              a location outside the France, you are responsible for compliance
               with all local laws. You agree that you will not use the Wishties
               Content accessed through www.wishties.com in any country or in any
               manner prohibited by any applicable laws, restrictions or
