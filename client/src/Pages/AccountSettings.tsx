@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 import Skeleton from "../utils/Skeleton";
 
@@ -7,27 +6,25 @@ import { FaXTwitter } from "react-icons/fa6";
 import { RiArrowRightSLine } from "react-icons/ri";
 
 const AccountSettings = () => {
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        // const response = await onGetUserInfos(
-        //   user_local_info?.creator_id as string
-        // );
-        // console.log(response);
-        // if (response.status === 200) {
-        //   setUser_display_info(response.data);
-        // }
-      } catch (error) {
-        if (error) {
-          // setError(
-          //   "There were a problem getting your infos, please try again."
-          // );
-        }
-      }
-    })();
-  }, [navigate]);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await onGetUserInfos(
+  //         user_local_info?.creator_id as string
+  //       );
+  //       console.log(response);
+  //       if (response.status === 200) {
+  //         setUser_display_info(response.data);
+  //       }
+  //     } catch (error) {
+  //       if (error) {
+  //         setError(
+  //           "There were a problem getting your infos, please try again."
+  //         );
+  //       }
+  //     }
+  //   })();
+  // }, [navigate]);
 
   return (
     <Skeleton>
