@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/App.js",
-    "dev": "nodemon ./src/App.ts",
-    "production": "pm2 start dist/App.js"
-  },
+ "scripts": {
+  "prestart": "npm run build",
+  "build": "npx tsc",
+  "start": "node dist/App.js",
+  "dev": "nodemon ./src/App.ts",
+  "production": "pm2 start dist/App.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
