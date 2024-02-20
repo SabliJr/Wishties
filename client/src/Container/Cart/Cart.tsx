@@ -22,7 +22,7 @@ import Loader from "../../utils/Loader";
 
 // Load Stripe with your public key
 const stripePromise = loadStripe(
-  "pk_test_51OeFBJF5gG8V1TpI9NJlnrMzlqo8wPlTapW4SEDwU7JztmIPZLMY5YICwwNQkLfaY3Fmqs9qjV5OxXt8PBY5oUSG00eELdhjHB"
+  "pk_live_51OeFBJF5gG8V1TpI0HdVKi1hzmDIzGhfcw5mpqFka4LWlH96jjNv5b83LdXMgbUU3aOcS4Iy7LQGcq3r8nqe04bC004KNKMS68"
 );
 const Cart = () => {
   const [remainingChars, setRemainingChars] = useState(256);
