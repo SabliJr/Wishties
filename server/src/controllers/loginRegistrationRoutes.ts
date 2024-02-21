@@ -83,10 +83,10 @@ const emailVerification = async (req: Request, res: Response) => {
     res.status(202).cookie('refreshToken', token, {
       maxAge: 1000 * 60 * 60 * 24 * 10,
       path: '/',
-      // sameSite: 'strict',
+      sameSite: 'strict',
       httpOnly: true,
       secure: true,
-      // domain: '.wishties.com',
+      domain: '.wishties.com',
     }).json({
       success: true,
       message: 'The verification was successful!',
@@ -202,9 +202,9 @@ const userLogin = async (req: Request, res: Response) => {
     res.status(202).cookie('refreshToken', refreshToken, {
       maxAge: 1000 * 60 * 60 * 24 * 10,
       path: '/',
-      // sameSite: 'strict',
+      sameSite: 'strict',
       httpOnly: true,
-      // domain: '.wishties.com',
+      domain: '.wishties.com',
       secure: true
     }).json({
       success: true,
