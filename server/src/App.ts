@@ -43,7 +43,6 @@ const corsOptions = {
     'http://localhost:3000',
   ],
   optionsSuccessStatus: 204,
-  httpOnly: true,
   exposedHeaders: ['set-cookie', 'ajax_redirect'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept', 'XMLHttpRequest'],
 };
