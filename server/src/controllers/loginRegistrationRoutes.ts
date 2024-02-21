@@ -195,7 +195,7 @@ const userLogin = async (req: Request, res: Response) => {
 
     const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
     res.status(202).cookie('refreshToken', refreshToken, {
-       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/path', sameSite: 'none',  httpOnly: true,  secure: false
+       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'none',  httpOnly: true,  secure: true
     }).json({
       success: true,
       message: 'The login was successful!',
