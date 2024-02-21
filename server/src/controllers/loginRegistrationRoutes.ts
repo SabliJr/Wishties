@@ -240,7 +240,7 @@ const userLogout = async (req: Request, res: Response) => {
 
     // Add the token to the blacklist
     // await addToBlacklist(token);
-
+    console.log('TESTE');
     // Clear the refreshToken cookie
     res.clearCookie('refreshToken');
 
