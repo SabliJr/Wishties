@@ -242,7 +242,10 @@ const userLogout = async (req: Request, res: Response) => {
     // await addToBlacklist(token);
     console.log('TESTE');
     // Clear the refreshToken cookie
-    res.clearCookie('refreshToken', { path: '/', domain: 'https://wishties-backend.onrender.com'});
+    res.clearCookie('refreshToken', {
+      secure: true,
+      sameSite: 'none',
+    });
     console.log(req.cookies);
     // Send the success response
     res.status(200).json({
