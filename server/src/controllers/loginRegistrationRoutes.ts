@@ -147,8 +147,9 @@ const reverifyEmail = async (req: Request, res: Response) => {
 
 // Login creator
 const userLogin = async (req: Request, res: Response) => { 
+  const { creator } = req.body;
+
   try {
-    const { creator } = req.body;
     const { creator_id, creator_name, email, username } = creator;
 
     // Check if the creator is verified, if not, send a new verification email.
@@ -194,7 +195,7 @@ const userLogin = async (req: Request, res: Response) => {
 
     const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
     res.status(202).cookie('refreshToken', refreshToken, {
-       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'none',  httpOnly: true,  secure: true
+       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'strict',  httpOnly: true,  secure: true
     }).json({
       success: true,
       message: 'The login was successful!',
@@ -211,15 +212,49 @@ const userLogin = async (req: Request, res: Response) => {
 };
 
 // Logout creator
+// const userLogout = async (req: Request, res: Response) => { 
+//   try {
+//     res.status(200).clearCookie('refreshToken').json({
+//       success: true,
+//       message: 'logged out successfully!',
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Something went wrong, please try again.');
+//   }
+// };
+
+// Assuming you have a function to add tokens to a blacklist
+// This function should store the tokens in a database or some other persistent storage
+// The implementation of this function will depend on how you're storing your data
+async function addToBlacklist(token: string) {
+  // Implementation here
+}
+
+// Logout creator
 const userLogout = async (req: Request, res: Response) => { 
   try {
-    res.status(200).clearCookie('refreshToken').json({
+    // Get the token from the request
+    // This will depend on how you're sending the token (e.g., in the Authorization header, in a cookie, etc.)
+    const token = req.cookies.refreshToken;
+
+    // Add the token to the blacklist
+    // await addToBlacklist(token);
+
+    // Clear the refreshToken cookie
+    res.clearCookie('refreshToken');
+
+    // Send the success response
+    res.status(200).json({
       success: true,
-      message: 'logged out successfully!',
+      message: 'Logged out successfully!',
     });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Something went wrong, please try again.');
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong, please try again.',
+    });
   }
 };
 
