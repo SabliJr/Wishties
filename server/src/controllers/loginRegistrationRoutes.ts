@@ -81,7 +81,7 @@ const emailVerification = async (req: Request, res: Response) => {
 
     // Redirect to the creator's wishlist page
     res.status(202).cookie('refreshToken', token, {
-       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'lax',  httpOnly: true,  secure: true
+       maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'none',  httpOnly: true,  secure: true
     }).json({
       success: true,
       message: 'The verification was successful!',
