@@ -36,7 +36,7 @@ const Index = () => {
       const res = await onLogout();
       if (res.status === 200) {
         dispatch({ type: "LOGOUT" });
-        window.location.reload();
+        // window.location.reload();
         navigate("/"); // Display the homepage as a guest
       }
     } catch (error: any) {

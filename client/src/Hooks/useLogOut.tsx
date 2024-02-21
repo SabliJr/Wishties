@@ -14,7 +14,7 @@ const useLogout = () => {
 
       if (res.status === 200) {
         dispatch({ type: "LOGOUT" });
-        window.location.reload();
+        // window.location.reload();
         navigate("/");
       }
 
