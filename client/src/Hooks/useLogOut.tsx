@@ -10,7 +10,7 @@ const useLogout = () => {
   const logout = async () => {
     try {
       const res = await onLogout();
-      // console.log(res);
+      console.log(res);
 
       if (res.status === 200) {
         dispatch({ type: "LOGOUT" });

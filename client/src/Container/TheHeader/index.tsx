@@ -18,7 +18,7 @@ import { useAuth } from "../../Context/AuthProvider";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
-  let { state } = useAuth();
+  let { state, dispatch } = useAuth();
   let navigate = useNavigate();
   let moduleRef = useRef<null | HTMLDivElement>(null);
   // let path_username = window.location.pathname.split("/")[2];
@@ -35,12 +35,9 @@ const Index = () => {
     try {
       const res = await onLogout();
       if (res.status === 200) {
-        if (state?.creator_username !== undefined) {
-          window.location.reload();
-          navigate(`/${state?.creator_username}`, { replace: true });
-        }
-        // Display the creator's wishlist as a guest
-        else navigate("/"); // Display the homepage as a guest
+        dispatch({ type: "LOGOUT" });
+        window.location.reload();
+        navigate("/"); // Display the homepage as a guest
       }
     } catch (error: any) {
       if (error.response.status === 404) {
@@ -50,6 +47,8 @@ const Index = () => {
       } else {
         alert("Something went wrong");
       }
+
+      dispatch({ type: "LOGOUT" });
     }
   };
 
@@ -106,9 +105,7 @@ const Index = () => {
                 <p>Account Settings</p>
               </li>
               <li onClick={handleShowProfile}>View Your Profile</li>
-              <li onClick={handleLogout}>
-                <p>Logout</p>
-              </li>
+              <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>
         </div>
