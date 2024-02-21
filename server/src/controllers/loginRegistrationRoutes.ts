@@ -194,6 +194,7 @@ const userLogin = async (req: Request, res: Response) => {
     );
 
     const la_creator = await query('SELECT * FROM creator WHERE email = $1', [email]);
+    console.log('refreshToken before the res:', refreshToken);
     res.status(202).cookie('refreshToken', refreshToken, {
        maxAge: 1000 * 60 * 60 * 24 * 10, path: '/', sameSite: 'none',  httpOnly: true,  secure: true
     }).json({
@@ -205,6 +206,8 @@ const userLogin = async (req: Request, res: Response) => {
       },
       accessToken: accessToken,
     });
+    
+    console.log('refreshToken after the res:', refreshToken);
   } catch (error) {
     console.error(error);
     res.status(500).send('Something went wrong, please try again.');
@@ -240,13 +243,11 @@ const userLogout = async (req: Request, res: Response) => {
 
     // Add the token to the blacklist
     // await addToBlacklist(token);
-    console.log('TESTE');
     // Clear the refreshToken cookie
     res.clearCookie('refreshToken', {
       secure: true,
       sameSite: 'none',
     });
-    console.log(req.cookies);
     // Send the success response
     res.status(200).json({
       success: true,
