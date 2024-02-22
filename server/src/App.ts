@@ -44,6 +44,12 @@ const corsOptions = {
     'https://api.wishties.com/api/*',
     'https://api.wishties.com/*',
     'https://api.wishties.com',
+    'https://www.wishties.com',
+    'https://www.wishties.com/api',
+    'https://www.wishties.com/api/',
+    'https://www.wishties.com/api/*',
+    'https://www.wishties.com/*',
+    'https://www.wishties.com',
     // 'localhost:3000', -- for development
     // 'http://localhost:3000', -- for development
   ],
