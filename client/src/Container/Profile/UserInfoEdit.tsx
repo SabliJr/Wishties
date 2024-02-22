@@ -295,7 +295,10 @@ const UserInfoEdit = ({
                 placeholder='Your name'
                 id='yourName'
                 value={userProfileInfo?.profile_name}
-                onChange={(e) => handleInfoInput(e, "profile_name")}
+                onChange={(e) => {
+                  handleInfoInput(e, "profile_name");
+                  handleDataChange();
+                }}
               />
             </label>
             <label htmlFor='yourUserName'>
@@ -308,6 +311,7 @@ const UserInfoEdit = ({
                 onChange={(e) => {
                   handleInputChange(e);
                   handleUsernameChange(e);
+                  handleDataChange();
                 }}
               />
             </label>
