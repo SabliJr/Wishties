@@ -9,7 +9,7 @@ import { iPurchaseDetails } from "../Types/wishListTypes";
 // const SERVER_URL = "http://localhost:8000/api";
 const SERVER_URL =
   process.env?.NODE_ENV === "production"
-    ? "https://wishties-backend.onrender.com/api"
+    ? "https://api.wishties.com/api"
     : "http://localhost:8000/api";
 
 const onRegistration = async (registrationData: registrationInfo) => {
