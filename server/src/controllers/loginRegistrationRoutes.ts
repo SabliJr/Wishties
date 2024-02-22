@@ -253,7 +253,7 @@ const userLogout = async (req: Request, res: Response) => {
     // Clear the refreshToken cookie
     res.clearCookie('refreshToken', {
       secure: true,
-      sameSite: 'none',
+      sameSite: 'strict',
     });
     // Send the success response
     res.status(200).json({
