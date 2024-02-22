@@ -254,6 +254,9 @@ const userLogout = async (req: Request, res: Response) => {
     res.clearCookie('refreshToken', {
       secure: true,
       sameSite: 'strict',
+      httpOnly: true,
+      domain: '.wishties.com',
+      path: '/',
     });
     // Send the success response
     res.status(200).json({
