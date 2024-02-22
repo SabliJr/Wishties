@@ -39,8 +39,13 @@ const corsOptions = {
     'https://wishties-frontend.onrender.com/api/',
     'https://wishties-frontend.onrender.com/api/*',
     'https://wishties-frontend.onrender.com/*',
-    'localhost:3000',
-    'http://localhost:3000',
+    'https://api.wishties.com/api',
+    'https://api.wishties.com/api/',
+    'https://api.wishties.com/api/*',
+    'https://api.wishties.com/*',
+    'https://api.wishties.com',
+    // 'localhost:3000', -- for development
+    // 'http://localhost:3000', -- for development
   ],
   optionsSuccessStatus: 204,
   exposedHeaders: ['set-cookie', 'ajax_redirect'],
