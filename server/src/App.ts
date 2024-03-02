@@ -4,7 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
-import { PORT, CLIENT_URL } from './constants';
+import { PORT } from './constants';
 import router from './routes/appRoutes';
 import { IncomingMessage, ServerResponse } from 'http';
 

@@ -70,11 +70,11 @@ const emailVerification = async (req: Request, res: Response) => {
     // update the verification status in the database
     await query('UPDATE creator SET is_verified = TRUE WHERE creator_id = $1', [id]);
     const la_creator = await query('SELECT * FROM creator WHERE creator_id = $1', [id]);
-    const { creator_id, creator_name } = la_creator.rows[0];
+    const { creator_id, creator_name, username } = la_creator.rows[0];
 
       // Create an access token that expires in 30  minutes
     const accessToken = await jwt.sign(
-      { creator_id, creator_name },
+      { creator_id, creator_name, username },
       ACCESS_SECRET_KEY as string,
       { expiresIn: '10m' }
     );

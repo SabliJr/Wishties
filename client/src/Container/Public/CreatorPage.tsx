@@ -122,17 +122,10 @@ const CreatorPage = () => {
         return;
       }
 
-      if (Number(unknownGift.amount) < 1) {
+      if (Number(unknownGift.amount) < 1 || isNaN(Number(unknownGift.amount))) {
         setSurpriseErr("Please enter a valid amount");
         return;
       }
-
-      // if (surpriseGift.amount) {
-      //   alert(
-      //     "Thank for being interested, be patient, this feature is still under development!"
-      //   );
-      //   return;
-      // }
 
       setCartItems((prevCartItems) => {
         let cart = [...prevCartItems.cart];

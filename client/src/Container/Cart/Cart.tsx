@@ -24,6 +24,7 @@ import Loader from "../../utils/Loader";
 const stripePromise = loadStripe(
   "pk_live_51OeFBJF5gG8V1TpI0HdVKi1hzmDIzGhfcw5mpqFka4LWlH96jjNv5b83LdXMgbUU3aOcS4Iy7LQGcq3r8nqe04bC004KNKMS68"
 );
+
 const Cart = () => {
   const [remainingChars, setRemainingChars] = useState(256);
   const [creator_name, setCreatorName] = useState({
@@ -158,7 +159,9 @@ const Cart = () => {
       setIsLoaded(true);
 
       const response = await onCheckOut(purchaseDetails as iPurchaseDetails);
+      console.log(response);
       if (response.status === 200) {
+        console.log(response.status);
         redirectToCheckout(response.data.session_id);
       }
     } catch (error: any) {
@@ -201,7 +204,7 @@ const Cart = () => {
       return {
         ...prev,
         cart: cartItems?.cart,
-        surpriseGift: (cartItems?.surpriseGift as iSurpriseGift[]),
+        surpriseGift: cartItems?.surpriseGift as iSurpriseGift[],
       };
     });
   }, [cartItems]); // Dependency array
@@ -437,9 +440,17 @@ const Cart = () => {
                   <FormatMoney price={cartItems.cartTotalAmount * 0.1} />
                 </h5>
                 <h5>
-                  Total: <FormatMoney price={cartItems?.cartTotalAmount} />
+                  Total:{" "}
+                  <FormatMoney
+                    price={
+                      cartItems?.cartTotalAmount +
+                      cartItems.cartTotalAmount * 0.1
+                    }
+                  />
                 </h5>
-                <button className='_add_more_wishes_btn'>
+                <button
+                  className='_add_more_wishes_btn'
+                  onClick={() => navigate(`/${creator_name.username}`)}>
                   <BsArrowLeft />
                   Add More Wishes
                 </button>

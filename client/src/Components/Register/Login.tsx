@@ -4,7 +4,7 @@ import "./Register.css";
 import UserImg from "./UserImg";
 
 import { FcGoogle } from "react-icons/fc";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 import { onLogin } from "../../API/authApi";
@@ -20,6 +20,8 @@ import { useAuth } from "../../Context/AuthProvider";
 
 const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const [emptyFields, setEmptyFields] = useState("");
   const [isError, setIsError] = useState("");
   const [logInData, setLogInData] = useState({
@@ -95,6 +97,10 @@ const Login = (): JSX.Element => {
     }
   };
 
+  const handleResetPWD = async () => {
+    console.log("Reset password");
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -113,6 +119,7 @@ const Login = (): JSX.Element => {
               <form className='forms' onSubmit={(e) => handleLogin(e)}>
                 <input
                   type='email'
+                  className='forms_inputs'
                   placeholder='Email'
                   value={logInData.email}
                   onChange={(e) => {
@@ -122,27 +129,37 @@ const Login = (): JSX.Element => {
                   }}
                 />
 
-                <span>
-                  <input
-                    type='password'
-                    placeholder='Password'
-                    value={logInData.pwd}
-                    onChange={(e) => {
-                      setLogInData({ ...logInData, pwd: e.target.value });
-                      setEmptyFields("");
-                      setIsError("");
-                    }}
-                    autoComplete='on'
-                  />
+                <div>
+                  <span
+                    className='forms_inputs'
+                    style={{ outline: isFocused ? "1px solid #1547d2" : "" }}>
+                    <input
+                      className='pwd_forms_input'
+                      type={showPwd ? "text" : "password"}
+                      placeholder='Password'
+                      value={logInData.pwd}
+                      onChange={(e) => {
+                        setLogInData({ ...logInData, pwd: e.target.value });
+                        setEmptyFields("");
+                        setIsError("");
+                      }}
+                      autoComplete='on'
+                      onFocus={() => setIsFocused(true)}
+                      onBlur={() => setIsFocused(false)}
+                    />
 
-                  <p
-                    style={{
-                      marginTop: "1rem",
-                      color: "#d4145ad3",
-                    }}>
+                    <span
+                      className='pwdEye'
+                      onClick={() => {
+                        setShowPwd(!showPwd);
+                      }}>
+                      {showPwd ? <FaEye /> : <FaEyeSlash />}
+                    </span>
+                  </span>
+                  <p className='forgetPwdLink' onClick={handleResetPWD}>
                     Forget password?
                   </p>
-                </span>
+                </div>
 
                 {/* Password error */}
                 {emptyFields && <p id='pwdErrMsg'>{emptyFields}</p>}
@@ -152,14 +169,12 @@ const Login = (): JSX.Element => {
 
                 <button type='submit'>Login</button>
               </form>
-              <h3 className='or'>Or login with</h3>
-              <div className='iconsDiv'>
-                <div>
-                  <FcGoogle className='loginIcons' />
-                </div>
-                <div>
-                  <FaSquareXTwitter className='loginIcons' />
-                </div>
+              {/* <div className='or_div'> */}
+              <h3 className='or'>Or</h3>
+              {/* </div> */}
+              <div className='Login_icon_div'>
+                <FcGoogle className='loginIcons' />
+                <p>Login With Google</p>
               </div>
             </div>
           </div>

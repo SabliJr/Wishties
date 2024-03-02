@@ -1,11 +1,10 @@
 import { axiosPrivate } from "../API/authApi";
 import { useEffect } from "react";
 import useRefreshToken from "./useRefreshToken";
-// import { iAuth } from "../Types/creatorStuffTypes";
 import { useAuth } from "../Context/AuthProvider";
 
 const useAxiosPrivate = () => {
-  const refresh = useRefreshToken();
+  const { refresh } = useRefreshToken();
   const { state } = useAuth();
 
   useEffect(() => {

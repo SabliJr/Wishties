@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
 
-import { FcGoogle } from "react-icons/fc";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
 import { onRegistration } from "../../API/authApi";
@@ -11,14 +9,19 @@ import { iErrorMsgs } from "../../Types/ErrorsTypes";
 import { useAuth } from "../../Context/AuthProvider";
 import Loader from "../../utils/Loader";
 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const USER_NAME_REGEX = /^[a-zA-Z0-9_-]+(?: [a-zA-Z0-9_-]+)*$/;
 const PWD_REGEX =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,15}$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#-&_$%()<>^*~]).{8,20}$/;
 
 const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
   const [errMsg, setErrMsg] = useState<iErrorMsgs>({
     fieldsEmpty: "",
     termsNotChecked: "",
@@ -142,6 +145,7 @@ const SignUp: React.FC = () => {
               <form className='forms' onSubmit={handleSubmit}>
                 <input
                   type='text'
+                  className='forms_inputs'
                   placeholder='name'
                   value={registerValues.creator_name}
                   onChange={(e) => {
@@ -162,6 +166,7 @@ const SignUp: React.FC = () => {
 
                 <input
                   type='email'
+                  className='forms_inputs'
                   placeholder='Email'
                   autoComplete='off'
                   value={registerValues.email}
@@ -184,20 +189,33 @@ const SignUp: React.FC = () => {
                 {errMsg.emailExistsErr ? (
                   <p className='emailErrMsg'>{errMsg.emailExistsErr}</p>
                 ) : null}
-
-                <input
-                  type='password'
-                  placeholder='Password'
-                  onChange={(e) => {
-                    onValueChange(e, "password");
-                    setErrMsg((prevValue) => ({
-                      ...prevValue,
-                      validPwdErr: "",
-                    }));
-                  }}
-                  value={registerValues.password}
-                  autoComplete='off'
-                />
+                <div
+                  className='pwdDiv'
+                  style={{ outline: isFocused ? "1px solid #1547d2" : "" }}>
+                  <input
+                    type={showPwd ? "text" : "password"}
+                    className='pwd_forms_input'
+                    placeholder='Password'
+                    onChange={(e) => {
+                      onValueChange(e, "password");
+                      setErrMsg((prevValue) => ({
+                        ...prevValue,
+                        validPwdErr: "",
+                      }));
+                    }}
+                    value={registerValues.password}
+                    autoComplete='off'
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                  />
+                  <span
+                    className='pwdEye'
+                    onClick={() => {
+                      setShowPwd(!showPwd);
+                    }}>
+                    {showPwd ? <FaEye /> : <FaEyeSlash /> }
+                  </span>
+                </div>
                 {errMsg.validPwdErr ? (
                   <p id='pwdErrMsg'>{errMsg.validPwdErr}</p>
                 ) : null}
@@ -241,14 +259,10 @@ const SignUp: React.FC = () => {
                 ) : null}
                 <button type='submit'>Sign Up</button>
               </form>
-              <h3 className='or'>Or SignUp with</h3>
-              <div className='iconsDiv'>
-                <div>
-                  <FcGoogle className='loginIcons' />
-                </div>
-                <div>
-                  <FaSquareXTwitter className='loginIcons' />
-                </div>
+              <h3 className='or'>Or </h3>
+              <div className='SignUp_icon_div'>
+                <FcGoogle className='loginIcons' />
+                <p>Sign Up With google</p>
               </div>
             </div>
             <p className='logText'>

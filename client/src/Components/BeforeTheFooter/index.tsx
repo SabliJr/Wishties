@@ -16,8 +16,8 @@ const Index = () => {
 
   const handleGetStarted = () => {
     state.isAuthenticated
-     ? navigate(`/wishlist/${state?.creator_username}`)
-     : navigate(`/signUp`);
+      ? navigate(`/edit-profile/${state?.creator_username}`)
+      : navigate(`/signUp`);
   };
 
   return (

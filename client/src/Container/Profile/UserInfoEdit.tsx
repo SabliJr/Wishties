@@ -38,13 +38,13 @@ const UserInfoEdit = ({
   const [profileImgFile, setProfileImgFile] = useState<File | undefined>();
   const [coverImgFile, setCoverImgFile] = useState<File | undefined>();
   const [remainsChars, setRemainsChars] = useState<number>(150);
-  const [isUsernameAvailable, setIsUsernameAvailable] =
-    useState<boolean>(false);
   const [newUsername, setNewUsername] = useState<string>(
     creatorInfo?.username as string
   );
+
   const [isLoading, setIsLoading] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+
   const [userProfileInfo, setUserProfileInfo] = useState<iUserInfo>({
     profile_name: creatorInfo?.creator_name,
     profile_username: creatorInfo?.username,
@@ -52,10 +52,10 @@ const UserInfoEdit = ({
     profile_photo: undefined || creatorInfo?.profile_image,
     cover_photo: undefined || creatorInfo?.cover_image,
   } as iUserInfo);
-  const [isError, setIsError] = useState({
-    invalidFileTypeErr: "",
-    usernameErr: "",
-  });
+
+  const [isError, setIsError] = useState("");
+  const [usernameErr, setUsernameErr] = useState<string>("");
+
   const modelRef = React.useRef<HTMLDivElement | null>(null);
   const coverImgRef = useRef<HTMLInputElement>(null);
   const profileImgRef = useRef<HTMLInputElement>(null);
@@ -103,15 +103,13 @@ const UserInfoEdit = ({
         }
       } catch (error: any) {
         if (error.response && error.response.data.isExists === true) {
-          setIsUsernameAvailable(true);
-          setIsError((prev) => ({
-            ...prev,
-            usernameErr: error.response.data.message,
-          }));
+          setUsernameErr(error.response.data.message);
         } else {
           // Handle other errors
-          console.error(error);
+          alert(error.response.data.message);
         }
+      } finally {
+        handleDataChange();
       }
     },
     2000
@@ -181,7 +179,6 @@ const UserInfoEdit = ({
   }, [profileEditModal]);
 
   const handelSubmitData = async () => {
-    setIsLoading(true);
     handleDataChange();
     const formData = new FormData();
 
@@ -191,11 +188,9 @@ const UserInfoEdit = ({
       (userProfileInfo?.profile_photo instanceof File &&
         !ALLOWED_EXTENSIONS.exec(userProfileInfo?.profile_photo.name))
     ) {
-      setIsError((prev) => ({
-        ...prev,
-        invalidFileTypeErr:
-          "Please upload file having extensions .jpeg/.jpg/.png/.webp only.",
-      }));
+      setIsError(
+        "Please upload file having extensions .jpeg/.jpg/.png/.webp only."
+      );
 
       return;
     }
@@ -216,16 +211,18 @@ const UserInfoEdit = ({
     ) {
       formData.append("cover_photo", userProfileInfo.cover_photo);
     }
+    setIsLoading(true);
 
     try {
       await onUpdateCreatorInfo(formData);
       handleProfileInfoEdit();
       setRefreshCreatorData(true);
     } catch (err: any) {
-      setIsError((prev) => ({
-        ...prev,
-        invalidFileTypeErr: err.response.data.message,
-      }));
+      if (err) {
+        if (err.response?.status === 405) {
+          setUsernameErr(err.response.data.message);
+        } else setIsError(err.response.data.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -311,13 +308,10 @@ const UserInfoEdit = ({
                 onChange={(e) => {
                   handleInputChange(e);
                   handleUsernameChange(e);
-                  handleDataChange();
                 }}
               />
+              {usernameErr && <p className='_userNameErr'>{usernameErr}</p>}
             </label>
-            {isUsernameAvailable && creatorInfo?.username !== newUsername && (
-              <p className='error'>{isError.usernameErr}</p>
-            )}
           </div>
         </div>
         <label className='userBioInput'>
@@ -334,10 +328,8 @@ const UserInfoEdit = ({
             placeholder='Write your bio here...'
             onChange={(e) => handleInfoInput(e, "profile_bio")}
           />
+          {isError && <p id='_invalidError'>{isError}</p>}
         </label>{" "}
-        {isError.invalidFileTypeErr && (
-          <p className='error'>{isError.invalidFileTypeErr}</p>
-        )}
         <button
           className='updateProfileBtn'
           onClick={handelSubmitData}

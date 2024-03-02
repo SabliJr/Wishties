@@ -20,7 +20,7 @@ CREATE TABLE creator (
 
 CREATE TABLE payout (
     payout_id UUID DEFAULT uuid_generate_v4 () PRIMARY KEY,
-    creator_id UUID REFERENCES creator(creator_id),
+    creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
     amount DECIMAL(10, 2) NOT NULL,
     status VARCHAR(20) NOT NULL, -- Pending, Completed, Failed, etc.
     created_at TIMESTAMP DEFAULT NOW(),
@@ -30,7 +30,7 @@ CREATE TABLE payout (
 
 CREATE TABLE stripe_account (
   stripe_account_id VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
-  creator_id UUID REFERENCES creator(creator_id),
+  creator_id UUID REFERENCES creator(creator_id) ON DELETE CASCADE,
   email VARCHAR(255), -- Set not null & unique in production
   business_profile JSONB,
   capabilities JSONB,

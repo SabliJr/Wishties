@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext } from "react";
 import "./wishHeader.css";
 
 import Logo from "../../Assets/xLogo.png";
-import { onLogout } from "../../API/authApi";
 
 //Icons
 import { TbClipboardList } from "react-icons/tb";
@@ -15,13 +14,13 @@ import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import CloseModules from "../../utils/CloseModules";
 import { useAuth } from "../../Context/AuthProvider";
+import useLogout from "../../Hooks/useLogOut";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
-  let { state, dispatch } = useAuth();
+  let { state } = useAuth();
   let navigate = useNavigate();
   let moduleRef = useRef<null | HTMLDivElement>(null);
-  // let path_username = window.location.pathname.split("/")[2];
 
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
   const { cartItems, setRefetchCreatorData } = contextValues as iGlobalValues;
@@ -30,27 +29,6 @@ const Index = () => {
     setIsOpen(false);
   };
   CloseModules({ module_ref: moduleRef, ft_close_module: handleCloseNav });
-
-  const handleLogout = async () => {
-    try {
-      const res = await onLogout();
-      if (res.status === 200) {
-        dispatch({ type: "LOGOUT" });
-        // window.location.reload();
-        navigate("/"); // Display the homepage as a guest
-      }
-    } catch (error: any) {
-      if (error.response.status === 404) {
-        alert("SORRY, WE COULDN'T FIND THAT PAGE");
-      } else if (error.response.status === 500) {
-        alert("Something went wrong");
-      } else {
-        alert("Something went wrong");
-      }
-
-      dispatch({ type: "LOGOUT" });
-    }
-  };
 
   const goToAccountSettings = () => {
     navigate("/account-settings");
@@ -105,7 +83,7 @@ const Index = () => {
                 <p>Account Settings</p>
               </li>
               <li onClick={handleShowProfile}>View Your Profile</li>
-              <li onClick={handleLogout}>Logout</li>
+              <li onClick={useLogout()}>Logout</li>
             </ul>
           </div>
         </div>
