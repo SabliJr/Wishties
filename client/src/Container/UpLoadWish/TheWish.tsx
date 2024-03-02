@@ -10,6 +10,9 @@ import { TbEdit } from "react-icons/tb";
 import { MdDeleteForever } from "react-icons/md";
 import { RiCloseLine } from "react-icons/ri";
 
+//Images
+import Add from "../../Assets/add.png";
+
 //Context
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 
@@ -100,19 +103,17 @@ const TheWish = (): JSX.Element => {
               </div>
             )}
 
-            <button
-              className='addToCartBtn'
-              // style={{
-              //   cursor: "not-allowed",
-              // }}
-            >
+            <button className='addToCartBtn'>
               <FaCartPlus className='addToCartBtnIcon' />
               Add To Cart
             </button>
           </div>
         ))
       ) : (
-        <h3>Please Add Your Wishes!</h3>
+        <div className='_add_wish_container'>
+          <img src={Add} alt='add_wish_image' className='_add_img' />
+          <h3>Please Add Your Wishes!</h3>
+        </div>
       )}
       {wishToEdit && (
         <EditWish wishToEdit={wishToEdit} setWishToEdit={setWishToEdit} />

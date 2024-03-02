@@ -3,7 +3,7 @@ import {
   PutObjectCommand,
   DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
-import { S3_BUCKET_NAME, S3_REGION, S3_ACCESS_KEY, S3_SECRET_ACCESS_KEY, S3_URL, WISHES_IMAGES_FOLDER } from '../constants';
+import { S3_BUCKET_NAME, S3_REGION, S3_ACCESS_KEY, S3_SECRET_ACCESS_KEY, S3_URL } from '../constants';
 import crypto from 'crypto';
 
 const s3Client = new S3Client({

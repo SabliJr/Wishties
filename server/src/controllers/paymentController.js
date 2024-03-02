@@ -42,6 +42,7 @@ const onPaymentSetup = async (req, res) => {
       "SELECT * FROM stripe_account WHERE creator_id = $1",
       [creator_id]
     );
+
     if (stripeRows.length > 0) {
       let stripeAccountId = stripeRows[0].stripe_account_id;
 

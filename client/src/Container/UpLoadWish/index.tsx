@@ -100,6 +100,17 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
       return;
     }
 
+    if (
+      isNaN(Number(wishInputs.wish_price)) ||
+      Number(wishInputs.wish_price) < 1
+    ) {
+      setIsError((prev) => ({
+        ...prev,
+        emptyFieldsErr: "Please enter a valid price.",
+      }));
+      return;
+    }
+
     formData.append("wish_name", wishInputs.wish_name);
     formData.append("wish_price", wishInputs.wish_price);
     formData.append("wish_category", wishInputs.wish_category);
@@ -149,6 +160,7 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
                   handleInputChange(e, "wish_name");
                   setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
                 }}
+                maxLength={36}
               />
             </label>
             <label htmlFor='thePrice'>
@@ -163,6 +175,9 @@ const Index = ({ uploadModule, closeUploadModule, modalOpen }: iProps) => {
                   setIsError((prev) => ({ ...prev, emptyFieldsErr: "" }));
                 }}
               />
+              <p className='_price_caution'>
+                ⚠️ &nbsp; Attention: 10% fee is applied to this amount!
+              </p>
             </label>
           </div>
           <div className='imgUploaderDiv' onClick={handleImgUpload}>

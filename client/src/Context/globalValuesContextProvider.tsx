@@ -56,6 +56,7 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [creatorSocialLinks, setCreatorSocialLinks] = useState<
     iCreatorSocialLinks[]
   >([]);
+
   let creator_username = window.location.pathname.split("/")[1];
 
   useEffect(() => {
@@ -63,7 +64,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         if (creator_username !== undefined && creator_username !== "") {
           const res = await onGetCreatorInfo(creator_username as string);
-
           setCreatorInfo(res.data.user_info);
           setCreatorSocialLinks(res.data.user_links);
           setCreatorWishes(res.data.user_wishes);

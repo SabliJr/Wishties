@@ -109,6 +109,12 @@
   align-items: center;
 }
 
+._filters_btn {
+  background-color: transparent;
+  border: transparent;
+  cursor: pointer;
+}
+
 .leftBtns {
   position: relative;
 }
@@ -424,6 +430,23 @@ body.modal-open .dorpBackModel {
   margin: 1rem 0;
 }
 
+._userNameErr,
+#_invalidError {
+  color: red;
+  background-color: rgba(239, 209, 209, 0.693);
+  padding: .2rem .4rem;
+  border-radius: .3rem;
+  font-size: .8rem;
+  font-weight: 500;
+  margin: .1rem 0;
+}
+
+#_invalidError {
+  margin: .5rem 0;
+  font-size: 1rem;
+  padding: .3rem .5rem;
+}
+
 @media screen and (max-width: 1024px) {
   .theWishesSection {
     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -637,6 +660,12 @@ body.modal-open .dorpBackModel {
             width: 90%;
             text-align: left;
             min-height: 5rem;
+          }
+
+          #_invalidError {
+            margin: .3rem 0;
+            font-size: .8rem;
+            padding: .2rem .4rem;
           }
 
           @media screen and (max-width: 374px) {

@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./CategoriesStyling.css";
 
 import { useCreatorData } from "../../Context/CreatorDataProvider";
@@ -8,7 +8,6 @@ import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 
 const WishesFilters = () => {
   const [filter, setFilter] = useState("Default");
-  let modelRef = useRef<HTMLDivElement | null>(null);
 
   let { setSelectedFilter } = useCreatorData() as iCreatorDataProvider;
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
@@ -21,8 +20,9 @@ const WishesFilters = () => {
 
   setSelectedFilter(filter);
   setGlobalSelectedFilter(filter);
+
   return (
-    <div className='_filters_container' ref={modelRef}>
+    <div className='_filters_container'>
       <label className='_filters_labels'>
         <input
           type='radio'

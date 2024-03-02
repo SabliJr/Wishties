@@ -18,7 +18,9 @@ const Contact = () => {
         </div>
 
         <ul className='_contact_list'>
-          <li>info.wishties@gmail.com</li>
+          <li>
+            <a href='mailto:info.wishties@gmail.com'>info.wishties@gmail.com</a>
+          </li>{" "}
           <li>
             <a
               href='https://www.instagram.com/wishties_/'

@@ -89,6 +89,14 @@ const onUpdateProfile = async (req: Request, res: Response) => {
     }
 
     if (profile_username !== undefined) {
+      // Check if username already exists
+      const usernameExists = await query('SELECT username FROM creator WHERE username = $1', [profile_username]);
+      if (usernameExists.rows.length > 0) {
+        return res.status(405).json({
+          message: 'Username already exists'
+        });
+      }
+
       queryText += ` username = $${index},`;
       values.push(profile_username);
       index++;

@@ -45,6 +45,7 @@ const Index = () => {
     displayFilters,
     errLoadingWishes,
     getCategories,
+    filteredAndSortedWishes,
   } = useCreatorData() as iCreatorDataProvider;
   let navigate = useNavigate();
 
@@ -172,10 +173,9 @@ const Index = () => {
                   Categories
                   <IoMdArrowDropdown />
                 </button>
-                <TbAdjustmentsHorizontal
-                  className='orderbyIcon'
-                  onClick={handleDisplayFilters}
-                />
+                <button onClick={handleDisplayFilters} className='_filters_btn'>
+                  <TbAdjustmentsHorizontal className='orderbyIcon' />
+                </button>
                 {displayCategories ? (
                   <CategoriesFilters getCategories={getCategories} />
                 ) : null}
@@ -199,7 +199,12 @@ const Index = () => {
               />
             ) : null}
 
-            <main className='theWishesSection'>
+            <main
+              className={
+                filteredAndSortedWishes.length > 0
+                  ? "theWishesSection"
+                  : "_add_wish_container"
+              }>
               <TheWish />
             </main>
           </div>

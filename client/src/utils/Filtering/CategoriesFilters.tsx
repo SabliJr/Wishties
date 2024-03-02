@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./CategoriesStyling.css";
 
 import { useCreatorData } from "../../Context/CreatorDataProvider";
@@ -10,7 +10,6 @@ const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
   const [localSelectedCategories, setLocalSelectedCategories] = useState<
     string[]
   >(["All"]);
-  let modelRef = useRef<HTMLDivElement | null>(null);
 
   let { setSelectedCategories } = useCreatorData() as iCreatorDataProvider;
   const contextValues = useContext<Partial<iGlobalValues>>(GlobalValuesContext);
@@ -51,7 +50,7 @@ const CategoriesFilters = ({ getCategories }: { getCategories: string[] }) => {
   setGlobalSelectedCategories(localSelectedCategories);
 
   return (
-    <div className='_categories_container' ref={modelRef}>
+    <div className='_categories_container'>
       <label className='_category_label'>
         <input
           type='checkbox'
