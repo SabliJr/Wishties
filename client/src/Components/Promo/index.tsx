@@ -18,7 +18,7 @@ const Index = () => {
       <div className='textDiv'>
         <p>
           <HiBadgeCheck className='checkIcon' />
-          &nbsp; It's free
+          &nbsp;Free to start.
         </p>
         <p>
           <HiBadgeCheck className='checkIcon' />
