@@ -105,42 +105,42 @@ const Login = (): JSX.Element => {
     console.log("Reset password");
   };
 
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse: any) => handleCredentialResponse(tokenResponse),
-    ux_mode: "popup",
-    select_account: false,
-    scope: "profile email openid",
-    flow: "auth-code",
-  }) as any;
+  // const login = useGoogleLogin({
+  //   onSuccess: (tokenResponse: any) => handleCredentialResponse(tokenResponse),
+  //   ux_mode: "popup",
+  //   select_account: false,
+  //   scope: "profile email openid",
+  //   flow: "auth-code",
+  // }) as any;
 
-  const handleCredentialResponse = async (response: any) => {
-    setGLoginLoading(true);
+  // const handleCredentialResponse = async (response: any) => {
+  //   setGLoginLoading(true);
 
-    try {
-      const gVerifyCode = response.code; // Access the ID token directly from the response object
+  //   try {
+  //     const gVerifyCode = response.code; // Access the ID token directly from the response object
 
-      const res = await onSignUpWithGoogle(gVerifyCode);
-      if (res?.status === 201 || res?.status === 202) {
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            accessToken: res?.data?.token,
-            user_id: res?.data?.user?.creator_id,
-            creator_username: res?.data?.user?.username,
-          },
-        });
-        setRefreshCreatorData(true);
-        navigate(`/edit-profile/${res?.data?.user?.username}`);
-      }
-    } catch (error: any) {
-      if (error.response) {
-        alert(error?.response?.data?.error);
-        dispatch({ type: "LOGOUT" });
-      }
-    } finally {
-      setGLoginLoading(false);
-    }
-  };
+  //     const res = await onSignUpWithGoogle(gVerifyCode);
+  //     if (res?.status === 201 || res?.status === 202) {
+  //       dispatch({
+  //         type: "LOGIN",
+  //         payload: {
+  //           accessToken: res?.data?.token,
+  //           user_id: res?.data?.user?.creator_id,
+  //           creator_username: res?.data?.user?.username,
+  //         },
+  //       });
+  //       setRefreshCreatorData(true);
+  //       navigate(`/edit-profile/${res?.data?.user?.username}`);
+  //     }
+  //   } catch (error: any) {
+  //     if (error.response) {
+  //       alert(error?.response?.data?.error);
+  //       dispatch({ type: "LOGOUT" });
+  //     }
+  //   } finally {
+  //     setGLoginLoading(false);
+  //   }
+  // };
 
   if (gLoginLoading) {
     return <Loader />;
@@ -153,7 +153,7 @@ const Login = (): JSX.Element => {
         <UserImg />
         <div className='login'>
           <div className='FormsDiv'>
-            <div>
+            <div className='_login_text'>
               <h3 className='loginTitle_h3 '>Welcome back!</h3>
               <p className='loginTitle'>
                 Don't have an account?{" "}
@@ -161,11 +161,11 @@ const Login = (): JSX.Element => {
               </p>
             </div>
             <div>
-              <div className='Login_icon_div' onClick={() => login()}>
+              {/* <div className='Login_icon_div' onClick={() => login()}>
                 <FcGoogle className='loginIcons' />
                 <p>Login With Google</p>
               </div>
-              <h3 className='or'>Or</h3>
+              <h3 className='or'>Or</h3> */}
               <form className='forms' onSubmit={(e) => handleLogin(e)}>
                 <input
                   type='email'

@@ -48,6 +48,10 @@ a {
   overflow: hidden;
 }
 
+.loginPage {
+  margin: 4rem auto;
+}
+
 .TheLoader {
   position: fixed;
   top: 50%;

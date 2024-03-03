@@ -68,7 +68,7 @@
 }
 
 .loginImg {
-  width: 75%;
+  width: 70%;
   align-self: center;
 }
 
@@ -239,6 +239,11 @@
 
 .matchErrMsg {
   margin: 1rem 0;
+}
+
+._signUp_text,
+._login_text {
+  margin-bottom: 1.8rem;
 }
 
 @media screen and (max-width: 1042px) {

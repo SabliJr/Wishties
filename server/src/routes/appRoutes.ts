@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 
 // Controllers
 import {
-  userRegistration, userLogin, userLogout, emailVerification, reverifyEmail, onSignUpWithGoogle
+  userRegistration, userLogin, userLogout, emailVerification, reverifyEmail
 } from '../controllers/loginRegistrationRoutes';
 import { onAddWish, onDeleteWish, onUpdateWish } from '../controllers/wishControllers';
 import { onAddSocialLinks, onDeleteSocialLink } from '../controllers/socialLinksController';
@@ -39,7 +39,7 @@ router.post('/request-verification-again', reverifyEmail)
 router.post('/login', loginValidation, validate(401), userLogin); // creator login
 router.get('/logout', userLogout) // logout creator
 router.get('/refresh-token', handleRefreshToken); // refresh token
-router.get('/auth/google/callback', onSignUpWithGoogle); // google sign in
+// router.get('/auth/google/callback', onSignUpWithGoogle); // google sign in
 
 // Profile routes
 router.get('/check-username', check('username').isString().trim().escape(), onCheckUsername) // get creator profile
