@@ -34,20 +34,41 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
   } catch (err) {
     if (err instanceof jwt.TokenExpiredError) {
+      res.clearCookie('refreshToken', {
+        secure: true,
+        sameSite: 'strict',
+        httpOnly: true,
+        domain: '.wishties.com',
+        path: '/',
+      });
       return res.status(401).json({
         success: false,
         message: 'The verification link has expired. Please register again.',
       });
     } else if (err instanceof jwt.JsonWebTokenError) {
+      res.clearCookie('refreshToken', {
+        secure: true,
+        sameSite: 'strict',
+        httpOnly: true,
+        domain: '.wishties.com',
+        path: '/',
+      });
       return res.status(401).json({
         success: false,
         message: 'Invalid token. Please register again.',
       });
     } else {
       console.error('Error during token verification:', err);
+       res.clearCookie('refreshToken', {
+        secure: true,
+        sameSite: 'strict',
+        httpOnly: true,
+        domain: '.wishties.com',
+        path: '/',
+      });
       return res.status(500).json({
         success: false,
-        message: 'Something went wrong, please try again.',
+        message: 'Something went wrong, please login again.',
       });
     }
   }

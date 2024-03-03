@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
-import { onLogin } from "../../API/authApi";
+import { onLogin, onSignUpWithGoogle } from "../../API/authApi";
 
 import Loader from "../../utils/Loader";
 
@@ -17,11 +17,14 @@ import { iGlobalValues } from "../../Types/globalVariablesTypes";
 import { GlobalValuesContext } from "../../Context/globalValuesContextProvider";
 import { useCreatorData } from "../../Context/CreatorDataProvider";
 import { useAuth } from "../../Context/AuthProvider";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [gLoginLoading, setGLoginLoading] = useState(false);
+
   const [emptyFields, setEmptyFields] = useState("");
   const [isError, setIsError] = useState("");
   const [logInData, setLogInData] = useState({
@@ -97,9 +100,51 @@ const Login = (): JSX.Element => {
     }
   };
 
+  // Reset password
   const handleResetPWD = async () => {
     console.log("Reset password");
   };
+
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse: any) => handleCredentialResponse(tokenResponse),
+    ux_mode: "popup",
+    select_account: false,
+    scope: "profile email openid",
+    flow: "auth-code",
+  }) as any;
+
+  const handleCredentialResponse = async (response: any) => {
+    setGLoginLoading(true);
+
+    try {
+      const gVerifyCode = response.code; // Access the ID token directly from the response object
+
+      const res = await onSignUpWithGoogle(gVerifyCode);
+      if (res?.status === 201 || res?.status === 202) {
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            accessToken: res?.data?.token,
+            user_id: res?.data?.user?.creator_id,
+            creator_username: res?.data?.user?.username,
+          },
+        });
+        setRefreshCreatorData(true);
+        navigate(`/edit-profile/${res?.data?.user?.username}`);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        alert(error?.response?.data?.error);
+        dispatch({ type: "LOGOUT" });
+      }
+    } finally {
+      setGLoginLoading(false);
+    }
+  };
+
+  if (gLoginLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -108,14 +153,19 @@ const Login = (): JSX.Element => {
         <UserImg />
         <div className='login'>
           <div className='FormsDiv'>
-            <div className='loginTitle'>
-              <h3>Welcome back!</h3>
-              <p>
+            <div>
+              <h3 className='loginTitle_h3 '>Welcome back!</h3>
+              <p className='loginTitle'>
                 Don't have an account?{" "}
                 <span onClick={() => navigate("/signup")}>Sign up</span>
               </p>
             </div>
             <div>
+              <div className='Login_icon_div' onClick={() => login()}>
+                <FcGoogle className='loginIcons' />
+                <p>Login With Google</p>
+              </div>
+              <h3 className='or'>Or</h3>
               <form className='forms' onSubmit={(e) => handleLogin(e)}>
                 <input
                   type='email'
@@ -169,13 +219,6 @@ const Login = (): JSX.Element => {
 
                 <button type='submit'>Login</button>
               </form>
-              {/* <div className='or_div'> */}
-              <h3 className='or'>Or</h3>
-              {/* </div> */}
-              <div className='Login_icon_div'>
-                <FcGoogle className='loginIcons' />
-                <p>Login With Google</p>
-              </div>
             </div>
           </div>
         </div>

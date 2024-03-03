@@ -38,6 +38,16 @@ const onRequestVerificationAgain = async (email: string) => {
   );
 };
 
+const onSignUpWithGoogle = async (token: string) => {
+  return await axios.get(`${SERVER_URL}/auth/google/callback`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: { token }, // Passing the token as a query parameter
+    withCredentials: true,
+  });
+};
+
 const onVerifyEmail = async (token: string) => {
   return await axios.get(`${SERVER_URL}/verify-email`, {
     headers: {
@@ -224,4 +234,5 @@ export {
   onPaymentSetup,
   onGetCreatorForCart,
   onCheckOut,
+  onSignUpWithGoogle,
 };

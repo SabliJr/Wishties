@@ -10,15 +10,12 @@ const useLogout = () => {
   const logout = async () => {
     try {
       const res = await onLogout();
-      console.log(res);
 
       if (res?.status === 200) {
         dispatch({ type: "LOGOUT" });
-        // window.location.reload();
         navigate("/");
       }
 
-      // dispatch({ type: "LOGOUT" });
     } catch (err: any) {
       if (err.response) {
         alert(err?.response?.data);

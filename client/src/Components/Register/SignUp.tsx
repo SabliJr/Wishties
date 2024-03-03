@@ -3,7 +3,7 @@ import "./Register.css";
 
 import UserImg from "./UserImg";
 import { useNavigate } from "react-router-dom";
-import { onRegistration } from "../../API/authApi";
+import { onRegistration, onSignUpWithGoogle } from "../../API/authApi";
 import { registrationInfo } from "../../Types/creatorStuffTypes";
 import { iErrorMsgs } from "../../Types/ErrorsTypes";
 import { useAuth } from "../../Context/AuthProvider";
@@ -11,6 +11,7 @@ import Loader from "../../utils/Loader";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const USER_NAME_REGEX = /^[a-zA-Z0-9_-]+(?: [a-zA-Z0-9_-]+)*$/;
@@ -22,6 +23,8 @@ const SignUp: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
+  const [gLoginLoading, setGLoginLoading] = useState(false);
+
   const [errMsg, setErrMsg] = useState<iErrorMsgs>({
     fieldsEmpty: "",
     termsNotChecked: "",
@@ -36,8 +39,43 @@ const SignUp: React.FC = () => {
     password: "",
   });
 
-  const { setVerificationEmail } = useAuth();
+  const { setVerificationEmail, dispatch } = useAuth();
   const navigate = useNavigate();
+
+  const signIn = useGoogleLogin({
+    onSuccess: (tokenResponse: any) => handleCredentialResponse(tokenResponse),
+    ux_mode: "popup",
+    select_account: false,
+    scope: "profile email openid",
+    flow: "auth-code",
+  }) as any;
+
+  const handleCredentialResponse = async (response: any) => {
+    setGLoginLoading(true);
+
+    try {
+      const gVerifyCode = response.code; // Access the ID token directly from the response object
+
+      const res = await onSignUpWithGoogle(gVerifyCode);
+      if (res?.status === 201 || res?.status === 202) {
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            accessToken: res?.data?.token,
+            user_id: res?.data?.user?.creator_id,
+            creator_username: res?.data?.user?.username,
+          },
+        });
+        navigate(`/edit-profile/${res?.data?.user?.username}`);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        alert(error?.response?.data?.error);
+      }
+    } finally {
+      setGLoginLoading(false);
+    }
+  };
 
   const onValueChange = (e: any, field: string) => {
     setRegisterValues({
@@ -108,15 +146,15 @@ const SignUp: React.FC = () => {
       }
       setVerificationEmail(registerValues.email);
     } catch (err: any) {
-      if (err.response && err.response.status === 409) {
+      if (err.response && err.response?.status === 409) {
         setErrMsg((prevValue) => ({
           ...prevValue,
-          emailExistsErr: err.response.data.errors[0].msg,
+          emailExistsErr: err.response?.data.errors[0].msg,
         }));
-      } else if (err.response && err.response.status === 500) {
+      } else if (err.response && err.response?.status === 500) {
         setErrMsg((prevValue) => ({
           ...prevValue,
-          fieldsEmpty: err.response.data.error[0].msg,
+          fieldsEmpty: err.response?.data?.error[0].msg,
         }));
       } else {
         // Handle other errors
@@ -130,6 +168,10 @@ const SignUp: React.FC = () => {
     }
   };
 
+  if (gLoginLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       {isLoading && <Loader />}
@@ -138,10 +180,15 @@ const SignUp: React.FC = () => {
         <div className='signup'>
           <div className='FormsDiv'>
             <h3 className='signUpTitle'>Hello!</h3>
-            <div className='loginTitle'>
-              <p>Sign up today and get you wishes fulfilled.</p>
-            </div>
+            <p className='loginTitle'>
+              Sign up today and get you wishes fulfilled.
+            </p>
             <div>
+              <div className='SignUp_icon_div' onClick={() => signIn()}>
+                <FcGoogle className='loginIcons' />
+                <p>Sign Up With google</p>
+              </div>
+              <h3 className='or'>Or </h3>
               <form className='forms' onSubmit={handleSubmit}>
                 <input
                   type='text'
@@ -213,7 +260,7 @@ const SignUp: React.FC = () => {
                     onClick={() => {
                       setShowPwd(!showPwd);
                     }}>
-                    {showPwd ? <FaEye /> : <FaEyeSlash /> }
+                    {showPwd ? <FaEye /> : <FaEyeSlash />}
                   </span>
                 </div>
                 {errMsg.validPwdErr ? (
@@ -259,11 +306,6 @@ const SignUp: React.FC = () => {
                 ) : null}
                 <button type='submit'>Sign Up</button>
               </form>
-              <h3 className='or'>Or </h3>
-              <div className='SignUp_icon_div'>
-                <FcGoogle className='loginIcons' />
-                <p>Sign Up With google</p>
-              </div>
             </div>
             <p className='logText'>
               Already have an account?{" "}

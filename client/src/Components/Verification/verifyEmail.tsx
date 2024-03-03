@@ -11,11 +11,14 @@ import Loader from "../../utils/Loader";
 import MailChecked from "../../Assets/check-mail.png";
 import ErrorImg from "../../Assets/error-message.png";
 
+import { useAuth } from "../../Context/AuthProvider";
+
 const VerifyEmail = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  // const [userId, setUserId] = useState("");
   const [verificationSuccess, setVerificationSuccess] = useState(true);
+
+  const { dispatch } = useAuth();
 
   // Setting a dynamic timeout (e.g., 90 seconds)
   const timeoutDuration = 5 * 1000; // 90 seconds in milliseconds
@@ -31,12 +34,16 @@ const VerifyEmail = () => {
 
         if (res.status === 202) {
           // Save the user id and username in the context
-          const { creator_id, username, role } = res?.data.user;
+          const { creator_id, username } = res?.data.user;
 
-          localStorage.setItem(
-            "user_info",
-            JSON.stringify({ creator_id, username, role })
-          );
+          dispatch({
+            type: "LOGIN",
+            payload: {
+              accessToken: res?.data?.accessToken,
+              user_id: creator_id,
+              creator_username: username,
+            },
+          });
 
           // Set verification success state
           setVerificationSuccess(true);
@@ -48,7 +55,7 @@ const VerifyEmail = () => {
               clearInterval(countdownInterval);
               window.location.href = res?.data?.redirectURL;
             }
-          }, 1000);
+          }, 500);
         }
       } catch (error: any) {
         if (error.response.status === 500) {
@@ -74,9 +81,7 @@ const VerifyEmail = () => {
           <div className='emailVerifiedSectionErr'>
             <img src={ErrorImg} alt='mail-checked' className='checkedMail' />
             <h3 className='verifyTitleErr'>There was an Error!</h3>
-            <p className='verifyMsgErr'>
-              Something went wrong. Please try again.
-            </p>
+            <p className='verifyMsgErr'>{errorMessage}</p>
           </div>
           <Footer />
         </main>

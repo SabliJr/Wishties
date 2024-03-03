@@ -11,7 +11,7 @@ import { useAuth } from "../Context/AuthProvider";
 import useRefreshToken from "../Hooks/useRefreshToken";
 
 const Skeleton = ({ children }: { children: React.ReactNode }) => {
-  const { refresh, isLoading, error } = useRefreshToken();
+  const { refresh, isLoading } = useRefreshToken();
   let location = useLocation();
   let { state } = useAuth();
 
@@ -21,10 +21,6 @@ const Skeleton = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return <Loader />;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
   }
 
   return (
