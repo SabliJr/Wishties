@@ -48,7 +48,7 @@ const Verify = (): JSX.Element => {
             clearInterval(countdownInterval);
             navigate("/signUp");
           }
-        }, 1000);
+        }, 500);
       }
     } finally {
       setIsLoading(false);

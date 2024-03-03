@@ -48,20 +48,20 @@
   margin: auto;
 }
 
-.loginTitle h3 {
+.loginTitle_h3 {
   font-size: 2.6rem;
   font-family: 'Archivo', sans-serif;
 }
 
-.loginTitle p {
+.loginTitle {
   color: rgb(97, 97, 97);
   font-size: 1.2rem;
   font-family: 'Archivo', sans-serif;
   text-align: left;
-  margin: .8rem 0;
+  margin: .2rem 0;
 }
 
-.loginTitle p span {
+.loginTitle span {
   color: #1547d2;
   cursor: pointer;
   font-style: italic;
@@ -73,7 +73,6 @@
 }
 
 .forms {
-  margin: 2rem 0;
   display: flex;
   align-content: center;
   justify-content: center;
@@ -130,6 +129,7 @@
 
 .Login_icon_div,
 .SignUp_icon_div {
+  margin: 1.8rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,6 +137,7 @@
   background-color: #fff;
   border-radius: .42rem;
   border: 1.3px solid #1547d2;
+  cursor: pointer;
 }
 
 .forgetPwdLink {
@@ -284,9 +285,9 @@
         height: 2.42rem;
       }
 
-      .forms {
+      /* .forms {
         margin: 1rem auto 2.2rem;
-      }
+      } */
 
       .forms button {
         font-size: 1.42rem;
@@ -325,6 +326,7 @@
       .Login_icon_div,
       .SignUp_icon_div {
         gap: 1.8rem;
+        margin: 1.2rem 0;
       }
 
       /* .or:before {

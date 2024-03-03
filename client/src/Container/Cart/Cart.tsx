@@ -22,7 +22,9 @@ import Loader from "../../utils/Loader";
 
 // Load Stripe with your public key
 const stripePromise = loadStripe(
-  "pk_live_51OeFBJF5gG8V1TpI0HdVKi1hzmDIzGhfcw5mpqFka4LWlH96jjNv5b83LdXMgbUU3aOcS4Iy7LQGcq3r8nqe04bC004KNKMS68"
+  process.env.NODE_ENV === "production"
+    ? (process.env.STRIPE_LIVE_PUBLIC_KEY as string)
+    : (process.env.STRIPE_TEST_PUBLIC_KEY as string)
 );
 
 const Cart = () => {
