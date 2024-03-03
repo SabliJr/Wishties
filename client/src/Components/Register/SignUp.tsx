@@ -42,40 +42,40 @@ const SignUp: React.FC = () => {
   const { setVerificationEmail, dispatch } = useAuth();
   const navigate = useNavigate();
 
-  const signIn = useGoogleLogin({
-    onSuccess: (tokenResponse: any) => handleCredentialResponse(tokenResponse),
-    ux_mode: "popup",
-    select_account: false,
-    scope: "profile email openid",
-    flow: "auth-code",
-  }) as any;
+  // const signIn = useGoogleLogin({
+  //   onSuccess: (tokenResponse: any) => handleCredentialResponse(tokenResponse),
+  //   ux_mode: "popup",
+  //   select_account: false,
+  //   scope: "profile email openid",
+  //   flow: "auth-code",
+  // }) as any;
 
-  const handleCredentialResponse = async (response: any) => {
-    setGLoginLoading(true);
+  // const handleCredentialResponse = async (response: any) => {
+  //   setGLoginLoading(true);
 
-    try {
-      const gVerifyCode = response.code; // Access the ID token directly from the response object
+  //   try {
+  //     const gVerifyCode = response.code; // Access the ID token directly from the response object
 
-      const res = await onSignUpWithGoogle(gVerifyCode);
-      if (res?.status === 201 || res?.status === 202) {
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            accessToken: res?.data?.token,
-            user_id: res?.data?.user?.creator_id,
-            creator_username: res?.data?.user?.username,
-          },
-        });
-        navigate(`/edit-profile/${res?.data?.user?.username}`);
-      }
-    } catch (error: any) {
-      if (error.response) {
-        alert(error?.response?.data?.error);
-      }
-    } finally {
-      setGLoginLoading(false);
-    }
-  };
+  //     const res = await onSignUpWithGoogle(gVerifyCode);
+  //     if (res?.status === 201 || res?.status === 202) {
+  //       dispatch({
+  //         type: "LOGIN",
+  //         payload: {
+  //           accessToken: res?.data?.token,
+  //           user_id: res?.data?.user?.creator_id,
+  //           creator_username: res?.data?.user?.username,
+  //         },
+  //       });
+  //       navigate(`/edit-profile/${res?.data?.user?.username}`);
+  //     }
+  //   } catch (error: any) {
+  //     if (error.response) {
+  //       alert(error?.response?.data?.error);
+  //     }
+  //   } finally {
+  //     setGLoginLoading(false);
+  //   }
+  // };
 
   const onValueChange = (e: any, field: string) => {
     setRegisterValues({
@@ -179,16 +179,18 @@ const SignUp: React.FC = () => {
         <UserImg />
         <div className='signup'>
           <div className='FormsDiv'>
-            <h3 className='signUpTitle'>Hello!</h3>
-            <p className='loginTitle'>
-              Sign up today and get you wishes fulfilled.
-            </p>
+            <div className='_signUp_text'>
+              <h3 className='signUpTitle'>Hello!</h3>
+              <p className='loginTitle'>
+                Sign up today and get you wishes fulfilled.
+              </p>
+            </div>
             <div>
-              <div className='SignUp_icon_div' onClick={() => signIn()}>
+              {/* <div className='SignUp_icon_div' onClick={() => signIn()}>
                 <FcGoogle className='loginIcons' />
                 <p>Sign Up With google</p>
               </div>
-              <h3 className='or'>Or </h3>
+              <h3 className='or'>Or </h3> */}
               <form className='forms' onSubmit={handleSubmit}>
                 <input
                   type='text'
