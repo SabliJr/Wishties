@@ -53,8 +53,8 @@ const corsOptions = {
     'https://www.wishties.com/api/*',
     'https://www.wishties.com/*',
     'https://www.wishties.com',
-    // 'localhost:3000', //for development
-    // 'http://localhost:3000', //for development
+    'localhost:3000', //for development
+    'http://localhost:3000', //for development
   ],
   optionsSuccessStatus: 204,
   exposedHeaders: ['Set-Cookie', 'ajax_redirect'],

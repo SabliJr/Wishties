@@ -49,7 +49,7 @@ a {
 }
 
 .loginPage {
-  margin: 4rem auto;
+  margin: 2rem auto;
 }
 
 .TheLoader {
@@ -123,6 +123,10 @@ button[disabled] {
       padding: 1.5rem 1.5rem 1rem;
     }
 
+    .loginPage {
+      margin: 1.2rem auto;
+    }
+
     @media screen and (max-width: 600px) {
       .App {
         margin: auto;
@@ -132,6 +136,10 @@ button[disabled] {
 
       .msgContainer div {
         width: 95%;
+      }
+
+      .loginPage {
+        margin: .2rem auto;
       }
     }
   }
