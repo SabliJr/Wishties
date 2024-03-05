@@ -288,7 +288,7 @@ const onSignUpWithGoogle = async (req: Request, res: Response) => {
     const name = payload?.name;
     const picture = payload?.picture;
 
-    console.log('Google user info:', { userid, email, name, picture });
+    // console.log('Google user info:', { userid, email, name, picture });
     
     // Check if the user exists in the database
     const userExists = await query('SELECT * FROM creator WHERE email = $1', [email]);
