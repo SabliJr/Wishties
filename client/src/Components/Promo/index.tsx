@@ -1,7 +1,7 @@
 import React from "react";
 import "./promo.css";
 
-import PromoImg from "../../Assets/wishties_design/wishties_desktop.png";
+import PromoImg from "../../Assets/rWishties.jpg";
 
 import Insta from "../../Assets/Insta.png";
 import Youtube from "../../Assets/Youtube.png";
