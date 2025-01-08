@@ -209,7 +209,7 @@ const Cart = () => {
         surpriseGift: cartItems?.surpriseGift as iSurpriseGift[],
       };
     });
-  }, [cartItems]); // Dependency array
+  }, [cartItems]);
 
   return (
     <>

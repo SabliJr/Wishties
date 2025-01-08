@@ -18,8 +18,6 @@ const GlobalValuesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isPublicDataLoading, setIsPublicDataLoading] = useState(true);
   const [getCategories, setGetCategories] = useState<string[] | null>([]);
 
-  // let pathname = window.location.pathname;
-
   const [cartItems, setCartItems] = useState<cartProps>({
     cart: (() => {
       const cart = localStorage.getItem("cart_items");
