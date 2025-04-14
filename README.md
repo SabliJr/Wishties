@@ -50,13 +50,12 @@ Run the Development Servers.<br>
 
 **Frontend:**
 ```bash
-npm run dev
+npm start
 ```
 
 **Backend:**
 ```bash
 npm run dev
-Access the app at http://localhost:3000
 ```
 
 **📊 Lessons Learned**<br>
