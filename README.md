@@ -43,11 +43,11 @@ npm install
 cd server
 npm install
 ```
-<br>
-**Configure Environment Variables**<br>
+
+<br>**Configure Environment Variables**<br>
 Create a .env file in both client/ and server/ directories based on the provided .env.example files.
-Run the Development Servers
-<br>
+Run the Development Servers.<br>
+
 **Frontend:**
 ```bash
 npm run dev
