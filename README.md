@@ -1,7 +1,7 @@
-Wishties
-Wishties is a web-based platform designed for content creators to receive anonymous gifts and effortlessly share their personalized gift links with their audience. Built with modern web technologies, Wishties provides a seamless and secure experience for both creators and their supporters.
+**Wishties:
+Wishties is a web-based platform designed for creators to receive anonymous gifts and curate their personal profiles. It offers a simple, creator-friendly space where users can share all their important social media links in one place — similar to Linktree — while also managing a wishlist of items they’d love to receive from their audience. Wishties combines seamless anonymous gifting with customizable profile management for creators.
 
-📌 Features
+📌 Features:
 - Anonymous Gifting: Fans and followers can send gifts to creators anonymously, fostering fun and surprise interactions.
 
 - Customizable Creator Profiles: Creators can set up personal profiles, showcasing their information, wishlist items, and preferred ways to receive support.
@@ -10,10 +10,10 @@ Wishties is a web-based platform designed for content creators to receive anonym
 
 - Personal Gift Management: Creators have the ability to create, manage, and display their own list of desired gifts for supporters to choose from.
 
-📖 Background
+**📖 Background:
 Wishties was developed as a personal SaaS project to explore the creator economy space. It was my first full-stack product as an indie hacker, combining anonymous interactions with secure gift handling. While it didn’t reach a wide audience, the project reflects practical experience in designing, building, and deploying a fully functional web applications.
 
-🛠️ Tech Stack
+**🛠️ Tech Stack:
 Frontend: React, TypeScript, CSS
 
 Backend: Node.js, Express, TypeScript
@@ -24,53 +24,43 @@ Storage: AWS S3
 
 Hosting: Self-hosted on a Virtual Private Server (VPS)
 
-📦 Installation
+**📦 Installation:
 To run Wishties locally:
 
 Clone the repository
-
-bash
-Copy
-Edit
-git clone https://github.com/your-username/wishties.git
+```
+git clone https://github.com/SabliJr/Wishties
 cd wishties
 Install dependencies
-
-Frontend:
-
-bash
-Copy
-Edit
+```
+**Frontend:
+```
 cd client
 npm install
-Backend:
+```
 
-bash
-Copy
-Edit
+**Backend:
+```
 cd server
 npm install
 Configure Environment Variables
+```
 
 Create a .env file in both client/ and server/ directories based on the provided .env.example files.
-
 Run the Development Servers
 
-Frontend:
-
-bash
-Copy
-Edit
+**Frontend:
+```
 npm run dev
-Backend:
+```
 
-bash
-Copy
-Edit
+**Backend:
+```
 npm run dev
 Access the app at http://localhost:3000
+```
 
-📊 Lessons Learned
+**📊 Lessons Learned
 Managing AWS services (S3 buckets, access control)
 
 Structuring TypeScript projects for both frontend and backend
@@ -81,5 +71,5 @@ PostgreSQL relational data modeling
 
 VPS deployment and server management
 
-🔗 Live Demo
+**🔗 Live Demo
 Check it out at: www.wishties.com
