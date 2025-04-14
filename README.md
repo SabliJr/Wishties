@@ -1,46 +1,85 @@
-# Getting Started with Create React App
+Wishties
+Wishties is a web-based platform designed for content creators to receive anonymous gifts and effortlessly share their personalized gift links with their audience. Built with modern web technologies, Wishties provides a seamless and secure experience for both creators and their supporters.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+📌 Features
+- Anonymous Gifting: Fans and followers can send gifts to creators anonymously, fostering fun and surprise interactions.
 
-## Available Scripts
+- Customizable Creator Profiles: Creators can set up personal profiles, showcasing their information, wishlist items, and preferred ways to receive support.
 
-In the project directory, you can run:
+- Link Sharing Hub: Similar to services like Linktree, creators can add and share their social media and personal links through a single, shareable Wishties profile.
 
-### `npm start`
+- Personal Gift Management: Creators have the ability to create, manage, and display their own list of desired gifts for supporters to choose from.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+📖 Background
+Wishties was developed as a personal SaaS project to explore the creator economy space. It was my first full-stack product as an indie hacker, combining anonymous interactions with secure gift handling. While it didn’t reach a wide audience, the project reflects practical experience in designing, building, and deploying a fully functional web applications.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+🛠️ Tech Stack
+Frontend: React, TypeScript, CSS
 
-### `npm test`
+Backend: Node.js, Express, TypeScript
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Database: PostgreSQL
 
-### `npm run build`
+Storage: AWS S3
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Hosting: Self-hosted on a Virtual Private Server (VPS)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+📦 Installation
+To run Wishties locally:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Clone the repository
 
-### `npm run eject`
+bash
+Copy
+Edit
+git clone https://github.com/your-username/wishties.git
+cd wishties
+Install dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Frontend:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+bash
+Copy
+Edit
+cd client
+npm install
+Backend:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+bash
+Copy
+Edit
+cd server
+npm install
+Configure Environment Variables
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Create a .env file in both client/ and server/ directories based on the provided .env.example files.
 
-## Learn More
+Run the Development Servers
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Frontend:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+bash
+Copy
+Edit
+npm run dev
+Backend:
+
+bash
+Copy
+Edit
+npm run dev
+Access the app at http://localhost:3000
+
+📊 Lessons Learned
+Managing AWS services (S3 buckets, access control)
+
+Structuring TypeScript projects for both frontend and backend
+
+Building and securing RESTful APIs
+
+PostgreSQL relational data modeling
+
+VPS deployment and server management
+
+🔗 Live Demo
+Check it out at: www.wishties.com
